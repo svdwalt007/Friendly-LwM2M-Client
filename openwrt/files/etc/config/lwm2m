@@ -1,0 +1,59 @@
+# LwM2M Client Configuration
+# UCI configuration file for OpenWRT LwM2M client
+
+config general 'general'
+	option endpoint_name 'openwrt-device'
+	option log_level '2'
+	option enable_bootstrap '0'
+	option objects_config ''
+
+config network 'network'
+	option interface 'wan'
+	option port '5683'
+	option ipv4 '1'
+	option ipv6 '1'
+
+config device 'device'
+	option manufacturer 'Friendly Technologies'
+	option model 'OpenWRT-LwM2M-Client'
+	option serial ''
+	option firmware_version '1.0.0'
+	option hardware_version '1.0'
+	option device_type 'Router'
+
+# LwM2M Server Configuration
+# Multiple servers can be configured by adding more 'server' sections
+config server 'leshan'
+	option uri 'coap://leshan.eclipseprojects.io:5683'
+	option server_id '1'
+	option lifetime '300'
+	option binding 'U'
+	option bootstrap '0'
+	option security_instance '0'
+
+# Security Configuration
+# Each server should have a corresponding security configuration
+config security 'leshan_security'
+	# Security modes: 0=PSK, 1=RPK, 2=Certificate, 3=NoSec
+	option mode '3'
+	# PSK settings (when mode=0)
+	option psk_identity ''
+	option psk_key ''
+	# RPK settings (when mode=1)
+	option public_key ''
+	option private_key ''
+	option server_public_key ''
+
+# Example: Secure server with PSK
+#config server 'secure_server'
+#	option uri 'coaps://my-server.example.com:5684'
+#	option server_id '2'
+#	option lifetime '86400'
+#	option binding 'UQ'
+#	option bootstrap '0'
+#	option security_instance '1'
+#
+#config security 'secure_security'
+#	option mode '0'
+#	option psk_identity '6d796964656e74697479'
+#	option psk_key '73656372657470736b6b6579313233'
