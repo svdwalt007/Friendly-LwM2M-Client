@@ -49,6 +49,9 @@ enum OBJ_ID: ID_T {
 	#ifdef OBJ_O_34600_STARLINK_TERMINAL
 	STARLINK_TERMINAL = 34600,
 	#endif
+	#ifdef OBJ_O_34608_MIKROBUS
+	MIKROBUS = 34608,
+	#endif
 	/* ---------- Walt Technologies objects ID block end ---------- */
 
 	MAX_ID = ID_T_MAX_VAL,

@@ -48,6 +48,10 @@ void hardwareWatchdogInit(WppClient &client);
 void starlinkTerminalInit(WppClient &client);
 #endif
 
+#ifdef OBJ_O_34608_MIKROBUS
+void mikrobusInit(WppClient &client);
+#endif
+
 #ifdef OBJ_W_34601_ROUTER_MANAGEMENT
 void routerManagementInit(WppClient &client);
 #endif

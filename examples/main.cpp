@@ -89,6 +89,10 @@ int main() {
 	cout << endl << "---- Initialization Walt Technologies StarlinkTerminal ----" << endl;
 	starlinkTerminalInit(*client);
 	#endif
+	#ifdef OBJ_O_34608_MIKROBUS
+	cout << endl << "---- Initialization Walt Technologies MIKROBUS ----" << endl;
+	mikrobusInit(*client);
+	#endif
 	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
 	cout << endl << "---- Initialization wpp RouterManagement ----" << endl;
 	routerManagementInit(*client);

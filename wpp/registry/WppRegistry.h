@@ -48,6 +48,9 @@
 #ifdef OBJ_O_34600_STARLINK_TERMINAL
 #include "o_34600_starlink_terminal/StarlinkTerminal.h"
 #endif
+#ifdef OBJ_O_34608_MIKROBUS
+#include "o_34608_mikrobus/Mikrobus.h"
+#endif
 #ifdef OBJ_W_34601_ROUTER_MANAGEMENT
 #include "w_34601_router_management/RouterManagement.h"
 #endif
@@ -173,6 +176,9 @@ public:
 	/* ---------- Walt Technologies objects prototype block begin ---------- */
 	#ifdef OBJ_O_34600_STARLINK_TERMINAL
 	Object & starlinkTerminal();
+	#endif
+	#ifdef OBJ_O_34608_MIKROBUS
+	Object & mikrobus();
 	#endif
 	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
 	Object & routerManagement();

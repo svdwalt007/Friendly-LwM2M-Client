@@ -235,6 +235,25 @@ void starlinkTerminalInit(WppClient &client) {
 }
 #endif
 
+#ifdef OBJ_O_34608_MIKROBUS
+void mikrobusInit(WppClient &client) {
+    client.registry().registerObj(Mikrobus::object(client));
+
+    // Create instance for MIKROBUS socket 1
+    Instance *mikrobus1 = Mikrobus::createInst(client, 0);
+    mikrobus1->set<STRING_T>(Mikrobus::SOCKET_NAME_1, "MIKROBUS-1");
+
+    // Create instance for MIKROBUS socket 2 (if hardware supports it)
+    // Instance *mikrobus2 = Mikrobus::createInst(client, 1);
+    // mikrobus2->set<STRING_T>(Mikrobus::SOCKET_NAME_1, "MIKROBUS-2");
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(Mikrobus::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*mikrobus1, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
 /* ------------- Helpful methods ------------- */
 
 bool isDeviceShouldBeRebooted() {

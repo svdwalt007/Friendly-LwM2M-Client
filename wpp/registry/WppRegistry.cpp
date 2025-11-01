@@ -44,6 +44,9 @@ WppRegistry::WppRegistry(lwm2m_context_t &context): _context(context) {
 	#ifdef OBJ_O_34600_STARLINK_TERMINAL
 	_objects.push_back(new ObjectImpl<StarlinkTerminal>(_context, STARLINK_TERMINAL_OBJ_INFO));
 	#endif
+	#ifdef OBJ_O_34608_MIKROBUS
+	_objects.push_back(new ObjectImpl<Mikrobus>(_context, MIKROBUS_OBJ_INFO));
+	#endif
 	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
 	_objects.push_back(new ObjectImpl<RouterManagement>(_context, ROUTER_MANAGEMENT_META_INFO));
 	#endif
@@ -156,6 +159,11 @@ Object & WppRegistry::hardwareWatchdog() {
 #ifdef OBJ_O_34600_STARLINK_TERMINAL
 Object & WppRegistry::starlinkTerminal() {
 	return *object(OBJ_ID::STARLINK_TERMINAL);
+}
+#endif
+#ifdef OBJ_O_34608_MIKROBUS
+Object & WppRegistry::mikrobus() {
+	return *object(OBJ_ID::MIKROBUS);
 }
 #endif
 #ifdef OBJ_W_34601_ROUTER_MANAGEMENT
