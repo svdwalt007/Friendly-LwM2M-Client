@@ -37,6 +37,9 @@ enum OBJ_ID: ID_T {
 	#ifdef OBJ_O_5_FIRMWARE_UPDATE
 	FIRMWARE_UPDATE = 5,
 	#endif
+	#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+	HARDWARE_WATCHDOG = 34607,
+	#endif
 	/* ---------- Optional objects ID block end ---------- */
 
 	MAX_ID = ID_T_MAX_VAL,

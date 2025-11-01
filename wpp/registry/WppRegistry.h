@@ -36,6 +36,9 @@
 #ifdef OBJ_O_5_FIRMWARE_UPDATE
 #include "o_5_firmware_update/FirmwareUpdate.h"
 #endif
+#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+#include "o_34607_hardware_watchdog/HardwareWatchdog.h"
+#endif
 /* ---------- Optional objects include block end ---------- */
 
 namespace wpp {
@@ -131,6 +134,9 @@ public:
 	#endif
 	#ifdef OBJ_O_5_FIRMWARE_UPDATE
 	Object & firmwareUpdate();
+	#endif
+	#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+	Object & hardwareWatchdog();
 	#endif
 	/* ---------- Optional objects prototype block end ---------- */
 

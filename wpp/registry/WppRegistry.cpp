@@ -32,6 +32,9 @@ WppRegistry::WppRegistry(lwm2m_context_t &context): _context(context) {
 	#if OBJ_O_5_FIRMWARE_UPDATE
 	_objects.push_back(new ObjectImpl<FirmwareUpdate>(_context, FIRMWARE_UPDATE_OBJ_INFO));
 	#endif
+	#if OBJ_O_34607_HARDWARE_WATCHDOG
+	_objects.push_back(new ObjectImpl<HardwareWatchdog>(_context, HARDWARE_WATCHDOG_OBJ_INFO));
+	#endif
 	/* ---------- Optional objects init block end ---------- */
 }
 
@@ -108,6 +111,11 @@ Object & WppRegistry::audioClip() {
 #if OBJ_O_5_FIRMWARE_UPDATE
 Object & WppRegistry::firmwareUpdate() {
 	return *object(OBJ_ID::FIRMWARE_UPDATE);
+}
+#endif
+#if OBJ_O_34607_HARDWARE_WATCHDOG
+Object & WppRegistry::hardwareWatchdog() {
+	return *object(OBJ_ID::HARDWARE_WATCHDOG);
 }
 #endif
 /* ---------- Optional objects method block end ---------- */
