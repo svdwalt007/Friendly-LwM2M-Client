@@ -125,6 +125,14 @@ int main() {
 	cout << endl << "---- Initialization wpp SystemMonitor ----" << endl;
 	systemMonitorInit(*client);
 	#endif
+	#ifdef OBJ_W_34609_FIREWALL_CONFIG
+	cout << endl << "---- Initialization wpp FirewallConfig ----" << endl;
+	firewallConfigInit(*client);
+	#endif
+	#ifdef OBJ_W_34610_POE_MANAGEMENT
+	cout << endl << "---- Initialization wpp PoeManagement ----" << endl;
+	poeManagementInit(*client);
+	#endif
 
 	// Giving ownership to registry
 	client->giveOwnership();

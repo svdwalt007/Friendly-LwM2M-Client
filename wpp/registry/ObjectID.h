@@ -58,6 +58,12 @@ enum OBJ_ID: ID_T {
 	#ifdef OBJ_O_34608_MIKROBUS
 	MIKROBUS = 34608,
 	#endif
+	#ifdef OBJ_W_34609_FIREWALL_CONFIG
+	FIREWALL_CONFIG = 34609,
+	#endif
+	#ifdef OBJ_W_34610_POE_MANAGEMENT
+	POE_MANAGEMENT = 34610,
+	#endif
 	/* ---------- Walt Technologies objects ID block end ---------- */
 
 	MAX_ID = ID_T_MAX_VAL,

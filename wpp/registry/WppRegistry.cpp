@@ -71,6 +71,12 @@ WppRegistry::WppRegistry(lwm2m_context_t &context): _context(context) {
 	#ifdef OBJ_W_34606_SYSTEM_MONITOR
 	_objects.push_back(new ObjectImpl<SystemMonitor>(_context, SYSTEM_MONITOR_META_INFO));
 	#endif
+	#ifdef OBJ_W_34609_FIREWALL_CONFIG
+	_objects.push_back(new ObjectImpl<FirewallConfig>(_context, FIREWALL_CONFIG_META_INFO));
+	#endif
+	#ifdef OBJ_W_34610_POE_MANAGEMENT
+	_objects.push_back(new ObjectImpl<PoeManagement>(_context, POE_MANAGEMENT_META_INFO));
+	#endif
 	/* ---------- Walt Technologies objects init block end ---------- */
 }
 
@@ -210,6 +216,16 @@ Object & WppRegistry::storageManagement() {
 #ifdef OBJ_W_34606_SYSTEM_MONITOR
 Object & WppRegistry::systemMonitor() {
 	return *object(SYSTEM_MONITOR_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_34609_FIREWALL_CONFIG
+Object & WppRegistry::firewallConfig() {
+	return *object(FIREWALL_CONFIG_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_34610_POE_MANAGEMENT
+Object & WppRegistry::poeManagement() {
+	return *object(POE_MANAGEMENT_OBJECT_ID);
 }
 #endif
 /* ---------- Walt Technologies objects method block end ---------- */

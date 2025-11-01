@@ -84,6 +84,14 @@ void storageManagementInit(WppClient &client);
 void systemMonitorInit(WppClient &client);
 #endif
 
+#ifdef OBJ_W_34609_FIREWALL_CONFIG
+void firewallConfigInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34610_POE_MANAGEMENT
+void poeManagementInit(WppClient &client);
+#endif
+
 /* ------------- Helpful methods ------------- */
 bool isDeviceShouldBeRebooted();
 

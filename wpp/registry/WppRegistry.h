@@ -75,6 +75,12 @@
 #ifdef OBJ_W_34606_SYSTEM_MONITOR
 #include "w_34606_system_monitor/SystemMonitor.h"
 #endif
+#ifdef OBJ_W_34609_FIREWALL_CONFIG
+#include "w_34609_firewall_config/FirewallConfig.h"
+#endif
+#ifdef OBJ_W_34610_POE_MANAGEMENT
+#include "w_34610_poe_management/PoeManagement.h"
+#endif
 /* ---------- Walt Technologies objects include block end ---------- */
 
 namespace wpp {
@@ -209,6 +215,12 @@ public:
 	#endif
 	#ifdef OBJ_W_34606_SYSTEM_MONITOR
 	Object & systemMonitor();
+	#endif
+	#ifdef OBJ_W_34609_FIREWALL_CONFIG
+	Object & firewallConfig();
+	#endif
+	#ifdef OBJ_W_34610_POE_MANAGEMENT
+	Object & poeManagement();
 	#endif
 	/* ---------- Walt Technologies objects prototype block end ---------- */
 

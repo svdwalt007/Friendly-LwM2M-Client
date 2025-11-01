@@ -168,7 +168,7 @@ This document outlines the comprehensive LwM2M implementation for the OpenWRT On
 - 13: Uptime (R, Integer) - seconds
 - 14: Process Count (R, Integer)
 
-#### Object 26206: Firewall Configuration
+#### Object 34609: Firewall Configuration
 **Purpose**: Firewall rule management
 **Multiple Instances**: Yes (one per rule)
 **Resources**:
@@ -182,9 +182,14 @@ This document outlines the comprehensive LwM2M implementation for the OpenWRT On
 - 7: Dest IP (RW, String)
 - 8: Dest Port (RW, Integer)
 - 9: Interface (RW, String) - e.g., "wan", "lan"
-- 10: Delete Rule (E, Execute)
+- 10: Direction (RW, Integer) - 0=Input, 1=Output, 2=Forward
+- 11: Zone From (RW, String) - e.g., "wan", "lan"
+- 12: Zone To (RW, String) - e.g., "lan", "wan"
+- 13: Comment (RW, String)
+- 14: Apply Rule (E, Execute)
+- 15: Delete Rule (E, Execute)
 
-#### Object 26207: PoE Management
+#### Object 34610: PoE Management
 **Purpose**: Power over Ethernet monitoring and control
 **Resources**:
 - 0: PoE Supported (R, Boolean)
@@ -192,19 +197,25 @@ This document outlines the comprehensive LwM2M implementation for the OpenWRT On
 - 2: Input Voltage (R, Float) - volts
 - 3: Input Current (R, Float) - amperes
 - 4: Input Power (R, Float) - watts
-- 5: PoE Standard (R, String) - e.g., "802.3af", "802.3at"
+- 5: PoE Standard (R, String) - e.g., "802.3af", "802.3at", "802.3bt"
+- 6: PoE Class (R, Integer) - 0-8 (802.3bt Class 1-8)
+- 7: Max Power Available (R, Float) - watts
+- 8: Power Allocated (R, Float) - watts
+- 9: Temperature (R, Float) - Celsius
+- 10: Status (R, String) - "Enabled", "Disabled", "Error"
+- 11: Reset PoE (E, Execute) - Power cycle the PoE
 
-#### Object 26208: MikroBUS Expansion
-**Purpose**: MikroBUS module detection and management
-**Resources**:
-- 0: Module Detected (R, Boolean)
-- 1: Module Name (R, String)
-- 2: Module Vendor (R, String)
-- 3: Module Type (R, Integer)
-- 4: I2C Address (R, String)
-- 5: SPI Enabled (R, Boolean)
-- 6: UART Enabled (R, Boolean)
-- 7: Module Enabled (RW, Boolean)
+#### Object 34608: MIKROBUS
+**Purpose**: MIKROBUS module detection and management
+**Multiple Instances**: Yes (one per socket)
+**Resources**: 50+ resources
+- Socket Information (0-6): Socket ID, name, enabled state, Click board detection
+- Power Management (5-6): Voltage selection (3.3V/5V), power state
+- Interface Configuration (20-27): Active interface (SPI/I2C/UART), settings
+- GPIO Control (31-36): PWM, INT, RST, CS, AN pin control
+- Click Board Info (40-50): Vendor, product, serial number, capabilities
+- Manifest Management (110-115): Manifest data, parsing, validation
+**See**: docs/MIKROBUS_OBJECT.md for complete documentation
 
 ---
 
@@ -223,15 +234,17 @@ This document outlines the comprehensive LwM2M implementation for the OpenWRT On
 4. Add Object 3331 (Memory) for RAM monitoring
 
 ### Phase 3: Walt Technologies Custom Objects
-1. Object 34601: Router Management (core functionality)
-2. Object 34602: Ethernet Interface Management
-3. Object 34603: GPIO Control (LEDs, buttons)
-4. Object 34604: USB Port Management
-5. Object 34605: Storage Management
-6. Object 34606: System Resources Monitor
-7. Object 26206: Firewall Configuration
-8. Object 26207: PoE Management
-9. Object 26208: MikroBUS Expansion
+1. Object 34600: Starlink Terminal (satellite connectivity) - ✅ Implemented
+2. Object 34601: Router Management (core functionality) - ✅ Implemented
+3. Object 34602: Ethernet Interface Management - ✅ Implemented
+4. Object 34603: GPIO Control (LEDs, buttons) - ✅ Implemented
+5. Object 34604: USB Port Management - ✅ Implemented
+6. Object 34605: Storage Management - ✅ Implemented
+7. Object 34606: System Resources Monitor - ✅ Implemented
+8. Object 34607: Hardware Watchdog - ✅ Implemented
+9. Object 34608: MIKROBUS Expansion - ✅ Implemented
+10. Object 34609: Firewall Configuration - ✅ Implemented
+11. Object 34610: PoE Management - ✅ Implemented
 
 ### Phase 4: OpenWRT Integration
 1. Create OpenWRT package Makefile
@@ -302,18 +315,19 @@ WppClient::create({"walttech888", "", ""}, connection, wppErrorHandler);
 
 ```
 wpp/registry/objects/
-├── o_12_wlan_connectivity/        # NEW
-├── o_13_bearer_selection/         # NEW
-├── o_3331_memory/                 # NEW
-├── w_34601_router_management/     # NEW - Walt Tech
-├── w_34602_ethernet_interface/    # NEW - Walt Tech
-├── w_34603_gpio_control/          # NEW - Walt Tech
-├── w_34604_usb_management/        # NEW - Walt Tech
-├── w_34605_storage_management/    # NEW - Walt Tech
-├── w_34606_system_monitor/        # NEW - Walt Tech
-├── w_26206_firewall/              # NEW - Walt Tech
-├── w_26207_poe_management/        # NEW - Walt Tech
-└── w_26208_mikrobus/              # NEW - Walt Tech
+├── o_12_wlan_connectivity/        # ✅ WLAN Connectivity (WiFi 2.4GHz + 5GHz)
+├── o_13_bearer_selection/         # ✅ Bearer Selection (Network preferences)
+├── o_34600_starlink_terminal/     # ✅ Starlink Terminal (Satellite)
+├── o_34607_hardware_watchdog/     # ✅ Hardware Watchdog
+├── o_34608_mikrobus/              # ✅ MIKROBUS (Click boards)
+├── w_34601_router_management/     # ✅ Router Management
+├── w_34602_ethernet_interface/    # ✅ Ethernet Interface
+├── w_34603_gpio_control/          # ✅ GPIO Control (LEDs/buttons)
+├── w_34604_usb_management/        # ✅ USB Management
+├── w_34605_storage_management/    # ✅ Storage Management
+├── w_34606_system_monitor/        # ✅ System Monitor (CPU/RAM)
+├── w_34609_firewall_config/       # ✅ Firewall Configuration
+└── w_34610_poe_management/        # ✅ PoE Management
 ```
 
 ---
@@ -337,14 +351,26 @@ make package/friendly-lwm2m-client/compile V=s
 
 ---
 
-## Next Steps
+## Implementation Status
 
 1. ✅ Design document created
-2. ⏳ Implement bootstrap configuration
-3. ⏳ Implement standard objects (12, 13, 3331)
-4. ⏳ Implement Walt Technologies custom objects
-5. ⏳ Create OpenWRT package integration
-6. ⏳ Test with OpenWRT SDK v24.10.4
+2. ✅ Standard objects implemented:
+   - ✅ Object 12 (WLAN Connectivity) - WiFi management
+   - ✅ Object 13 (Bearer Selection) - Network bearer preferences
+3. ✅ Walt Technologies custom objects implemented:
+   - ✅ Object 34600 (Starlink Terminal) - Satellite connectivity
+   - ✅ Object 34601 (Router Management) - Core router configuration
+   - ✅ Object 34602 (Ethernet Interface) - Ethernet port management
+   - ✅ Object 34603 (GPIO Control) - LED and GPIO management
+   - ✅ Object 34604 (USB Management) - USB port control
+   - ✅ Object 34605 (Storage Management) - Storage device management
+   - ✅ Object 34606 (System Monitor) - CPU/RAM/Load monitoring
+   - ✅ Object 34607 (Hardware Watchdog) - Watchdog timer
+   - ✅ Object 34608 (MIKROBUS) - Click board management
+   - ✅ Object 34609 (Firewall Configuration) - Firewall rules
+   - ✅ Object 34610 (PoE Management) - Power over Ethernet
+4. ⏳ Create OpenWRT package integration
+5. ⏳ Test with OpenWRT SDK v24.10.4
 
 ---
 

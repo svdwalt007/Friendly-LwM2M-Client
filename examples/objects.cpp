@@ -400,10 +400,59 @@ void systemMonitorInit(WppClient &client) {
 
     // Default values are set in initResources
     // These would be updated periodically from /proc in real implementation
-    
+
     #if OBJ_O_2_LWM2M_ACCESS_CONTROL
     Lwm2mAccessControl::create(SystemMonitor::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
     Lwm2mAccessControl::create(sysMon, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34609_FIREWALL_CONFIG
+void firewallConfigInit(WppClient &client) {
+    client.registry().registerObj(FirewallConfig::object(client));
+
+    // Create default firewall rules as examples
+    // Rule 0: Allow SSH from WAN to LAN
+    Instance *rule0 = FirewallConfig::createInst(client, 0);
+    rule0->set<STRING_T>(FirewallConfig::RULE_NAME_0, "allow_ssh");
+    rule0->set<BOOL_T>(FirewallConfig::ENABLED_2, true);
+    rule0->set<INT_T>(FirewallConfig::ACTION_3, FirewallConfig::ACTION_ACCEPT);
+    rule0->set<INT_T>(FirewallConfig::PROTOCOL_4, FirewallConfig::PROTOCOL_TCP);
+    rule0->set<INT_T>(FirewallConfig::DEST_PORT_8, 22);
+    rule0->set<STRING_T>(FirewallConfig::ZONE_FROM_11, "wan");
+    rule0->set<STRING_T>(FirewallConfig::ZONE_TO_12, "lan");
+    rule0->set<STRING_T>(FirewallConfig::COMMENT_13, "Allow SSH access");
+
+    // Rule 1: Allow HTTP/HTTPS from WAN to LAN
+    Instance *rule1 = FirewallConfig::createInst(client, 1);
+    rule1->set<STRING_T>(FirewallConfig::RULE_NAME_0, "allow_web");
+    rule1->set<BOOL_T>(FirewallConfig::ENABLED_2, true);
+    rule1->set<INT_T>(FirewallConfig::ACTION_3, FirewallConfig::ACTION_ACCEPT);
+    rule1->set<INT_T>(FirewallConfig::PROTOCOL_4, FirewallConfig::PROTOCOL_TCP);
+    rule1->set<STRING_T>(FirewallConfig::ZONE_FROM_11, "wan");
+    rule1->set<STRING_T>(FirewallConfig::ZONE_TO_12, "lan");
+    rule1->set<STRING_T>(FirewallConfig::COMMENT_13, "Allow web traffic");
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(FirewallConfig::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*rule0, TEST_SERVER_SHORT_ID);
+    Lwm2mAccessControl::create(*rule1, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34610_POE_MANAGEMENT
+void poeManagementInit(WppClient &client) {
+    client.registry().registerObj(PoeManagement::object(client));
+    Instance &poe = PoeManagement::createInst(client);
+
+    // Default values are set in initResources
+    // PoE support will be auto-detected and status updated periodically
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(PoeManagement::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(poe, TEST_SERVER_SHORT_ID);
     #endif
 }
 #endif

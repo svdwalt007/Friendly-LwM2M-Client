@@ -1,0 +1,5 @@
+wpp_check_definition("OBJ_W_34609_FIREWALL_CONFIG" is_defined)
+if(is_defined)
+    set(WPP_SOURCES ${WPP_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/FirewallConfig.cpp)
+    set(WPP_SOURCES ${WPP_SOURCES} PARENT_SCOPE)
+endif()

@@ -130,6 +130,10 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34605_STORAGE_MANAGEMENT)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34606_SYSTEM_MONITOR)
 # Include Walt Tech MIKROBUS object in the build (Object ID: 34608)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34608_MIKROBUS)
+# Include Walt Tech Firewall Configuration object in the build (Object ID: 34609)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34609_FIREWALL_CONFIG)
+# Include Walt Tech PoE Management object in the build (Object ID: 34610)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34610_POE_MANAGEMENT)
 # ---------- Walt Technologies objects config block end ----------
 
 
