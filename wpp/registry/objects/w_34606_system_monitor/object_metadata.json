@@ -1,0 +1,26 @@
+{
+  "id": 34606,
+  "name": "System Monitor",
+  "vendor": "Walt Technologies",
+  "version": "1.0",
+  "description": "System resources monitoring for OpenWRT One",
+  "multiInstance": false,
+  "mandatory": false,
+  "resources": [
+    {"id": 0, "name": "CPU Usage Percentage", "operations": "R", "type": "Integer", "mandatory": true, "units": "%"},
+    {"id": 1, "name": "CPU Frequency", "operations": "R", "type": "Integer", "mandatory": false, "units": "MHz"},
+    {"id": 2, "name": "CPU Temperature", "operations": "R", "type": "Float", "mandatory": false, "units": "°C"},
+    {"id": 3, "name": "RAM Total", "operations": "R", "type": "Integer", "mandatory": true, "units": "bytes"},
+    {"id": 4, "name": "RAM Used", "operations": "R", "type": "Integer", "mandatory": true, "units": "bytes"},
+    {"id": 5, "name": "RAM Free", "operations": "R", "type": "Integer", "mandatory": true, "units": "bytes"},
+    {"id": 6, "name": "RAM Cached", "operations": "R", "type": "Integer", "mandatory": false, "units": "bytes"},
+    {"id": 7, "name": "RAM Buffers", "operations": "R", "type": "Integer", "mandatory": false, "units": "bytes"},
+    {"id": 8, "name": "Swap Total", "operations": "R", "type": "Integer", "mandatory": false, "units": "bytes"},
+    {"id": 9, "name": "Swap Used", "operations": "R", "type": "Integer", "mandatory": false, "units": "bytes"},
+    {"id": 10, "name": "Load Average 1min", "operations": "R", "type": "Float", "mandatory": true},
+    {"id": 11, "name": "Load Average 5min", "operations": "R", "type": "Float", "mandatory": true},
+    {"id": 12, "name": "Load Average 15min", "operations": "R", "type": "Float", "mandatory": true},
+    {"id": 13, "name": "Uptime", "operations": "R", "type": "Integer", "mandatory": true, "units": "seconds"},
+    {"id": 14, "name": "Process Count", "operations": "R", "type": "Integer", "mandatory": false}
+  ]
+}

@@ -71,7 +71,33 @@ int main() {
 	cout << endl << "---- Initialization wpp AudioClip ----" << endl;
 	audioClipInit(*client);
 	#endif
-	
+
+	/* ---------- Walt Technologies custom objects initialization ---------- */
+	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+	cout << endl << "---- Initialization wpp RouterManagement ----" << endl;
+	routerManagementInit(*client);
+	#endif
+	#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+	cout << endl << "---- Initialization wpp EthernetInterface ----" << endl;
+	ethernetInterfaceInit(*client);
+	#endif
+	#ifdef OBJ_W_34603_GPIO_CONTROL
+	cout << endl << "---- Initialization wpp GpioControl ----" << endl;
+	gpioControlInit(*client);
+	#endif
+	#ifdef OBJ_W_34604_USB_MANAGEMENT
+	cout << endl << "---- Initialization wpp UsbManagement ----" << endl;
+	usbManagementInit(*client);
+	#endif
+	#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+	cout << endl << "---- Initialization wpp StorageManagement ----" << endl;
+	storageManagementInit(*client);
+	#endif
+	#ifdef OBJ_W_34606_SYSTEM_MONITOR
+	cout << endl << "---- Initialization wpp SystemMonitor ----" << endl;
+	systemMonitorInit(*client);
+	#endif
+
 	// Giving ownership to registry
 	client->giveOwnership();
 

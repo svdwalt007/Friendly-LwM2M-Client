@@ -35,6 +35,31 @@ void connMonitoringInit(WppClient &client);
 void audioClipInit(WppClient &client);
 #endif
 
+/* ---------- Walt Technologies custom objects init declarations ---------- */
+#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+void routerManagementInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+void ethernetInterfaceInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34603_GPIO_CONTROL
+void gpioControlInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34604_USB_MANAGEMENT
+void usbManagementInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+void storageManagementInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34606_SYSTEM_MONITOR
+void systemMonitorInit(WppClient &client);
+#endif
+
 /* ------------- Helpful methods ------------- */
 bool isDeviceShouldBeRebooted();
 

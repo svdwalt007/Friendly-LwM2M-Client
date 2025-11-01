@@ -169,3 +169,123 @@ void audioClipInit(WppClient &client) {
 bool isDeviceShouldBeRebooted() {
     return _rebootDevice;
 }
+/* ---------- Walt Technologies custom objects init begin ---------- */
+
+#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+void routerManagementInit(WppClient &client) {
+    client.registry().registerObj(RouterManagement::object(client));
+    Instance *routerMgmt = RouterManagement::createInst(client);
+
+    // Default values are set in initResources
+    // Can be overridden here if needed
+    
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(RouterManagement::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*routerMgmt, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+void ethernetInterfaceInit(WppClient &client) {
+    client.registry().registerObj(EthernetInterface::object(client));
+    
+    // Create instance for WAN port (eth0)
+    Instance *eth0 = EthernetInterface::createInst(client, 0);
+    eth0->set<STRING_T>(EthernetInterface::INTERFACE_NAME_0, "eth0");
+    eth0->set<INT_T>(EthernetInterface::PORT_TYPE_1, EthernetInterface::PORT_WAN);
+    eth0->set<INT_T>(EthernetInterface::SPEED_2, 2500); // 2.5 Gbps
+    
+    // Create instance for LAN port (eth1)
+    Instance *eth1 = EthernetInterface::createInst(client, 1);
+    eth1->set<STRING_T>(EthernetInterface::INTERFACE_NAME_0, "eth1");
+    eth1->set<INT_T>(EthernetInterface::PORT_TYPE_1, EthernetInterface::PORT_LAN);
+    eth1->set<INT_T>(EthernetInterface::SPEED_2, 1000); // 1 Gbps
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(EthernetInterface::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*eth0, TEST_SERVER_SHORT_ID);
+    Lwm2mAccessControl::create(*eth1, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34603_GPIO_CONTROL
+void gpioControlInit(WppClient &client) {
+    client.registry().registerObj(GpioControl::object(client));
+    
+    // Create instance for Status LED
+    Instance *ledStatus = GpioControl::createInst(client, 0);
+    ledStatus->set<STRING_T>(GpioControl::GPIO_NAME_0, "LED_STATUS");
+    ledStatus->set<INT_T>(GpioControl::GPIO_TYPE_2, GpioControl::TYPE_LED);
+    
+    // Create instance for WLAN LED
+    Instance *ledWlan = GpioControl::createInst(client, 1);
+    ledWlan->set<STRING_T>(GpioControl::GPIO_NAME_0, "LED_WLAN");
+    ledWlan->set<INT_T>(GpioControl::GPIO_TYPE_2, GpioControl::TYPE_LED);
+    ledWlan->set<INT_T>(GpioControl::TRIGGER_MODE_6, GpioControl::TRIGGER_NETDEV);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(GpioControl::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*ledStatus, TEST_SERVER_SHORT_ID);
+    Lwm2mAccessControl::create(*ledWlan, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34604_USB_MANAGEMENT
+void usbManagementInit(WppClient &client) {
+    client.registry().registerObj(UsbManagement::object(client));
+    
+    // Create instance for USB 2.0 Type-A port
+    Instance *usb1 = UsbManagement::createInst(client, 0);
+    usb1->set<STRING_T>(UsbManagement::PORT_NAME_0, "USB1");
+    usb1->set<INT_T>(UsbManagement::PORT_TYPE_1, UsbManagement::USB_2_0_TYPE_A);
+    
+    // Create instance for USB-C port
+    Instance *usb2 = UsbManagement::createInst(client, 1);
+    usb2->set<STRING_T>(UsbManagement::PORT_NAME_0, "USB2");
+    usb2->set<INT_T>(UsbManagement::PORT_TYPE_1, UsbManagement::USB_TYPE_C);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(UsbManagement::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*usb1, TEST_SERVER_SHORT_ID);
+    Lwm2mAccessControl::create(*usb2, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+void storageManagementInit(WppClient &client) {
+    client.registry().registerObj(StorageManagement::object(client));
+    
+    // Create instance for NAND flash
+    Instance *nand = StorageManagement::createInst(client, 0);
+    nand->set<STRING_T>(StorageManagement::STORAGE_NAME_0, "NAND");
+    nand->set<INT_T>(StorageManagement::STORAGE_TYPE_1, StorageManagement::STORAGE_NAND);
+    nand->set<STRING_T>(StorageManagement::MOUNT_POINT_2, "/");
+    nand->set<BOOL_T>(StorageManagement::IS_BOOTABLE_9, true);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(StorageManagement::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*nand, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34606_SYSTEM_MONITOR
+void systemMonitorInit(WppClient &client) {
+    client.registry().registerObj(SystemMonitor::object(client));
+    Instance &sysMon = SystemMonitor::createInst(client);
+
+    // Default values are set in initResources
+    // These would be updated periodically from /proc in real implementation
+    
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(SystemMonitor::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(sysMon, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+/* ---------- Walt Technologies custom objects init end ---------- */

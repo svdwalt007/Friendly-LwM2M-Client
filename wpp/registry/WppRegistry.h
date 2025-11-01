@@ -38,6 +38,27 @@
 #endif
 /* ---------- Optional objects include block end ---------- */
 
+/* ---------- Walt Technologies custom objects include block begin ---------- */
+#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+#include "w_34601_router_management/RouterManagement.h"
+#endif
+#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+#include "w_34602_ethernet_interface/EthernetInterface.h"
+#endif
+#ifdef OBJ_W_34603_GPIO_CONTROL
+#include "w_34603_gpio_control/GpioControl.h"
+#endif
+#ifdef OBJ_W_34604_USB_MANAGEMENT
+#include "w_34604_usb_management/UsbManagement.h"
+#endif
+#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+#include "w_34605_storage_management/StorageManagement.h"
+#endif
+#ifdef OBJ_W_34606_SYSTEM_MONITOR
+#include "w_34606_system_monitor/SystemMonitor.h"
+#endif
+/* ---------- Walt Technologies custom objects include block end ---------- */
+
 namespace wpp {
 
 // TODO: Split mandatory and optional registers
@@ -133,6 +154,27 @@ public:
 	Object & firmwareUpdate();
 	#endif
 	/* ---------- Optional objects prototype block end ---------- */
+
+	/* ---------- Walt Technologies custom objects prototype block begin ---------- */
+	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+	Object & routerManagement();
+	#endif
+	#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+	Object & ethernetInterface();
+	#endif
+	#ifdef OBJ_W_34603_GPIO_CONTROL
+	Object & gpioControl();
+	#endif
+	#ifdef OBJ_W_34604_USB_MANAGEMENT
+	Object & usbManagement();
+	#endif
+	#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+	Object & storageManagement();
+	#endif
+	#ifdef OBJ_W_34606_SYSTEM_MONITOR
+	Object & systemMonitor();
+	#endif
+	/* ---------- Walt Technologies custom objects prototype block end ---------- */
 
 private:
 	lwm2m_context_t &_context;

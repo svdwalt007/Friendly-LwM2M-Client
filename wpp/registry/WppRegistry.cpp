@@ -33,6 +33,27 @@ WppRegistry::WppRegistry(lwm2m_context_t &context): _context(context) {
 	_objects.push_back(new ObjectImpl<FirmwareUpdate>(_context, FIRMWARE_UPDATE_OBJ_INFO));
 	#endif
 	/* ---------- Optional objects init block end ---------- */
+
+	/* ---------- Walt Technologies custom objects init block begin ---------- */
+	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+	_objects.push_back(new ObjectImpl<RouterManagement>(_context, ROUTER_MANAGEMENT_META_INFO));
+	#endif
+	#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+	_objects.push_back(new ObjectImpl<EthernetInterface>(_context, ETHERNET_INTERFACE_META_INFO));
+	#endif
+	#ifdef OBJ_W_34603_GPIO_CONTROL
+	_objects.push_back(new ObjectImpl<GpioControl>(_context, GPIO_CONTROL_META_INFO));
+	#endif
+	#ifdef OBJ_W_34604_USB_MANAGEMENT
+	_objects.push_back(new ObjectImpl<UsbManagement>(_context, USB_MANAGEMENT_META_INFO));
+	#endif
+	#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+	_objects.push_back(new ObjectImpl<StorageManagement>(_context, STORAGE_MANAGEMENT_META_INFO));
+	#endif
+	#ifdef OBJ_W_34606_SYSTEM_MONITOR
+	_objects.push_back(new ObjectImpl<SystemMonitor>(_context, SYSTEM_MONITOR_META_INFO));
+	#endif
+	/* ---------- Walt Technologies custom objects init block end ---------- */
 }
 
 WppRegistry::~WppRegistry() {
@@ -111,5 +132,38 @@ Object & WppRegistry::firmwareUpdate() {
 }
 #endif
 /* ---------- Optional objects method block end ---------- */
+
+/* ---------- Walt Technologies custom objects method block begin ---------- */
+#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+Object & WppRegistry::routerManagement() {
+	return *object(ROUTER_MANAGEMENT_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+Object & WppRegistry::ethernetInterface() {
+	return *object(ETHERNET_INTERFACE_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_34603_GPIO_CONTROL
+Object & WppRegistry::gpioControl() {
+	return *object(GPIO_CONTROL_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_34604_USB_MANAGEMENT
+Object & WppRegistry::usbManagement() {
+	return *object(USB_MANAGEMENT_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+Object & WppRegistry::storageManagement() {
+	return *object(STORAGE_MANAGEMENT_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_34606_SYSTEM_MONITOR
+Object & WppRegistry::systemMonitor() {
+	return *object(SYSTEM_MONITOR_OBJECT_ID);
+}
+#endif
+/* ---------- Walt Technologies custom objects method block end ---------- */
 
 } //wpp
