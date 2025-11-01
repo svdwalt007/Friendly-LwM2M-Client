@@ -48,10 +48,19 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Alert system and power management
   - gRPC integration guide
 
+- **[MIKROBUS Object (ID 34608)](MIKROBUS_OBJECT.md)** - MIKROBUS socket and Click board management
+  - 50+ resources for comprehensive socket control
+  - Multiple instance support (one per socket)
+  - Click board detection and manifest reading
+  - Interface configuration (SPI, I2C, UART)
+  - GPIO and PWM control
+  - Power management and status monitoring
+
 - **[OpenWRT Integration](OPENWRT_INTEGRATION.md)** - OpenWRT-specific features
   - Hardware information gathering
   - Network connectivity monitoring
   - GPS/Location services
+  - Walt Technologies objects integration
   - System integration
 
 ### Reference Material
@@ -93,7 +102,8 @@ This documentation provides comprehensive guides for implementing, configuring, 
 - **Firmware Update (ID 5)** - FOTA support for OpenWRT
 - **Hardware Watchdog (ID 34607)** - Watchdog timer management
 
-#### Walt Technologies Custom Objects (34600-34607)
+#### Walt Technologies Custom Objects (34600-34608)
+
 - **Starlink Terminal (ID 34600)** ⭐ FEATURED - Comprehensive Starlink Gen3 satellite terminal management
   - 70+ resources across 10 functional groups
   - Real-time telemetry: throughput, latency, SNR, packet loss
@@ -105,12 +115,77 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Control actions: reboot, speed test, factory reset, obstruction map
   - Historical statistics and performance analytics
   - gRPC interface to 192.168.100.1:9200
-- **Router Management (ID 34601)** - OpenWRT router configuration
-- **Ethernet Interface (ID 34602)** - Port monitoring and control
-- **GPIO Control (ID 34603)** - LED and GPIO management
-- **USB Management (ID 34604)** - USB port control
+
+- **Router Management (ID 34601)** - Core router configuration and management
+  - LAN/WAN network configuration (IP addressing, subnet masks)
+  - DHCP server settings (address pool, lease time, DNS servers)
+  - Firewall and NAT control
+  - WAN connection types: DHCP, Static IP, PPPoE
+  - UPnP configuration
+  - Apply configuration and reset to defaults actions
+
+- **Ethernet Interface (ID 34602)** - Ethernet port monitoring and management
+  - Multiple instances for WAN/LAN ports
+  - Link status, speed (10/100/1000 Mbps), duplex mode
+  - MAC address and MTU configuration
+  - Traffic statistics (bytes/packets sent and received)
+  - Error counters (TX/RX errors)
+  - Interface enable/disable control
+
+- **GPIO Control (ID 34603)** - GPIO pin, LED, and button management
+  - Multiple instances for different GPIO resources
+  - LED control with blink patterns and intervals
+  - Button state monitoring and press counters
+  - Trigger modes (manual, network activity, timer-based)
+  - Support for status LEDs, WLAN LEDs, reset buttons
+  - General-purpose I/O configuration
+
+- **USB Management (ID 34604)** - USB port monitoring and control
+  - Multiple instances for different USB ports
+  - USB 2.0 and Type-C support
+  - Device detection and identification (Vendor/Product ID)
+  - Device class recognition (storage, modem, HID, hub)
+  - Power management and current monitoring
+  - Port enable/disable control
+
 - **Storage Management (ID 34605)** - Storage device management
-- **System Monitor (ID 34606)** - CPU, RAM, uptime monitoring
+  - Multiple instances for NAND, NVMe, USB, SD card
+  - Capacity monitoring (total, used, available)
+  - Filesystem type detection (ext4, f2fs, vfat, exfat)
+  - Mount status and mount point information
+  - Mount/unmount operations
+  - Format capability (with data loss warning)
+  - Bootable storage identification
+
+- **System Monitor (ID 34606)** - Comprehensive system monitoring
+  - CPU usage percentage and frequency
+  - CPU temperature monitoring
+  - RAM statistics (total, used, free, cached, buffers)
+  - Swap space monitoring
+  - System load averages (1, 5, 15 minutes)
+  - Uptime and process count
+  - Essential for device health monitoring
+
+- **Hardware Watchdog (ID 34607)** - Watchdog timer management
+  - Hardware watchdog enable/disable
+  - Timeout configuration (1-300 seconds)
+  - Pet interval settings
+  - Watchdog status and last pet time
+  - Magic close feature support
+  - Manual pet and reset actions
+  - Pet count and trigger count tracking
+  - Boot count monitoring for reliability analysis
+
+- **MIKROBUS (ID 34608)** ⭐ NEW - MIKROBUS socket and Click board management
+  - 50+ resources across 8 functional groups
+  - Multiple instance support (one per MIKROBUS socket)
+  - Automatic Click board detection via I2C EEPROM
+  - Interface configuration: SPI, I2C, UART
+  - GPIO control: AN (analog), PWM, INT, RST, CS pins
+  - Power management (3.3V/5V selection)
+  - Click board manifest reading (JSON format)
+  - Control actions: initialize, reset, shutdown
+  - Status monitoring and error tracking
 
 ### OpenWRT One Platform Support
 
@@ -169,6 +244,12 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_6_LOCATION)
 
 # Enable Starlink Terminal
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
+
+# Enable MIKROBUS object
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34608_MIKROBUS)
+
+# Enable System Monitor
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34606_SYSTEM_MONITOR)
 ```
 
 ### Key File Locations
@@ -278,7 +359,8 @@ This project is open source. See LICENSE file for details.
 - ✅ Location object (ID 6) implementation
 - ✅ OpenWRT integration for Device and Connectivity Monitoring
 - ✅ Starlink Terminal object (ID 34600)
-- ✅ Walt Technologies custom objects (34601-34607)
+- ✅ Walt Technologies custom objects (34601-34608)
+- ✅ MIKROBUS object (ID 34608) with Click board support
 - ✅ OpenWRT One platform support
 - ✅ Comprehensive documentation
 

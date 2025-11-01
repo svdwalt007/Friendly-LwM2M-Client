@@ -359,6 +359,127 @@ This provides seamless location tracking for mobile Starlink installations.
 
 ---
 
+## 🔧 Walt Technologies Objects Quick Setup
+
+The Friendly LwM2M Client includes **9 custom Walt Technologies objects** (IDs 34600-34608) for comprehensive OpenWRT router and peripheral management.
+
+### Available Walt Technologies Objects
+
+| Object ID | Name | Purpose | Instances |
+|-----------|------|---------|-----------|
+| 34600 | Starlink Terminal | Satellite terminal management | Single |
+| 34601 | Router Management | Core router configuration | Single |
+| 34602 | Ethernet Interface | Ethernet port monitoring | Multiple |
+| 34603 | GPIO Control | GPIO/LED/Button control | Multiple |
+| 34604 | USB Management | USB port management | Multiple |
+| 34605 | Storage Management | Storage device management | Multiple |
+| 34606 | System Monitor | System health monitoring | Single |
+| 34607 | Hardware Watchdog | Watchdog timer management | Single |
+| 34608 | MIKROBUS | MIKROBUS socket and Click boards | Multiple |
+
+### Enable System Monitor
+
+**Purpose:** Monitor CPU, RAM, load, uptime, and temperature
+
+File: `wpp/configs/wpp_config.cmake`
+
+```cmake
+# Enable System Monitor object
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34606_SYSTEM_MONITOR)
+```
+
+**What you get:**
+- CPU usage percentage and frequency
+- CPU temperature monitoring
+- RAM statistics (total, used, free, cached)
+- System load averages (1, 5, 15 minutes)
+- Uptime and process count
+
+### Enable MIKROBUS Object
+
+**Purpose:** Manage MIKROBUS sockets and MikroElektronika Click boards
+
+File: `wpp/configs/wpp_config.cmake`
+
+```cmake
+# Enable MIKROBUS object
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34608_MIKROBUS)
+```
+
+**What you get:**
+- 50+ resources for socket management
+- Automatic Click board detection via I2C EEPROM
+- Interface configuration (SPI, I2C, UART)
+- GPIO control (AN, PWM, INT, RST, CS pins)
+- Power management (3.3V/5V selection)
+- Click board manifest reading
+- Multiple instance support (one per socket)
+
+**Example Usage:**
+
+```cpp
+// In examples/objects.cpp
+#ifdef OBJ_O_34608_MIKROBUS
+void mikrobusInit(WppClient &client) {
+    client.registry().registerObj(Mikrobus::object(client));
+
+    // Create instance for MIKROBUS socket 1
+    Instance *mikrobus1 = Mikrobus::createInst(client, 0);
+    mikrobus1->set<STRING_T>(Mikrobus::SOCKET_NAME_1, "MIKROBUS-1");
+
+    // Configure for I2C
+    mikrobus1->set<INT_T>(Mikrobus::ACTIVE_INTERFACE_20, 2);  // I2C
+    mikrobus1->set<INT_T>(Mikrobus::I2C_ADDRESS_21, 0x48);
+
+    // Enable power at 3.3V
+    mikrobus1->set<INT_T>(Mikrobus::POWER_VOLTAGE_5, 3300);
+    mikrobus1->set<BOOL_T>(Mikrobus::POWER_STATE_6, true);
+}
+#endif
+```
+
+### Enable Other Walt Objects
+
+**Router Management (34601):** LAN/WAN configuration, DHCP, DNS, firewall
+```cmake
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34601_ROUTER_MANAGEMENT)
+```
+
+**Ethernet Interface (34602):** Monitor Ethernet ports, link status, traffic stats
+```cmake
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34602_ETHERNET_INTERFACE)
+```
+
+**GPIO Control (34603):** LED control, button monitoring
+```cmake
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34603_GPIO_CONTROL)
+```
+
+**USB Management (34604):** USB port control and device detection
+```cmake
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34604_USB_MANAGEMENT)
+```
+
+**Storage Management (34605):** NAND/NVMe/USB/SD card management
+```cmake
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34605_STORAGE_MANAGEMENT)
+```
+
+**Hardware Watchdog (34607):** Watchdog timer configuration
+```cmake
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34607_HARDWARE_WATCHDOG)
+```
+
+### Rebuild After Enabling Objects
+
+```bash
+cd build
+cmake ..
+make -j$(nproc)
+```
+
+---
+
 ## ✅ Verify Installation
 
 ### Check Objects Are Running
@@ -373,8 +494,10 @@ This provides seamless location tracking for mobile Starlink installations.
 # - Security
 # - Location (if enabled)
 # - Starlink Terminal (if enabled)
+# - MIKROBUS (if enabled)
+# - System Monitor (if enabled)
 # - Connectivity Monitoring
-# - Other enabled objects
+# - Other Walt Technologies objects (if enabled)
 ```
 
 ### Test Location Data
@@ -496,7 +619,8 @@ uci commit lwm2m
 - **[Implementation Guide](IMPLEMENTATION_GUIDE.md)** - Detailed build instructions
 - **[Location Object Documentation](LOCATION_OBJECT.md)** - GPS/Location features
 - **[Starlink Terminal Documentation](STARLINK_TERMINAL.md)** - Starlink satellite terminal management
-- **[OpenWRT Integration](OPENWRT_INTEGRATION.md)** - OpenWRT-specific features
+- **[MIKROBUS Object Documentation](MIKROBUS_OBJECT.md)** - MIKROBUS socket and Click board management
+- **[OpenWRT Integration](OPENWRT_INTEGRATION.md)** - OpenWRT-specific features and Walt Technologies objects
 - **[API Reference](API_REFERENCE.md)** - Code API documentation
 - **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions
 

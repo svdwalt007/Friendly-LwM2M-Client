@@ -714,6 +714,350 @@ top -b -n 1 | grep lwm2m_client
 
 ---
 
+## Walt Technologies Objects Integration (34600-34608)
+
+The Friendly LwM2M Client includes **9 custom Walt Technologies objects** designed specifically for OpenWRT router and IoT gateway management. These objects provide comprehensive monitoring and control capabilities.
+
+### Available Objects Overview
+
+| Object ID | Name | Purpose | Instances | OpenWRT Integration |
+|-----------|------|---------|-----------|---------------------|
+| 34600 | Starlink Terminal | Satellite terminal management | Single | gRPC |
+| 34601 | Router Management | Core router configuration | Single | UCI, network config |
+| 34602 | Ethernet Interface | Ethernet port monitoring | Multiple | sysfs (/sys/class/net) |
+| 34603 | GPIO Control | GPIO/LED/Button control | Multiple | sysfs (/sys/class/gpio) |
+| 34604 | USB Management | USB port management | Multiple | sysfs (/sys/bus/usb) |
+| 34605 | Storage Management | Storage device management | Multiple | mount, df, filesystem |
+| 34606 | System Monitor | System health monitoring | Single | /proc (stat, meminfo) |
+| 34607 | Hardware Watchdog | Watchdog timer management | Single | /dev/watchdog |
+| 34608 | MIKROBUS | MIKROBUS socket and Click boards | Multiple | I2C, SPI, GPIO |
+
+### System Monitor (ID 34606) - OpenWRT Integration
+
+**Purpose:** Monitor CPU, RAM, load, uptime, and temperature
+
+**Data Sources:**
+
+```bash
+# CPU usage from /proc/stat
+cat /proc/stat
+# Output: cpu user nice system idle iowait irq softirq
+
+# CPU temperature from thermal zone
+cat /sys/class/thermal/thermal_zone0/temp
+# Output: 45000 (45°C in millidegrees)
+
+# Memory statistics from /proc/meminfo
+cat /proc/meminfo
+# Output: MemTotal, MemFree, MemAvailable, Cached, Buffers
+
+# Load averages from /proc/loadavg
+cat /proc/loadavg
+# Output: 0.15 0.10 0.08 1/42 1234
+
+# Uptime from /proc/uptime
+cat /proc/uptime
+# Output: 12345.67 98765.43
+```
+
+**Enable System Monitor:**
+
+```cmake
+# In wpp/configs/wpp_config.cmake
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34606_SYSTEM_MONITOR)
+```
+
+**Key Resources:**
+- CPU Usage (0): 0-100%
+- RAM Total/Used/Free (3-5): MB
+- Load Averages (10-12): 1, 5, 15 minute
+- Uptime (13): seconds
+
+### MIKROBUS Object (ID 34608) - OpenWRT Integration
+
+**Purpose:** Manage MIKROBUS sockets and MikroElektronika Click boards
+
+**OpenWRT Prerequisites:**
+
+```bash
+# Install I2C tools
+opkg update
+opkg install i2c-tools
+
+# Install SPI support (if needed)
+opkg install kmod-spi-dev
+
+# Verify I2C buses
+i2cdetect -l
+# Output: i2c-0, i2c-1, etc.
+```
+
+**GPIO Access:**
+
+```bash
+# Export GPIO for RST pin
+echo mikrobus0_rst > /sys/class/gpio/export
+echo out > /sys/class/gpio/mikrobus0_rst/direction
+echo 1 > /sys/class/gpio/mikrobus0_rst/value
+
+# Export GPIO for CS pin
+echo mikrobus0_cs > /sys/class/gpio/export
+echo out > /sys/class/gpio/mikrobus0_cs/direction
+```
+
+**Click Board Detection:**
+
+```bash
+# Detect Click board via I2C EEPROM at address 0x50
+i2cdetect -y 0
+
+# Read manifest from EEPROM
+i2cdump -y 0 0x50
+```
+
+**Enable MIKROBUS:**
+
+```cmake
+# In wpp/configs/wpp_config.cmake
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34608_MIKROBUS)
+```
+
+**Example Configuration:**
+
+```cpp
+// Configure MIKROBUS socket 0 for I2C Temperature sensor
+Instance *mikrobus0 = Mikrobus::createInst(client, 0);
+mikrobus0->set<STRING_T>(Mikrobus::SOCKET_NAME_1, "TEMP-SENSOR");
+mikrobus0->set<INT_T>(Mikrobus::ACTIVE_INTERFACE_20, 2);  // I2C
+mikrobus0->set<INT_T>(Mikrobus::I2C_ADDRESS_21, 0x48);
+mikrobus0->set<INT_T>(Mikrobus::POWER_VOLTAGE_5, 3300);   // 3.3V
+mikrobus0->set<BOOL_T>(Mikrobus::POWER_STATE_6, true);
+```
+
+### Router Management (ID 34601) - OpenWRT Integration
+
+**Purpose:** Core router configuration and management
+
+**UCI Integration:**
+
+```bash
+# LAN configuration
+uci set network.lan.ipaddr='192.168.1.1'
+uci set network.lan.netmask='255.255.255.0'
+uci commit network
+
+# DHCP configuration
+uci set dhcp.lan.start='100'
+uci set dhcp.lan.limit='150'
+uci set dhcp.lan.leasetime='12h'
+uci commit dhcp
+
+# Firewall configuration
+uci set firewall.@defaults[0].input='ACCEPT'
+uci set firewall.@defaults[0].forward='ACCEPT'
+uci commit firewall
+
+# Apply changes
+/etc/init.d/network restart
+/etc/init.d/dnsmasq restart
+/etc/init.d/firewall restart
+```
+
+### Ethernet Interface (ID 34602) - OpenWRT Integration
+
+**Purpose:** Monitor Ethernet ports (WAN/LAN)
+
+**Data Sources:**
+
+```bash
+# Link status
+cat /sys/class/net/eth0/carrier
+# Output: 1 (link up) or 0 (link down)
+
+# Link speed
+cat /sys/class/net/eth0/speed
+# Output: 1000 (1000 Mbps)
+
+# Duplex mode
+cat /sys/class/net/eth0/duplex
+# Output: full or half
+
+# MAC address
+cat /sys/class/net/eth0/address
+# Output: 00:11:22:33:44:55
+
+# Traffic statistics
+cat /sys/class/net/eth0/statistics/rx_bytes
+cat /sys/class/net/eth0/statistics/tx_bytes
+cat /sys/class/net/eth0/statistics/rx_errors
+cat /sys/class/net/eth0/statistics/tx_errors
+```
+
+**Multi-Instance Configuration:**
+
+```cpp
+// Create instance for WAN port
+Instance *wan = EthernetInterface::createInst(client, 0);
+wan->set<STRING_T>(EthernetInterface::INTERFACE_NAME_0, "eth1");
+wan->set<INT_T>(EthernetInterface::PORT_TYPE_1, 1);  // WAN
+
+// Create instance for LAN port
+Instance *lan = EthernetInterface::createInst(client, 1);
+lan->set<STRING_T>(EthernetInterface::INTERFACE_NAME_0, "eth0");
+lan->set<INT_T>(EthernetInterface::PORT_TYPE_1, 0);  // LAN
+```
+
+### GPIO Control (ID 34603) - OpenWRT Integration
+
+**Purpose:** LED and button management
+
+**LED Control:**
+
+```bash
+# Available LEDs
+ls /sys/class/leds/
+# Output: led0, led1, wan-green, wan-red, etc.
+
+# Set LED state
+echo 1 > /sys/class/leds/led0/brightness  # On
+echo 0 > /sys/class/leds/led0/brightness  # Off
+
+# Set LED trigger
+echo timer > /sys/class/leds/led0/trigger
+echo 500 > /sys/class/leds/led0/delay_on   # 500ms on
+echo 500 > /sys/class/leds/led0/delay_off  # 500ms off
+```
+
+**Button Monitoring:**
+
+```bash
+# GPIO button input
+cat /sys/class/gpio/gpio12/value
+# Output: 1 (pressed) or 0 (released)
+```
+
+### Storage Management (ID 34605) - OpenWRT Integration
+
+**Purpose:** Manage NAND, NVMe, USB, SD card storage
+
+**Data Sources:**
+
+```bash
+# List block devices
+block info
+# Output: /dev/mmcblk0p1, /dev/sda1, etc.
+
+# Check filesystem usage
+df -h
+# Output: Filesystem, Size, Used, Available, Use%
+
+# Mount information
+mount | grep -E 'sd|mmc|nvme'
+# Output: /dev/sda1 on /mnt/usb type ext4
+
+# Storage device type detection
+ls /sys/block/
+# Output: mmcblk0 (SD), sda (USB), nvme0n1 (NVMe)
+```
+
+**Mount/Unmount Operations:**
+
+```bash
+# Mount USB storage
+mount /dev/sda1 /mnt/usb
+
+# Unmount safely
+umount /mnt/usb
+
+# Format storage
+mkfs.ext4 /dev/sda1
+```
+
+### Hardware Watchdog (ID 34607) - OpenWRT Integration
+
+**Purpose:** Watchdog timer management
+
+**Watchdog Device Access:**
+
+```bash
+# Watchdog device
+ls /dev/watchdog*
+# Output: /dev/watchdog, /dev/watchdog0
+
+# Check watchdog support
+cat /sys/class/watchdog/watchdog0/info
+# Output: identity, firmware_version, options
+
+# Configure watchdog timeout
+echo 30 > /sys/class/watchdog/watchdog0/timeout
+cat /sys/class/watchdog/watchdog0/timeout
+# Output: 30 (seconds)
+```
+
+**procd Integration:**
+
+OpenWRT's procd already manages the watchdog. The LwM2M object provides monitoring and configuration:
+
+```bash
+# Check procd watchdog status
+ubus call system watchdog
+# Output: {"frequency":5,"timeout":60,"magicclose":false}
+```
+
+### Complete Integration Example
+
+**Enable All Walt Technologies Objects:**
+
+```cmake
+# In wpp/configs/wpp_config.cmake
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS}
+    OBJ_O_34600_STARLINK_TERMINAL
+    OBJ_O_34601_ROUTER_MANAGEMENT
+    OBJ_O_34602_ETHERNET_INTERFACE
+    OBJ_O_34603_GPIO_CONTROL
+    OBJ_O_34604_USB_MANAGEMENT
+    OBJ_O_34605_STORAGE_MANAGEMENT
+    OBJ_O_34606_SYSTEM_MONITOR
+    OBJ_O_34607_HARDWARE_WATCHDOG
+    OBJ_O_34608_MIKROBUS
+)
+```
+
+**Initialize All Objects:**
+
+```cpp
+// In examples/main.cpp
+#ifdef OBJ_O_34600_STARLINK_TERMINAL
+starlinkTerminalInit(*client);
+#endif
+
+#ifdef OBJ_O_34606_SYSTEM_MONITOR
+systemMonitorInit(*client);
+#endif
+
+#ifdef OBJ_O_34608_MIKROBUS
+mikrobusInit(*client);
+#endif
+
+// ... initialize other Walt objects
+```
+
+### Monitoring All Objects
+
+```bash
+# View all object instances
+cat /var/log/lwm2m.log | grep "Initialization"
+
+# Expected output:
+# ---- Initialization wpp Starlink Terminal ----
+# ---- Initialization wpp System Monitor ----
+# ---- Initialization wpp MIKROBUS ----
+# ---- Initialization wpp Router Management ----
+# ... etc.
+```
+
+---
+
 ## Troubleshooting
 
 ### Common Issues

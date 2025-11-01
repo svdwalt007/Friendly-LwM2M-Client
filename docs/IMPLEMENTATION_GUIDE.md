@@ -736,6 +736,451 @@ StarlinkTerminal::~StarlinkTerminal() {
 
 ---
 
+### Example: System Monitor Object (ID 34606)
+
+The System Monitor object demonstrates OpenWRT sysfs integration for system health monitoring.
+
+```cpp
+// SystemMonitor.h
+class SystemMonitor : public Instance {
+public:
+    /* Resource IDs */
+    enum ID: ID_T {
+        CPU_USAGE_PERCENTAGE_0 = 0,      // CPU usage (0-100%)
+        CPU_FREQUENCY_1 = 1,             // CPU frequency (MHz)
+        CPU_TEMPERATURE_2 = 2,           // CPU temperature (Celsius)
+        RAM_TOTAL_3 = 3,                 // Total RAM (MB)
+        RAM_USED_4 = 4,                  // Used RAM (MB)
+        RAM_FREE_5 = 5,                  // Free RAM (MB)
+        LOAD_AVERAGE_1MIN_10 = 10,       // 1-minute load average
+        LOAD_AVERAGE_5MIN_11 = 11,       // 5-minute load average
+        LOAD_AVERAGE_15MIN_12 = 12,      // 15-minute load average
+        UPTIME_13 = 13,                  // System uptime (seconds)
+        PROCESS_COUNT_14 = 14,           // Total process count
+    };
+
+private:
+    WppTaskQueue::task_id_t _monitorTaskId;
+
+    bool updateSystemMetrics();
+    float readCpuUsage();
+    float readCpuTemperature();
+    void readMemoryStats();
+    void readLoadAverages();
+};
+
+// SystemMonitor.cpp - Key Implementation
+
+void SystemMonitor::resourcesInit() {
+    // Initialize with default values
+    resource(CPU_USAGE_PERCENTAGE_0)->set<INT_T>(0);
+    resource(RAM_TOTAL_3)->set<INT_T>(0);
+    resource(RAM_USED_4)->set<INT_T>(0);
+    resource(RAM_FREE_5)->set<INT_T>(0);
+    resource(UPTIME_13)->set<INT_T>(0);
+
+    // Get initial metrics
+    updateSystemMetrics();
+
+    // Set up periodic monitoring (every 5 seconds)
+    _monitorTaskId = WppTaskQueue::addTask(5, [this](WppClient &client, void *ctx) {
+        updateSystemMetrics();
+        return false; // Keep running
+    });
+}
+
+bool SystemMonitor::updateSystemMetrics() {
+    #ifdef OPENWRT_BUILD
+    // Read CPU usage
+    float cpuUsage = readCpuUsage();
+    resource(CPU_USAGE_PERCENTAGE_0)->set<INT_T>(static_cast<INT_T>(cpuUsage));
+    notifyResChanged(CPU_USAGE_PERCENTAGE_0);
+
+    // Read CPU temperature from thermal zone
+    float cpuTemp = readCpuTemperature();
+    if (cpuTemp > 0) {
+        resource(CPU_TEMPERATURE_2)->set<FLOAT_T>(cpuTemp);
+        notifyResChanged(CPU_TEMPERATURE_2);
+    }
+
+    // Read memory statistics
+    readMemoryStats();
+
+    // Read load averages
+    readLoadAverages();
+
+    // Read uptime from /proc/uptime
+    FILE* fp = fopen("/proc/uptime", "r");
+    if (fp) {
+        float uptime;
+        if (fscanf(fp, "%f", &uptime) == 1) {
+            resource(UPTIME_13)->set<INT_T>(static_cast<INT_T>(uptime));
+            notifyResChanged(UPTIME_13);
+        }
+        fclose(fp);
+    }
+    #endif
+
+    return true;
+}
+
+float SystemMonitor::readCpuUsage() {
+    #ifdef OPENWRT_BUILD
+    // Read /proc/stat for CPU statistics
+    FILE* fp = fopen("/proc/stat", "r");
+    if (!fp) return 0.0f;
+
+    static unsigned long long prevIdle = 0, prevTotal = 0;
+    unsigned long long user, nice, system, idle, iowait, irq, softirq;
+
+    fscanf(fp, "cpu %llu %llu %llu %llu %llu %llu %llu",
+           &user, &nice, &system, &idle, &iowait, &irq, &softirq);
+    fclose(fp);
+
+    unsigned long long totalIdle = idle + iowait;
+    unsigned long long total = user + nice + system + idle + iowait + irq + softirq;
+
+    unsigned long long deltaIdle = totalIdle - prevIdle;
+    unsigned long long deltaTotal = total - prevTotal;
+
+    prevIdle = totalIdle;
+    prevTotal = total;
+
+    if (deltaTotal == 0) return 0.0f;
+
+    float cpuUsage = 100.0f * (1.0f - ((float)deltaIdle / (float)deltaTotal));
+    return cpuUsage;
+    #else
+    return 0.0f;
+    #endif
+}
+
+float SystemMonitor::readCpuTemperature() {
+    #ifdef OPENWRT_BUILD
+    // Try reading from thermal zone
+    FILE* fp = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
+    if (!fp) return -1.0f;
+
+    int temp_millidegrees;
+    if (fscanf(fp, "%d", &temp_millidegrees) == 1) {
+        fclose(fp);
+        return temp_millidegrees / 1000.0f; // Convert to Celsius
+    }
+    fclose(fp);
+    #endif
+    return -1.0f;
+}
+
+void SystemMonitor::readMemoryStats() {
+    #ifdef OPENWRT_BUILD
+    FILE* fp = fopen("/proc/meminfo", "r");
+    if (!fp) return;
+
+    char line[256];
+    int memTotal = 0, memFree = 0, memAvailable = 0, memCached = 0, memBuffers = 0;
+
+    while (fgets(line, sizeof(line), fp)) {
+        sscanf(line, "MemTotal: %d kB", &memTotal);
+        sscanf(line, "MemFree: %d kB", &memFree);
+        sscanf(line, "MemAvailable: %d kB", &memAvailable);
+        sscanf(line, "Cached: %d kB", &memCached);
+        sscanf(line, "Buffers: %d kB", &memBuffers);
+    }
+    fclose(fp);
+
+    // Convert to MB
+    resource(RAM_TOTAL_3)->set<INT_T>(memTotal / 1024);
+    resource(RAM_FREE_5)->set<INT_T>(memFree / 1024);
+    resource(RAM_USED_4)->set<INT_T>((memTotal - memAvailable) / 1024);
+
+    notifyResChanged(RAM_TOTAL_3);
+    notifyResChanged(RAM_USED_4);
+    notifyResChanged(RAM_FREE_5);
+    #endif
+}
+
+void SystemMonitor::readLoadAverages() {
+    #ifdef OPENWRT_BUILD
+    FILE* fp = fopen("/proc/loadavg", "r");
+    if (!fp) return;
+
+    float load1, load5, load15;
+    if (fscanf(fp, "%f %f %f", &load1, &load5, &load15) == 3) {
+        resource(LOAD_AVERAGE_1MIN_10)->set<FLOAT_T>(load1);
+        resource(LOAD_AVERAGE_5MIN_11)->set<FLOAT_T>(load5);
+        resource(LOAD_AVERAGE_15MIN_12)->set<FLOAT_T>(load15);
+
+        notifyResChanged(LOAD_AVERAGE_1MIN_10);
+        notifyResChanged(LOAD_AVERAGE_5MIN_11);
+        notifyResChanged(LOAD_AVERAGE_15MIN_12);
+    }
+    fclose(fp);
+    #endif
+}
+```
+
+---
+
+### Example: MIKROBUS Object (ID 34608)
+
+The MIKROBUS object demonstrates multiple instance support and peripheral interface configuration.
+
+```cpp
+// Mikrobus.h
+class Mikrobus : public Instance {
+public:
+    /* Resource IDs - Organized by functional groups */
+    enum ID: ID_T {
+        /* Socket Information (0-6) */
+        SOCKET_ID_0 = 0,                 // Socket number (0, 1, 2...)
+        SOCKET_NAME_1 = 1,               // Socket name (RW)
+        SOCKET_ENABLED_2 = 2,            // Socket enable (RW)
+        CLICK_BOARD_PRESENT_3 = 3,       // Click board detected (R)
+        POWER_VOLTAGE_5 = 5,             // Voltage in mV (RW)
+        POWER_STATE_6 = 6,               // Power enabled (RW)
+
+        /* Interface Configuration (20-27) */
+        ACTIVE_INTERFACE_20 = 20,        // 0=None, 1=SPI, 2=I2C, 3=UART
+        I2C_ADDRESS_21 = 21,             // I2C address (0-127)
+        SPI_MODE_22 = 22,                // SPI mode (0-3)
+        SPI_SPEED_23 = 23,               // SPI speed (Hz)
+        UART_BAUD_RATE_24 = 24,          // Baud rate
+
+        /* GPIO and Analog (31-36) */
+        AN_VALUE_31 = 31,                // Analog input voltage (R)
+        PWM_DUTY_CYCLE_32 = 32,          // PWM duty cycle 0-100% (RW)
+        PWM_FREQUENCY_33 = 33,           // PWM frequency Hz (RW)
+
+        /* Control Actions (101-103, 110-111) */
+        INIT_CLICK_BOARD_101 = 101,      // Execute: Initialize board
+        RESET_CLICK_BOARD_102 = 102,     // Execute: Reset board
+        READ_MANIFEST_110 = 110,         // Execute: Read manifest
+        MANIFEST_DATA_111 = 111,         // Manifest JSON (R)
+    };
+
+    /* Interface Types */
+    enum InterfaceType: INT_T {
+        INTERFACE_NONE = 0,
+        INTERFACE_SPI = 1,
+        INTERFACE_I2C = 2,
+        INTERFACE_UART = 3,
+    };
+
+private:
+    int _socketId;
+    WppTaskQueue::task_id_t _monitorTaskId;
+
+    bool detectClickBoard();
+    bool readManifest();
+    EXECUTE_RESULT executeInit(Instance& inst, ID_T resId, const OPAQUE_T& data);
+    EXECUTE_RESULT executeReset(Instance& inst, ID_T resId, const OPAQUE_T& data);
+};
+
+// Mikrobus.cpp - Multi-Instance Implementation
+
+Mikrobus::Mikrobus(lwm2m_context_t &context, const OBJ_LINK_T &id)
+    : Instance(context, id), _socketId(id.instance_id) {
+    resourcesCreate();
+    resourcesInit();
+}
+
+void Mikrobus::resourcesInit() {
+    // Initialize socket info
+    resource(SOCKET_ID_0)->set<INT_T>(_socketId);
+    resource(SOCKET_NAME_1)->set<STRING_T>("MIKROBUS-" + std::to_string(_socketId));
+    resource(SOCKET_ENABLED_2)->set<BOOL_T>(false);
+    resource(CLICK_BOARD_PRESENT_3)->set<BOOL_T>(false);
+
+    // Default power settings
+    resource(POWER_VOLTAGE_5)->set<INT_T>(3300);  // 3.3V default
+    resource(POWER_STATE_6)->set<BOOL_T>(false);
+
+    // Default interface: none
+    resource(ACTIVE_INTERFACE_20)->set<INT_T>(INTERFACE_NONE);
+    resource(I2C_ADDRESS_21)->set<INT_T>(0x00);
+
+    // Initialize GPIO/PWM
+    resource(AN_VALUE_31)->set<FLOAT_T>(0.0f);
+    resource(PWM_DUTY_CYCLE_32)->set<FLOAT_T>(0.0f);
+    resource(PWM_FREQUENCY_33)->set<INT_T>(1000);
+
+    // Set execute handlers
+    resource(INIT_CLICK_BOARD_101)->set<EXECUTE_T>(
+        [this](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+            return executeInit(inst, resId, data);
+        }
+    );
+
+    resource(RESET_CLICK_BOARD_102)->set<EXECUTE_T>(
+        [this](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+            return executeReset(inst, resId, data);
+        }
+    );
+
+    resource(READ_MANIFEST_110)->set<EXECUTE_T>(
+        [this](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+            bool success = readManifest();
+            return success ? EXECUTE_RESULT::EXECUTE_RESULT_SUCCESS
+                          : EXECUTE_RESULT::EXECUTE_RESULT_ERROR;
+        }
+    );
+
+    // Detect Click board on startup
+    detectClickBoard();
+
+    // Periodic monitoring (every 30 seconds)
+    _monitorTaskId = WppTaskQueue::addTask(30, [this](WppClient &client, void *ctx) {
+        detectClickBoard();
+        return false;
+    });
+}
+
+bool Mikrobus::detectClickBoard() {
+    #ifdef OPENWRT_BUILD
+    // Try to read Click board manifest from I2C EEPROM at 0x50
+    std::stringstream cmd;
+    cmd << "i2cdetect -y " << _socketId << " 0x50 0x50 2>/dev/null | grep -q 50";
+
+    int result = system(cmd.str().c_str());
+    bool detected = (result == 0);
+
+    resource(CLICK_BOARD_PRESENT_3)->set<BOOL_T>(detected);
+    notifyResChanged(CLICK_BOARD_PRESENT_3);
+
+    return detected;
+    #else
+    return false;
+    #endif
+}
+
+bool Mikrobus::readManifest() {
+    #ifdef OPENWRT_BUILD
+    // Read manifest from I2C EEPROM
+    std::stringstream cmd;
+    cmd << "i2cdump -y " << _socketId << " 0x50 2>/dev/null";
+
+    FILE* pipe = popen(cmd.str().c_str(), "r");
+    if (!pipe) return false;
+
+    std::string manifest;
+    char buffer[256];
+    while (fgets(buffer, sizeof(buffer), pipe)) {
+        manifest += buffer;
+    }
+    pclose(pipe);
+
+    if (!manifest.empty()) {
+        resource(MANIFEST_DATA_111)->set<STRING_T>(manifest);
+        notifyResChanged(MANIFEST_DATA_111);
+        return true;
+    }
+    #endif
+    return false;
+}
+
+EXECUTE_RESULT Mikrobus::executeInit(Instance& inst, ID_T resId,
+                                       const OPAQUE_T& data) {
+    WPP_LOGI("Mikrobus", "Initializing socket %d", _socketId);
+
+    #ifdef OPENWRT_BUILD
+    // Enable power
+    resource(POWER_STATE_6)->set<BOOL_T>(true);
+    notifyResChanged(POWER_STATE_6);
+
+    // Configure active interface
+    INT_T interfaceType = resource(ACTIVE_INTERFACE_20)->get<INT_T>();
+
+    if (interfaceType == INTERFACE_I2C) {
+        // Configure I2C bus
+        WPP_LOGI("Mikrobus", "Configuring I2C interface");
+        // OpenWRT I2C configuration code here
+    }
+    else if (interfaceType == INTERFACE_SPI) {
+        // Configure SPI bus
+        WPP_LOGI("Mikrobus", "Configuring SPI interface");
+        // OpenWRT SPI configuration code here
+    }
+
+    return EXECUTE_RESULT::EXECUTE_RESULT_SUCCESS;
+    #else
+    return EXECUTE_RESULT::EXECUTE_RESULT_ERROR;
+    #endif
+}
+
+EXECUTE_RESULT Mikrobus::executeReset(Instance& inst, ID_T resId,
+                                        const OPAQUE_T& data) {
+    #ifdef OPENWRT_BUILD
+    // Toggle RST pin (GPIO)
+    std::stringstream cmd;
+    cmd << "echo 0 > /sys/class/gpio/mikrobus" << _socketId << "_rst/value && ";
+    cmd << "sleep 0.1 && ";
+    cmd << "echo 1 > /sys/class/gpio/mikrobus" << _socketId << "_rst/value";
+
+    system(cmd.str().c_str());
+    return EXECUTE_RESULT::EXECUTE_RESULT_SUCCESS;
+    #else
+    return EXECUTE_RESULT::EXECUTE_RESULT_ERROR;
+    #endif
+}
+```
+
+**Multi-Instance Usage Example:**
+
+```cpp
+// In examples/objects.cpp
+void mikrobusInit(WppClient &client) {
+    client.registry().registerObj(Mikrobus::object(client));
+
+    // Create instance for socket 0 (I2C Temperature sensor)
+    Instance *mikrobus0 = Mikrobus::createInst(client, 0);
+    mikrobus0->set<STRING_T>(Mikrobus::SOCKET_NAME_1, "TEMP-SENSOR");
+    mikrobus0->set<INT_T>(Mikrobus::ACTIVE_INTERFACE_20, Mikrobus::INTERFACE_I2C);
+    mikrobus0->set<INT_T>(Mikrobus::I2C_ADDRESS_21, 0x48);
+    mikrobus0->set<INT_T>(Mikrobus::POWER_VOLTAGE_5, 3300);
+    mikrobus0->set<BOOL_T>(Mikrobus::POWER_STATE_6, true);
+
+    // Create instance for socket 1 (SPI Display)
+    Instance *mikrobus1 = Mikrobus::createInst(client, 1);
+    mikrobus1->set<STRING_T>(Mikrobus::SOCKET_NAME_1, "OLED-DISPLAY");
+    mikrobus1->set<INT_T>(Mikrobus::ACTIVE_INTERFACE_20, Mikrobus::INTERFACE_SPI);
+    mikrobus1->set<INT_T>(Mikrobus::SPI_MODE_22, 0);
+    mikrobus1->set<INT_T>(Mikrobus::SPI_SPEED_23, 1000000);  // 1 MHz
+    mikrobus1->set<INT_T>(Mikrobus::POWER_VOLTAGE_5, 5000);  // 5V
+    mikrobus1->set<BOOL_T>(Mikrobus::POWER_STATE_6, true);
+}
+```
+
+**Key Implementation Patterns:**
+
+1. **Multiple Instance Support**: Each instance manages a separate MIKROBUS socket
+2. **OpenWRT sysfs Integration**: Direct hardware access via /sys and /proc
+3. **Interface Abstraction**: Support for SPI, I2C, UART with unified API
+4. **Click Board Detection**: Automatic detection via I2C EEPROM probing
+5. **Flexible Configuration**: Power voltage selection, interface parameters
+6. **Execute Resources**: Initialize, reset, manifest reading operations
+
+---
+
+## Walt Technologies Objects Summary
+
+The Friendly LwM2M Client includes **9 custom Walt Technologies objects** (IDs 34600-34608):
+
+| ID | Object | Key Features | Example Above |
+|----|--------|--------------|---------------|
+| 34600 | Starlink Terminal | gRPC integration, 70+ resources | ✓ |
+| 34601 | Router Management | LAN/WAN, DHCP, firewall | - |
+| 34602 | Ethernet Interface | Link status, traffic stats | - |
+| 34603 | GPIO Control | LED/button management | - |
+| 34604 | USB Management | Port control, device detection | - |
+| 34605 | Storage Management | NAND/NVMe/USB/SD | - |
+| 34606 | System Monitor | CPU, RAM, load monitoring | ✓ |
+| 34607 | Hardware Watchdog | Watchdog timer control | - |
+| 34608 | MIKROBUS | Click board management | ✓ |
+
+All objects follow similar implementation patterns and are documented in detail in their respective documentation files.
+
+---
+
 ## Testing
 
 ### Unit Testing
@@ -864,3 +1309,5 @@ make package/lwm2m-client/compile
 **Next Steps:**
 - See [Location Object Documentation](LOCATION_OBJECT.md) for a complete GPS implementation example
 - See [Starlink Terminal Documentation](STARLINK_TERMINAL.md) for advanced gRPC integration and complex object patterns
+- See [MIKROBUS Object Documentation](MIKROBUS_OBJECT.md) for MIKROBUS socket and Click board management
+- See [OpenWRT Integration Guide](OPENWRT_INTEGRATION.md) for comprehensive Walt Technologies objects integration
