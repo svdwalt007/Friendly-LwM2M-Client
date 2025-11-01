@@ -26,6 +26,12 @@ WppRegistry::WppRegistry(lwm2m_context_t &context): _context(context) {
 	#ifdef OBJ_O_6_LOCATION
 	_objects.push_back(new ObjectImpl<Location>(_context, LOCATION_OBJ_INFO));
 	#endif
+	#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+	_objects.push_back(new ObjectImpl<WlanConnectivity>(_context, WLAN_CONNECTIVITY_META_INFO));
+	#endif
+	#ifdef OBJ_O_13_BEARER_SELECTION
+	_objects.push_back(new ObjectImpl<BearerSelection>(_context, BEARER_SELECTION_META_INFO));
+	#endif
 	#ifdef OBJ_O_2_LWM2M_ACCESS_CONTROL
 	_objects.push_back(new ObjectImpl<Lwm2mAccessControl>(_context, LWM2M_ACCESS_CONTROL_OBJ_INFO));
 	#endif
@@ -131,6 +137,16 @@ Object & WppRegistry::connectivityMonitoring() {
 #ifdef OBJ_O_6_LOCATION
 Object & WppRegistry::location() {
 	return *object(OBJ_ID::LOCATION);
+}
+#endif
+#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+Object & WppRegistry::wlanConnectivity() {
+	return *object(OBJ_ID::WLAN_CONNECTIVITY);
+}
+#endif
+#ifdef OBJ_O_13_BEARER_SELECTION
+Object & WppRegistry::bearerSelection() {
+	return *object(OBJ_ID::BEARER_SELECTION);
 }
 #endif
 #ifdef OBJ_O_2_LWM2M_ACCESS_CONTROL

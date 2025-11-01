@@ -480,6 +480,249 @@ make -j$(nproc)
 
 ---
 
+## 📡 WLAN Connectivity Quick Setup
+
+**Purpose:** Manage WiFi interfaces (2.4GHz and 5GHz) with comprehensive monitoring and configuration.
+
+### Enable WLAN Connectivity
+
+File: `wpp/configs/wpp_config.cmake`
+
+```cmake
+# Enable WLAN Connectivity object (ID 12)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_12_WLAN_CONNECTIVITY)
+```
+
+### What You Get
+
+The WLAN Connectivity object provides:
+- **Multi-instance support:** Instance 0 = wlan0 (2.4GHz), Instance 1 = wlan1 (5GHz)
+- **48 resources** covering:
+  - Interface control (enable/disable, radio state)
+  - WiFi configuration (SSID, channel, band, standard)
+  - Security (WPA/WPA2, WEP, RADIUS authentication)
+  - Statistics (bytes sent/received, packet counters, errors)
+  - WiFi standards: 802.11a/b/g/n/ac/ax (WiFi 6)
+  - Operating modes: Access Point, Client, Bridge, Repeater
+
+### Quick Configuration Examples
+
+#### Example 1: Configure 2.4GHz Access Point
+
+```cpp
+// In examples/objects.cpp - wlanConnectivityInit()
+Instance *wlan0 = WlanConnectivity::instance(client, 0);
+
+// Enable interface
+wlan0->set<BOOL_T>(WlanConnectivity::ENABLE_1, true);
+wlan0->set<BOOL_T>(WlanConnectivity::RADIO_ENABLED_2, true);
+
+// Configure as Access Point
+wlan0->set<INT_T>(WlanConnectivity::MODE_8, WlanConnectivity::ACCESS_POINT);
+wlan0->set<STRING_T>(WlanConnectivity::SSID_5, "MyNetwork-2.4GHz");
+wlan0->set<INT_T>(WlanConnectivity::CHANNEL_9, 6);
+
+// Security: WPA2-PSK
+wlan0->set<INT_T>(WlanConnectivity::AUTHENTICATION_MODE_15, WlanConnectivity::AUTH_PSK);
+wlan0->set<INT_T>(WlanConnectivity::ENCRYPTION_MODE_16, WlanConnectivity::ENC_AES);
+wlan0->set<STRING_T>(WlanConnectivity::WPA_PRE_SHARED_KEY_17, "YourSecurePassword");
+```
+
+#### Example 2: Configure 5GHz Access Point
+
+```cpp
+Instance *wlan1 = WlanConnectivity::instance(client, 1);
+
+// Enable interface
+wlan1->set<BOOL_T>(WlanConnectivity::ENABLE_1, true);
+wlan1->set<BOOL_T>(WlanConnectivity::RADIO_ENABLED_2, true);
+
+// Configure as Access Point (5GHz, 802.11ac)
+wlan1->set<INT_T>(WlanConnectivity::MODE_8, WlanConnectivity::ACCESS_POINT);
+wlan1->set<STRING_T>(WlanConnectivity::SSID_5, "MyNetwork-5GHz");
+wlan1->set<INT_T>(WlanConnectivity::CHANNEL_9, 36);
+wlan1->set<INT_T>(WlanConnectivity::STANDARD_14, WlanConnectivity::IEEE_802_11AC);
+
+// Security
+wlan1->set<INT_T>(WlanConnectivity::AUTHENTICATION_MODE_15, WlanConnectivity::AUTH_PSK);
+wlan1->set<INT_T>(WlanConnectivity::ENCRYPTION_MODE_16, WlanConnectivity::ENC_AES);
+wlan1->set<STRING_T>(WlanConnectivity::WPA_PRE_SHARED_KEY_17, "YourSecurePassword");
+```
+
+### OpenWRT Integration
+
+The object automatically loads configuration from UCI on OpenWRT:
+
+```bash
+# View WiFi configuration
+uci show wireless
+
+# The client will read from:
+# - wireless.@wifi-iface[0] for wlan0 (2.4GHz)
+# - wireless.@wifi-iface[1] for wlan1 (5GHz)
+```
+
+Statistics are updated automatically every 30 seconds from `/sys/class/net/wlan*/statistics/`
+
+### Monitor WiFi Statistics
+
+```cpp
+// Read statistics
+INT_T bytesSent = wlan0->get<INT_T>(WlanConnectivity::TOTAL_BYTES_SENT_33);
+INT_T bytesReceived = wlan0->get<INT_T>(WlanConnectivity::TOTAL_BYTES_RECEIVED_34);
+INT_T errors = wlan0->get<INT_T>(WlanConnectivity::TRANSMIT_ERRORS_37);
+
+// Check interface status
+INT_T status = wlan0->get<INT_T>(WlanConnectivity::STATUS_3);
+// 0 = DISABLED, 1 = UP, 2 = ERROR
+```
+
+---
+
+## 🔀 Bearer Selection Quick Setup
+
+**Purpose:** Manage network bearer preferences and enable automatic bearer switching based on availability and signal strength.
+
+### Enable Bearer Selection
+
+File: `wpp/configs/wpp_config.cmake`
+
+```cmake
+# Enable Bearer Selection object (ID 13)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_13_BEARER_SELECTION)
+```
+
+### What You Get
+
+The Bearer Selection object provides:
+- **Single instance** for managing all network bearers
+- **12 resources** covering:
+  - Bearer preference list (WiFi, Ethernet, LTE, WCDMA, GSM, etc.)
+  - Signal strength thresholds for GSM/UMTS/LTE/WiFi
+  - Operator management (PLMN whitelist/blacklist)
+  - Automatic bearer switching with hysteresis
+  - Available bearer detection
+
+### Supported Network Bearers
+
+| Bearer | ID | Description |
+|--------|----|----- |
+| GSM | 0 | 2G GSM/GPRS/EDGE |
+| WCDMA | 2 | 3G UMTS/HSPA |
+| LTE FDD | 6 | 4G LTE |
+| LTE-M | 7 | LTE Machine Type |
+| NB-IoT | 8 | Narrowband IoT |
+| WiFi | 21 | 802.11 WiFi |
+| Ethernet | 41 | Wired Ethernet |
+| DSL | 42 | Digital Subscriber Line |
+
+### Quick Configuration Examples
+
+#### Example 1: WiFi Preferred, Cellular Fallback
+
+```cpp
+Instance *bearer = BearerSelection::instance(client);
+
+// Prefer WiFi, then Ethernet, then LTE
+bearer->set<STRING_T>(BearerSelection::PREFERRED_COMMS_BEARER_0, "21,41,6");
+
+// Set minimum WiFi signal strength (-70 dBm)
+bearer->set<INT_T>(BearerSelection::ACCEPTABLE_RSSI_WLAN_4, -70);
+
+// Set minimum LTE signal strength (-95 dBm)
+bearer->set<INT_T>(BearerSelection::ACCEPTABLE_RSRP_LTE_3, -95);
+
+// Set hysteresis to prevent frequent switching (5 dB)
+bearer->set<INT_T>(BearerSelection::ACCEPTABLE_SIGNAL_STRENGTH_VAR_9, 5);
+```
+
+#### Example 2: Ethernet Only (Fixed Installation)
+
+```cpp
+Instance *bearer = BearerSelection::instance(client);
+
+// Use only Ethernet
+bearer->set<STRING_T>(BearerSelection::PREFERRED_COMMS_BEARER_0, "41");
+
+// Set very high thresholds for other bearers to effectively disable them
+bearer->set<INT_T>(BearerSelection::ACCEPTABLE_RSSI_WLAN_4, -30);
+bearer->set<INT_T>(BearerSelection::ACCEPTABLE_RSRP_LTE_3, -50);
+```
+
+#### Example 3: Operator Whitelist (Roaming Control)
+
+```cpp
+Instance *bearer = BearerSelection::instance(client);
+
+// Only connect to specific operators (AT&T and T-Mobile US)
+bearer->set<STRING_T>(BearerSelection::OPERATOR_LIST_6, "310-410,310-260");
+bearer->set<INT_T>(BearerSelection::OPERATOR_LIST_MODE_7, BearerSelection::WHITELIST);
+```
+
+#### Example 4: LTE Preferred with Automatic Fallback
+
+```cpp
+Instance *bearer = BearerSelection::instance(client);
+
+// Prefer LTE, then WCDMA, then GSM
+bearer->set<STRING_T>(BearerSelection::PREFERRED_COMMS_BEARER_0, "6,2,0");
+
+// Signal thresholds
+bearer->set<INT_T>(BearerSelection::ACCEPTABLE_RSRP_LTE_3, -110);  // Aggressive
+bearer->set<INT_T>(BearerSelection::ACCEPTABLE_RSCP_UMTS_2, -95);  // Conservative
+bearer->set<INT_T>(BearerSelection::ACCEPTABLE_RSSI_GSM_1, -75);
+
+// Hysteresis to prevent ping-pong
+bearer->set<INT_T>(BearerSelection::ACCEPTABLE_SIGNAL_STRENGTH_VAR_9, 8);
+```
+
+### OpenWRT Integration
+
+The object automatically detects available bearers on OpenWRT:
+
+```bash
+# Configure bearer preferences via UCI
+uci set network.bearer=bearer
+uci set network.bearer.preference='21,41,6'
+uci set network.bearer.wlan_rssi='-70'
+uci set network.bearer.lte_rsrp='-95'
+uci commit network
+```
+
+### Monitor Available Bearers
+
+```cpp
+// Check which bearers are currently available
+STRING_T available = bearer->get<STRING_T>(BearerSelection::AVAILABLE_NETWORK_BEARERS_8);
+// Example: "21,41,6" means WiFi, Ethernet, and LTE are available
+```
+
+### Bearer Selection Logic
+
+The device automatically selects the best bearer using this algorithm:
+
+1. Check bearer preference list in order
+2. Verify bearer is available
+3. Check signal strength meets minimum threshold
+4. Verify operator is allowed (whitelist/blacklist)
+5. Apply hysteresis to prevent frequent switching
+6. Select highest priority bearer that meets all criteria
+
+### Hysteresis Prevents Ping-Pong
+
+Hysteresis prevents frequent bearer switching when signal strengths are similar:
+
+```
+Current: LTE at -95 dBm
+Hysteresis: 5 dB
+WiFi Available: -85 dBm
+
+Decision: Only switch to WiFi if it's 5 dB better than LTE
+Result: WiFi signal is better, so switch
+```
+
+---
+
 ## ✅ Verify Installation
 
 ### Check Objects Are Running
@@ -492,6 +735,8 @@ make -j$(nproc)
 # - Device
 # - Server
 # - Security
+# - WLAN Connectivity (if enabled)
+# - Bearer Selection (if enabled)
 # - Location (if enabled)
 # - Starlink Terminal (if enabled)
 # - MIKROBUS (if enabled)
@@ -616,13 +861,18 @@ uci commit lwm2m
 
 ## 📚 Additional Resources
 
+### Core Documentation
 - **[Implementation Guide](IMPLEMENTATION_GUIDE.md)** - Detailed build instructions
-- **[Location Object Documentation](LOCATION_OBJECT.md)** - GPS/Location features
-- **[Starlink Terminal Documentation](STARLINK_TERMINAL.md)** - Starlink satellite terminal management
-- **[MIKROBUS Object Documentation](MIKROBUS_OBJECT.md)** - MIKROBUS socket and Click board management
-- **[OpenWRT Integration](OPENWRT_INTEGRATION.md)** - OpenWRT-specific features and Walt Technologies objects
+- **[OpenWRT Integration](OPENWRT_INTEGRATION.md)** - OpenWRT-specific features
 - **[API Reference](API_REFERENCE.md)** - Code API documentation
 - **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions
+
+### Object Documentation
+- **[WLAN Connectivity (ID 12)](WLAN_CONNECTIVITY.md)** - WiFi interface management (2.4GHz + 5GHz)
+- **[Bearer Selection (ID 13)](BEARER_SELECTION.md)** - Network bearer preference and automatic selection
+- **[Location Object (ID 6)](LOCATION_OBJECT.md)** - GPS/Location features
+- **[Starlink Terminal (ID 34600)](STARLINK_TERMINAL.md)** - Starlink satellite terminal management
+- **[MIKROBUS Object (ID 34608)](MIKROBUS_OBJECT.md)** - MIKROBUS socket and Click board management
 
 ---
 

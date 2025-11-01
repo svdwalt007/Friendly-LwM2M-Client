@@ -1161,6 +1161,513 @@ void mikrobusInit(WppClient &client) {
 
 ---
 
+### Example: WLAN Connectivity Object (ID 12)
+
+The WLAN Connectivity object demonstrates multi-instance WiFi management with comprehensive configuration and statistics monitoring.
+
+```cpp
+// WlanConnectivity.h
+class WlanConnectivity : public Instance {
+public:
+    /* Resource IDs - 48 total resources */
+    enum ID: ID_T {
+        /* Interface Control (0-3) */
+        INTERFACE_NAME_0 = 0,            // Interface name (e.g., wlan0)
+        ENABLE_1 = 1,                    // Enable interface (RW)
+        RADIO_ENABLED_2 = 2,             // Radio enabled (RW)
+        STATUS_3 = 3,                    // Status: DISABLED/UP/ERROR (R)
+
+        /* WiFi Configuration (4-14) */
+        BSSID_4 = 4,                     // MAC address (R)
+        SSID_5 = 5,                      // Network SSID (RW)
+        BROADCAST_SSID_6 = 6,            // Broadcast SSID (RW)
+        MODE_8 = 8,                      // 0=AP, 1=Client, 2=Bridge, 3=Repeater
+        CHANNEL_9 = 9,                   // WiFi channel (RW)
+        AUTO_CHANNEL_10 = 10,            // Auto channel selection (RW)
+        STANDARD_14 = 14,                // WiFi standard (802.11a/b/g/n/ac/ax)
+
+        /* Security (15-28) */
+        AUTHENTICATION_MODE_15 = 15,     // 0=None, 1=PSK, 2=EAP
+        ENCRYPTION_MODE_16 = 16,         // 0=AES, 1=TKIP, 2=WEP
+        WPA_PRE_SHARED_KEY_17 = 17,      // WPA password (RW)
+        WPA_KEY_PHRASE_18 = 18,          // WPA passphrase (RW)
+
+        /* Statistics (33-47) */
+        TOTAL_BYTES_SENT_33 = 33,        // TX bytes (R)
+        TOTAL_BYTES_RECEIVED_34 = 34,    // RX bytes (R)
+        TOTAL_PACKETS_SENT_35 = 35,      // TX packets (R)
+        TOTAL_PACKETS_RECEIVED_36 = 36,  // RX packets (R)
+        TRANSMIT_ERRORS_37 = 37,         // TX errors (R)
+        RECEIVE_ERRORS_38 = 38,          // RX errors (R)
+    };
+
+    /* Enumerations */
+    enum InterfaceStatus: uint8_t {
+        DISABLED = 0,
+        UP = 1,
+        ERROR = 2
+    };
+
+    enum OperatingMode: uint8_t {
+        ACCESS_POINT = 0,
+        CLIENT = 1,
+        BRIDGE = 2,
+        REPEATER = 3
+    };
+
+    enum WifiStandard: uint8_t {
+        IEEE_802_11A = 0,
+        IEEE_802_11B = 1,
+        IEEE_802_11BG = 2,
+        IEEE_802_11G = 3,
+        IEEE_802_11N = 4,
+        IEEE_802_11BGN = 5,
+        IEEE_802_11AC = 6,
+        IEEE_802_11AH = 7,
+        IEEE_802_11AX = 8  // WiFi 6
+    };
+
+private:
+    std::string _interfaceName;
+    WppTaskQueue::task_id_t _statsTaskId;
+
+    void updateStatistics();
+    INT_T readSysfsInt(const std::string& path);
+};
+
+// WlanConnectivity.cpp - Key Implementation
+
+bool WlanConnectivity::initResources(ItemOp *) {
+    // Instance 0 = wlan0 (2.4GHz), Instance 1 = wlan1 (5GHz)
+    if (instId() == 0) {
+        _interfaceName = "wlan0";
+        set<STRING_T>(INTERFACE_NAME_0, "wlan0");
+        set<INT_T>(CHANNEL_9, 6);  // 2.4GHz default channel
+        set<INT_T>(STANDARD_14, WifiStandard::IEEE_802_11BGN);
+    } else if (instId() == 1) {
+        _interfaceName = "wlan1";
+        set<STRING_T>(INTERFACE_NAME_0, "wlan1");
+        set<INT_T>(CHANNEL_9, 36); // 5GHz default channel
+        set<INT_T>(STANDARD_14, WifiStandard::IEEE_802_11AC);
+    }
+
+    // Initialize common settings
+    set<BOOL_T>(ENABLE_1, false);
+    set<BOOL_T>(RADIO_ENABLED_2, false);
+    set<INT_T>(STATUS_3, InterfaceStatus::DISABLED);
+    set<INT_T>(MODE_8, OperatingMode::ACCESS_POINT);
+
+    // Default security: WPA2-PSK
+    set<INT_T>(AUTHENTICATION_MODE_15, 1);  // PSK
+    set<INT_T>(ENCRYPTION_MODE_16, 0);      // AES
+
+    // Initialize statistics
+    set<INT_T>(TOTAL_BYTES_SENT_33, 0);
+    set<INT_T>(TOTAL_BYTES_RECEIVED_34, 0);
+
+    #ifdef OPENWRT_BUILD
+    // Load configuration from UCI
+    loadFromUCI();
+
+    // Set up periodic statistics update (every 30 seconds)
+    _statsTaskId = WppTaskQueue::addTask(30, [this](WppClient& client, void* ctx) {
+        updateStatistics();
+        return false; // Keep running
+    });
+    #endif
+
+    return true;
+}
+
+void WlanConnectivity::updateStatistics() {
+    #ifdef OPENWRT_BUILD
+    std::string statsPath = "/sys/class/net/" + _interfaceName + "/statistics/";
+
+    // Read sysfs statistics
+    INT_T bytesSent = readSysfsInt(statsPath + "tx_bytes");
+    INT_T bytesReceived = readSysfsInt(statsPath + "rx_bytes");
+    INT_T packetsSent = readSysfsInt(statsPath + "tx_packets");
+    INT_T packetsReceived = readSysfsInt(statsPath + "rx_packets");
+    INT_T txErrors = readSysfsInt(statsPath + "tx_errors");
+    INT_T rxErrors = readSysfsInt(statsPath + "rx_errors");
+
+    // Update resources
+    set<INT_T>(TOTAL_BYTES_SENT_33, bytesSent);
+    set<INT_T>(TOTAL_BYTES_RECEIVED_34, bytesReceived);
+    set<INT_T>(TOTAL_PACKETS_SENT_35, packetsSent);
+    set<INT_T>(TOTAL_PACKETS_RECEIVED_36, packetsReceived);
+    set<INT_T>(TRANSMIT_ERRORS_37, txErrors);
+    set<INT_T>(RECEIVE_ERRORS_38, rxErrors);
+
+    // Notify observers
+    notifyResChanged(TOTAL_BYTES_SENT_33);
+    notifyResChanged(TOTAL_BYTES_RECEIVED_34);
+    #endif
+}
+
+INT_T WlanConnectivity::readSysfsInt(const std::string& path) {
+    FILE* fp = fopen(path.c_str(), "r");
+    if (!fp) return 0;
+
+    INT_T value = 0;
+    fscanf(fp, "%lld", &value);
+    fclose(fp);
+
+    return value;
+}
+
+void WlanConnectivity::loadFromUCI() {
+    #ifdef OPENWRT_BUILD
+    // Read SSID from UCI
+    std::string cmd = "uci get wireless.@wifi-iface[" +
+                      std::to_string(instId()) + "].ssid 2>/dev/null";
+    FILE* pipe = popen(cmd.c_str(), "r");
+    if (pipe) {
+        char buffer[256];
+        if (fgets(buffer, sizeof(buffer), pipe)) {
+            buffer[strcspn(buffer, "\n")] = 0;
+            set<STRING_T>(SSID_5, buffer);
+        }
+        pclose(pipe);
+    }
+
+    // Read encryption settings
+    cmd = "uci get wireless.@wifi-iface[" +
+          std::to_string(instId()) + "].encryption 2>/dev/null";
+    pipe = popen(cmd.c_str(), "r");
+    if (pipe) {
+        char buffer[256];
+        if (fgets(buffer, sizeof(buffer), pipe)) {
+            if (strstr(buffer, "psk2")) {
+                set<INT_T>(AUTHENTICATION_MODE_15, 1);  // PSK
+                set<INT_T>(ENCRYPTION_MODE_16, 0);      // AES
+            }
+        }
+        pclose(pipe);
+    }
+    #endif
+}
+```
+
+**Multi-Instance WiFi Example:**
+
+```cpp
+// In examples/objects.cpp
+void wlanConnectivityInit(WppClient &client) {
+    client.registry().registerObj(WlanConnectivity::object(client));
+
+    // Instance 0: 2.4GHz WiFi (wlan0)
+    Instance *wlan0 = WlanConnectivity::createInst(client, 0);
+    wlan0->set<BOOL_T>(WlanConnectivity::ENABLE_1, true);
+    wlan0->set<BOOL_T>(WlanConnectivity::RADIO_ENABLED_2, true);
+    wlan0->set<STRING_T>(WlanConnectivity::SSID_5, "MyNetwork-2.4GHz");
+    wlan0->set<INT_T>(WlanConnectivity::MODE_8, WlanConnectivity::ACCESS_POINT);
+    wlan0->set<INT_T>(WlanConnectivity::CHANNEL_9, 6);
+    wlan0->set<STRING_T>(WlanConnectivity::WPA_PRE_SHARED_KEY_17, "SecurePassword");
+
+    // Instance 1: 5GHz WiFi (wlan1)
+    Instance *wlan1 = WlanConnectivity::createInst(client, 1);
+    wlan1->set<BOOL_T>(WlanConnectivity::ENABLE_1, true);
+    wlan1->set<BOOL_T>(WlanConnectivity::RADIO_ENABLED_2, true);
+    wlan1->set<STRING_T>(WlanConnectivity::SSID_5, "MyNetwork-5GHz");
+    wlan1->set<INT_T>(WlanConnectivity::MODE_8, WlanConnectivity::ACCESS_POINT);
+    wlan1->set<INT_T>(WlanConnectivity::CHANNEL_9, 36);
+    wlan1->set<INT_T>(WlanConnectivity::STANDARD_14, WlanConnectivity::IEEE_802_11AC);
+    wlan1->set<STRING_T>(WlanConnectivity::WPA_PRE_SHARED_KEY_17, "SecurePassword");
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(WlanConnectivity::object(client),
+                               Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*wlan0, TEST_SERVER_SHORT_ID);
+    Lwm2mAccessControl::create(*wlan1, TEST_SERVER_SHORT_ID);
+    #endif
+}
+```
+
+**Key Implementation Patterns:**
+
+1. **Multi-Instance Support**: Instance 0 = 2.4GHz, Instance 1 = 5GHz
+2. **OpenWRT UCI Integration**: Loads WiFi configuration from UCI
+3. **sysfs Statistics**: Reads network statistics from `/sys/class/net/*/statistics/`
+4. **Periodic Updates**: Automatic statistics refresh every 30 seconds
+5. **Comprehensive Security**: WPA/WPA2, WEP, RADIUS authentication support
+6. **Operating Modes**: Access Point, Client, Bridge, Repeater
+
+---
+
+### Example: Bearer Selection Object (ID 13)
+
+The Bearer Selection object demonstrates automatic network bearer management with signal monitoring and intelligent failover.
+
+```cpp
+// BearerSelection.h
+class BearerSelection : public Instance {
+public:
+    /* Resource IDs - 12 total resources */
+    enum ID: ID_T {
+        PREFERRED_COMMS_BEARER_0 = 0,           // Bearer preference list (RW)
+        ACCEPTABLE_RSSI_GSM_1 = 1,              // GSM signal threshold (dBm)
+        ACCEPTABLE_RSCP_UMTS_2 = 2,             // UMTS signal threshold (dBm)
+        ACCEPTABLE_RSRP_LTE_3 = 3,              // LTE signal threshold (dBm)
+        ACCEPTABLE_RSSI_WLAN_4 = 4,             // WLAN signal threshold (dBm)
+        CELL_LOCK_LIST_5 = 5,                   // Locked cells (RW)
+        OPERATOR_LIST_6 = 6,                    // PLMN codes (RW)
+        OPERATOR_LIST_MODE_7 = 7,               // Whitelist/Blacklist (RW)
+        AVAILABLE_NETWORK_BEARERS_8 = 8,        // Available bearers (R)
+        ACCEPTABLE_SIGNAL_STRENGTH_VAR_9 = 9,   // Hysteresis (dB)
+        HIGHER_PRIORITY_PLMN_SEARCH_TIMER_10 = 10, // Search timer (seconds)
+        ATTACH_WITHOUT_PDN_11 = 11,             // Attach without PDN (RW)
+    };
+
+    /* Network Bearer Enumeration */
+    enum NetworkBearer: INT_T {
+        GSM = 0,
+        TD_SCDMA = 1,
+        WCDMA = 2,
+        CDMA2000 = 3,
+        WIMAX = 4,
+        LTE_TDD = 5,
+        LTE_FDD = 6,
+        LTE_M = 7,
+        NB_IOT = 8,
+        // Non-cellular bearers
+        WLAN = 21,
+        BLUETOOTH = 22,
+        IEEE_802_15_4 = 23,
+        ETHERNET = 41,
+        DSL = 42,
+        PLC = 43,
+    };
+
+    /* Operator List Mode */
+    enum OperatorListMode: INT_T {
+        WHITELIST = 0,  // Only connect to listed operators
+        BLACKLIST = 1,  // Avoid listed operators
+    };
+
+private:
+    WppTaskQueue::task_id_t _bearerCheckTaskId;
+    std::vector<NetworkBearer> _availableBearers;
+
+    void updateAvailableBearers();
+    NetworkBearer detectCurrentBearer();
+    bool checkBearerAvailable(NetworkBearer bearer);
+};
+
+// BearerSelection.cpp - Key Implementation
+
+bool BearerSelection::initResources(ItemOp *) {
+    // Default preference: WLAN > Ethernet > LTE > WCDMA > GSM
+    set<STRING_T>(PREFERRED_COMMS_BEARER_0, "21,41,6,2,0");
+
+    // Signal strength thresholds (dBm)
+    set<INT_T>(ACCEPTABLE_RSSI_GSM_1, -70);
+    set<INT_T>(ACCEPTABLE_RSCP_UMTS_2, -85);
+    set<INT_T>(ACCEPTABLE_RSRP_LTE_3, -95);
+    set<INT_T>(ACCEPTABLE_RSSI_WLAN_4, -70);
+
+    // Hysteresis to prevent ping-pong switching (5 dB)
+    set<INT_T>(ACCEPTABLE_SIGNAL_STRENGTH_VAR_9, 5);
+
+    // PLMN search timer (10 minutes)
+    set<INT_T>(HIGHER_PRIORITY_PLMN_SEARCH_TIMER_10, 600);
+
+    // Initialize operator list and mode
+    set<STRING_T>(OPERATOR_LIST_6, "");
+    set<INT_T>(OPERATOR_LIST_MODE_7, WHITELIST);
+
+    // Attach mode
+    set<BOOL_T>(ATTACH_WITHOUT_PDN_11, false);
+
+    #ifdef OPENWRT_BUILD
+    // Load configuration from UCI
+    loadFromUCI();
+
+    // Initial bearer detection
+    updateAvailableBearers();
+
+    // Set up periodic bearer check (every 60 seconds)
+    _bearerCheckTaskId = WppTaskQueue::addTask(60, [this](WppClient& client, void* ctx) {
+        updateAvailableBearers();
+        return false; // Keep running
+    });
+    #endif
+
+    return true;
+}
+
+void BearerSelection::updateAvailableBearers() {
+    #ifdef OPENWRT_BUILD
+    _availableBearers.clear();
+
+    // Check Ethernet
+    if (checkBearerAvailable(ETHERNET)) {
+        _availableBearers.push_back(ETHERNET);
+    }
+
+    // Check WLAN
+    if (checkBearerAvailable(WLAN)) {
+        _availableBearers.push_back(WLAN);
+    }
+
+    // Check cellular modem for LTE/WCDMA/GSM
+    FILE* pipe = popen("mmcli -m 0 --output-keyvalue 2>/dev/null | grep access-technologies", "r");
+    if (pipe) {
+        char buffer[256];
+        if (fgets(buffer, sizeof(buffer), pipe)) {
+            if (strstr(buffer, "lte")) {
+                _availableBearers.push_back(LTE_FDD);
+            } else if (strstr(buffer, "umts") || strstr(buffer, "hspa")) {
+                _availableBearers.push_back(WCDMA);
+            } else if (strstr(buffer, "gsm") || strstr(buffer, "gprs")) {
+                _availableBearers.push_back(GSM);
+            }
+        }
+        pclose(pipe);
+    }
+
+    // Build comma-separated list of available bearers
+    std::string available;
+    for (size_t i = 0; i < _availableBearers.size(); i++) {
+        if (i > 0) available += ",";
+        available += std::to_string(_availableBearers[i]);
+    }
+
+    set<STRING_T>(AVAILABLE_NETWORK_BEARERS_8, available);
+    notifyResChanged(AVAILABLE_NETWORK_BEARERS_8);
+    #endif
+}
+
+bool BearerSelection::checkBearerAvailable(NetworkBearer bearer) {
+    #ifdef OPENWRT_BUILD
+    if (bearer == ETHERNET) {
+        // Check Ethernet operstate
+        FILE* fp = fopen("/sys/class/net/eth0/operstate", "r");
+        if (fp) {
+            char state[16];
+            if (fgets(state, sizeof(state), fp)) {
+                fclose(fp);
+                return (strncmp(state, "up", 2) == 0);
+            }
+            fclose(fp);
+        }
+    } else if (bearer == WLAN) {
+        // Check WLAN operstate
+        FILE* fp = fopen("/sys/class/net/wlan0/operstate", "r");
+        if (fp) {
+            char state[16];
+            if (fgets(state, sizeof(state), fp)) {
+                fclose(fp);
+                return (strncmp(state, "up", 2) == 0);
+            }
+            fclose(fp);
+        }
+    }
+    #endif
+    return false;
+}
+
+void BearerSelection::loadFromUCI() {
+    #ifdef OPENWRT_BUILD
+    // Read bearer preference from UCI
+    FILE* pipe = popen("uci get network.bearer.preference 2>/dev/null", "r");
+    if (pipe) {
+        char buffer[256];
+        if (fgets(buffer, sizeof(buffer), pipe)) {
+            buffer[strcspn(buffer, "\n")] = 0;
+            set<STRING_T>(PREFERRED_COMMS_BEARER_0, buffer);
+        }
+        pclose(pipe);
+    }
+
+    // Read signal thresholds
+    pipe = popen("uci get network.bearer.wlan_rssi 2>/dev/null", "r");
+    if (pipe) {
+        char buffer[256];
+        if (fgets(buffer, sizeof(buffer), pipe)) {
+            set<INT_T>(ACCEPTABLE_RSSI_WLAN_4, atoi(buffer));
+        }
+        pclose(pipe);
+    }
+
+    pipe = popen("uci get network.bearer.lte_rsrp 2>/dev/null", "r");
+    if (pipe) {
+        char buffer[256];
+        if (fgets(buffer, sizeof(buffer), pipe)) {
+            set<INT_T>(ACCEPTABLE_RSRP_LTE_3, atoi(buffer));
+        }
+        pclose(pipe);
+    }
+    #endif
+}
+```
+
+**Bearer Selection Usage Example:**
+
+```cpp
+// In examples/objects.cpp
+void bearerSelectionInit(WppClient &client) {
+    client.registry().registerObj(BearerSelection::object(client));
+
+    Instance *bearer = BearerSelection::createInst(client);
+
+    // Prefer WiFi, then Ethernet, then LTE, then WCDMA, then GSM
+    bearer->set<STRING_T>(BearerSelection::PREFERRED_COMMS_BEARER_0, "21,41,6,2,0");
+
+    // Set signal strength thresholds
+    bearer->set<INT_T>(BearerSelection::ACCEPTABLE_RSSI_WLAN_4, -70);   // WiFi
+    bearer->set<INT_T>(BearerSelection::ACCEPTABLE_RSRP_LTE_3, -95);    // LTE
+    bearer->set<INT_T>(BearerSelection::ACCEPTABLE_RSCP_UMTS_2, -85);   // UMTS
+    bearer->set<INT_T>(BearerSelection::ACCEPTABLE_RSSI_GSM_1, -75);    // GSM
+
+    // Set hysteresis (prevent frequent switching)
+    bearer->set<INT_T>(BearerSelection::ACCEPTABLE_SIGNAL_STRENGTH_VAR_9, 5);
+
+    // Operator whitelist (example: AT&T and T-Mobile US)
+    bearer->set<STRING_T>(BearerSelection::OPERATOR_LIST_6, "310-410,310-260");
+    bearer->set<INT_T>(BearerSelection::OPERATOR_LIST_MODE_7,
+                       BearerSelection::WHITELIST);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(BearerSelection::object(client),
+                               Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*bearer, TEST_SERVER_SHORT_ID);
+    #endif
+}
+```
+
+**Bearer Selection Algorithm:**
+
+1. **Check Bearer Preference List**: Iterate through preferred bearers in order
+2. **Check Availability**: Is the bearer available? (network interface up)
+3. **Check Signal Strength**: Does it meet minimum threshold?
+4. **Check Operator**: Is it allowed (whitelist) or blocked (blacklist)?
+5. **Apply Hysteresis**: Only switch if signal difference exceeds variation threshold
+6. **Select Bearer**: Use highest priority bearer that meets all criteria
+
+**Key Implementation Patterns:**
+
+1. **Single Instance Object**: One instance manages all network bearers
+2. **Bearer Detection**: Automatic detection of Ethernet, WiFi, cellular
+3. **UCI Integration**: Load preferences from OpenWRT configuration
+4. **ModemManager Integration**: Query cellular modem for technology
+5. **Hysteresis Control**: Prevent ping-pong switching (typically 5-10 dB)
+6. **PLMN Management**: Operator whitelist/blacklist for roaming control
+7. **Periodic Updates**: Check available bearers every 60 seconds
+
+---
+
+## Standard OMA Objects Summary
+
+The Friendly LwM2M Client includes standard OMA objects:
+
+| ID | Object | Key Features | Example Above |
+|----|--------|--------------|---------------|
+| 12 | WLAN Connectivity | Multi-instance WiFi management | ✓ |
+| 13 | Bearer Selection | Network bearer preferences | ✓ |
+
+---
+
 ## Walt Technologies Objects Summary
 
 The Friendly LwM2M Client includes **9 custom Walt Technologies objects** (IDs 34600-34608):

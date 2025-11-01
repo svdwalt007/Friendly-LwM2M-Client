@@ -154,6 +154,11 @@ protected:
 private:
     /* Private methods */
     bool initResources(ItemOp *) override;
+
+#ifdef OPENWRT_BUILD
+    void loadFromUCI();
+    void updateStatistics();
+#endif
 };
 
 } // namespace wpp

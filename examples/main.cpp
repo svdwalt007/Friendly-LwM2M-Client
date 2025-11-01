@@ -75,6 +75,14 @@ int main() {
 	cout << endl << "---- Initialization wpp Location ----" << endl;
 	locationInit(*client);
 	#endif
+	#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+	cout << endl << "---- Initialization wpp WLAN Connectivity ----" << endl;
+	wlanConnectivityInit(*client);
+	#endif
+	#ifdef OBJ_O_13_BEARER_SELECTION
+	cout << endl << "---- Initialization wpp Bearer Selection ----" << endl;
+	bearerSelectionInit(*client);
+	#endif
 	#ifdef OBJ_O_3339_AUDIO_CLIP
 	cout << endl << "---- Initialization wpp AudioClip ----" << endl;
 	audioClipInit(*client);

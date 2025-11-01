@@ -35,6 +35,14 @@ void connMonitoringInit(WppClient &client);
 void locationInit(WppClient &client);
 #endif
 
+#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+void wlanConnectivityInit(WppClient &client);
+#endif
+
+#ifdef OBJ_O_13_BEARER_SELECTION
+void bearerSelectionInit(WppClient &client);
+#endif
+
 #ifdef OBJ_O_3339_AUDIO_CLIP
 void audioClipInit(WppClient &client);
 #endif

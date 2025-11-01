@@ -186,6 +186,36 @@ void locationInit(WppClient &client) {
 }
 #endif
 
+#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+void wlanConnectivityInit(WppClient &client) {
+    client.registry().registerObj(WlanConnectivity::object(client));
+
+    // Create instance for 2.4GHz WiFi (wlan0)
+    Instance *wlan0 = WlanConnectivity::createInst(client, 0);
+
+    // Create instance for 5GHz WiFi (wlan1)
+    Instance *wlan1 = WlanConnectivity::createInst(client, 1);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+	Lwm2mAccessControl::create(WlanConnectivity::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+	Lwm2mAccessControl::create(*wlan0, TEST_SERVER_SHORT_ID);
+	Lwm2mAccessControl::create(*wlan1, TEST_SERVER_SHORT_ID);
+	#endif
+}
+#endif
+
+#ifdef OBJ_O_13_BEARER_SELECTION
+void bearerSelectionInit(WppClient &client) {
+    client.registry().registerObj(BearerSelection::object(client));
+    Instance *bearer = BearerSelection::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+	Lwm2mAccessControl::create(BearerSelection::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+	Lwm2mAccessControl::create(*bearer, TEST_SERVER_SHORT_ID);
+	#endif
+}
+#endif
+
 #ifdef OBJ_O_3339_AUDIO_CLIP
 void audioClipInit(WppClient &client) {
     client.registry().registerObj(AudioClip::object(client));

@@ -24,13 +24,20 @@ This code is provided under the associated
 
 Friendly LwM2M Client is an open-source Lightweight machine-to-machine (LwM2M) client implementation designed for IoT devices. LwM2M is a protocol specified by the Open Mobile Alliance (OMA) for remote device management and service enablement for M2M and IoT devices and systems, intended for both resource-constrained and high-performance edge devices.
 
-## Documentation 
+## Documentation
 [Friendly LWM2M Client](https://friendly-technologies.github.io/Friendly-LwM2M-Client/)
 - [Build Instructions](https://friendly-technologies.github.io/Friendly-LwM2M-Client/build_tag.html)
 - [Architecture](https://friendly-technologies.github.io/Friendly-LwM2M-Client/architecture_tag.html)
 - [Examples of Usage](https://friendly-technologies.github.io/Friendly-LwM2M-Client/examples_tag.html)
 - [Testing](https://friendly-technologies.github.io/Friendly-LwM2M-Client/testing_tag.html)
 - [Code Documentation](https://friendly-technologies.github.io/Friendly-LwM2M-Client/code_tag.html)
+
+### Feature Documentation
+- [WLAN Connectivity (ID 12)](docs/WLAN_CONNECTIVITY.md) - WiFi interface management
+- [Bearer Selection (ID 13)](docs/BEARER_SELECTION.md) - Network bearer selection
+- [OpenWRT Integration Guide](docs/OPENWRT_INTEGRATION.md)
+- [Implementation Guide](docs/IMPLEMENTATION_GUIDE.md)
+- [Quick Start Guide](docs/QUICKSTART.md)
 
 ## Features
 
@@ -50,11 +57,14 @@ Mandatory
 - LwM2M Server
 - Device
 
-Optional 		
-- LwM2M Access Control
-- Connectivity Monitoring
-- Firmware Update
+Optional
+- LwM2M Access Control (ID 2)
+- Connectivity Monitoring (ID 4)
+- Firmware Update (ID 5)
+- WLAN Connectivity (ID 12) - WiFi interface management (2.4GHz + 5GHz)
+- Bearer Selection (ID 13) - Network bearer preference and automatic selection
 - Supported IPSO Objects
+- Walt Technologies Objects (ID 34600-34608)
 		
 Transport 		
 - UDP/DTLS
@@ -189,7 +199,9 @@ By default, `WppExample` has the following configurations:
 1. COAP server: coaps://demodm.friendly-tech.com:5684.
 2. DTLS enabled.
 3. Data formats: CBOR, SENML CBOR, SENML JSON, JSON, TLV.
-4. Objects: DEVICE, LWM2M SERVER, LWM2M SECURITY, CONNECTIVITY MONITORING, LWM2M ACCESS CONTROL, FIRMWARE UPDATE.
+4. Objects: DEVICE, LWM2M SERVER, LWM2M SECURITY, CONNECTIVITY MONITORING, LWM2M ACCESS CONTROL, FIRMWARE UPDATE, WLAN CONNECTIVITY, BEARER SELECTION.
+
+Note: The example can be configured to enable additional objects including Walt Technologies objects (34600-34608) for specialized OpenWRT router functionality.
 
 ## Contributing
 

@@ -30,6 +30,12 @@
 #ifdef OBJ_O_6_LOCATION
 #include "o_6_location/Location.h"
 #endif
+#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+#include "o_12_wlan_connectivity/WlanConnectivity.h"
+#endif
+#ifdef OBJ_O_13_BEARER_SELECTION
+#include "o_13_bearer_selection/BearerSelection.h"
+#endif
 #ifdef OBJ_O_2_LWM2M_ACCESS_CONTROL
 #include "o_2_lwm2m_access_control/Lwm2mAccessControl.h"
 #endif
@@ -158,6 +164,12 @@ public:
 	#endif
 	#ifdef OBJ_O_6_LOCATION
 	Object & location();
+	#endif
+	#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+	Object & wlanConnectivity();
+	#endif
+	#ifdef OBJ_O_13_BEARER_SELECTION
+	Object & bearerSelection();
 	#endif
 	#ifdef OBJ_O_2_LWM2M_ACCESS_CONTROL
 	Object & lwm2mAccessControl();

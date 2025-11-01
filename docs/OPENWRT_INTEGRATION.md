@@ -134,6 +134,341 @@ static int getNetworkBearer() {
 
 ---
 
+## WLAN Connectivity Management (Object ID 12)
+
+### Overview
+
+The WLAN Connectivity object provides comprehensive WiFi interface management for OpenWRT, supporting both 2.4GHz and 5GHz bands through multiple instances.
+
+**Object ID:** 12
+**URN:** urn:oma:lwm2m:oma:12
+**Multiple Instances:** Yes (Instance 0 = wlan0 @ 2.4GHz, Instance 1 = wlan1 @ 5GHz)
+**Documentation:** [WLAN_CONNECTIVITY.md](WLAN_CONNECTIVITY.md)
+
+### OpenWRT Integration Features
+
+1. **UCI Configuration Loading**
+   - Automatically loads WiFi settings from UCI
+   - Supports wireless.@wifi-iface configuration
+   - Reads SSID, encryption, channel settings
+
+2. **sysfs Statistics Monitoring**
+   - Real-time statistics from `/sys/class/net/wlan*/statistics/`
+   - TX/RX bytes, packets, errors
+   - Automatic updates every 30 seconds
+
+3. **Multi-Band Support**
+   - Instance 0: 2.4GHz (wlan0) - Channels 1-14
+   - Instance 1: 5GHz (wlan1) - Channels 36-165
+   - Automatic band detection
+
+### UCI Configuration
+
+```bash
+# Configure 2.4GHz WiFi (wlan0)
+uci set wireless.@wifi-iface[0].device='radio0'
+uci set wireless.@wifi-iface[0].mode='ap'
+uci set wireless.@wifi-iface[0].ssid='MyNetwork-2.4GHz'
+uci set wireless.@wifi-iface[0].encryption='psk2'
+uci set wireless.@wifi-iface[0].key='SecurePassword'
+uci set wireless.@wifi-iface[0].network='lan'
+uci commit wireless
+
+# Configure 5GHz WiFi (wlan1)
+uci set wireless.@wifi-iface[1].device='radio1'
+uci set wireless.@wifi-iface[1].mode='ap'
+uci set wireless.@wifi-iface[1].ssid='MyNetwork-5GHz'
+uci set wireless.@wifi-iface[1].encryption='psk2'
+uci set wireless.@wifi-iface[1].key='SecurePassword'
+uci set wireless.@wifi-iface[1].network='lan'
+uci commit wireless
+wifi reload
+```
+
+### Implementation Example
+
+```cpp
+#ifdef OPENWRT_BUILD
+void WlanConnectivity::loadFromUCI() {
+    // Read SSID from UCI
+    std::string cmd = "uci get wireless.@wifi-iface[" +
+                      std::to_string(instId()) + "].ssid 2>/dev/null";
+    FILE* pipe = popen(cmd.c_str(), "r");
+    if (pipe) {
+        char buffer[256];
+        if (fgets(buffer, sizeof(buffer), pipe)) {
+            buffer[strcspn(buffer, "\n")] = 0;
+            set<STRING_T>(SSID_5, buffer);
+        }
+        pclose(pipe);
+    }
+
+    // Read encryption settings
+    cmd = "uci get wireless.@wifi-iface[" +
+          std::to_string(instId()) + "].encryption 2>/dev/null";
+    pipe = popen(cmd.c_str(), "r");
+    if (pipe) {
+        char buffer[256];
+        if (fgets(buffer, sizeof(buffer), pipe)) {
+            if (strstr(buffer, "psk2")) {
+                set<INT_T>(AUTHENTICATION_MODE_15, 1);  // PSK
+                set<INT_T>(ENCRYPTION_MODE_16, 0);      // AES
+            }
+        }
+        pclose(pipe);
+    }
+}
+
+void WlanConnectivity::updateStatistics() {
+    std::string statsPath = "/sys/class/net/" + _interfaceName + "/statistics/";
+
+    // Read TX/RX statistics from sysfs
+    INT_T bytesSent = readSysfsInt(statsPath + "tx_bytes");
+    INT_T bytesReceived = readSysfsInt(statsPath + "rx_bytes");
+    INT_T packetsSent = readSysfsInt(statsPath + "tx_packets");
+    INT_T packetsReceived = readSysfsInt(statsPath + "rx_packets");
+
+    // Update resources
+    set<INT_T>(TOTAL_BYTES_SENT_33, bytesSent);
+    set<INT_T>(TOTAL_BYTES_RECEIVED_34, bytesReceived);
+    set<INT_T>(TOTAL_PACKETS_SENT_35, packetsSent);
+    set<INT_T>(TOTAL_PACKETS_RECEIVED_36, packetsReceived);
+
+    // Notify observers
+    notifyResChanged(TOTAL_BYTES_SENT_33);
+    notifyResChanged(TOTAL_BYTES_RECEIVED_34);
+}
+#endif
+```
+
+### Data Sources
+
+| Information | Source | Path |
+|------------|--------|------|
+| Interface status | sysfs | `/sys/class/net/wlan*/operstate` |
+| TX/RX bytes | sysfs | `/sys/class/net/wlan*/statistics/tx_bytes` |
+| TX/RX packets | sysfs | `/sys/class/net/wlan*/statistics/tx_packets` |
+| Errors | sysfs | `/sys/class/net/wlan*/statistics/*_errors` |
+| SSID | UCI | `wireless.@wifi-iface[N].ssid` |
+| Encryption | UCI | `wireless.@wifi-iface[N].encryption` |
+| Channel | UCI | `wireless.@wifi-device[N].channel` |
+
+### Key Features
+
+- **48 Resources**: Complete WiFi management
+- **Security Modes**: WPA/WPA2-PSK, WPA/WPA2-EAP, WEP, Open
+- **Operating Modes**: Access Point, Client, Bridge, Repeater
+- **WiFi Standards**: 802.11a/b/g/n/ac/ax (WiFi 6)
+- **Channel Management**: Auto-selection or manual configuration
+- **Statistics**: Real-time TX/RX monitoring
+
+---
+
+## Bearer Selection Management (Object ID 13)
+
+### Overview
+
+The Bearer Selection object manages network bearer preferences and enables automatic failover between WiFi, Ethernet, and cellular connections.
+
+**Object ID:** 13
+**URN:** urn:oma:lwm2m:oma:13
+**Multiple Instances:** No (Single instance)
+**Documentation:** [BEARER_SELECTION.md](BEARER_SELECTION.md)
+
+### OpenWRT Integration Features
+
+1. **Automatic Bearer Detection**
+   - Checks Ethernet operstate via sysfs
+   - Monitors WiFi interface status
+   - Queries cellular modem via ModemManager
+
+2. **UCI Configuration Support**
+   - Load bearer preferences from UCI
+   - Configure signal thresholds
+   - Operator whitelist/blacklist
+
+3. **Intelligent Failover**
+   - Hysteresis control (prevents ping-pong switching)
+   - Signal strength monitoring
+   - Priority-based bearer selection
+
+### Supported Network Bearers
+
+| Bearer | ID | OpenWRT Detection Method |
+|--------|----|--------------------------|
+| GSM | 0 | `mmcli -m 0` (gsm/gprs) |
+| WCDMA | 2 | `mmcli -m 0` (umts/hspa) |
+| LTE FDD | 6 | `mmcli -m 0` (lte) |
+| LTE-M | 7 | `mmcli -m 0` (lte-m) |
+| NB-IoT | 8 | `mmcli -m 0` (nb-iot) |
+| WiFi | 21 | `/sys/class/net/wlan0/operstate` |
+| Ethernet | 41 | `/sys/class/net/eth0/operstate` |
+| DSL | 42 | `/sys/class/net/dsl0/operstate` |
+
+### UCI Configuration
+
+```bash
+# Create bearer configuration
+uci set network.bearer=bearer
+uci set network.bearer.preference='21,41,6,2,0'
+uci set network.bearer.wlan_rssi='-70'
+uci set network.bearer.lte_rsrp='-95'
+uci set network.bearer.umts_rscp='-85'
+uci set network.bearer.gsm_rssi='-75'
+uci set network.bearer.hysteresis='5'
+uci commit network
+```
+
+### Implementation Example
+
+```cpp
+#ifdef OPENWRT_BUILD
+void BearerSelection::updateAvailableBearers() {
+    _availableBearers.clear();
+
+    // Check Ethernet via sysfs
+    FILE* fp = fopen("/sys/class/net/eth0/operstate", "r");
+    if (fp) {
+        char state[16];
+        if (fgets(state, sizeof(state), fp) && strncmp(state, "up", 2) == 0) {
+            _availableBearers.push_back(ETHERNET);
+        }
+        fclose(fp);
+    }
+
+    // Check WLAN via sysfs
+    fp = fopen("/sys/class/net/wlan0/operstate", "r");
+    if (fp) {
+        char state[16];
+        if (fgets(state, sizeof(state), fp) && strncmp(state, "up", 2) == 0) {
+            _availableBearers.push_back(WLAN);
+        }
+        fclose(fp);
+    }
+
+    // Check cellular modem via ModemManager
+    FILE* pipe = popen("mmcli -m 0 --output-keyvalue 2>/dev/null | "
+                       "grep access-technologies", "r");
+    if (pipe) {
+        char buffer[256];
+        if (fgets(buffer, sizeof(buffer), pipe)) {
+            if (strstr(buffer, "lte")) {
+                _availableBearers.push_back(LTE_FDD);
+            } else if (strstr(buffer, "umts") || strstr(buffer, "hspa")) {
+                _availableBearers.push_back(WCDMA);
+            } else if (strstr(buffer, "gsm") || strstr(buffer, "gprs")) {
+                _availableBearers.push_back(GSM);
+            }
+        }
+        pclose(pipe);
+    }
+
+    // Build available bearers list
+    std::string available;
+    for (size_t i = 0; i < _availableBearers.size(); i++) {
+        if (i > 0) available += ",";
+        available += std::to_string(_availableBearers[i]);
+    }
+
+    set<STRING_T>(AVAILABLE_NETWORK_BEARERS_8, available);
+    notifyResChanged(AVAILABLE_NETWORK_BEARERS_8);
+}
+#endif
+```
+
+### Bearer Selection Algorithm
+
+The device selects the best bearer using this process:
+
+1. **Iterate preference list** (e.g., "21,41,6" = WiFi > Ethernet > LTE)
+2. **Check availability** (network interface up)
+3. **Verify signal strength** (meets minimum threshold)
+4. **Check operator** (whitelist/blacklist for cellular)
+5. **Apply hysteresis** (prevent frequent switching)
+6. **Select bearer** (highest priority that meets criteria)
+
+### Signal Strength Monitoring
+
+#### ModemManager Integration (Cellular)
+
+```bash
+# Get signal strength for LTE
+mmcli -m 0 --output-keyvalue | grep signal.lte.rsrp
+# Output: modem.generic.signal-quality.lte.rsrp: -95
+
+# Get signal strength for UMTS
+mmcli -m 0 --output-keyvalue | grep signal.umts.rscp
+# Output: modem.generic.signal-quality.umts.rscp: -85
+```
+
+#### WiFi Signal Strength (iw/iwinfo)
+
+```bash
+# Get WiFi signal strength
+iw dev wlan0 link | grep signal
+# Output: signal: -70 dBm
+
+# Or using iwinfo
+iwinfo wlan0 info | grep Signal
+# Output: Signal: -70 dBm
+```
+
+### Data Sources
+
+| Information | Source | Command/Path |
+|------------|--------|--------------|
+| Ethernet status | sysfs | `/sys/class/net/eth0/operstate` |
+| WiFi status | sysfs | `/sys/class/net/wlan0/operstate` |
+| WiFi signal | iw/iwinfo | `iw dev wlan0 link` |
+| Cellular technology | ModemManager | `mmcli -m 0` |
+| LTE signal (RSRP) | ModemManager | `mmcli -m 0 --output-keyvalue \| grep rsrp` |
+| UMTS signal (RSCP) | ModemManager | `mmcli -m 0 --output-keyvalue \| grep rscp` |
+| GSM signal (RSSI) | ModemManager | `mmcli -m 0 --output-keyvalue \| grep rssi` |
+| Bearer preference | UCI | `network.bearer.preference` |
+
+### Use Cases
+
+#### Example 1: WiFi Preferred with Cellular Fallback
+
+```bash
+# Prefer WiFi (21), fallback to LTE (6), then GSM (0)
+uci set network.bearer.preference='21,6,0'
+uci set network.bearer.wlan_rssi='-70'
+uci set network.bearer.lte_rsrp='-95'
+uci set network.bearer.hysteresis='5'
+uci commit network
+```
+
+#### Example 2: Ethernet Only (Fixed Installation)
+
+```bash
+# Use only Ethernet, disable other bearers
+uci set network.bearer.preference='41'
+uci set network.bearer.wlan_rssi='-30'   # Very high threshold
+uci set network.bearer.lte_rsrp='-50'    # Very high threshold
+uci commit network
+```
+
+#### Example 3: Operator Whitelist (Roaming Control)
+
+```bash
+# Only connect to specific operators (AT&T and T-Mobile US)
+uci set network.bearer.operators='310-410,310-260'
+uci set network.bearer.operator_mode='0'  # 0=whitelist, 1=blacklist
+uci commit network
+```
+
+### Key Features
+
+- **12 Resources**: Complete bearer management
+- **Hysteresis Control**: Prevents ping-pong switching (typically 5-10 dB)
+- **Multi-Technology**: Cellular (GSM/UMTS/LTE), WiFi, Ethernet, DSL
+- **Operator Management**: PLMN whitelist/blacklist for roaming
+- **Automatic Detection**: Periodic bearer availability checks
+- **UCI Integration**: Persistent configuration storage
+
+---
+
 ## GPS and Location Services
 
 ### Location Data Sources
