@@ -94,6 +94,8 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_M_0_LWM2M_SECURITY)
 # ---------- Optional objects config block begin ----------
 # Include optional ConnectivityMonitoring object in the build
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_4_CONNECTIVITY_MONITORING)
+# Include optional Location object in the build (Object ID: 6)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_6_LOCATION)
 # Include optional Lwm2mAccessControl object in the build
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_2_LWM2M_ACCESS_CONTROL)
 # Include optional AudioClip object in the build

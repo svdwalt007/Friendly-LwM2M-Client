@@ -23,6 +23,9 @@ WppRegistry::WppRegistry(lwm2m_context_t &context): _context(context) {
 	#ifdef OBJ_O_4_CONNECTIVITY_MONITORING
 	_objects.push_back(new ObjectImpl<ConnectivityMonitoring>(_context, CONNECTIVITY_MONITORING_OBJ_INFO));
 	#endif
+	#ifdef OBJ_O_6_LOCATION
+	_objects.push_back(new ObjectImpl<Location>(_context, LOCATION_OBJ_INFO));
+	#endif
 	#ifdef OBJ_O_2_LWM2M_ACCESS_CONTROL
 	_objects.push_back(new ObjectImpl<Lwm2mAccessControl>(_context, LWM2M_ACCESS_CONTROL_OBJ_INFO));
 	#endif
@@ -120,6 +123,11 @@ Object & WppRegistry::lwm2mSecurity() {
 #ifdef OBJ_O_4_CONNECTIVITY_MONITORING
 Object & WppRegistry::connectivityMonitoring() {
 	return *object(OBJ_ID::CONNECTIVITY_MONITORING);
+}
+#endif
+#ifdef OBJ_O_6_LOCATION
+Object & WppRegistry::location() {
+	return *object(OBJ_ID::LOCATION);
 }
 #endif
 #ifdef OBJ_O_2_LWM2M_ACCESS_CONTROL

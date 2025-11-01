@@ -27,6 +27,9 @@
 #ifdef OBJ_O_4_CONNECTIVITY_MONITORING
 #include "o_4_connectivity_monitoring/ConnectivityMonitoring.h"
 #endif
+#ifdef OBJ_O_6_LOCATION
+#include "o_6_location/Location.h"
+#endif
 #ifdef OBJ_O_2_LWM2M_ACCESS_CONTROL
 #include "o_2_lwm2m_access_control/Lwm2mAccessControl.h"
 #endif
@@ -149,6 +152,9 @@ public:
 	/* ---------- Optional objects prototype block begin ---------- */
 	#ifdef OBJ_O_4_CONNECTIVITY_MONITORING
 	Object & connectivityMonitoring();
+	#endif
+	#ifdef OBJ_O_6_LOCATION
+	Object & location();
 	#endif
 	#ifdef OBJ_O_2_LWM2M_ACCESS_CONTROL
 	Object & lwm2mAccessControl();

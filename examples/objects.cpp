@@ -166,6 +166,17 @@ void connMonitoringInit(WppClient &client) {
 }
 #endif
 
+#ifdef OBJ_O_6_LOCATION
+void locationInit(WppClient &client) {
+    client.registry().registerObj(Location::object(client));
+    Location::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+	Lwm2mAccessControl::create(Location::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+	#endif
+}
+#endif
+
 #ifdef OBJ_O_3339_AUDIO_CLIP
 void audioClipInit(WppClient &client) {
     client.registry().registerObj(AudioClip::object(client));

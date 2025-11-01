@@ -67,6 +67,10 @@ int main() {
 	cout << endl << "---- Initialization wpp ConnectivityMonitoring ----" << endl;
 	connMonitoringInit(*client);
 	#endif
+	#ifdef OBJ_O_6_LOCATION
+	cout << endl << "---- Initialization wpp Location ----" << endl;
+	locationInit(*client);
+	#endif
 	#ifdef OBJ_O_3339_AUDIO_CLIP
 	cout << endl << "---- Initialization wpp AudioClip ----" << endl;
 	audioClipInit(*client);

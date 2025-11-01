@@ -31,6 +31,10 @@ void acInit(WppClient &client);
 void connMonitoringInit(WppClient &client);
 #endif
 
+#ifdef OBJ_O_6_LOCATION
+void locationInit(WppClient &client);
+#endif
+
 #ifdef OBJ_O_3339_AUDIO_CLIP
 void audioClipInit(WppClient &client);
 #endif
