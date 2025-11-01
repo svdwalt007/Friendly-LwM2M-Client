@@ -60,45 +60,45 @@ void StarlinkTerminal::resourcesCreate() {
         {UPLINK_THROUGHPUT_11,      ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
         {POP_PING_LATENCY_12,       ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
         {POP_PING_DROP_RATE_13,     ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
-#if RES_50000_14
+#if RES_34600_14
         {SECONDS_TO_FIRST_SLOT_14,  ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::FLOAT},
 #endif
-#if RES_50000_15
+#if RES_34600_15
         {SNR_15,                    ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::FLOAT},
 #endif
-#if RES_50000_16
+#if RES_34600_16
         {IS_SNR_ABOVE_NOISE_FLOOR_16, ItemOp(ItemOp::READ),        IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
 #endif
-#if RES_50000_17
+#if RES_34600_17
         {DOWNLOAD_USAGE_17,         ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
 #endif
-#if RES_50000_18
+#if RES_34600_18
         {UPLOAD_USAGE_18,           ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
 #endif
 
         /* Obstruction Monitoring (30-39) */
         {FRACTION_OBSTRUCTED_30,    ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
         {CURRENTLY_OBSTRUCTED_31,   ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::BOOL},
-#if RES_50000_32
+#if RES_34600_32
         {OBSTRUCTION_DURATION_32,   ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::FLOAT},
 #endif
-#if RES_50000_33
+#if RES_34600_33
         {OBSTRUCTION_INTERVAL_33,   ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::FLOAT},
 #endif
-#if RES_50000_34
+#if RES_34600_34
         {OBSTRUCTION_VALID_S_34,    ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::FLOAT},
 #endif
-#if RES_50000_35
+#if RES_34600_35
         {WEDGES_FRACTION_OBSTRUCTED_35, ItemOp(ItemOp::READ),       IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
 #endif
 
         /* Dish Alignment (40-49) */
         {DIRECTION_AZIMUTH_40,      ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
         {DIRECTION_ELEVATION_41,    ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
-#if RES_50000_42
+#if RES_34600_42
         {DISH_STOWED_42,            ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::BOOL},
 #endif
-#if RES_50000_43
+#if RES_34600_43
         {DISH_ALIGNMENT_STATUS_43,  ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
 #endif
 
@@ -115,19 +115,19 @@ void StarlinkTerminal::resourcesCreate() {
         {ALERT_IS_HEATING_59,           ItemOp(ItemOp::READ),       IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::BOOL},
         {ALERT_POWER_SUPPLY_THROTTLE_60, ItemOp(ItemOp::READ),     IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::BOOL},
         {ALERT_IS_POWER_SAVE_IDLE_61,   ItemOp(ItemOp::READ),       IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::BOOL},
-#if RES_50000_62
+#if RES_34600_62
         {ALERT_LOW_MOTOR_CURRENT_62,    ItemOp(ItemOp::READ),       IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
 #endif
-#if RES_50000_63
+#if RES_34600_63
         {ALERT_LOWER_SIGNAL_63,         ItemOp(ItemOp::READ),       IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
 #endif
-#if RES_50000_64
+#if RES_34600_64
         {ALERT_OBSTRUCTION_MAP_RESET_64, ItemOp(ItemOp::READ),      IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
 #endif
-#if RES_50000_65
+#if RES_34600_65
         {ALERT_DISH_WATER_DETECTED_65,  ItemOp(ItemOp::READ),       IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
 #endif
-#if RES_50000_66
+#if RES_34600_66
         {ALERT_ROUTER_WATER_DETECTED_66, ItemOp(ItemOp::READ),      IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
 #endif
 
@@ -135,26 +135,26 @@ void StarlinkTerminal::resourcesCreate() {
         {GPS_READY_80,              ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::BOOL},
         {GPS_ENABLED_81,            ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::BOOL},
         {GPS_SATELLITES_82,         ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
-#if RES_50000_83
+#if RES_34600_83
         {LATITUDE_83,               ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::FLOAT},
 #endif
-#if RES_50000_84
+#if RES_34600_84
         {LONGITUDE_84,              ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::FLOAT},
 #endif
-#if RES_50000_85
+#if RES_34600_85
         {ALTITUDE_85,               ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::FLOAT},
 #endif
 
         /* Power Management (90-99) */
         {LATEST_POWER_90,           ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
         {MEAN_POWER_91,             ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
-#if RES_50000_92
+#if RES_34600_92
         {MIN_POWER_92,              ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::FLOAT},
 #endif
-#if RES_50000_93
+#if RES_34600_93
         {MAX_POWER_93,              ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::FLOAT},
 #endif
-#if RES_50000_94
+#if RES_34600_94
         {TOTAL_ENERGY_94,           ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::FLOAT},
 #endif
 
@@ -162,13 +162,13 @@ void StarlinkTerminal::resourcesCreate() {
         {REBOOT_TERMINAL_100,       ItemOp(ItemOp::EXECUTE),        IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::EXECUTE},
         {START_SPEEDTEST_101,       ItemOp(ItemOp::EXECUTE),        IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::EXECUTE},
         {SPEEDTEST_STATUS_102,      ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
-#if RES_50000_103
+#if RES_34600_103
         {FACTORY_RESET_103,         ItemOp(ItemOp::EXECUTE),        IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
 #endif
-#if RES_50000_104
+#if RES_34600_104
         {GET_OBSTRUCTION_MAP_104,   ItemOp(ItemOp::EXECUTE),        IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
 #endif
-#if RES_50000_105
+#if RES_34600_105
         {OBSTRUCTION_MAP_DATA_105,  ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::OPAQUE},
 #endif
         {REFRESH_TELEMETRY_106,     ItemOp(ItemOp::EXECUTE),        IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::EXECUTE},
@@ -179,16 +179,16 @@ void StarlinkTerminal::resourcesCreate() {
         {HISTORY_INTERVAL_111,      ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
         {MEAN_PING_LATENCY_112,     ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
         {MEAN_FULL_PING_LATENCY_113, ItemOp(ItemOp::READ),          IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
-#if RES_50000_114
+#if RES_34600_114
         {STDEV_FULL_PING_LATENCY_114, ItemOp(ItemOp::READ),         IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::FLOAT},
 #endif
         {TOTAL_PING_DROP_115,       ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
         {COUNT_FULL_PING_DROP_116,  ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
         {COUNT_OBSTRUCTED_117,      ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
-#if RES_50000_118
+#if RES_34600_118
         {LATENCY_DECILES_118,       ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
 #endif
-#if RES_50000_119
+#if RES_34600_119
         {LOAD_BUCKET_STATS_119,     ItemOp(ItemOp::READ),           IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
 #endif
     };
@@ -209,45 +209,45 @@ void StarlinkTerminal::resourcesInit() {
     set<FLOAT_T>(UPLINK_THROUGHPUT_11, 0.0);
     set<FLOAT_T>(POP_PING_LATENCY_12, 0.0);
     set<FLOAT_T>(POP_PING_DROP_RATE_13, 0.0);
-#if RES_50000_14
+#if RES_34600_14
     set<FLOAT_T>(SECONDS_TO_FIRST_SLOT_14, 0.0);
 #endif
-#if RES_50000_15
+#if RES_34600_15
     set<FLOAT_T>(SNR_15, 0.0);
 #endif
-#if RES_50000_16
+#if RES_34600_16
     set<BOOL_T>(IS_SNR_ABOVE_NOISE_FLOOR_16, false);
 #endif
-#if RES_50000_17
+#if RES_34600_17
     set<INT_T>(DOWNLOAD_USAGE_17, 0);
 #endif
-#if RES_50000_18
+#if RES_34600_18
     set<INT_T>(UPLOAD_USAGE_18, 0);
 #endif
 
     /* Obstruction Monitoring */
     set<FLOAT_T>(FRACTION_OBSTRUCTED_30, 0.0);
     set<BOOL_T>(CURRENTLY_OBSTRUCTED_31, false);
-#if RES_50000_32
+#if RES_34600_32
     set<FLOAT_T>(OBSTRUCTION_DURATION_32, 0.0);
 #endif
-#if RES_50000_33
+#if RES_34600_33
     set<FLOAT_T>(OBSTRUCTION_INTERVAL_33, 0.0);
 #endif
-#if RES_50000_34
+#if RES_34600_34
     set<FLOAT_T>(OBSTRUCTION_VALID_S_34, 0.0);
 #endif
-#if RES_50000_35
+#if RES_34600_35
     set<STRING_T>(WEDGES_FRACTION_OBSTRUCTED_35, "[]");
 #endif
 
     /* Dish Alignment */
     set<FLOAT_T>(DIRECTION_AZIMUTH_40, 0.0);
     set<FLOAT_T>(DIRECTION_ELEVATION_41, 0.0);
-#if RES_50000_42
+#if RES_34600_42
     set<BOOL_T>(DISH_STOWED_42, false);
 #endif
-#if RES_50000_43
+#if RES_34600_43
     set<STRING_T>(DISH_ALIGNMENT_STATUS_43, "Unknown");
 #endif
 
@@ -264,19 +264,19 @@ void StarlinkTerminal::resourcesInit() {
     set<BOOL_T>(ALERT_IS_HEATING_59, false);
     set<BOOL_T>(ALERT_POWER_SUPPLY_THROTTLE_60, false);
     set<BOOL_T>(ALERT_IS_POWER_SAVE_IDLE_61, false);
-#if RES_50000_62
+#if RES_34600_62
     set<BOOL_T>(ALERT_LOW_MOTOR_CURRENT_62, false);
 #endif
-#if RES_50000_63
+#if RES_34600_63
     set<BOOL_T>(ALERT_LOWER_SIGNAL_63, false);
 #endif
-#if RES_50000_64
+#if RES_34600_64
     set<BOOL_T>(ALERT_OBSTRUCTION_MAP_RESET_64, false);
 #endif
-#if RES_50000_65
+#if RES_34600_65
     set<BOOL_T>(ALERT_DISH_WATER_DETECTED_65, false);
 #endif
-#if RES_50000_66
+#if RES_34600_66
     set<BOOL_T>(ALERT_ROUTER_WATER_DETECTED_66, false);
 #endif
 
@@ -284,26 +284,26 @@ void StarlinkTerminal::resourcesInit() {
     set<BOOL_T>(GPS_READY_80, false);
     set<BOOL_T>(GPS_ENABLED_81, false);
     set<INT_T>(GPS_SATELLITES_82, 0);
-#if RES_50000_83
+#if RES_34600_83
     set<FLOAT_T>(LATITUDE_83, 0.0);
 #endif
-#if RES_50000_84
+#if RES_34600_84
     set<FLOAT_T>(LONGITUDE_84, 0.0);
 #endif
-#if RES_50000_85
+#if RES_34600_85
     set<FLOAT_T>(ALTITUDE_85, 0.0);
 #endif
 
     /* Power Management */
     set<FLOAT_T>(LATEST_POWER_90, 0.0);
     set<FLOAT_T>(MEAN_POWER_91, 0.0);
-#if RES_50000_92
+#if RES_34600_92
     set<FLOAT_T>(MIN_POWER_92, 0.0);
 #endif
-#if RES_50000_93
+#if RES_34600_93
     set<FLOAT_T>(MAX_POWER_93, 0.0);
 #endif
-#if RES_50000_94
+#if RES_34600_94
     set<FLOAT_T>(TOTAL_ENERGY_94, 0.0);
 #endif
 
@@ -320,21 +320,21 @@ void StarlinkTerminal::resourcesInit() {
 
     set<STRING_T>(SPEEDTEST_STATUS_102, "{\"status\":\"idle\"}");
 
-#if RES_50000_103
+#if RES_34600_103
     setExecute(FACTORY_RESET_103,
                [this](Instance& inst, ID_T resId, const OPAQUE_T& data) {
                    return executeFactoryReset(inst, resId, data);
                });
 #endif
 
-#if RES_50000_104
+#if RES_34600_104
     setExecute(GET_OBSTRUCTION_MAP_104,
                [this](Instance& inst, ID_T resId, const OPAQUE_T& data) {
                    return executeGetObstructionMap(inst, resId, data);
                });
 #endif
 
-#if RES_50000_105
+#if RES_34600_105
     set<OPAQUE_T>(OBSTRUCTION_MAP_DATA_105, OPAQUE_T{});
 #endif
 
@@ -350,16 +350,16 @@ void StarlinkTerminal::resourcesInit() {
     set<INT_T>(HISTORY_INTERVAL_111, 1);  // 1 second default
     set<FLOAT_T>(MEAN_PING_LATENCY_112, 0.0);
     set<FLOAT_T>(MEAN_FULL_PING_LATENCY_113, 0.0);
-#if RES_50000_114
+#if RES_34600_114
     set<FLOAT_T>(STDEV_FULL_PING_LATENCY_114, 0.0);
 #endif
     set<FLOAT_T>(TOTAL_PING_DROP_115, 0.0);
     set<INT_T>(COUNT_FULL_PING_DROP_116, 0);
     set<INT_T>(COUNT_OBSTRUCTED_117, 0);
-#if RES_50000_118
+#if RES_34600_118
     set<STRING_T>(LATENCY_DECILES_118, "[]");
 #endif
-#if RES_50000_119
+#if RES_34600_119
     set<STRING_T>(LOAD_BUCKET_STATS_119, "{}");
 #endif
 

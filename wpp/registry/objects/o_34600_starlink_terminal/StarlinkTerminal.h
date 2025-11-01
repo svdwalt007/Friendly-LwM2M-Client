@@ -1,7 +1,7 @@
 /*
  * Walt Technologies Starlink Terminal Object
  *
- * Object ID: 50000 (Walt Technologies Custom Object Range)
+ * Object ID: 34600 (Walt Technologies Custom Object Range)
  *
  * Description: Comprehensive LwM2M object for managing and monitoring Starlink Gen3
  *              satellite internet terminals. Provides access to telemetry, configuration,

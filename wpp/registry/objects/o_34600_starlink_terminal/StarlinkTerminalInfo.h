@@ -1,9 +1,9 @@
 /*
  * Walt Technologies Starlink Terminal Object - Metadata
  *
- * Object ID: 50000
+ * Object ID: 34600
  * Version: 1.0
- * URN: urn:oma:lwm2m:x:50000:1.0
+ * URN: urn:oma:lwm2m:x:34600:1.0
  */
 
 #ifndef STARLINK_TERMINAL_INFO_H
@@ -14,8 +14,8 @@
 namespace wpp {
 
 /* Object metadata */
-constexpr OBJ_ID STARLINK_TERMINAL_OBJ_ID = 50000;
-constexpr const char* STARLINK_TERMINAL_URN = "urn:oma:lwm2m:x:50000:1.0";
+constexpr OBJ_ID STARLINK_TERMINAL_OBJ_ID = 34600;
+constexpr const char* STARLINK_TERMINAL_URN = "urn:oma:lwm2m:x:34600:1.0";
 constexpr const char* STARLINK_TERMINAL_VERSION = "1.0";
 constexpr const char* STARLINK_TERMINAL_NAME = "Starlink Terminal";
 

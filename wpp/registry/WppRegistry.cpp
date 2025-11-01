@@ -113,7 +113,7 @@ Object & WppRegistry::firmwareUpdate() {
 /* ---------- Optional objects method block end ---------- */
 
 /* ---------- Walt Technologies objects method block begin ---------- */
-#ifdef OBJ_O_50000_STARLINK_TERMINAL
+#ifdef OBJ_O_34600_STARLINK_TERMINAL
 Object & WppRegistry::starlinkTerminal() {
 	return *object(OBJ_ID::STARLINK_TERMINAL);
 }

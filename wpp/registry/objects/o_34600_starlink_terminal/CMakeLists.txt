@@ -1,8 +1,8 @@
-# Walt Technologies Starlink Terminal Object (ID: 50000)
+# Walt Technologies Starlink Terminal Object (ID: 34600)
 # CMake configuration
 
-if(DEFINED OBJ_O_50000_STARLINK_TERMINAL)
-    message(STATUS "Building Starlink Terminal Object (ID: 50000)")
+if(DEFINED OBJ_O_34600_STARLINK_TERMINAL)
+    message(STATUS "Building Starlink Terminal Object (ID: 34600)")
 
     # Add object source files
     set(WPP_SOURCES ${WPP_SOURCES}

@@ -1,11 +1,11 @@
-# Walt Technologies Starlink Terminal Object (ID: 50000)
+# Walt Technologies Starlink Terminal Object (ID: 34600)
 
 ## Overview
 
 The **Starlink Terminal** LwM2M object provides comprehensive management and monitoring capabilities for SpaceX Starlink Gen3 satellite internet terminals. This custom object enables remote device management platforms to monitor performance, track obstructions, manage dish alignment, and control Starlink functionality through the standard OMA LwM2M protocol.
 
-**Object ID:** 50000 (Walt Technologies Custom Object Range)
-**URN:** `urn:oma:lwm2m:x:50000:1.0`
+**Object ID:** 34600 (Walt Technologies Custom Object Range)
+**URN:** `urn:oma:lwm2m:x:34600:1.0`
 **Version:** 1.0
 **Instance Type:** Single Instance
 
@@ -202,12 +202,12 @@ The Starlink Terminal object requires:
 Edit `wpp/configs/wpp_config.cmake`:
 ```cmake
 # Include Walt Technologies Starlink Terminal object
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_50000_STARLINK_TERMINAL)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
 ```
 
 2. **Add gRPC dependencies** (when implementing full gRPC integration):
 
-Edit `wpp/registry/objects/o_50000_starlink_terminal/CMakeLists.txt`:
+Edit `wpp/registry/objects/o_34600_starlink_terminal/CMakeLists.txt`:
 ```cmake
 find_package(gRPC REQUIRED)
 find_package(Protobuf REQUIRED)
@@ -311,30 +311,30 @@ Edit `StarlinkTerminalConfig.h`:
 
 ```c
 // Disable advanced obstruction monitoring
-#define RES_50000_35 0  // Wedges Fraction Obstructed
+#define RES_34600_35 0  // Wedges Fraction Obstructed
 
 // Disable power statistics
-#define RES_50000_92 0  // Min Power
-#define RES_50000_93 0  // Max Power
+#define RES_34600_92 0  // Min Power
+#define RES_34600_93 0  // Max Power
 
 // Disable factory reset for safety
-#define RES_50000_103 0  // Factory Reset
+#define RES_34600_103 0  // Factory Reset
 ```
 
 ### Resource Configuration Summary
 
 | Compile Flag | Resource | Default |
 |--------------|----------|---------|
-| RES_50000_14-18 | Network usage/SNR stats | Enabled |
-| RES_50000_32-35 | Advanced obstruction data | Enabled |
-| RES_50000_42-43 | Dish control/status | Enabled |
-| RES_50000_62-66 | Extended alerts | Enabled |
-| RES_50000_83-85 | GPS coordinates | Enabled |
-| RES_50000_92-94 | Power statistics | Enabled |
-| RES_50000_103 | Factory reset | **DISABLED** (safety) |
-| RES_50000_104-105 | Obstruction map | Enabled |
-| RES_50000_114 | Latency stdev | Enabled |
-| RES_50000_118-119 | Advanced statistics | Enabled |
+| RES_34600_14-18 | Network usage/SNR stats | Enabled |
+| RES_34600_32-35 | Advanced obstruction data | Enabled |
+| RES_34600_42-43 | Dish control/status | Enabled |
+| RES_34600_62-66 | Extended alerts | Enabled |
+| RES_34600_83-85 | GPS coordinates | Enabled |
+| RES_34600_92-94 | Power statistics | Enabled |
+| RES_34600_103 | Factory reset | **DISABLED** (safety) |
+| RES_34600_104-105 | Obstruction map | Enabled |
+| RES_34600_114 | Latency stdev | Enabled |
+| RES_34600_118-119 | Advanced statistics | Enabled |
 
 ## OpenWRT Integration
 

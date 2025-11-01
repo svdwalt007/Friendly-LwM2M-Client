@@ -103,8 +103,8 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_5_FIRMWARE_UPDATE)
 # ---------- Optional objects config block end ----------
 
 # ---------- Walt Technologies objects config block begin ----------
-# Include Walt Technologies Starlink Terminal object in the build (Object ID: 50000)
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_50000_STARLINK_TERMINAL)
+# Include Walt Technologies Starlink Terminal object in the build (Object ID: 34600)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
 # ---------- Walt Technologies objects config block end ----------
 
 

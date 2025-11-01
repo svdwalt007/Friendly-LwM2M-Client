@@ -38,8 +38,8 @@ enum OBJ_ID: ID_T {
 	FIRMWARE_UPDATE = 5,
 	#endif
 	/* ---------- Walt Technologies objects ID block begin ---------- */
-	#ifdef OBJ_O_50000_STARLINK_TERMINAL
-	STARLINK_TERMINAL = 50000,
+	#ifdef OBJ_O_34600_STARLINK_TERMINAL
+	STARLINK_TERMINAL = 34600,
 	#endif
 	/* ---------- Walt Technologies objects ID block end ---------- */
 	/* ---------- Optional objects ID block end ---------- */

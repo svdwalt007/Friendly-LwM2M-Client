@@ -76,7 +76,7 @@ int main() {
 	cout << endl << "---- Initialization wpp AudioClip ----" << endl;
 	audioClipInit(*client);
 	#endif
-	#ifdef OBJ_O_50000_STARLINK_TERMINAL
+	#ifdef OBJ_O_34600_STARLINK_TERMINAL
 	cout << endl << "---- Initialization Walt Technologies StarlinkTerminal ----" << endl;
 	starlinkTerminalInit(*client);
 	#endif
