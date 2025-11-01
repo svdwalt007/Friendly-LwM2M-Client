@@ -117,6 +117,19 @@ void deviceInit(WppClient &client) {
 }
 
 #ifdef OBJ_O_5_FIRMWARE_UPDATE
+// For OpenWRT devices with sysupgrade support, you can use the OpenWRT firmware updater:
+// To enable: cmake -DUSE_OPENWRT_FW_UPDATER=ON
+//
+// #ifdef USE_OPENWRT_FW_UPDATER
+// #include "OpenWrtFwInit.h"
+// static OpenWrtFwManager fwManager;
+// void fwUpdaterInit(WppClient &client) {
+//     initOpenWrtFirmwareUpdate(client, fwManager);
+// }
+// #else
+// ... use example firmware updater (below)
+// #endif
+
 void fwUpdaterInit(WppClient &client) {
     #if RES_5_8
     static FwUriDownloader fwUriDownloader;

@@ -69,8 +69,20 @@ if(is_defined)
     endif()
     # Add libcoap to the project
     target_link_libraries(WppExample ${libcoap_path}/libcoap-3.so CURL::libcurl OpenSSL::SSL OpenSSL::Crypto)
-    # Add FirmwareUpdater to the project
-    add_subdirectory(FirmwareUpdater)
+
+    # Option to use OpenWRT firmware updater instead of example updater
+    option(USE_OPENWRT_FW_UPDATER "Use OpenWRT firmware updater with sysupgrade integration" OFF)
+
+    if(USE_OPENWRT_FW_UPDATER)
+        # Add OpenWRT FirmwareUpdater to the project
+        message(STATUS "Using OpenWRT Firmware Updater")
+        add_subdirectory(OpenWrtFirmwareUpdater)
+        target_link_libraries(WppExample OpenWrtFirmwareUpdater)
+    else()
+        # Add example FirmwareUpdater to the project
+        message(STATUS "Using example Firmware Updater")
+        add_subdirectory(FirmwareUpdater)
+    endif()
 endif()
 
 # Include sources
