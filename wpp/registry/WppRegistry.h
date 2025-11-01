@@ -38,6 +38,12 @@
 #endif
 /* ---------- Optional objects include block end ---------- */
 
+/* ---------- Walt Technologies objects include block begin ---------- */
+#ifdef OBJ_O_50000_STARLINK_TERMINAL
+#include "o_50000_starlink_terminal/StarlinkTerminal.h"
+#endif
+/* ---------- Walt Technologies objects include block end ---------- */
+
 namespace wpp {
 
 // TODO: Split mandatory and optional registers
@@ -133,6 +139,12 @@ public:
 	Object & firmwareUpdate();
 	#endif
 	/* ---------- Optional objects prototype block end ---------- */
+
+	/* ---------- Walt Technologies objects prototype block begin ---------- */
+	#ifdef OBJ_O_50000_STARLINK_TERMINAL
+	Object & starlinkTerminal();
+	#endif
+	/* ---------- Walt Technologies objects prototype block end ---------- */
 
 private:
 	lwm2m_context_t &_context;

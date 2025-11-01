@@ -76,7 +76,11 @@ int main() {
 	cout << endl << "---- Initialization wpp AudioClip ----" << endl;
 	audioClipInit(*client);
 	#endif
-	
+	#ifdef OBJ_O_50000_STARLINK_TERMINAL
+	cout << endl << "---- Initialization Walt Technologies StarlinkTerminal ----" << endl;
+	starlinkTerminalInit(*client);
+	#endif
+
 	// Giving ownership to registry
 	client->giveOwnership();
 

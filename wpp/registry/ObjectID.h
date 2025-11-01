@@ -37,6 +37,11 @@ enum OBJ_ID: ID_T {
 	#ifdef OBJ_O_5_FIRMWARE_UPDATE
 	FIRMWARE_UPDATE = 5,
 	#endif
+	/* ---------- Walt Technologies objects ID block begin ---------- */
+	#ifdef OBJ_O_50000_STARLINK_TERMINAL
+	STARLINK_TERMINAL = 50000,
+	#endif
+	/* ---------- Walt Technologies objects ID block end ---------- */
 	/* ---------- Optional objects ID block end ---------- */
 
 	MAX_ID = ID_T_MAX_VAL,
