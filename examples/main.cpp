@@ -44,6 +44,10 @@ int main() {
 
 	// Client initialization
 	cout << endl << "---- Creating WppClient ----" << endl;
+	// LwM2M Bootstrap Configuration:
+	// - Endpoint Name: walttech888
+	// - Bootstrap Server: coap://demo-iot.friendly-tech.com:5680
+	// - Security Mode: NO_SEC (no DTLS encryption)
 	string clientName = "walttech888"; // OpenWRT One endpoint name
 	cout << "WppClient name: " << clientName << endl;
 	WppClient::create({clientName, "", ""}, connection, wppErrorHandler);

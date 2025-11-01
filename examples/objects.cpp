@@ -49,18 +49,27 @@ void serverInit(WppClient &client) {
 void securityInit(WppClient &client) {
     client.registry().registerObj(Lwm2mSecurity::object(client));
     wpp::Instance *security = Lwm2mSecurity::createInst(client);
-    string url = "coap://demo-iot.friendly-tech.com:"; // OpenWRT One Bootstrap Server
+    string url = "coap://demo-iot.friendly-tech.com:"; // Bootstrap Server
 
+    // ========================================================================
+    // LwM2M Bootstrap Configuration
+    // ========================================================================
+    // Endpoint Name:    walttech888 (set in main.cpp)
+    // Bootstrap Server: coap://demo-iot.friendly-tech.com:5680
+    // Security Mode:    NO_SEC (3) - No DTLS encryption
+    // ========================================================================
+    // Note: PSK and RPK keys below are for reference only (not used with NO_SEC)
     // PSK key: 00112233445566778899998877665544
     // RPK public.pem: 3059301306072a8648ce3d020106082a8648ce3d03010703420004bada5475344ba22961a7d965ac518e73481a5f77832bd996c2fa3527e8f3c4248dda621fa9c1348d1365c357357c54869477e387fd2c2675b1c6f28aa506677b
     // RPK private.pem: 92045322a5b34562e1ffec4bcdcc257b9ecfc3478bfaea4b6b0731350202ef2d
 
 	#ifdef LWM2M_BOOTSTRAP
+        // Bootstrap mode enabled - connects to bootstrap server for provisioning
         security->set<BOOL_T>(Lwm2mSecurity::BOOTSTRAP_SERVER_1, true);
         security->set<INT_T>(Lwm2mSecurity::CLIENT_HOLD_OFF_TIME_11, 10);
-        // OpenWRT One using CoAP without DTLS (NoSec mode)
+        // NO_SEC mode - CoAP without DTLS encryption (Security Mode 3)
         security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_NONE);
-        url += "5680";
+        url += "5680";  // Bootstrap server port
     #else
         #if DTLS_WITH_PSK
             url += "5684";
