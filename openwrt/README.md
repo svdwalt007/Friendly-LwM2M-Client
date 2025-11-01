@@ -27,13 +27,13 @@ This directory contains the OpenWRT package integration for the Friendly LwM2M C
 - **Object 13**: Bearer Selection (network selection)
 - **Object 3331**: Memory (RAM monitoring)
 
-#### Walt Technologies Custom Objects (26200-26299 range)
-- **Object 26200**: Router Management (LAN/WAN, DHCP, DNS, firewall)
-- **Object 26201**: Ethernet Interface Management (port statistics, link status)
-- **Object 26202**: GPIO Control (LEDs, buttons, GPIO pins)
-- **Object 26203**: USB Management (USB port monitoring and control)
-- **Object 26204**: Storage Management (NAND, NVMe, USB storage)
-- **Object 26205**: System Monitor (CPU, memory, thermal, load average)
+#### Walt Technologies Custom Objects (34601-34649 range)
+- **Object 34601**: Router Management (LAN/WAN, DHCP, DNS, firewall)
+- **Object 34602**: Ethernet Interface Management (port statistics, link status)
+- **Object 34603**: GPIO Control (LEDs, buttons, GPIO pins)
+- **Object 34604**: USB Management (USB port monitoring and control)
+- **Object 34605**: Storage Management (NAND, NVMe, USB storage)
+- **Object 34606**: System Monitor (CPU, memory, thermal, load average)
 
 ## Build Instructions
 

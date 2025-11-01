@@ -60,9 +60,9 @@ This document outlines the comprehensive LwM2M implementation for the OpenWRT On
 | 3202 | Analogue Input | Voltage/power monitoring | Optional |
 | 3300 | Generic Sensor | Temperature sensors | Optional |
 
-### 4. Walt Technologies Custom Objects (Vendor Range: 26200-26299)
+### 4. Walt Technologies Custom Objects (Vendor Range: 34601-34649)
 
-#### Object 26200: Router Management
+#### Object 34601: Router Management
 **Purpose**: Core router configuration and management
 **Resources**:
 - 0: Router Name (RW, String)
@@ -83,7 +83,7 @@ This document outlines the comprehensive LwM2M implementation for the OpenWRT On
 - 15: Apply Configuration (E, Execute)
 - 16: Reset to Defaults (E, Execute)
 
-#### Object 26201: Ethernet Interface Management
+#### Object 34602: Ethernet Interface Management
 **Purpose**: Manage LAN/WAN ethernet ports
 **Multiple Instances**: Yes (one per physical port)
 **Resources**:
@@ -102,7 +102,7 @@ This document outlines the comprehensive LwM2M implementation for the OpenWRT On
 - 12: Receive Errors (R, Integer)
 - 13: Interface Enabled (RW, Boolean)
 
-#### Object 26202: GPIO Control
+#### Object 34603: GPIO Control
 **Purpose**: LED and GPIO pin management
 **Multiple Instances**: Yes (one per GPIO/LED)
 **Resources**:
@@ -116,7 +116,7 @@ This document outlines the comprehensive LwM2M implementation for the OpenWRT On
 - 7: Button State (R, Boolean) - For buttons
 - 8: Button Press Count (R, Integer)
 
-#### Object 26203: USB Port Management
+#### Object 34604: USB Port Management
 **Purpose**: USB port monitoring and control
 **Multiple Instances**: Yes (one per USB port)
 **Resources**:
@@ -131,7 +131,7 @@ This document outlines the comprehensive LwM2M implementation for the OpenWRT On
 - 8: Power Enabled (RW, Boolean)
 - 9: Current Draw (R, Integer) - mA
 
-#### Object 26204: Storage Management
+#### Object 34605: Storage Management
 **Purpose**: Monitor and manage storage devices (NAND, NVMe, USB)
 **Multiple Instances**: Yes (one per storage device)
 **Resources**:
@@ -149,7 +149,7 @@ This document outlines the comprehensive LwM2M implementation for the OpenWRT On
 - 11: Unmount (E, Execute)
 - 12: Format (E, Execute)
 
-#### Object 26205: System Resources Monitor
+#### Object 34606: System Resources Monitor
 **Purpose**: CPU, memory, and thermal monitoring
 **Resources**:
 - 0: CPU Usage Percentage (R, Integer) - 0-100
@@ -223,12 +223,12 @@ This document outlines the comprehensive LwM2M implementation for the OpenWRT On
 4. Add Object 3331 (Memory) for RAM monitoring
 
 ### Phase 3: Walt Technologies Custom Objects
-1. Object 26200: Router Management (core functionality)
-2. Object 26201: Ethernet Interface Management
-3. Object 26202: GPIO Control (LEDs, buttons)
-4. Object 26203: USB Port Management
-5. Object 26204: Storage Management
-6. Object 26205: System Resources Monitor
+1. Object 34601: Router Management (core functionality)
+2. Object 34602: Ethernet Interface Management
+3. Object 34603: GPIO Control (LEDs, buttons)
+4. Object 34604: USB Port Management
+5. Object 34605: Storage Management
+6. Object 34606: System Resources Monitor
 7. Object 26206: Firewall Configuration
 8. Object 26207: PoE Management
 9. Object 26208: MikroBUS Expansion
@@ -305,12 +305,12 @@ wpp/registry/objects/
 ├── o_12_wlan_connectivity/        # NEW
 ├── o_13_bearer_selection/         # NEW
 ├── o_3331_memory/                 # NEW
-├── w_26200_router_management/     # NEW - Walt Tech
-├── w_26201_ethernet_interface/    # NEW - Walt Tech
-├── w_26202_gpio_control/          # NEW - Walt Tech
-├── w_26203_usb_management/        # NEW - Walt Tech
-├── w_26204_storage_management/    # NEW - Walt Tech
-├── w_26205_system_monitor/        # NEW - Walt Tech
+├── w_34601_router_management/     # NEW - Walt Tech
+├── w_34602_ethernet_interface/    # NEW - Walt Tech
+├── w_34603_gpio_control/          # NEW - Walt Tech
+├── w_34604_usb_management/        # NEW - Walt Tech
+├── w_34605_storage_management/    # NEW - Walt Tech
+├── w_34606_system_monitor/        # NEW - Walt Tech
 ├── w_26206_firewall/              # NEW - Walt Tech
 ├── w_26207_poe_management/        # NEW - Walt Tech
 └── w_26208_mikrobus/              # NEW - Walt Tech

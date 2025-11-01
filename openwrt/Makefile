@@ -41,12 +41,12 @@ define Package/friendly-lwm2m-client/description
  Provides full device management capabilities including:
  - WiFi management (Object 12)
  - Network bearer selection (Object 13)
- - System resources monitoring (Object 26205)
- - GPIO/LED control (Object 26202)
- - Storage management (Object 26204)
- - Router configuration (Object 26200)
- - Ethernet interface management (Object 26201)
- - USB port management (Object 26203)
+ - System resources monitoring (Object 34606)
+ - GPIO/LED control (Object 34603)
+ - Storage management (Object 34605)
+ - Router configuration (Object 34601)
+ - Ethernet interface management (Object 34602)
+ - USB port management (Object 34604)
 
  Bootstrap Server: coap://demo-iot.friendly-tech.com:5680
  Endpoint Name: walttech888
