@@ -29,7 +29,7 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} LWM2M_CLIENT_MODE)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} LWM2M_COAP_DEFAULT_BLOCK_SIZE=1024)
 
 # Enable LWM2M Bootstrap support in a LWM2M Client
-# set(WPP_DEFINITIONS ${WPP_DEFINITIONS} LWM2M_BOOTSTRAP)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} LWM2M_BOOTSTRAP)
 
 # Enable CBOR payload support
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} LWM2M_SUPPORT_CBOR)
@@ -100,7 +100,28 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_2_LWM2M_ACCESS_CONTROL)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_3339_AUDIO_CLIP)
 # Include optional FirmwareUpdate object in the build
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_5_FIRMWARE_UPDATE)
+# Include optional WLAN Connectivity object in the build
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_12_WLAN_CONNECTIVITY)
+# Include optional Bearer Selection object in the build
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_13_BEARER_SELECTION)
+# Include optional Memory object in the build (IPSO 3331)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_3331_MEMORY)
 # ---------- Optional objects config block end ----------
+
+# ---------- Walt Technologies custom objects config block begin ----------
+# Include Walt Tech Router Management object in the build
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_26200_ROUTER_MANAGEMENT)
+# Include Walt Tech Ethernet Interface object in the build
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_26201_ETHERNET_INTERFACE)
+# Include Walt Tech GPIO Control object in the build
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_26202_GPIO_CONTROL)
+# Include Walt Tech USB Management object in the build
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_26203_USB_MANAGEMENT)
+# Include Walt Tech Storage Management object in the build
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_26204_STORAGE_MANAGEMENT)
+# Include Walt Tech System Monitor object in the build
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_26205_SYSTEM_MONITOR)
+# ---------- Walt Technologies custom objects config block end ----------
 
 
 

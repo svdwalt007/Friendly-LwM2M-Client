@@ -44,12 +44,7 @@ int main() {
 
 	// Client initialization
 	cout << endl << "---- Creating WppClient ----" << endl;
-	string clientName = "Lwm2mClient";
-	#if DTLS_WITH_PSK
-	clientName += "PSK";
-	#elif DTLS_WITH_RPK
-	clientName += "RPK";
-	#endif
+	string clientName = "walttech888"; // OpenWRT One endpoint name
 	cout << "WppClient name: " << clientName << endl;
 	WppClient::create({clientName, "", ""}, connection, wppErrorHandler);
 	WppClient *client = WppClient::takeOwnershipBlocking();
