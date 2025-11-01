@@ -17,6 +17,11 @@
 #define BAT_LVL_MIN	0
 #define BAT_LVL_MAX	100
 #endif
+
+#ifdef OPENWRT_BUILD
+#include "OpenWrtDeviceInfo.h"
+#endif
+
 /* --------------- Code_cpp block 0 end --------------- */
 
 #define TAG "Device"
@@ -154,39 +159,99 @@ void Device::resourcesCreate() {
 
 void Device::resourcesInit() {
 	/* --------------- Code_cpp block 7 start --------------- */
-	#if RES_3_0                                                                                                                                                                                        
+	#if RES_3_0
+	#ifdef OPENWRT_BUILD
+	resource(MANUFACTURER_0)->set<STRING_T>(OpenWrtDeviceInfo::getManufacturer());
+	#else
 	resource(MANUFACTURER_0)->set<STRING_T>("");
-	#endif          
+	#endif
+	#endif
 
-	#if RES_3_1  
-	resource(MODEL_NUMBER_1)->set<STRING_T>("");                                                                                                                                                                                        
-	#endif                                                                                                                                                                                                              
-	
-	#if RES_3_2                                                                                                                                                                                         
-	resource(SERIAL_NUMBER_2)->set<STRING_T>(""); 
-	#endif                                                                                                                                                                                                              
-	
-	#if RES_3_3                                                                                                                                                                                        
-	resource(FIRMWARE_VERSION_3)->set<STRING_T>(""); 
-	#endif     
- 
+	#if RES_3_1
+	#ifdef OPENWRT_BUILD
+	resource(MODEL_NUMBER_1)->set<STRING_T>(OpenWrtDeviceInfo::getModelNumber());
+	#else
+	resource(MODEL_NUMBER_1)->set<STRING_T>("");
+	#endif
+	#endif
+
+	#if RES_3_2
+	#ifdef OPENWRT_BUILD
+	resource(SERIAL_NUMBER_2)->set<STRING_T>(OpenWrtDeviceInfo::getSerialNumber());
+	#else
+	resource(SERIAL_NUMBER_2)->set<STRING_T>("");
+	#endif
+	#endif
+
+	#if RES_3_3
+	#ifdef OPENWRT_BUILD
+	resource(FIRMWARE_VERSION_3)->set<STRING_T>(OpenWrtDeviceInfo::getFirmwareVersion());
+	#else
+	resource(FIRMWARE_VERSION_3)->set<STRING_T>("");
+	#endif
+	#endif
+
+	#ifdef OPENWRT_BUILD
+	resource(REBOOT_4)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+		return OpenWrtDeviceInfo::performReboot();
+	});
+	#else
 	resource(REBOOT_4)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) { return true; });
+	#endif
                                                                                                                                                                                                                             
 	#if RES_3_5
+	#ifdef OPENWRT_BUILD
+	resource(FACTORY_RESET_5)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+		return OpenWrtDeviceInfo::performFactoryReset();
+	});
+	#else
 	resource(FACTORY_RESET_5)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) { return true; });
+	#endif
 	#endif
 
 	#if RES_3_6
 	resource(AVAILABLE_POWER_SOURCES_6)->setDataVerifier((VERIFY_INT_T)[](const INT_T& value) { return DC <= value && value < PWR_SRC_MAX; });
+	#ifdef OPENWRT_BUILD
+	// Set available power sources for OpenWRT One (DC, PoE, USB-C)
+	std::vector<int> sources = OpenWrtDeviceInfo::getAvailablePowerSources();
+	for (size_t i = 0; i < sources.size(); i++) {
+		resource(AVAILABLE_POWER_SOURCES_6)->set<INT_T>(sources[i], i);
+	}
+	#endif
+	#endif
+
+	#if RES_3_7
+	#ifdef OPENWRT_BUILD
+	// Set voltage for each power source
+	std::vector<int> sources = OpenWrtDeviceInfo::getAvailablePowerSources();
+	for (size_t i = 0; i < sources.size(); i++) {
+		resource(POWER_SOURCE_VOLTAGE_7)->set<INT_T>(OpenWrtDeviceInfo::getPowerSourceVoltage(i), i);
+	}
+	#endif
+	#endif
+
+	#if RES_3_8
+	#ifdef OPENWRT_BUILD
+	// Set current for each power source
+	std::vector<int> sources = OpenWrtDeviceInfo::getAvailablePowerSources();
+	for (size_t i = 0; i < sources.size(); i++) {
+		resource(POWER_SOURCE_CURRENT_8)->set<INT_T>(OpenWrtDeviceInfo::getPowerSourceCurrent(i), i);
+	}
+	#endif
 	#endif
 
 	#if RES_3_9
+	// OpenWRT One doesn't have battery
 	resource(BATTERY_LEVEL_9)->set<INT_T>(BAT_LVL_MIN);
 	resource(BATTERY_LEVEL_9)->setDataVerifier((VERIFY_INT_T)[](const INT_T& value) { return BAT_LVL_MIN <= value && value <= BAT_LVL_MAX; });
 	#endif
 
 	#if RES_3_10
-	resource(MEMORY_FREE_10)->set<INT_T>(0);                                                                                                                                                                                         
+	#ifdef OPENWRT_BUILD
+	resource(MEMORY_FREE_10)->set<INT_T>(OpenWrtDeviceInfo::getMemoryFree());
+	#else
+	resource(MEMORY_FREE_10)->set<INT_T>(0);
+	#endif
 	#endif
 
 	resource(ERROR_CODE_11)->setDataVerifier((VERIFY_INT_T)[](const INT_T& value) { return NO_ERROR <= value && value < ERR_CODE_MAX; });
@@ -206,40 +271,76 @@ void Device::resourcesInit() {
 		TIME_T currentTime = WppPlatform::getTime();
 		resource(CURRENT_TIME_13)->set<TIME_T>(currentTime);
 		notifyResChanged(CURRENT_TIME_13);
+		#ifdef OPENWRT_BUILD
+		// Also update memory periodically
+		#if RES_3_10
+		resource(MEMORY_FREE_10)->set<INT_T>(OpenWrtDeviceInfo::getMemoryFree());
+		notifyResChanged(MEMORY_FREE_10);
+		#endif
+		#endif
 		return false;
 	});
-	#endif                                                                                                                                                                                                              
-	
-	#if RES_3_14
-	resource(UTC_OFFSET_14)->set<STRING_T>("");                                                                                                                                                                                             
-	#endif                                                                                                                                                                                                              
-	
-	#if RES_3_15
-	resource(TIMEZONE_15)->set<STRING_T>("");                                                                                                                                                                                     
 	#endif
 
+	#if RES_3_14
+	#ifdef OPENWRT_BUILD
+	resource(UTC_OFFSET_14)->set<STRING_T>(OpenWrtDeviceInfo::getUtcOffset());
+	#else
+	resource(UTC_OFFSET_14)->set<STRING_T>("");
+	#endif
+	#endif
+
+	#if RES_3_15
+	#ifdef OPENWRT_BUILD
+	resource(TIMEZONE_15)->set<STRING_T>(OpenWrtDeviceInfo::getTimezone());
+	#else
+	resource(TIMEZONE_15)->set<STRING_T>("");
+	#endif
+	#endif
+
+	#ifdef OPENWRT_BUILD
+	resource(SUPPORTED_BINDING_AND_MODES_16)->set<STRING_T>(OpenWrtDeviceInfo::getSupportedBindings());
+	#else
 	resource(SUPPORTED_BINDING_AND_MODES_16)->set<STRING_T>("");
+	#endif
 	resource(SUPPORTED_BINDING_AND_MODES_16)->setDataVerifier((VERIFY_STRING_T)([](const STRING_T& value) { return wppBindingValidate(value); }));
 
 	#if RES_3_17
-	resource(DEVICE_TYPE_17)->set<STRING_T>("");                                                                                                                                                                                           
+	#ifdef OPENWRT_BUILD
+	resource(DEVICE_TYPE_17)->set<STRING_T>(OpenWrtDeviceInfo::getDeviceType());
+	#else
+	resource(DEVICE_TYPE_17)->set<STRING_T>("");
+	#endif
 	#endif
 
 	#if RES_3_18
-	resource(HARDWARE_VERSION_18)->set<STRING_T>("");                                                                                                                                                                              
-	#endif                                                                                                                                                                                                              
-	
+	#ifdef OPENWRT_BUILD
+	resource(HARDWARE_VERSION_18)->set<STRING_T>(OpenWrtDeviceInfo::getHardwareVersion());
+	#else
+	resource(HARDWARE_VERSION_18)->set<STRING_T>("");
+	#endif
+	#endif
+
 	#if RES_3_19
-	resource(SOFTWARE_VERSION_19)->set<STRING_T>("");                                                                                                                                                                                    
-	#endif                 
+	#ifdef OPENWRT_BUILD
+	resource(SOFTWARE_VERSION_19)->set<STRING_T>(OpenWrtDeviceInfo::getSoftwareVersion());
+	#else
+	resource(SOFTWARE_VERSION_19)->set<STRING_T>("");
+	#endif
+	#endif
 
 	#if RES_3_20
-	resource(BATTERY_STATUS_20)->set<INT_T>(BAT_STATUS_MAX);
+	// OpenWRT One doesn't have battery
+	resource(BATTERY_STATUS_20)->set<INT_T>(NOT_INSTALLED);
 	resource(BATTERY_STATUS_20)->setDataVerifier((VERIFY_INT_T)[](const INT_T& value) { return NORMAL <= value && value < BAT_STATUS_MAX; });
 	#endif
 
-	#if RES_3_21                                                                                                                                                                                          
-	resource(MEMORY_TOTAL_21)->set<INT_T>(NO_ERROR);
+	#if RES_3_21
+	#ifdef OPENWRT_BUILD
+	resource(MEMORY_TOTAL_21)->set<INT_T>(OpenWrtDeviceInfo::getMemoryTotal());
+	#else
+	resource(MEMORY_TOTAL_21)->set<INT_T>(0);
+	#endif
 	#endif                                                                                                                                                                                                                  
 	/* --------------- Code_cpp block 7 end --------------- */
 }
