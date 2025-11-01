@@ -164,6 +164,28 @@ void audioClipInit(WppClient &client) {
 }
 #endif
 
+#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+void hardwareWatchdogInit(WppClient &client) {
+    client.registry().registerObj(HardwareWatchdog::object(client));
+    HardwareWatchdog *watchdog = HardwareWatchdog::createInst(client);
+
+    // Configure watchdog with default settings
+    // Note: Watchdog is disabled by default for safety
+    // Enable it via LWM2M server or set WATCHDOG_ENABLE_0 to true
+
+    cout << "Hardware Watchdog initialized (Object ID: 34607)" << endl;
+    cout << "  Device: /dev/watchdog" << endl;
+    cout << "  Default Timeout: 30 seconds" << endl;
+    cout << "  Default Interval: 5 seconds" << endl;
+    cout << "  Status: Disabled (enable via LWM2M server)" << endl;
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(HardwareWatchdog::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*watchdog, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
 #ifdef OBJ_O_34600_STARLINK_TERMINAL
 void starlinkTerminalInit(WppClient &client) {
     client.registry().registerObj(StarlinkTerminal::object(client));

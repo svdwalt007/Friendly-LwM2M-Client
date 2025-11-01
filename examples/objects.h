@@ -35,6 +35,10 @@ void connMonitoringInit(WppClient &client);
 void audioClipInit(WppClient &client);
 #endif
 
+#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+void hardwareWatchdogInit(WppClient &client);
+#endif
+
 /* ---------- Walt Technologies objects init declarations ---------- */
 #ifdef OBJ_O_34600_STARLINK_TERMINAL
 void starlinkTerminalInit(WppClient &client);

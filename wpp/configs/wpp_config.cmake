@@ -106,6 +106,8 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_12_WLAN_CONNECTIVITY)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_13_BEARER_SELECTION)
 # Include optional Memory object in the build (IPSO 3331)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_3331_MEMORY)
+# Include optional HardwareWatchdog object in the build (Object ID: 34607)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34607_HARDWARE_WATCHDOG)
 # ---------- Optional objects config block end ----------
 
 # ---------- Walt Technologies objects config block begin ----------

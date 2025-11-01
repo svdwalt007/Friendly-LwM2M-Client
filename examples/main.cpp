@@ -71,6 +71,10 @@ int main() {
 	cout << endl << "---- Initialization wpp AudioClip ----" << endl;
 	audioClipInit(*client);
 	#endif
+	#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+	cout << endl << "---- Initialization wpp HardwareWatchdog ----" << endl;
+	hardwareWatchdogInit(*client);
+	#endif
 
 	/* ---------- Walt Technologies objects initialization ---------- */
 	#ifdef OBJ_O_34600_STARLINK_TERMINAL
