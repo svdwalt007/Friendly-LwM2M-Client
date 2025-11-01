@@ -1,0 +1,88 @@
+#!/bin/sh /etc/rc.common
+# LwM2M Client init script for OpenWRT
+# Copyright (C) 2024 Friendly Technologies
+
+START=95
+STOP=10
+
+USE_PROCD=1
+PROG=/usr/sbin/lwm2m-client
+CONF=/etc/config/lwm2m
+
+validate_section() {
+	uci_load_validate lwm2m general "$1" "$2" \
+		'endpoint_name:string:openwrt-device' \
+		'log_level:range(0,4):2' \
+		'enable_bootstrap:bool:0'
+}
+
+start_service() {
+	local endpoint_name log_level enable_bootstrap
+
+	# Validate and load configuration
+	validate_section general || {
+		echo "Validation failed"
+		return 1
+	}
+
+	# Check if configuration exists
+	[ -f "$CONF" ] || {
+		echo "Configuration file $CONF not found"
+		return 1
+	}
+
+	# Check if binary exists
+	[ -x "$PROG" ] || {
+		echo "LwM2M client binary not found or not executable: $PROG"
+		return 1
+	}
+
+	# Start service using procd
+	procd_open_instance
+
+	# Set the command
+	procd_set_param command $PROG
+
+	# Set respawn parameters
+	# respawn threshold (failures), respawn timeout (in seconds), respawn retry (max retries)
+	procd_set_param respawn ${respawn_threshold:-3600} ${respawn_timeout:-5} ${respawn_retry:-5}
+
+	# Set stdout/stderr to syslog
+	procd_set_param stdout 1
+	procd_set_param stderr 1
+
+	# Set user/group (run as nobody for security)
+	procd_set_param user nobody
+	procd_set_param group nogroup
+
+	# Jail the process (if available)
+	# procd_set_param jail 1
+	# procd_set_param jail_mount "/etc/config/lwm2m r"
+
+	# Reload triggers - restart when config changes
+	procd_add_reload_trigger "lwm2m"
+
+	# Network trigger - restart when network is ready
+	procd_add_validation validate_section
+
+	procd_close_instance
+
+	echo "LwM2M client started"
+}
+
+stop_service() {
+	echo "Stopping LwM2M client"
+}
+
+reload_service() {
+	echo "Reloading LwM2M client configuration"
+	stop
+	start
+}
+
+service_triggers() {
+	procd_add_reload_trigger "lwm2m"
+
+	# Restart when network changes
+	procd_add_reload_trigger "network"
+}
