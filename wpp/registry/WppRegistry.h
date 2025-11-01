@@ -38,7 +38,10 @@
 #endif
 /* ---------- Optional objects include block end ---------- */
 
-/* ---------- Walt Technologies custom objects include block begin ---------- */
+/* ---------- Walt Technologies objects include block begin ---------- */
+#ifdef OBJ_O_34600_STARLINK_TERMINAL
+#include "o_34600_starlink_terminal/StarlinkTerminal.h"
+#endif
 #ifdef OBJ_W_34601_ROUTER_MANAGEMENT
 #include "w_34601_router_management/RouterManagement.h"
 #endif
@@ -57,7 +60,7 @@
 #ifdef OBJ_W_34606_SYSTEM_MONITOR
 #include "w_34606_system_monitor/SystemMonitor.h"
 #endif
-/* ---------- Walt Technologies custom objects include block end ---------- */
+/* ---------- Walt Technologies objects include block end ---------- */
 
 namespace wpp {
 
@@ -155,7 +158,10 @@ public:
 	#endif
 	/* ---------- Optional objects prototype block end ---------- */
 
-	/* ---------- Walt Technologies custom objects prototype block begin ---------- */
+	/* ---------- Walt Technologies objects prototype block begin ---------- */
+	#ifdef OBJ_O_34600_STARLINK_TERMINAL
+	Object & starlinkTerminal();
+	#endif
 	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
 	Object & routerManagement();
 	#endif
@@ -174,7 +180,7 @@ public:
 	#ifdef OBJ_W_34606_SYSTEM_MONITOR
 	Object & systemMonitor();
 	#endif
-	/* ---------- Walt Technologies custom objects prototype block end ---------- */
+	/* ---------- Walt Technologies objects prototype block end ---------- */
 
 private:
 	lwm2m_context_t &_context;

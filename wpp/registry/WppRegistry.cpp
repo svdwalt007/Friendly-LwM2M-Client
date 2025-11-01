@@ -34,7 +34,10 @@ WppRegistry::WppRegistry(lwm2m_context_t &context): _context(context) {
 	#endif
 	/* ---------- Optional objects init block end ---------- */
 
-	/* ---------- Walt Technologies custom objects init block begin ---------- */
+	/* ---------- Walt Technologies objects init block begin ---------- */
+	#ifdef OBJ_O_34600_STARLINK_TERMINAL
+	_objects.push_back(new ObjectImpl<StarlinkTerminal>(_context, STARLINK_TERMINAL_OBJ_INFO));
+	#endif
 	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
 	_objects.push_back(new ObjectImpl<RouterManagement>(_context, ROUTER_MANAGEMENT_META_INFO));
 	#endif
@@ -53,7 +56,7 @@ WppRegistry::WppRegistry(lwm2m_context_t &context): _context(context) {
 	#ifdef OBJ_W_34606_SYSTEM_MONITOR
 	_objects.push_back(new ObjectImpl<SystemMonitor>(_context, SYSTEM_MONITOR_META_INFO));
 	#endif
-	/* ---------- Walt Technologies custom objects init block end ---------- */
+	/* ---------- Walt Technologies objects init block end ---------- */
 }
 
 WppRegistry::~WppRegistry() {
@@ -133,7 +136,12 @@ Object & WppRegistry::firmwareUpdate() {
 #endif
 /* ---------- Optional objects method block end ---------- */
 
-/* ---------- Walt Technologies custom objects method block begin ---------- */
+/* ---------- Walt Technologies objects method block begin ---------- */
+#ifdef OBJ_O_34600_STARLINK_TERMINAL
+Object & WppRegistry::starlinkTerminal() {
+	return *object(OBJ_ID::STARLINK_TERMINAL);
+}
+#endif
 #ifdef OBJ_W_34601_ROUTER_MANAGEMENT
 Object & WppRegistry::routerManagement() {
 	return *object(ROUTER_MANAGEMENT_OBJECT_ID);
@@ -164,6 +172,6 @@ Object & WppRegistry::systemMonitor() {
 	return *object(SYSTEM_MONITOR_OBJECT_ID);
 }
 #endif
-/* ---------- Walt Technologies custom objects method block end ---------- */
+/* ---------- Walt Technologies objects method block end ---------- */
 
 } //wpp

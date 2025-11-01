@@ -164,6 +164,22 @@ void audioClipInit(WppClient &client) {
 }
 #endif
 
+#ifdef OBJ_O_34600_STARLINK_TERMINAL
+void starlinkTerminalInit(WppClient &client) {
+    client.registry().registerObj(StarlinkTerminal::object(client));
+    Instance *starlink = StarlinkTerminal::createInst(client);
+
+    // Initialize with default values - resources are already initialized
+    // The gRPC endpoint can be configured if needed:
+    // starlink->set<STRING_T>(StarlinkTerminal::GRPC_ENDPOINT_107, "192.168.100.1:9200");
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(StarlinkTerminal::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*starlink, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
 /* ------------- Helpful methods ------------- */
 
 bool isDeviceShouldBeRebooted() {

@@ -108,21 +108,23 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_13_BEARER_SELECTION)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_3331_MEMORY)
 # ---------- Optional objects config block end ----------
 
-# ---------- Walt Technologies custom objects config block begin ----------
-# Walt Technologies Object ID Range: 34601-34649
-# Include Walt Tech Router Management object in the build
+# ---------- Walt Technologies objects config block begin ----------
+# Walt Technologies Object ID Range: 34600-34649
+# Include Walt Technologies Starlink Terminal object in the build (Object ID: 34600)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
+# Include Walt Tech Router Management object in the build (Object ID: 34601)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34601_ROUTER_MANAGEMENT)
-# Include Walt Tech Ethernet Interface object in the build
+# Include Walt Tech Ethernet Interface object in the build (Object ID: 34602)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34602_ETHERNET_INTERFACE)
-# Include Walt Tech GPIO Control object in the build
+# Include Walt Tech GPIO Control object in the build (Object ID: 34603)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34603_GPIO_CONTROL)
-# Include Walt Tech USB Management object in the build
+# Include Walt Tech USB Management object in the build (Object ID: 34604)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34604_USB_MANAGEMENT)
-# Include Walt Tech Storage Management object in the build
+# Include Walt Tech Storage Management object in the build (Object ID: 34605)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34605_STORAGE_MANAGEMENT)
-# Include Walt Tech System Monitor object in the build
+# Include Walt Tech System Monitor object in the build (Object ID: 34606)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34606_SYSTEM_MONITOR)
-# ---------- Walt Technologies custom objects config block end ----------
+# ---------- Walt Technologies objects config block end ----------
 
 
 

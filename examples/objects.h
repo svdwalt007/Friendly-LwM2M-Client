@@ -35,7 +35,11 @@ void connMonitoringInit(WppClient &client);
 void audioClipInit(WppClient &client);
 #endif
 
-/* ---------- Walt Technologies custom objects init declarations ---------- */
+/* ---------- Walt Technologies objects init declarations ---------- */
+#ifdef OBJ_O_34600_STARLINK_TERMINAL
+void starlinkTerminalInit(WppClient &client);
+#endif
+
 #ifdef OBJ_W_34601_ROUTER_MANAGEMENT
 void routerManagementInit(WppClient &client);
 #endif
