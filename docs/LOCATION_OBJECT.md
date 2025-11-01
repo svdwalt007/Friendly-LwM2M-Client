@@ -539,20 +539,45 @@ uci show lwm2m.location
 The Location object can read GPS data directly from the Starlink Terminal object resources:
 
 ```cpp
-// Starlink resources with GPS data:
-// - GPS_READY_80 (Resource 80)
-// - GPS_ENABLED_81 (Resource 81)
-// - GPS_SATELLITES_82 (Resource 82)
-// - LATITUDE_83 (Resource 83)
-// - LONGITUDE_84 (Resource 84)
-// - ALTITUDE_85 (Resource 85)
+// Starlink Terminal GPS resources (Object 34600):
+// - GPS_READY_80 (Resource 80)      - Boolean: GPS fix available
+// - GPS_ENABLED_81 (Resource 81)    - Boolean: GPS enabled on terminal
+// - GPS_SATELLITES_82 (Resource 82) - Integer: Number of satellites in use
+// - LATITUDE_83 (Resource 83)       - Float: Latitude in degrees (WGS84)
+// - LONGITUDE_84 (Resource 84)      - Float: Longitude in degrees (WGS84)
+// - ALTITUDE_85 (Resource 85)       - Float: Altitude in meters
+
+// The Location object automatically prioritizes Starlink GPS
+double lat = OpenWrtLocationInfo::getLatitude();    // Fetches from Starlink first
+double lon = OpenWrtLocationInfo::getLongitude();   // Then tries gpsd, then UCI
+
+// Starlink GPS is accessed via gRPC at 192.168.100.1:9200
 ```
 
 **Benefits:**
-- Single GPS source for multiple objects
-- Consistent location reporting
-- Satellite tracking information
-- GPS validity flags
+- **High Accuracy:** ~10 meter GPS accuracy from Starlink satellite constellation
+- **Single GPS Source:** Share GPS data across multiple LwM2M objects
+- **Satellite Tracking:** Real-time satellite count and GPS status
+- **GPS Validity Flags:** Know when GPS fix is available and reliable
+- **Automatic Fallback:** If Starlink unavailable, falls back to gpsd or UCI
+- **No External GPS Hardware:** Use Starlink's built-in GPS receiver
+
+**Integration Example:**
+
+```cpp
+#ifdef OBJ_O_34600_STARLINK_TERMINAL
+// Both objects enabled - Location automatically uses Starlink GPS
+locationInit(client);           // Uses Starlink GPS via OpenWrtLocationInfo
+starlinkTerminalInit(client);   // Provides GPS data on resources 80-85
+
+// GPS source priority (automatic):
+// 1. Starlink Terminal (192.168.100.1:9200 gRPC)
+// 2. gpsd daemon
+// 3. UCI manual configuration
+#endif
+```
+
+**See Also:** [Starlink Terminal Documentation](STARLINK_TERMINAL.md) for complete Starlink object details
 
 ### Device (ID 3)
 
@@ -615,7 +640,9 @@ See [API_REFERENCE.md](API_REFERENCE.md) for complete API documentation.
 ## References
 
 - [OMA LwM2M Location Specification](https://github.com/OpenMobileAlliance/lwm2m-registry/blob/prod/6.xml)
+- [Starlink Terminal Documentation](STARLINK_TERMINAL.md) - GPS source for Location object
 - [WGS84 Coordinate System](https://en.wikipedia.org/wiki/World_Geodetic_System)
 - [Haversine Formula](https://en.wikipedia.org/wiki/Haversine_formula)
 - [gpsd Documentation](https://gpsd.io/)
+- [Starlink gRPC API](https://github.com/starlink-community/starlink-grpc-api)
 - [3GPP TS 23.032](https://www.3gpp.org/ftp/Specs/archive/23_series/23.032/)

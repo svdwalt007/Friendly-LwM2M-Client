@@ -40,6 +40,14 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Resource definitions
   - Code examples
 
+- **[Starlink Terminal Object (ID 34600)](STARLINK_TERMINAL.md)** - Starlink satellite terminal management
+  - 70+ resources for comprehensive monitoring and control
+  - Network performance telemetry and diagnostics
+  - Obstruction detection and sky view analysis
+  - Dish alignment and GPS tracking
+  - Alert system and power management
+  - gRPC integration guide
+
 - **[OpenWRT Integration](OPENWRT_INTEGRATION.md)** - OpenWRT-specific features
   - Hardware information gathering
   - Network connectivity monitoring
@@ -86,7 +94,17 @@ This documentation provides comprehensive guides for implementing, configuring, 
 - **Hardware Watchdog (ID 34607)** - Watchdog timer management
 
 #### Walt Technologies Custom Objects (34600-34607)
-- **Starlink Terminal (ID 34600)** - Complete Starlink dish management
+- **Starlink Terminal (ID 34600)** ⭐ FEATURED - Comprehensive Starlink Gen3 satellite terminal management
+  - 70+ resources across 10 functional groups
+  - Real-time telemetry: throughput, latency, SNR, packet loss
+  - Obstruction monitoring with 12-wedge sky view analysis
+  - Dish alignment tracking (azimuth/elevation)
+  - 16 alert conditions (thermal, motors, obstructions, water detection)
+  - Integrated GPS (lat/lon/alt with satellite count)
+  - Power management (current, mean, min/max, total energy)
+  - Control actions: reboot, speed test, factory reset, obstruction map
+  - Historical statistics and performance analytics
+  - gRPC interface to 192.168.100.1:9200
 - **Router Management (ID 34601)** - OpenWRT router configuration
 - **Ethernet Interface (ID 34602)** - Port monitoring and control
 - **GPIO Control (ID 34603)** - LED and GPIO management
@@ -191,6 +209,11 @@ examples/
 ### Project Components
 - [Wakaama LwM2M Stack](https://github.com/eclipse/wakaama)
 - [Starlink gRPC API](https://github.com/sparky8512/starlink-grpc-tools)
+
+### Starlink Resources
+- [Starlink Gen3 Dishy Specifications](https://www.starlink.com)
+- [Starlink Protocol Buffers](https://github.com/starlink-community/starlink-grpc-api)
+- [Starlink Community Tools](https://github.com/sparky8512/starlink-grpc-tools)
 
 ---
 

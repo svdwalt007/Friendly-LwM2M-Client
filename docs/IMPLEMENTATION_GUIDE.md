@@ -478,6 +478,264 @@ EXECUTE_RESULT TemperatureSensor::resetMinMax(Instance& inst, ID_T resId,
 
 ---
 
+### Example: Starlink Terminal Object (ID 34600)
+
+The Starlink Terminal object demonstrates a complex custom object with 70+ resources, multiple functional groups, gRPC integration, and execute resources.
+
+```cpp
+// StarlinkTerminal.h
+class StarlinkTerminal : public Instance {
+public:
+    /* Resource IDs - Organized by functional groups */
+    enum ID: ID_T {
+        /* Device Information (0-9) */
+        DEVICE_ID_0 = 0,                     // Serial number
+        HARDWARE_VERSION_1 = 1,              // Hardware version
+        SOFTWARE_VERSION_2 = 2,              // Firmware version
+        CONNECTION_STATE_3 = 3,              // CONNECTED, SEARCHING, etc.
+        UPTIME_4 = 4,                        // Seconds since reboot
+
+        /* Network Performance (10-29) */
+        DOWNLINK_THROUGHPUT_10 = 10,         // Download speed (bps)
+        UPLINK_THROUGHPUT_11 = 11,           // Upload speed (bps)
+        POP_PING_LATENCY_12 = 12,            // Latency (ms)
+        POP_PING_DROP_RATE_13 = 13,          // Packet loss (0.0-1.0)
+        SNR_15 = 15,                         // Signal-to-noise ratio (dB)
+
+        /* Obstruction Monitoring (30-39) */
+        FRACTION_OBSTRUCTED_30 = 30,         // Sky obstruction (0.0-1.0)
+        CURRENTLY_OBSTRUCTED_31 = 31,        // Current obstruction status
+        WEDGES_FRACTION_OBSTRUCTED_35 = 35,  // JSON array of 12 wedges
+
+        /* Dish Alignment (40-49) */
+        DIRECTION_AZIMUTH_40 = 40,           // Azimuth (0-360 degrees)
+        DIRECTION_ELEVATION_41 = 41,         // Elevation (0-90 degrees)
+        DISH_STOWED_42 = 42,                 // Stow state (RW)
+
+        /* GPS Location (80-85) */
+        GPS_READY_80 = 80,                   // GPS fix available
+        LATITUDE_83 = 83,                    // Latitude (degrees)
+        LONGITUDE_84 = 84,                   // Longitude (degrees)
+        ALTITUDE_85 = 85,                    // Altitude (meters)
+
+        /* Control Actions (100-107) */
+        REBOOT_TERMINAL_100 = 100,           // Execute: Reboot
+        START_SPEEDTEST_101 = 101,           // Execute: Speed test
+        SPEEDTEST_STATUS_102 = 102,          // Speed test results (JSON)
+        REFRESH_TELEMETRY_106 = 106,         // Execute: Refresh data
+        GRPC_ENDPOINT_107 = 107,             // gRPC endpoint (RW)
+    };
+
+    /* Connection State Enumeration */
+    enum ConnState: INT_T {
+        STATE_CONNECTED = 1,
+        STATE_SEARCHING = 3,
+        STATE_OBSTRUCTED = 7,
+        // ... more states
+    };
+
+private:
+    std::string _grpcEndpoint = "192.168.100.1:9200";
+    WppTaskQueue::task_id_t _telemetryTaskId;
+
+    bool updateTelemetry();
+    EXECUTE_RESULT executeReboot(Instance& inst, ID_T resId, const OPAQUE_T& data);
+    EXECUTE_RESULT executeSpeedTest(Instance& inst, ID_T resId, const OPAQUE_T& data);
+};
+
+// StarlinkTerminal.cpp - Key Implementation Patterns
+
+void StarlinkTerminal::resourcesCreate() {
+    std::vector<Resource> resources = {
+        // Mandatory device info
+        {DEVICE_ID_0,        ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,
+         IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
+        {CONNECTION_STATE_3, ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,
+         IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
+
+        // Network performance
+        {DOWNLINK_THROUGHPUT_10, ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,
+         IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
+        {UPLINK_THROUGHPUT_11,   ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,
+         IS_MANDATORY::MANDATORY, TYPE_ID::FLOAT},
+
+        // Read/Write resources
+        {DISH_STOWED_42,     ItemOp(ItemOp::READ | ItemOp::WRITE),
+         IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::BOOL},
+        {GRPC_ENDPOINT_107,  ItemOp(ItemOp::READ | ItemOp::WRITE),
+         IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::STRING},
+
+        // Execute resources
+        {REBOOT_TERMINAL_100,  ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,
+         IS_MANDATORY::OPTIONAL, TYPE_ID::NONE},
+        {START_SPEEDTEST_101,  ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,
+         IS_MANDATORY::OPTIONAL, TYPE_ID::NONE},
+    };
+    setupResources(std::move(resources));
+}
+
+void StarlinkTerminal::resourcesInit() {
+    // Initialize device information
+    resource(DEVICE_ID_0)->set<STRING_T>("UT01000000-00000000-00000001");
+    resource(HARDWARE_VERSION_1)->set<STRING_T>("rev3_proto2");
+    resource(CONNECTION_STATE_3)->set<STRING_T>("SEARCHING");
+
+    // Initialize network metrics with defaults
+    resource(DOWNLINK_THROUGHPUT_10)->set<FLOAT_T>(0.0f);
+    resource(UPLINK_THROUGHPUT_11)->set<FLOAT_T>(0.0f);
+    resource(POP_PING_LATENCY_12)->set<FLOAT_T>(0.0f);
+
+    // Initialize GPS (if available)
+    resource(GPS_READY_80)->set<BOOL_T>(false);
+    resource(LATITUDE_83)->set<FLOAT_T>(0.0);
+    resource(LONGITUDE_84)->set<FLOAT_T>(0.0);
+
+    // Set gRPC endpoint
+    resource(GRPC_ENDPOINT_107)->set<STRING_T>(_grpcEndpoint);
+
+    // Set execute handlers
+    resource(REBOOT_TERMINAL_100)->set<EXECUTE_T>(
+        [this](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+            return executeReboot(inst, resId, data);
+        }
+    );
+
+    resource(START_SPEEDTEST_101)->set<EXECUTE_T>(
+        [this](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+            return executeSpeedTest(inst, resId, data);
+        }
+    );
+
+    // Set up periodic telemetry updates (every 10 seconds)
+    _telemetryTaskId = WppTaskQueue::addTask(10, [this](WppClient &client, void *ctx) {
+        updateTelemetry();
+        return false; // Keep running
+    });
+}
+
+bool StarlinkTerminal::updateTelemetry() {
+    #ifdef STARLINK_GRPC_ENABLED
+    // Connect to Starlink dish via gRPC
+    auto channel = grpc::CreateChannel(_grpcEndpoint,
+                                       grpc::InsecureChannelCredentials());
+    auto stub = SpaceX::API::Device::Device::NewStub(channel);
+
+    // Request status
+    grpc::ClientContext context;
+    SpaceX::API::Device::Request request;
+    request.mutable_get_status();
+    SpaceX::API::Device::Response response;
+
+    grpc::Status status = stub->Handle(&context, request, &response);
+
+    if (status.ok() && response.has_dish_get_status()) {
+        auto dishStatus = response.dish_get_status();
+
+        // Update connection state
+        std::string state = parseState(dishStatus.state());
+        resource(CONNECTION_STATE_3)->set<STRING_T>(state);
+
+        // Update network performance
+        resource(DOWNLINK_THROUGHPUT_10)->set<FLOAT_T>(
+            dishStatus.downlink_throughput_bps());
+        resource(UPLINK_THROUGHPUT_11)->set<FLOAT_T>(
+            dishStatus.uplink_throughput_bps());
+        resource(POP_PING_LATENCY_12)->set<FLOAT_T>(
+            dishStatus.pop_ping_latency_ms());
+
+        // Update obstruction data
+        resource(FRACTION_OBSTRUCTED_30)->set<FLOAT_T>(
+            dishStatus.obstruction_stats().fraction_obstructed());
+        resource(CURRENTLY_OBSTRUCTED_31)->set<BOOL_T>(
+            dishStatus.obstruction_stats().currently_obstructed());
+
+        // Update dish alignment
+        resource(DIRECTION_AZIMUTH_40)->set<FLOAT_T>(
+            dishStatus.boresight_azimuth_deg());
+        resource(DIRECTION_ELEVATION_41)->set<FLOAT_T>(
+            dishStatus.boresight_elevation_deg());
+
+        // Update GPS location (if available)
+        if (dishStatus.has_gps_stats()) {
+            resource(GPS_READY_80)->set<BOOL_T>(dishStatus.gps_stats().gps_valid());
+            resource(LATITUDE_83)->set<FLOAT_T>(dishStatus.gps_stats().latitude());
+            resource(LONGITUDE_84)->set<FLOAT_T>(dishStatus.gps_stats().longitude());
+            resource(ALTITUDE_85)->set<FLOAT_T>(dishStatus.gps_stats().altitude());
+        }
+
+        // Notify observers of changes
+        notifyResChanged(CONNECTION_STATE_3);
+        notifyResChanged(DOWNLINK_THROUGHPUT_10);
+        notifyResChanged(UPLINK_THROUGHPUT_11);
+
+        return true;
+    }
+    #endif
+
+    return false;
+}
+
+EXECUTE_RESULT StarlinkTerminal::executeReboot(Instance& inst, ID_T resId,
+                                                 const OPAQUE_T& data) {
+    WPP_LOGI("StarlinkTerminal", "Executing reboot command");
+
+    #ifdef STARLINK_GRPC_ENABLED
+    // Send reboot command via gRPC
+    auto channel = grpc::CreateChannel(_grpcEndpoint,
+                                       grpc::InsecureChannelCredentials());
+    auto stub = SpaceX::API::Device::Device::NewStub(channel);
+
+    grpc::ClientContext context;
+    SpaceX::API::Device::Request request;
+    request.mutable_reboot();
+    SpaceX::API::Device::Response response;
+
+    grpc::Status status = stub->Handle(&context, request, &response);
+
+    if (status.ok()) {
+        return EXECUTE_RESULT::EXECUTE_RESULT_SUCCESS;
+    }
+    #endif
+
+    return EXECUTE_RESULT::EXECUTE_RESULT_ERROR;
+}
+
+EXECUTE_RESULT StarlinkTerminal::executeSpeedTest(Instance& inst, ID_T resId,
+                                                    const OPAQUE_T& data) {
+    WPP_LOGI("StarlinkTerminal", "Starting speed test");
+
+    // Update status to running
+    resource(SPEEDTEST_STATUS_102)->set<STRING_T>("{\"status\":\"running\"}");
+    notifyResChanged(SPEEDTEST_STATUS_102);
+
+    #ifdef STARLINK_GRPC_ENABLED
+    // Initiate speed test via gRPC (async)
+    // Speed test results will be polled via updateTelemetry()
+    #endif
+
+    return EXECUTE_RESULT::EXECUTE_RESULT_SUCCESS;
+}
+
+// Destructor - cleanup
+StarlinkTerminal::~StarlinkTerminal() {
+    // Remove periodic telemetry task
+    if (_telemetryTaskId != WppTaskQueue::INVALID_TASK_ID) {
+        WppTaskQueue::removeTask(_telemetryTaskId);
+    }
+}
+```
+
+**Key Implementation Patterns:**
+
+1. **Resource Organization**: Group related resources (0-9: device info, 10-29: network, etc.)
+2. **Execute Resources**: Use lambda handlers for control actions
+3. **Periodic Updates**: WppTaskQueue for automatic telemetry refresh
+4. **gRPC Integration**: Conditional compilation for platform-specific features
+5. **Proper Cleanup**: Remove tasks in destructor
+6. **Observer Notifications**: Call `notifyResChanged()` after updates
+
+---
+
 ## Testing
 
 ### Unit Testing
@@ -603,4 +861,6 @@ make package/lwm2m-client/compile
 
 ---
 
-**Next:** See [Location Object Documentation](LOCATION_OBJECT.md) for a complete implementation example.
+**Next Steps:**
+- See [Location Object Documentation](LOCATION_OBJECT.md) for a complete GPS implementation example
+- See [Starlink Terminal Documentation](STARLINK_TERMINAL.md) for advanced gRPC integration and complex object patterns

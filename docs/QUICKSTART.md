@@ -238,6 +238,127 @@ uci commit lwm2m
 
 ---
 
+## 🛰️ Starlink Terminal Quick Setup
+
+### Enable Starlink Terminal Support
+
+1. **Edit Configuration**
+
+   File: `wpp/configs/wpp_config.cmake`
+
+   ```cmake
+   # Enable Starlink Terminal object
+   set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
+   ```
+
+2. **Rebuild**
+
+   ```bash
+   cd build
+   cmake ..
+   make
+   ```
+
+### Configure Starlink Connection
+
+#### Automatic Configuration (Default)
+
+The Starlink Terminal object connects to:
+- **Dish gRPC endpoint:** 192.168.100.1:9200 (default)
+- **Router gRPC endpoint:** 192.168.1.1:9000 (optional)
+
+No configuration needed if using standard Starlink network layout.
+
+#### Custom gRPC Endpoint
+
+If your Starlink dish is at a different IP:
+
+```cpp
+// In examples/objects.cpp - starlinkTerminalInit()
+Instance *starlink = StarlinkTerminal::createInst(client);
+
+// Set custom gRPC endpoint
+starlink->set<STRING_T>(StarlinkTerminal::GRPC_ENDPOINT_107, "192.168.50.1:9200");
+```
+
+### Verify Starlink Integration
+
+```bash
+# Run the client
+./lwm2m_client
+
+# You should see:
+# ---- Initialization wpp Starlink Terminal ----
+# StarlinkTerminal instance created: 0
+# Connected to Starlink at 192.168.100.1:9200
+```
+
+### Test Starlink Resources
+
+The Starlink Terminal object provides 70+ resources organized into:
+
+#### Network Performance (Resources 10-18)
+- Downlink/Uplink throughput
+- Latency and packet loss
+- SNR and signal quality
+- Data usage counters
+
+#### Obstruction Monitoring (Resources 30-35)
+- Sky view obstruction percentage
+- 12-wedge analysis
+- Obstruction duration/interval statistics
+
+#### Dish Status (Resources 40-43)
+- Azimuth and elevation angles
+- Stowed state (read/write)
+- Alignment status
+
+#### GPS Location (Resources 80-85)
+- Latitude, longitude, altitude
+- GPS satellite count
+- GPS ready status
+
+#### Control Actions (Resources 100-107)
+- Execute reboot
+- Run speed test
+- Get obstruction map
+- Refresh telemetry
+
+### Quick Starlink Commands
+
+```bash
+# Monitor Starlink connection state
+# Resource 3: CONNECTION_STATE_3
+# Values: CONNECTED, SEARCHING, BOOTING, STOWED, etc.
+
+# Check obstruction status
+# Resource 30: FRACTION_OBSTRUCTED_30 (0.0 = clear, 1.0 = fully blocked)
+# Resource 31: CURRENTLY_OBSTRUCTED_31 (true/false)
+
+# View dish alignment
+# Resource 40: DIRECTION_AZIMUTH_40 (0-360 degrees)
+# Resource 41: DIRECTION_ELEVATION_41 (0-90 degrees)
+
+# Monitor power consumption
+# Resource 90: LATEST_POWER_90 (watts)
+# Resource 91: MEAN_POWER_91 (watts)
+```
+
+### Integration with Location Object
+
+When both Location (ID 6) and Starlink Terminal (ID 34600) are enabled, the Location object automatically uses Starlink GPS as its primary source:
+
+```
+GPS Source Priority:
+1. Starlink Terminal GPS (Resources 83-85)  ← Highest priority
+2. gpsd daemon
+3. UCI manual configuration
+```
+
+This provides seamless location tracking for mobile Starlink installations.
+
+---
+
 ## ✅ Verify Installation
 
 ### Check Objects Are Running
@@ -251,6 +372,7 @@ uci commit lwm2m
 # - Server
 # - Security
 # - Location (if enabled)
+# - Starlink Terminal (if enabled)
 # - Connectivity Monitoring
 # - Other enabled objects
 ```
@@ -373,6 +495,7 @@ uci commit lwm2m
 
 - **[Implementation Guide](IMPLEMENTATION_GUIDE.md)** - Detailed build instructions
 - **[Location Object Documentation](LOCATION_OBJECT.md)** - GPS/Location features
+- **[Starlink Terminal Documentation](STARLINK_TERMINAL.md)** - Starlink satellite terminal management
 - **[OpenWRT Integration](OPENWRT_INTEGRATION.md)** - OpenWRT-specific features
 - **[API Reference](API_REFERENCE.md)** - Code API documentation
 - **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions

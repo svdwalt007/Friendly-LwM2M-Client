@@ -203,6 +203,208 @@ bool getManualLocation(double& lat, double& lon, double& alt) {
 
 ---
 
+## Starlink Terminal Integration
+
+### Starlink Terminal Object (ID 34600)
+
+Comprehensive management and monitoring of Starlink Gen3 satellite terminals via gRPC interface.
+
+#### Prerequisites
+
+- Starlink dish accessible on network
+- Default gRPC endpoint: `192.168.100.1:9200`
+- Network routing configured to reach Starlink dish
+
+#### Verify Connectivity
+
+```bash
+# Ping Starlink dish
+ping 192.168.100.1
+
+# Test gRPC endpoint (requires grpcurl)
+grpcurl -plaintext 192.168.100.1:9200 list
+
+# Expected output:
+# SpaceX.API.Device.Device
+```
+
+#### Enable in Configuration
+
+**wpp/configs/wpp_config.cmake:**
+```cmake
+# Enable Starlink Terminal object
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
+```
+
+#### Initialize in Application
+
+**examples/objects.cpp:**
+```cpp
+#ifdef OBJ_O_34600_STARLINK_TERMINAL
+void starlinkTerminalInit(WppClient &client) {
+    client.registry().registerObj(StarlinkTerminal::object(client));
+    StarlinkTerminal::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(StarlinkTerminal::object(client),
+                               Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    #endif
+}
+#endif
+```
+
+#### gRPC Communication
+
+The Starlink Terminal object uses gRPC to communicate with the dish:
+
+```cpp
+// Example: Reading Starlink status via gRPC
+#include <grpcpp/grpcpp.h>
+#include "spacex/api/device/device.grpc.pb.h"
+
+bool updateStarlinkTelemetry() {
+    // Create gRPC channel
+    auto channel = grpc::CreateChannel("192.168.100.1:9200",
+                                       grpc::InsecureChannelCredentials());
+    auto stub = SpaceX::API::Device::Device::NewStub(channel);
+
+    // Prepare request
+    grpc::ClientContext context;
+    SpaceX::API::Device::Request request;
+    request.mutable_get_status();
+    SpaceX::API::Device::Response response;
+
+    // Call gRPC method
+    grpc::Status status = stub->Handle(&context, request, &response);
+
+    if (status.ok() && response.has_dish_get_status()) {
+        auto dishStatus = response.dish_get_status();
+
+        // Access telemetry data
+        float downlink = dishStatus.downlink_throughput_bps();
+        float uplink = dishStatus.uplink_throughput_bps();
+        float latency = dishStatus.pop_ping_latency_ms();
+        bool obstructed = dishStatus.obstruction_stats().currently_obstructed();
+
+        return true;
+    }
+
+    return false;
+}
+```
+
+#### OpenWRT Network Configuration
+
+For Starlink integration on OpenWRT, ensure proper network routing:
+
+```bash
+# Add route to Starlink network (if not on same subnet)
+ip route add 192.168.100.0/24 via <gateway_ip>
+
+# Or configure via UCI
+uci set network.starlink=interface
+uci set network.starlink.proto='static'
+uci set network.starlink.ipaddr='192.168.100.2'
+uci set network.starlink.netmask='255.255.255.0'
+uci commit network
+/etc/init.d/network restart
+```
+
+#### Firewall Configuration
+
+```bash
+# Allow traffic to Starlink dish gRPC port
+uci add firewall rule
+uci set firewall.@rule[-1].name='Allow-Starlink-gRPC'
+uci set firewall.@rule[-1].src='lan'
+uci set firewall.@rule[-1].dest_ip='192.168.100.1'
+uci set firewall.@rule[-1].dest_port='9200'
+uci set firewall.@rule[-1].proto='tcp'
+uci set firewall.@rule[-1].target='ACCEPT'
+uci commit firewall
+/etc/init.d/firewall restart
+```
+
+#### Resource Groups
+
+The Starlink Terminal object provides 70+ resources organized into:
+
+1. **Device Information (0-9)**
+   - Serial number, hardware/software versions
+   - Connection state, uptime
+
+2. **Network Performance (10-29)**
+   - Throughput (downlink/uplink)
+   - Latency, packet loss, SNR
+   - Data usage counters
+
+3. **Obstruction Monitoring (30-39)**
+   - Obstruction fraction
+   - 12-wedge sky view analysis
+   - Obstruction duration/interval stats
+
+4. **Dish Alignment (40-49)**
+   - Azimuth (0-360°) and elevation (0-90°)
+   - Stowed state (read/write)
+
+5. **Alert System (50-79)**
+   - 16 different alert conditions
+   - Thermal, motor, water detection alerts
+
+6. **GPS Location (80-89)**
+   - Latitude, longitude, altitude
+   - GPS ready/enabled status
+   - Satellite count
+
+7. **Power Management (90-99)**
+   - Current, mean, min/max power
+   - Total energy consumption
+
+8. **Control Actions (100-107)**
+   - Reboot terminal
+   - Run speed test
+   - Get obstruction map
+   - Configure gRPC endpoint
+
+9. **Historical Data (110-119)**
+   - Performance statistics
+   - Latency deciles
+   - Load bucket stats
+
+#### Monitoring on OpenWRT
+
+```bash
+# Monitor Starlink connection state via LwM2M
+# Object 34600, Resource 3: CONNECTION_STATE
+# Values: CONNECTED, SEARCHING, BOOTING, STOWED, etc.
+
+# Check obstruction status
+# Object 34600, Resource 30: FRACTION_OBSTRUCTED (0.0-1.0)
+# Object 34600, Resource 31: CURRENTLY_OBSTRUCTED (true/false)
+
+# Monitor network performance
+# Object 34600, Resource 10: DOWNLINK_THROUGHPUT (bps)
+# Object 34600, Resource 11: UPLINK_THROUGHPUT (bps)
+# Object 34600, Resource 12: POP_PING_LATENCY (ms)
+```
+
+#### Integration with Location Object
+
+When both Starlink Terminal (34600) and Location (6) objects are enabled, the Location object automatically uses Starlink GPS as its primary source:
+
+```cpp
+// Automatic GPS source priority:
+// 1. Starlink Terminal GPS (Resources 83-85)
+// 2. gpsd daemon
+// 3. UCI manual configuration
+
+// No additional configuration needed - works automatically!
+```
+
+**See Also:** [Starlink Terminal Documentation](STARLINK_TERMINAL.md) for complete details
+
+---
+
 ## System Monitoring
 
 ### System Monitor Object (ID 34606)
