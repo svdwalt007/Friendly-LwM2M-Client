@@ -1,730 +1,944 @@
 # API Reference
 
-Complete API documentation for the Friendly LwM2M Client.
+Complete API reference for the Friendly LwM2M Client v1.1.
+
+## Table of Contents
+
+1. [Transport Layer](#transport-layer)
+2. [Firmware Management](#firmware-management)
+3. [Edge AI Inference](#edge-ai-inference)
+4. [Platform Abstraction](#platform-abstraction)
+5. [LwM2M Objects](#lwm2m-objects)
+6. [Utility Classes](#utility-classes)
+7. [Constants and Enums](#constants-and-enums)
 
 ---
 
-## Core Classes
+## Transport Layer
 
-### WppClient
+### MqttTransport
 
-Main client class for LwM2M operations.
-
-#### Methods
+MQTT transport binding implementation (OMA LwM2M v1.2.1 Section 8).
 
 ```cpp
-class WppClient {
+#include "transport/mqtt_transport.h"
+
+namespace lwm2m::transport {
+
+class MqttTransport {
 public:
-    // Constructor
-    WppClient(const std::string& endpoint, uint16_t localPort = 0);
+    // Configuration structure
+    struct Config {
+        MqttServerConfig server;
+        MqttCoseConfig security;
+    };
+
+    // Constructor/Destructor
+    explicit MqttTransport(const Config& config);
+    ~MqttTransport();
 
     // Connection management
-    bool connect();
-    bool disconnect();
-    void process(int timeout_ms);
-
-    // Registry access
-    WppRegistry& registry();
-
-    // Data operations
-    bool send(const DataLink& data);
-    bool send(const DataLink data[], size_t count);
-
-    // Ownership transfer
-    void giveOwnership();
-
-    // Client state
-    bool isConnected();
-    const std::string& getEndpoint();
-};
-```
-
-#### Example Usage
-
-```cpp
-// Create client
-WppClient* client = new WppClient("my-device-001", 56830);
-
-// Initialize objects
-client->registry().registerObj(Location::object(*client));
-Location::createInst(*client);
-
-// Start client
-client->connect();
-
-// Main loop
-while (running) {
-    client->process(1000);  // Process for 1 second
-}
-
-// Cleanup
-client->disconnect();
-delete client;
-```
-
----
-
-### WppRegistry
-
-Object registry for managing LwM2M objects.
-
-#### Methods
-
-```cpp
-class WppRegistry {
-public:
-    // Object management
-    bool registerObj(Object& object);
-    bool deregisterObj(Object& object);
-    bool isObjRegistered(Object& object);
-    bool isExist(OBJ_ID objId);
-
-    // Object access
-    Object* object(OBJ_ID objId);
-    std::vector<Object*>& objects();
-
-    // Standard object accessors
-    Object& device();
-    Object& lwm2mServer();
-    Object& lwm2mSecurity();
-    Object& connectivityMonitoring();
-    Object& location();
-    Object& firmwareUpdate();
-
-    // Walt Technologies objects
-    Object& starlinkTerminal();
-    Object& routerManagement();
-    Object& ethernetInterface();
-    // ... more accessors
-};
-```
-
-#### Example Usage
-
-```cpp
-// Register object
-client.registry().registerObj(Location::object(client));
-
-// Get object
-Object& locObj = client.registry().location();
-
-// Check if object exists
-if (client.registry().isExist(OBJ_ID::LOCATION)) {
-    // Object is available
-}
-```
-
----
-
-### Instance
-
-Base class for all LwM2M object instances.
-
-#### Methods
-
-```cpp
-class Instance {
-public:
-    // Resource access
-    Resource* resource(ID_T resId);
-
-    // Value setters (single instance resources)
-    template<typename T>
-    bool set(ID_T resId, const T& value);
-
-    // Value setters (multiple instance resources)
-    template<typename T>
-    bool set(ID_T resId, const T& value, ID_T resInstId);
-
-    // Value getters (single instance resources)
-    template<typename T>
-    T get(ID_T resId);
-
-    // Value getters (multiple instance resources)
-    template<typename T>
-    T get(ID_T resId, ID_T resInstId);
-
-    // Notifications
-    void notifyResChanged(ID_T resId, ID_T resInstId = 0);
-    void notifyResChanged(const std::vector<ID_T>& resIds);
-
-    // Execute handlers
-    using ExecuteCallback = std::function<bool(Instance&, ID_T, const OPAQUE_T&)>;
-    void setExecute(ID_T resId, ExecuteCallback callback);
-
-    // Instance info
-    OBJ_ID getObjectID();
-    OBJ_INST_ID_T getInstanceID();
-};
-```
-
-#### Example Usage
-
-```cpp
-// Create instance
-Location* loc = Location::createInst(client);
-
-// Set values
-loc->set<FLOAT_T>(Location::LATITUDE_0, 40.7128);
-loc->set<FLOAT_T>(Location::LONGITUDE_1, -74.0060);
-
-// Get values
-float lat = loc->get<FLOAT_T>(Location::LATITUDE_0);
-
-// Multiple instance resource
-loc->set<STRING_T>(Location::IP_ADDRESSES_4, "192.168.1.1", 0);
-loc->set<STRING_T>(Location::IP_ADDRESSES_4, "10.0.0.1", 1);
-
-// Notify server of changes
-loc->notifyResChanged(Location::LATITUDE_0);
-
-// Set execute handler
-loc->setExecute(Location::RESET_RESOURCE,
-    [](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        // Handle execute
-        return true;
-    }
-);
-```
-
----
-
-## Location Object API
-
-### Class: Location
-
-Implementation of OMA LwM2M Location object (ID 6).
-
-#### Resource IDs
-
-```cpp
-enum ID: ID_T {
-    LATITUDE_0 = 0,          // Float, degrees
-    LONGITUDE_1 = 1,         // Float, degrees
-    ALTITUDE_2 = 2,          // Float, meters (optional)
-    RADIUS_3 = 3,            // Float, meters (optional)
-    VELOCITY_4 = 4,          // Opaque (optional)
-    TIMESTAMP_5 = 5,         // Time, Unix timestamp
-    SPEED_6 = 6,             // Float, m/s (optional)
-};
-```
-
-#### Static Methods
-
-```cpp
-class Location : public Instance {
-public:
-    // Object access
-    static Object& object(WppClient& ctx);
-
-    // Instance management
-    static Location* instance(WppClient& ctx, ID_T instId = ID_T_MAX_VAL);
-    static Location* createInst(WppClient& ctx, ID_T instId = ID_T_MAX_VAL);
-    static bool removeInst(WppClient& ctx, ID_T instId);
-
-    // Update location (manual trigger)
-    bool updateLocation();
-};
-```
-
-#### Example Usage
-
-```cpp
-// Create location instance
-Location* loc = Location::createInst(client);
-
-// Read location
-float lat = loc->get<FLOAT_T>(Location::LATITUDE_0);
-float lon = loc->get<FLOAT_T>(Location::LONGITUDE_1);
-time_t timestamp = loc->get<TIME_T>(Location::TIMESTAMP_5);
-
-printf("Location: %f, %f at %ld\n", lat, lon, timestamp);
-
-// Force location update
-loc->updateLocation();
-
-// Read updated values
-float newLat = loc->get<FLOAT_T>(Location::LATITUDE_0);
-```
-
----
-
-## Device Object API
-
-### Class: Device
-
-Implementation of OMA LwM2M Device object (ID 3).
-
-#### Resource IDs
-
-```cpp
-enum ID: ID_T {
-    MANUFACTURER_0 = 0,              // String
-    MODEL_NUMBER_1 = 1,              // String
-    SERIAL_NUMBER_2 = 2,             // String
-    FIRMWARE_VERSION_3 = 3,          // String
-    REBOOT_4 = 4,                    // Execute
-    FACTORY_RESET_5 = 5,             // Execute
-    AVAILABLE_POWER_SOURCES_6 = 6,   // Int (multiple)
-    POWER_SOURCE_VOLTAGE_7 = 7,      // Int (multiple)
-    POWER_SOURCE_CURRENT_8 = 8,      // Int (multiple)
-    BATTERY_LEVEL_9 = 9,             // Int (%)
-    MEMORY_FREE_10 = 10,             // Int (KB)
-    ERROR_CODE_11 = 11,              // Int (multiple)
-    CURRENT_TIME_13 = 13,            // Time
-    SUPPORTED_BINDING_AND_MODES_16 = 16, // String
-    DEVICE_TYPE_17 = 17,             // String
-    HARDWARE_VERSION_18 = 18,        // String
-    // ... more resources
-};
-```
-
-#### Power Source Enum
-
-```cpp
-enum PwrSrcs: uint8_t {
-    DC = 0,                 // DC power
-    INTERN_BAT = 1,         // Internal battery
-    EXTERN_BAT = 2,         // External battery
-    FUEL_CELL = 3,          // Fuel cell
-    PWR_OVER_ETHERNET = 4,  // PoE
-    USB = 5,                // USB
-    AC = 6,                 // AC (mains) power
-    SOLAR = 7,              // Solar
-};
-```
-
-#### Example Usage
-
-```cpp
-// Get device info
-Device* dev = Device::instance(client);
-
-std::string manufacturer = dev->get<STRING_T>(Device::MANUFACTURER_0);
-std::string model = dev->get<STRING_T>(Device::MODEL_NUMBER_1);
-int memFree = dev->get<INT_T>(Device::MEMORY_FREE_10);
-
-// Trigger reboot
-dev->resource(Device::REBOOT_4)->execute(OPAQUE_T{});
-```
-
----
-
-## Connectivity Monitoring API
-
-### Class: ConnectivityMonitoring
-
-Implementation of OMA LwM2M Connectivity Monitoring object (ID 4).
-
-#### Resource IDs
-
-```cpp
-enum ID: ID_T {
-    NETWORK_BEARER_0 = 0,            // Int
-    AVAILABLE_NETWORK_BEARER_1 = 1,  // Int (multiple)
-    RADIO_SIGNAL_STRENGTH_2 = 2,     // Int (dBm)
-    LINK_QUALITY_3 = 3,              // Int (%)
-    IP_ADDRESSES_4 = 4,              // String (multiple)
-    ROUTER_IP_ADDRESSES_5 = 5,       // String (multiple)
-    LINK_UTILIZATION_6 = 6,          // Int (%)
-    APN_7 = 7,                       // String (multiple)
-    CELL_ID_8 = 8,                   // Int
-    SMNC_9 = 9,                      // Int
-    SMCC_10 = 10,                    // Int
-};
-```
-
-#### Network Bearer Enum
-
-```cpp
-enum NtwrkBrr: INT_T {
-    GSM = 0,
-    TD_SCDMA = 1,
-    WCDMA = 2,
-    CDMA2000 = 3,
-    WIMAX = 4,
-    LTE_TDD = 5,
-    LTE_FDD = 6,
-    LTE_M = 7,
-    NBIOT = 8,
-    ETHERNET = 41,
-    WLAN = 21,
-};
-```
-
-#### Example Usage
-
-```cpp
-ConnectivityMonitoring* conn = ConnectivityMonitoring::instance(client);
-
-// Get network info
-int bearer = conn->get<INT_T>(ConnectivityMonitoring::NETWORK_BEARER_0);
-int signalStrength = conn->get<INT_T>(ConnectivityMonitoring::RADIO_SIGNAL_STRENGTH_2);
-
-// Get IP addresses (multiple instance resource)
-std::string ip0 = conn->get<STRING_T>(ConnectivityMonitoring::IP_ADDRESSES_4, 0);
-std::string ip1 = conn->get<STRING_T>(ConnectivityMonitoring::IP_ADDRESSES_4, 1);
-```
-
----
-
-## Task Queue API
-
-### WppTaskQueue
-
-Asynchronous task scheduling.
-
-#### Methods
-
-```cpp
-class WppTaskQueue {
-public:
-    using TaskCallback = std::function<bool(WppClient&, void*)>;
-
-    // Add task
-    static task_id_t addTask(
-        int interval_sec,
-        TaskCallback callback,
-        void* context = nullptr
+    MqttResult connect();
+    MqttResult disconnect(bool graceful = true);
+    bool isConnected() const;
+    MqttResult reconnect();
+
+    // Registration interface
+    MqttResult registerClient(const MqttRegistrationParams& params);
+    MqttResult updateRegistration(
+        uint32_t lifetime = 0,
+        const std::string& binding = "",
+        const std::vector<std::string>& objectLinks = {}
+    );
+    MqttResult deregister();
+
+    // Bootstrap interface
+    MqttResult bootstrapRequest();
+    void onBootstrapWrite(BootstrapWriteCallback callback);
+    void onBootstrapDiscover(BootstrapDiscoverCallback callback);
+    void onBootstrapFinish(BootstrapFinishCallback callback);
+
+    // Device Management callbacks
+    void onRead(ReadCallback callback);
+    void onWrite(WriteCallback callback);
+    void onExecute(ExecuteCallback callback);
+    void onCreate(CreateCallback callback);
+    void onDelete(DeleteCallback callback);
+    void onDiscover(DiscoverCallback callback);
+    void onWriteAttributes(WriteAttributesCallback callback);
+    void onReadComposite(ReadCompositeCallback callback);
+    void onWriteComposite(WriteCompositeCallback callback);
+
+    // Information Reporting
+    void onObserve(ObserveCallback callback);
+    void onCancelObserve(CancelObserveCallback callback);
+    MqttResult sendNotification(
+        const std::string& path,
+        const std::vector<uint8_t>& data,
+        ContentFormat format,
+        MqttQoS qos = MqttQoS::AT_LEAST_ONCE
+    );
+    MqttResult sendData(
+        const std::vector<std::string>& paths,
+        const std::vector<uint8_t>& data,
+        ContentFormat format
     );
 
-    // Remove task
-    static void requestToRemoveTask(task_id_t taskId);
+    // Message processing
+    int processMessages(int timeoutMs);
 
-    // Process tasks (called by WppClient::process)
-    static void processTasks(WppClient& client);
+    // Configuration
+    void setDefaultQoS(MqttQoS qos);
+    void setLogLevel(MqttLogLevel level);
+    void setLogCallback(LogCallback callback);
+    void setTokenRefreshCallback(TokenRefreshCallback callback);
+
+    // Statistics
+    MqttStatistics getStatistics() const;
+    void resetStatistics();
 };
+
+}  // namespace lwm2m::transport
 ```
 
-#### Example Usage
+#### Callback Types
 
 ```cpp
-// Add periodic task (every 60 seconds)
-task_id_t taskId = WppTaskQueue::addTask(60,
-    [](WppClient& client, void* ctx) {
-        // Update logic here
-        float temp = readTemperature();
-        // ...
-        return false;  // false = keep running, true = remove task
-    }
-);
+// Response function type
+using RespondFunc = std::function<void(const LwM2MPayload&)>;
 
-// Remove task later
-WppTaskQueue::requestToRemoveTask(taskId);
-
-// One-time task (returns true)
-WppTaskQueue::addTask(0, [](WppClient& client, void* ctx) {
-    // Execute once immediately
-    return true;  // Remove after execution
-});
+// Callbacks
+using ReadCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using WriteCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using ExecuteCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using CreateCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using DeleteCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using DiscoverCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using WriteAttributesCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using ReadCompositeCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using WriteCompositeCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using ObserveCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using CancelObserveCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using BootstrapWriteCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using BootstrapDiscoverCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using BootstrapFinishCallback = std::function<void(const LwM2MPayload&, RespondFunc)>;
+using LogCallback = std::function<void(MqttLogLevel, const std::string&)>;
+using TokenRefreshCallback = std::function<std::string()>;
 ```
 
 ---
 
-## Data Types
+### BlockwiseTransfer
 
-### Common Types
-
-```cpp
-using ID_T = uint16_t;                    // Resource/Object ID
-using OBJ_ID = ID_T;                      // Object ID
-using OBJ_INST_ID_T = uint16_t;          // Instance ID
-using STRING_T = std::string;             // String type
-using INT_T = int64_t;                    // Integer type
-using FLOAT_T = double;                   // Float type
-using BOOL_T = bool;                      // Boolean type
-using TIME_T = time_t;                    // Time type
-using OPAQUE_T = std::vector<uint8_t>;   // Opaque data type
-using EXECUTE_T = ExecuteCallback;        // Execute handler type
-
-// Object link
-struct OBJ_LINK_T {
-    OBJ_ID objId;
-    OBJ_INST_ID_T instId;
-};
-```
-
-### DataLink Structure
+CoAP block-wise transfer handler (RFC 7959).
 
 ```cpp
-struct DataLink {
-    OBJ_LINK_T object;        // Object and instance
-    std::vector<ID_T> resources;  // Resources to send
+#include "transport/blockwise_transfer.h"
 
-    // Example
-    DataLink link = {
-        {OBJ_ID::LOCATION, 0},           // Object Location, instance 0
-        {Location::LATITUDE_0, Location::LONGITUDE_1}  // Resources
+namespace lwm2m::transport {
+
+class BlockwiseTransfer {
+public:
+    // Configuration
+    struct Config {
+        size_t preferredBlockSize = 1024;
+        bool enableBERT = true;
+        size_t bertBlockSize = 8192;
+        int retransmitCount = 5;
+        int transferTimeoutSec = 600;
     };
+
+    explicit BlockwiseTransfer(const Config& config = {});
+    ~BlockwiseTransfer();
+
+    // Transfer management
+    std::string startTransfer(
+        const std::string& resourcePath,
+        const std::vector<uint8_t>& data,
+        bool resumable = true
+    );
+
+    TransferResult resumeTransfer(
+        const std::string& transferId,
+        const std::string& etag
+    );
+
+    TransferResult receiveBlock(
+        const std::string& transferId,
+        uint32_t blockNum,
+        const std::vector<uint8_t>& blockData,
+        bool moreBlocks
+    );
+
+    std::vector<uint8_t> getNextBlock(
+        const std::string& transferId,
+        uint32_t blockNum,
+        size_t blockSize
+    );
+
+    bool cancelTransfer(const std::string& transferId);
+
+    // Configuration
+    void setPreferredBlockSize(size_t size);
+    void enableBERT(bool enabled);
+    void setBERTBlockSize(size_t size);
+
+    // Statistics
+    TransferStatistics getStats(const std::string& transferId) const;
+    std::vector<std::string> getActiveTransfers() const;
 };
+
+}  // namespace lwm2m::transport
 ```
 
 ---
 
-## Helper Classes (OpenWRT)
+## Firmware Management
 
-### OpenWrtDeviceInfo
+### DeltaAlgorithms
+
+Delta firmware update algorithms.
 
 ```cpp
-class OpenWrtDeviceInfo {
+#include "firmware/delta_algorithms.h"
+
+namespace lwm2m::firmware {
+
+class DeltaAlgorithms {
 public:
-    static std::string getManufacturer();
-    static std::string getModelNumber();
-    static std::string getSerialNumber();
-    static std::string getFirmwareVersion();
-    static std::string getHardwareVersion();
+    DeltaAlgorithms();
+    ~DeltaAlgorithms();
 
-    static std::vector<int> getAvailablePowerSources();
-    static int getPowerSourceVoltage(int source);
-    static int getPowerSourceCurrent(int source);
+    // Generate delta patch
+    DeltaResult generatePatch(
+        const std::string& oldFilePath,
+        const std::string& newFilePath,
+        const std::string& patchFilePath,
+        DeltaAlgorithm algorithm = DeltaAlgorithm::BSDIFF
+    );
 
-    static int getMemoryFree();
-    static int getMemoryTotal();
+    DeltaResult generatePatch(
+        const std::vector<uint8_t>& oldData,
+        const std::vector<uint8_t>& newData,
+        std::vector<uint8_t>& patchData,
+        DeltaAlgorithm algorithm = DeltaAlgorithm::BSDIFF
+    );
 
-    static bool performReboot();
+    // Apply delta patch
+    DeltaResult applyPatch(
+        const std::string& oldFilePath,
+        const std::string& patchFilePath,
+        const std::string& newFilePath,
+        DeltaAlgorithm algorithm = DeltaAlgorithm::BSDIFF
+    );
+
+    DeltaResult applyPatch(
+        const std::vector<uint8_t>& oldData,
+        const std::vector<uint8_t>& patchData,
+        std::vector<uint8_t>& newData,
+        DeltaAlgorithm algorithm = DeltaAlgorithm::BSDIFF
+    );
+
+    // Compression
+    CompressionResult compress(
+        const std::vector<uint8_t>& input,
+        std::vector<uint8_t>& output,
+        CompressionAlgorithm algorithm,
+        int level = -1
+    );
+
+    CompressionResult decompress(
+        const std::vector<uint8_t>& input,
+        std::vector<uint8_t>& output,
+        CompressionAlgorithm algorithm
+    );
+
+    // Validation
+    bool validateChecksum(
+        const std::string& filePath,
+        const std::string& expectedChecksum,
+        ChecksumAlgorithm algorithm = ChecksumAlgorithm::SHA256
+    );
+
+    std::string calculateChecksum(
+        const std::string& filePath,
+        ChecksumAlgorithm algorithm = ChecksumAlgorithm::SHA256
+    );
+
+    // Algorithm detection
+    static DeltaAlgorithm detectAlgorithm(const std::vector<uint8_t>& patchData);
+    static std::vector<DeltaAlgorithm> getSupportedAlgorithms();
 };
+
+}  // namespace lwm2m::firmware
 ```
 
-### OpenWrtLocationInfo
+---
+
+### RollbackManager
+
+A/B partition and rollback management.
 
 ```cpp
-class OpenWrtLocationInfo {
+#include "firmware/rollback_manager.h"
+
+namespace lwm2m::firmware {
+
+class RollbackManager {
 public:
-    static double getLatitude();
-    static double getLongitude();
-    static double getAltitude();
-    static double getRadius();
-    static time_t getTimestamp();
-    static double getSpeed();
+    struct Config {
+        std::string snapshotDir = "/var/lib/lwm2m/snapshots";
+        size_t maxSnapshots = 3;
+        bool enableABPartition = true;
+        std::string partitionA = "/dev/mmcblk0p2";
+        std::string partitionB = "/dev/mmcblk0p3";
+    };
 
-    static bool isLocationAvailable();
-    static bool getAllLocation(double& lat, double& lon, double& alt);
+    explicit RollbackManager(const Config& config = {});
+    ~RollbackManager();
+
+    // Snapshot management
+    RollbackResult createSnapshot(const std::string& version);
+    RollbackResult rollback(const std::string& targetVersion);
+    RollbackResult rollbackToLatest();
+    std::vector<SnapshotInfo> getAvailableSnapshots() const;
+    RollbackResult deleteSnapshot(const std::string& version);
+    void pruneSnapshots();
+
+    // A/B partition management
+    PartitionSlot getActiveSlot() const;
+    PartitionSlot getInactiveSlot() const;
+    RollbackResult switchSlot();
+    bool isSlotBootable(PartitionSlot slot) const;
+    RollbackResult markSlotBootable(PartitionSlot slot, bool bootable);
+    RollbackResult writeToInactiveSlot(
+        const std::vector<uint8_t>& data,
+        size_t offset = 0
+    );
+
+    // Recovery
+    RollbackResult enterRecoveryMode();
+    bool isInRecoveryMode() const;
+    RollbackResult exitRecoveryMode();
+
+    // Boot management
+    void incrementBootCounter();
+    void resetBootCounter();
+    int getBootCounter() const;
+    void setMaxBootAttempts(int attempts);
+
+    // State callbacks
+    void setStateChangeCallback(StateChangeCallback callback);
 };
+
+}  // namespace lwm2m::firmware
 ```
 
-### OpenWrtConnectivityInfo
+---
+
+## Edge AI Inference
+
+### EdgeAIInferenceObject
+
+Edge AI inference object (Object ID: 33410).
 
 ```cpp
-class OpenWrtConnectivityInfo {
+#include "objects/edge_ai_inference_object.h"
+
+namespace lwm2m::objects {
+
+class EdgeAIInferenceObject {
 public:
-    static int getNetworkBearer();
-    static std::vector<int> getAvailableNetworkBearers();
+    struct Config {
+        std::string modelStoragePath = "/var/lib/lwm2m/models";
+        size_t maxModelSize = 100 * 1024 * 1024;
+        bool enableGPU = false;
+        int defaultNumThreads = 4;
+        size_t maxWorkingMemory = 256 * 1024 * 1024;
+    };
 
-    static int getRadioSignalStrength();
-    static int getLinkQuality();
-    static int getLinkUtilization();
+    EdgeAIInferenceObject(uint16_t instanceId, const Config& config = {});
+    ~EdgeAIInferenceObject();
 
-    static std::vector<std::string> getIpAddresses();
-    static std::vector<std::string> getRouterIpAddresses();
-    static std::vector<std::string> getAPN();
+    // Initialization
+    bool initialize();
+    void shutdown();
 
-    static int getCellId();
-    static int getSMNC();
-    static int getSMCC();
+    // Model management
+    ModelLoadResult loadModel(
+        const std::string& filePath,
+        ModelFormat format = ModelFormat::AUTO
+    );
+    ModelLoadResult loadModelFromMemory(
+        const std::vector<uint8_t>& modelData,
+        ModelFormat format
+    );
+    void unloadModel();
+    ModelLoadResult swapModel(
+        const std::string& filePath,
+        ModelFormat format = ModelFormat::AUTO
+    );
+
+    // Model download
+    void setModelUri(const std::string& uri);
+    void setModelChecksum(const std::string& checksum);
+    void downloadModel(DownloadProgressCallback callback = nullptr);
+    void cancelDownload();
+
+    // Inference
+    InferenceResult runInference(
+        const std::vector<Tensor>& inputs,
+        std::vector<Tensor>& outputs,
+        const InferenceConfig& config = {}
+    );
+
+    void runInferenceAsync(
+        const std::vector<Tensor>& inputs,
+        InferenceCallback callback,
+        const InferenceConfig& config = {}
+    );
+
+    // Streaming inference
+    void startStreaming(
+        StreamingCallback callback,
+        const InferenceConfig& config = {}
+    );
+    void pushStreamingFrame(
+        const std::vector<Tensor>& inputs,
+        int frameId
+    );
+    void stopStreaming();
+
+    // Result decoding
+    std::vector<std::pair<std::string, float>> decodeClassification(
+        const Tensor& output,
+        int topK = 5
+    );
+
+    std::vector<DetectionResult> decodeDetection(
+        const std::vector<Tensor>& outputs,
+        float confidenceThreshold = 0.5f,
+        bool applyNMS = true
+    );
+
+    // Configuration
+    void setAccelerator(AcceleratorType type);
+    void setNumThreads(int threads);
+    void setPreprocessConfig(const PrePostProcessConfig& config);
+    void setPostprocessConfig(const PrePostProcessConfig& config);
+    void setLabels(const std::vector<std::string>& labels);
+
+    // State and info
+    ModelState getState() const;
+    ModelMetadata getModelMetadata() const;
+    std::string getLastError() const;
+    HardwareCapabilities getHardwareCapabilities() const;
+
+    // Statistics
+    InferenceStatistics getStatistics() const;
+    void resetStatistics();
+
+    // Profiling and benchmarking
+    void enableProfiling(bool enable);
+    ProfileData getProfileData() const;
+    BenchmarkResult runBenchmark(int iterations = 100, int warmupRuns = 10);
+
+    // LwM2M resource handlers
+    LwM2MResult readResource(uint16_t resourceId, std::vector<uint8_t>& data);
+    LwM2MResult writeResource(uint16_t resourceId, const std::vector<uint8_t>& data);
+    LwM2MResult executeResource(uint16_t resourceId, const std::string& args);
 };
+
+}  // namespace lwm2m::objects
 ```
 
 ---
 
-## Logging API
+### Tensor
 
-### WppLogs
-
-```cpp
-// Log macros
-#define WPP_LOGD(tag, fmt, ...)  // Debug
-#define WPP_LOGI(tag, fmt, ...)  // Info
-#define WPP_LOGW(tag, fmt, ...)  // Warning
-#define WPP_LOGE(tag, fmt, ...)  // Error
-
-// Usage
-#define TAG "MyObject"
-
-WPP_LOGD(TAG, "Debug message: value=%d", value);
-WPP_LOGI(TAG, "Info message: %s", str.c_str());
-WPP_LOGW(TAG, "Warning: resource %d not found", resId);
-WPP_LOGE(TAG, "Error occurred: %s", error.c_str());
-```
-
----
-
-## Callback Types
-
-### Execute Callback
+Multi-dimensional array for ML data.
 
 ```cpp
-using ExecuteCallback = std::function<bool(Instance&, ID_T, const OPAQUE_T&)>;
+namespace lwm2m::objects {
 
-// Example
-bool executeReboot(Instance& inst, ID_T resId, const OPAQUE_T& data) {
-    WPP_LOGI(TAG, "Reboot requested");
-    system("reboot");
-    return true;  // Success
-}
-
-// Set callback
-instance->setExecute(REBOOT_RESOURCE, executeReboot);
-
-// Or lambda
-instance->setExecute(REBOOT_RESOURCE,
-    [](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return performReboot();
-    }
-);
-```
-
-### Task Callback
-
-```cpp
-using TaskCallback = std::function<bool(WppClient&, void*)>;
-
-// Example
-bool updateTask(WppClient& client, void* ctx) {
-    // Perform update
-    return false;  // Keep running
-}
-
-// Add task
-WppTaskQueue::addTask(60, updateTask);
-```
-
----
-
-## Error Handling
-
-### Return Values
-
-Most methods return `bool`:
-- `true` = Success
-- `false` = Failure
-
-```cpp
-if (client->connect()) {
-    WPP_LOGI(TAG, "Connected successfully");
-} else {
-    WPP_LOGE(TAG, "Connection failed");
-}
-```
-
-### Exception Safety
-
-The client is **exception-safe**:
-- No exceptions thrown from API
-- All errors returned via return values
-- Safe to use in embedded environments
-
----
-
-## Best Practices
-
-### 1. Always Check Return Values
-
-```cpp
-// Good
-if (!client->connect()) {
-    handleError();
-    return;
-}
-
-// Bad
-client->connect();  // Ignores errors!
-```
-
-### 2. Use RAII for Cleanup
-
-```cpp
-class MyClient {
-    WppClient* client;
+class Tensor {
 public:
-    MyClient() : client(new WppClient("endpoint")) {}
-    ~MyClient() { delete client; }
+    // Static creation
+    static Tensor create(
+        const std::vector<int>& dimensions,
+        TensorDataType dataType
+    );
+    static Tensor create(const TensorShape& shape);
+
+    // Accessors
+    template<typename T>
+    T* data();
+
+    template<typename T>
+    const T* data() const;
+
+    size_t size() const;           // Number of elements
+    size_t sizeBytes() const;      // Size in bytes
+    TensorShape shape() const;
+    TensorDataType dataType() const;
+    int numDimensions() const;
+    int dimension(int index) const;
+
+    // Operations
+    Tensor reshape(const std::vector<int>& newShape) const;
+    Tensor slice(int start, int end, int axis = 0) const;
+    Tensor copy() const;
+
+    // Validation
+    bool isValid() const;
+    bool isCompatible(const Tensor& other) const;
 };
-```
 
-### 3. Batch Notifications
+struct TensorShape {
+    std::vector<int> dimensions;
+    TensorDataType dataType;
 
-```cpp
-// Good - batch notifications
-instance->set<FLOAT_T>(RES_1, val1);
-instance->set<FLOAT_T>(RES_2, val2);
-instance->set<FLOAT_T>(RES_3, val3);
-instance->notifyResChanged({RES_1, RES_2, RES_3});
+    size_t totalElements() const;
+    size_t sizeBytes() const;
+    std::string toString() const;
+};
 
-// Less efficient - multiple notifications
-instance->set<FLOAT_T>(RES_1, val1);
-instance->notifyResChanged(RES_1);
-instance->set<FLOAT_T>(RES_2, val2);
-instance->notifyResChanged(RES_2);
-```
-
-### 4. Use Appropriate Log Levels
-
-```cpp
-WPP_LOGD(TAG, "Detailed debug info");    // Development only
-WPP_LOGI(TAG, "Normal operation");        // Production
-WPP_LOGW(TAG, "Warning condition");       // Production
-WPP_LOGE(TAG, "Error occurred");          // Always
+}  // namespace lwm2m::objects
 ```
 
 ---
 
-## Complete Example
+## Platform Abstraction
+
+### PlatformInterface
+
+Abstract platform interface.
 
 ```cpp
-#include "WppClient.h"
-#include "o_6_location/Location.h"
+#include "platform/platform_interface.h"
 
-#define TAG "MyApp"
+namespace lwm2m::platform {
 
-int main() {
-    // Create client
-    WppClient* client = new WppClient("my-device", 56830);
+class PlatformInterface {
+public:
+    virtual ~PlatformInterface() = default;
 
-    // Register and initialize objects
-    client->registry().registerObj(Location::object(*client));
-    Location* loc = Location::createInst(*client);
+    // Initialization
+    virtual bool initialize() = 0;
+    virtual void shutdown() = 0;
 
-    // Set initial values
-    loc->set<FLOAT_T>(Location::LATITUDE_0, 40.7128);
-    loc->set<FLOAT_T>(Location::LONGITUDE_1, -74.0060);
+    // Device information
+    virtual DeviceInfo getDeviceInfo() const = 0;
+    virtual std::string getSerialNumber() const = 0;
+    virtual std::string getFirmwareVersion() const = 0;
 
-    // Add periodic update task
-    WppTaskQueue::addTask(60, [loc](WppClient& client, void* ctx) {
-        loc->updateLocation();
-        WPP_LOGI(TAG, "Location updated");
-        return false;  // Continue running
-    });
+    // System operations
+    virtual void reboot() = 0;
+    virtual void factoryReset() = 0;
+    virtual uint64_t getUptime() const = 0;
+    virtual uint64_t getCurrentTime() const = 0;
 
-    // Transfer ownership
-    client->giveOwnership();
+    // Memory
+    virtual MemoryInfo getMemoryInfo() const = 0;
 
-    // Connect
-    if (!client->connect()) {
-        WPP_LOGE(TAG, "Failed to connect");
-        return 1;
-    }
+    // Storage
+    virtual StorageInfo getStorageInfo() const = 0;
+    virtual bool readFile(const std::string& path, std::vector<uint8_t>& data) = 0;
+    virtual bool writeFile(const std::string& path, const std::vector<uint8_t>& data) = 0;
 
-    // Main loop
-    bool running = true;
-    while (running) {
-        client->process(1000);
+    // Network
+    virtual NetworkInfo getNetworkInfo() const = 0;
 
-        // Check for exit condition
-        // ...
-    }
+    // Power
+    virtual PowerInfo getPowerInfo() const = 0;
 
-    // Cleanup
-    client->disconnect();
-    delete client;
+    // Utilities
+    virtual void sleep(uint32_t milliseconds) = 0;
+    virtual std::string generateUUID() = 0;
+};
 
-    return 0;
-}
+}  // namespace lwm2m::platform
+```
+
+### LinuxPlatform
+
+Linux platform implementation.
+
+```cpp
+#include "platform/linux_platform.h"
+
+namespace lwm2m::platform {
+
+class LinuxPlatform : public PlatformInterface {
+public:
+    LinuxPlatform();
+    ~LinuxPlatform() override;
+
+    // PlatformInterface implementation
+    bool initialize() override;
+    void shutdown() override;
+    DeviceInfo getDeviceInfo() const override;
+    // ... all other methods ...
+
+    // Linux-specific
+    void setDeviceTreePath(const std::string& path);
+    void setSerialNumberFile(const std::string& path);
+};
+
+}  // namespace lwm2m::platform
+```
+
+### OpenWRTPlatform
+
+OpenWRT platform implementation.
+
+```cpp
+#include "platform/openwrt_platform.h"
+
+namespace lwm2m::platform {
+
+class OpenWRTPlatform : public PlatformInterface {
+public:
+    OpenWRTPlatform();
+    ~OpenWRTPlatform() override;
+
+    // PlatformInterface implementation
+    bool initialize() override;
+    void shutdown() override;
+    // ... all other methods ...
+
+    // OpenWRT-specific
+    std::string uciGet(const std::string& key) const;
+    bool uciSet(const std::string& key, const std::string& value);
+    bool uciCommit(const std::string& config);
+
+    // MTD operations
+    bool mtdRead(const std::string& partition, std::vector<uint8_t>& data, 
+                 size_t offset = 0, size_t size = 0);
+    bool mtdWrite(const std::string& partition, const std::vector<uint8_t>& data,
+                  size_t offset = 0);
+    bool mtdErase(const std::string& partition);
+};
+
+}  // namespace lwm2m::platform
 ```
 
 ---
 
-## See Also
+## LwM2M Objects
 
-- [Implementation Guide](IMPLEMENTATION_GUIDE.md) - Detailed implementation
-- [Architecture Overview](ARCHITECTURE.md) - System design
-- [Location Object Documentation](LOCATION_OBJECT.md) - Location API details
+### AdvancedFirmwareUpdateObject
+
+Advanced firmware update object (Object ID: 33405).
+
+```cpp
+#include "objects/advanced_firmware_update_object.h"
+
+namespace lwm2m::objects {
+
+class AdvancedFirmwareUpdateObject {
+public:
+    struct Config {
+        std::string downloadPath = "/tmp/firmware";
+        size_t maxPackageSize = 256 * 1024 * 1024;
+        bool enableDelta = true;
+        bool enableRollback = true;
+        std::vector<DeltaAlgorithm> supportedAlgorithms = {
+            DeltaAlgorithm::BSDIFF,
+            DeltaAlgorithm::VCDIFF
+        };
+    };
+
+    AdvancedFirmwareUpdateObject(uint16_t instanceId, const Config& config = {});
+    ~AdvancedFirmwareUpdateObject();
+
+    // State management
+    FirmwareState getState() const;
+    FirmwareUpdateResult getUpdateResult() const;
+
+    // Package management
+    void setPackageUri(const std::string& uri);
+    void setDeltaPackageUri(const std::string& uri);
+    void downloadPackage();
+    void applyUpdate();
+    void cancelUpdate();
+
+    // Progress
+    uint8_t getDownloadProgress() const;
+    uint8_t getUpdateProgress() const;
+
+    // Version info
+    std::string getCurrentVersion() const;
+    std::string getTargetVersion() const;
+
+    // Callbacks
+    void setStateChangeCallback(FirmwareStateCallback callback);
+    void setProgressCallback(ProgressCallback callback);
+
+    // LwM2M resource handlers
+    LwM2MResult readResource(uint16_t resourceId, std::vector<uint8_t>& data);
+    LwM2MResult writeResource(uint16_t resourceId, const std::vector<uint8_t>& data);
+    LwM2MResult executeResource(uint16_t resourceId, const std::string& args);
+};
+
+}  // namespace lwm2m::objects
+```
+
+---
+
+## Utility Classes
+
+### LwM2MPayload
+
+LwM2M message payload structure.
+
+```cpp
+namespace lwm2m::transport {
+
+struct LwM2MPayload {
+    LwM2MOperation operation;
+    uint32_t token;
+    std::string path;
+    ContentFormat contentFormat;
+    std::vector<uint8_t> data;
+    LwM2MResponseCode responseCode;
+    std::string errorMessage;
+
+    // Registration-specific
+    std::string endpointName;
+    uint32_t lifetime;
+    std::string lwm2mVersion;
+    std::string bindingMode;
+    bool queueMode;
+    std::vector<std::string> objectLinks;
+    std::string alternativePath;
+
+    // Notification-specific
+    uint32_t observeSequence;
+    uint64_t timestamp;
+
+    // Composite operations
+    std::vector<std::string> compositePaths;
+};
+
+}  // namespace lwm2m::transport
+```
+
+---
+
+## Constants and Enums
+
+### Transport Enums
+
+```cpp
+namespace lwm2m::transport {
+
+enum class MqttResult {
+    SUCCESS = 0,
+    ERROR_TIMEOUT = -1,
+    ERROR_NETWORK = -2,
+    ERROR_TLS = -3,
+    ERROR_AUTH = -4,
+    ERROR_PROTOCOL = -5,
+    ERROR_NOT_CONNECTED = -6,
+    ERROR_INVALID_PARAM = -7
+};
+
+enum class MqttQoS {
+    AT_MOST_ONCE = 0,
+    AT_LEAST_ONCE = 1,
+    EXACTLY_ONCE = 2
+};
+
+enum class MqttSecurityMode {
+    NO_SECURITY = 0,
+    PSK = 1,
+    RAW_PUBLIC_KEY = 2,
+    CERTIFICATE = 3,
+    TOKEN = 4
+};
+
+enum class LwM2MOperation {
+    BOOTSTRAP_REQUEST = 0,
+    BOOTSTRAP_WRITE = 1,
+    BOOTSTRAP_DISCOVER = 2,
+    BOOTSTRAP_FINISH = 3,
+    REGISTER = 10,
+    UPDATE = 11,
+    DEREGISTER = 12,
+    READ = 20,
+    WRITE = 21,
+    EXECUTE = 22,
+    CREATE = 23,
+    DELETE = 24,
+    DISCOVER = 25,
+    WRITE_ATTRIBUTES = 26,
+    READ_COMPOSITE = 27,
+    WRITE_COMPOSITE = 28,
+    OBSERVE = 30,
+    CANCEL_OBSERVE = 31,
+    NOTIFY = 32,
+    SEND = 33
+};
+
+enum class LwM2MResponseCode {
+    CREATED = 201,
+    DELETED = 202,
+    CHANGED = 204,
+    CONTENT = 205,
+    BAD_REQUEST = 400,
+    UNAUTHORIZED = 401,
+    FORBIDDEN = 403,
+    NOT_FOUND = 404,
+    METHOD_NOT_ALLOWED = 405,
+    INTERNAL_ERROR = 500,
+    NOT_IMPLEMENTED = 501,
+    SERVICE_UNAVAILABLE = 503,
+    GATEWAY_TIMEOUT = 504
+};
+
+enum class ContentFormat {
+    TEXT_PLAIN = 0,
+    LINK_FORMAT = 40,
+    OPAQUE = 42,
+    CBOR = 60,
+    LWM2M_TLV = 11542,
+    LWM2M_JSON = 11543,
+    SENML_JSON = 110,
+    SENML_CBOR = 112,
+    LWM2M_CBOR = 11544
+};
+
+}  // namespace lwm2m::transport
+```
+
+### Firmware Enums
+
+```cpp
+namespace lwm2m::firmware {
+
+enum class DeltaAlgorithm {
+    BSDIFF = 1,
+    VCDIFF = 2,
+    COURGETTE = 3
+};
+
+enum class CompressionAlgorithm {
+    NONE = 0,
+    ZLIB = 1,
+    LZMA = 2,
+    BROTLI = 3,
+    ZSTD = 4
+};
+
+enum class FirmwareState {
+    IDLE = 0,
+    DOWNLOADING = 1,
+    DOWNLOADED = 2,
+    VALIDATING = 3,
+    APPLYING = 4,
+    UPDATING = 5,
+    REBOOTING = 6
+};
+
+enum class FirmwareUpdateResult {
+    SUCCESS = 0,
+    NO_MEMORY = 1,
+    CONNECTION_LOST = 2,
+    INTEGRITY_FAILURE = 3,
+    UNSUPPORTED_TYPE = 4,
+    INVALID_URI = 5,
+    FAILED_UPDATE = 6,
+    UNSUPPORTED_PROTOCOL = 7,
+    DELTA_MISMATCH = 8,
+    ROLLBACK_REQUIRED = 9
+};
+
+enum class PartitionSlot {
+    SLOT_A = 0,
+    SLOT_B = 1
+};
+
+}  // namespace lwm2m::firmware
+```
+
+### Edge AI Enums
+
+```cpp
+namespace lwm2m::objects {
+
+enum class ModelFormat {
+    AUTO = -1,
+    TFLITE = 0,
+    ONNX = 1,
+    PYTORCH_MOBILE = 2,
+    CORE_ML = 3,
+    TENSORRT = 4,
+    OPENVINO = 5
+};
+
+enum class ModelState {
+    IDLE = 0,
+    DOWNLOADING = 1,
+    VALIDATING = 2,
+    LOADING = 3,
+    READY = 4,
+    RUNNING = 5,
+    ERROR = 6,
+    UPDATING = 7
+};
+
+enum class AcceleratorType {
+    AUTO = -1,
+    CPU = 0,
+    GPU = 1,
+    NPU = 2,
+    DSP = 3,
+    TPU = 4
+};
+
+enum class TensorDataType {
+    FLOAT32 = 0,
+    FLOAT16 = 1,
+    INT32 = 2,
+    INT16 = 3,
+    INT8 = 4,
+    UINT8 = 5,
+    INT4 = 6,
+    BOOL = 7
+};
+
+enum class InferenceResult {
+    SUCCESS = 0,
+    ERROR_MODEL_NOT_LOADED = -1,
+    ERROR_INVALID_INPUT = -2,
+    ERROR_INPUT_SHAPE_MISMATCH = -3,
+    ERROR_OUTPUT_ALLOCATION = -4,
+    ERROR_EXECUTION_FAILED = -5,
+    ERROR_TIMEOUT = -6,
+    ERROR_OUT_OF_MEMORY = -7,
+    ERROR_CANCELLED = -8
+};
+
+}  // namespace lwm2m::objects
+```
+
+---
+
+## Object IDs
+
+| Object ID | Name | Class |
+|-----------|------|-------|
+| 0 | LwM2M Security | - |
+| 1 | LwM2M Server | - |
+| 3 | Device | - |
+| 5 | Firmware Update | - |
+| 21 | OSCORE | - |
+| 23 | LwM2M COSE | `MqttCoseObject` |
+| 24 | MQTT Server | `MqttServerObject` |
+| 33405 | Advanced Firmware Update | `AdvancedFirmwareUpdateObject` |
+| 33410 | Edge AI Inference | `EdgeAIInferenceObject` |
+
+---
+
+*For usage examples, see the [Getting Started Guide](GETTING_STARTED.md) and feature-specific guides.*

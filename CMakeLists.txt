@@ -19,6 +19,10 @@ option(WITH_VCDIFF "Enable VCDIFF algorithm" ON)
 option(WITH_COURGETTE "Enable Courgette algorithm" ON)
 option(WITH_COMPRESSION "Enable compression support" ON)
 option(WITH_ROLLBACK "Enable A/B partition rollback" ON)
+option(WITH_MQTT "Enable MQTT transport binding" ON)
+option(WITH_EDGE_AI "Enable Edge AI inference object" ON)
+option(WITH_TFLITE "Enable TensorFlow Lite backend" OFF)
+option(WITH_ONNX "Enable ONNX Runtime backend" OFF)
 option(BUILD_TESTS "Build unit tests" ON)
 option(BUILD_EXAMPLES "Build example applications" ON)
 option(BUILD_DOCS "Build documentation" OFF)
@@ -105,6 +109,33 @@ endif()
 find_library(COAP_LIB coap-3)
 find_path(COAP_INCLUDE coap3/coap.h)
 
+# MQTT (mosquitto)
+if(WITH_MQTT)
+    find_library(MOSQUITTO_LIB mosquitto)
+    find_path(MOSQUITTO_INCLUDE mosquitto.h)
+    if(MOSQUITTO_LIB AND MOSQUITTO_INCLUDE)
+        set(HAS_MOSQUITTO TRUE)
+    endif()
+endif()
+
+# TensorFlow Lite
+if(WITH_TFLITE)
+    find_library(TFLITE_LIB tensorflow-lite)
+    find_path(TFLITE_INCLUDE tensorflow/lite/interpreter.h)
+    if(TFLITE_LIB AND TFLITE_INCLUDE)
+        set(HAS_TFLITE TRUE)
+    endif()
+endif()
+
+# ONNX Runtime
+if(WITH_ONNX)
+    find_library(ONNXRUNTIME_LIB onnxruntime)
+    find_path(ONNXRUNTIME_INCLUDE onnxruntime/core/session/onnxruntime_cxx_api.h)
+    if(ONNXRUNTIME_LIB AND ONNXRUNTIME_INCLUDE)
+        set(HAS_ONNX TRUE)
+    endif()
+endif()
+
 # Testing
 if(BUILD_TESTS)
     find_package(GTest)
@@ -137,10 +168,12 @@ set(FIRMWARE_SOURCES
 
 set(TRANSPORT_SOURCES
     src/transport/blockwise_transfer.cpp
+    src/transport/mqtt_transport.cpp
 )
 
 set(OBJECTS_SOURCES
     src/objects/advanced_firmware_update_object.cpp
+    src/objects/edge_ai_inference_object.cpp
 )
 
 set(ALL_SOURCES
@@ -214,6 +247,27 @@ if(COAP_LIB AND COAP_INCLUDE)
     target_include_directories(friendly_lwm2m PUBLIC ${COAP_INCLUDE})
 endif()
 
+# MQTT support
+if(HAS_MOSQUITTO)
+    target_link_libraries(friendly_lwm2m PUBLIC ${MOSQUITTO_LIB})
+    target_include_directories(friendly_lwm2m PUBLIC ${MOSQUITTO_INCLUDE})
+    target_compile_definitions(friendly_lwm2m PUBLIC WITH_MOSQUITTO=1)
+endif()
+
+# TensorFlow Lite support
+if(HAS_TFLITE)
+    target_link_libraries(friendly_lwm2m PUBLIC ${TFLITE_LIB})
+    target_include_directories(friendly_lwm2m PUBLIC ${TFLITE_INCLUDE})
+    target_compile_definitions(friendly_lwm2m PUBLIC WITH_TFLITE=1)
+endif()
+
+# ONNX Runtime support
+if(HAS_ONNX)
+    target_link_libraries(friendly_lwm2m PUBLIC ${ONNXRUNTIME_LIB})
+    target_include_directories(friendly_lwm2m PUBLIC ${ONNXRUNTIME_INCLUDE})
+    target_compile_definitions(friendly_lwm2m PUBLIC WITH_ONNX=1)
+endif()
+
 # Compile definitions
 target_compile_definitions(friendly_lwm2m
     PUBLIC
@@ -222,6 +276,8 @@ target_compile_definitions(friendly_lwm2m
         $<$<BOOL:${WITH_VCDIFF}>:WITH_VCDIFF=1>
         $<$<BOOL:${WITH_COURGETTE}>:WITH_COURGETTE=1>
         $<$<BOOL:${WITH_ROLLBACK}>:WITH_ROLLBACK=1>
+        $<$<BOOL:${WITH_MQTT}>:WITH_MQTT=1>
+        $<$<BOOL:${WITH_EDGE_AI}>:WITH_EDGE_AI=1>
 )
 
 # ============================================================================
@@ -269,6 +325,26 @@ if(BUILD_TESTS)
     )
     add_test(NAME FirmwareUpdateObject COMMAND test_firmware_update_object)
 
+    add_executable(test_mqtt_transport
+        test/test_mqtt_transport.cpp
+    )
+    target_link_libraries(test_mqtt_transport
+        friendly_lwm2m
+        GTest::gtest
+        GTest::gtest_main
+    )
+    add_test(NAME MqttTransport COMMAND test_mqtt_transport)
+
+    add_executable(test_edge_ai_inference
+        test/test_edge_ai_inference.cpp
+    )
+    target_link_libraries(test_edge_ai_inference
+        friendly_lwm2m
+        GTest::gtest
+        GTest::gtest_main
+    )
+    add_test(NAME EdgeAIInference COMMAND test_edge_ai_inference)
+
     # All tests target
     add_custom_target(run_tests
         COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
@@ -277,6 +353,8 @@ if(BUILD_TESTS)
             test_blockwise_transfer 
             test_rollback_manager
             test_firmware_update_object
+            test_mqtt_transport
+            test_edge_ai_inference
     )
 
     # Coverage target
@@ -386,6 +464,10 @@ message(STATUS "  VCDIFF:           ${WITH_VCDIFF}")
 message(STATUS "  Courgette:        ${WITH_COURGETTE}")
 message(STATUS "  Compression:      ${WITH_COMPRESSION}")
 message(STATUS "  Rollback:         ${WITH_ROLLBACK}")
+message(STATUS "  MQTT Transport:   ${WITH_MQTT}")
+message(STATUS "  Edge AI:          ${WITH_EDGE_AI}")
+message(STATUS "  TensorFlow Lite:  ${WITH_TFLITE}")
+message(STATUS "  ONNX Runtime:     ${WITH_ONNX}")
 message(STATUS "")
 message(STATUS "Build options:")
 message(STATUS "  Tests:            ${BUILD_TESTS}")
@@ -399,4 +481,7 @@ message(STATUS "  BZip2:            ${BZIP2_FOUND}")
 message(STATUS "  LZMA:             ${LIBLZMA_FOUND}")
 message(STATUS "  Zstd:             ${HAS_ZSTD}")
 message(STATUS "  Brotli:           ${HAS_BROTLI}")
+message(STATUS "  Mosquitto:        ${HAS_MOSQUITTO}")
+message(STATUS "  TFLite:           ${HAS_TFLITE}")
+message(STATUS "  ONNX Runtime:     ${HAS_ONNX}")
 message(STATUS "")
