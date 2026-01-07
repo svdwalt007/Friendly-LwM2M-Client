@@ -44,12 +44,11 @@ int main() {
 
 	// Client initialization
 	cout << endl << "---- Creating WppClient ----" << endl;
-	string clientName = "Lwm2mClient";
-	#if DTLS_WITH_PSK
-	clientName += "PSK";
-	#elif DTLS_WITH_RPK
-	clientName += "RPK";
-	#endif
+	// LwM2M Bootstrap Configuration:
+	// - Endpoint Name: walttech888
+	// - Bootstrap Server: coap://demo-iot.friendly-tech.com:5680
+	// - Security Mode: NO_SEC (no DTLS encryption)
+	string clientName = "walttech888"; // OpenWRT One endpoint name
 	cout << "WppClient name: " << clientName << endl;
 	WppClient::create({clientName, "", ""}, connection, wppErrorHandler);
 	WppClient *client = WppClient::takeOwnershipBlocking();
@@ -72,11 +71,69 @@ int main() {
 	cout << endl << "---- Initialization wpp ConnectivityMonitoring ----" << endl;
 	connMonitoringInit(*client);
 	#endif
+	#ifdef OBJ_O_6_LOCATION
+	cout << endl << "---- Initialization wpp Location ----" << endl;
+	locationInit(*client);
+	#endif
+	#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+	cout << endl << "---- Initialization wpp WLAN Connectivity ----" << endl;
+	wlanConnectivityInit(*client);
+	#endif
+	#ifdef OBJ_O_13_BEARER_SELECTION
+	cout << endl << "---- Initialization wpp Bearer Selection ----" << endl;
+	bearerSelectionInit(*client);
+	#endif
 	#ifdef OBJ_O_3339_AUDIO_CLIP
 	cout << endl << "---- Initialization wpp AudioClip ----" << endl;
 	audioClipInit(*client);
 	#endif
-	
+	#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+	cout << endl << "---- Initialization wpp HardwareWatchdog ----" << endl;
+	hardwareWatchdogInit(*client);
+	#endif
+
+	/* ---------- Walt Technologies objects initialization ---------- */
+	#ifdef OBJ_O_34600_STARLINK_TERMINAL
+	cout << endl << "---- Initialization Walt Technologies StarlinkTerminal ----" << endl;
+	starlinkTerminalInit(*client);
+	#endif
+	#ifdef OBJ_O_34608_MIKROBUS
+	cout << endl << "---- Initialization Walt Technologies MIKROBUS ----" << endl;
+	mikrobusInit(*client);
+	#endif
+	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+	cout << endl << "---- Initialization wpp RouterManagement ----" << endl;
+	routerManagementInit(*client);
+	#endif
+	#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+	cout << endl << "---- Initialization wpp EthernetInterface ----" << endl;
+	ethernetInterfaceInit(*client);
+	#endif
+	#ifdef OBJ_W_34603_GPIO_CONTROL
+	cout << endl << "---- Initialization wpp GpioControl ----" << endl;
+	gpioControlInit(*client);
+	#endif
+	#ifdef OBJ_W_34604_USB_MANAGEMENT
+	cout << endl << "---- Initialization wpp UsbManagement ----" << endl;
+	usbManagementInit(*client);
+	#endif
+	#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+	cout << endl << "---- Initialization wpp StorageManagement ----" << endl;
+	storageManagementInit(*client);
+	#endif
+	#ifdef OBJ_W_34606_SYSTEM_MONITOR
+	cout << endl << "---- Initialization wpp SystemMonitor ----" << endl;
+	systemMonitorInit(*client);
+	#endif
+	#ifdef OBJ_W_34609_FIREWALL_CONFIG
+	cout << endl << "---- Initialization wpp FirewallConfig ----" << endl;
+	firewallConfigInit(*client);
+	#endif
+	#ifdef OBJ_W_34610_POE_MANAGEMENT
+	cout << endl << "---- Initialization wpp PoeManagement ----" << endl;
+	poeManagementInit(*client);
+	#endif
+
 	// Giving ownership to registry
 	client->giveOwnership();
 

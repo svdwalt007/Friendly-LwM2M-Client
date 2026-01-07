@@ -31,8 +31,65 @@ void acInit(WppClient &client);
 void connMonitoringInit(WppClient &client);
 #endif
 
+#ifdef OBJ_O_6_LOCATION
+void locationInit(WppClient &client);
+#endif
+
+#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+void wlanConnectivityInit(WppClient &client);
+#endif
+
+#ifdef OBJ_O_13_BEARER_SELECTION
+void bearerSelectionInit(WppClient &client);
+#endif
+
 #ifdef OBJ_O_3339_AUDIO_CLIP
 void audioClipInit(WppClient &client);
+#endif
+
+#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+void hardwareWatchdogInit(WppClient &client);
+#endif
+
+/* ---------- Walt Technologies objects init declarations ---------- */
+#ifdef OBJ_O_34600_STARLINK_TERMINAL
+void starlinkTerminalInit(WppClient &client);
+#endif
+
+#ifdef OBJ_O_34608_MIKROBUS
+void mikrobusInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+void routerManagementInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+void ethernetInterfaceInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34603_GPIO_CONTROL
+void gpioControlInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34604_USB_MANAGEMENT
+void usbManagementInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+void storageManagementInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34606_SYSTEM_MONITOR
+void systemMonitorInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34609_FIREWALL_CONFIG
+void firewallConfigInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_34610_POE_MANAGEMENT
+void poeManagementInit(WppClient &client);
 #endif
 
 /* ------------- Helpful methods ------------- */

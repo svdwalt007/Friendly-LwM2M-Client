@@ -1,0 +1,24 @@
+{
+  "id": 34605,
+  "name": "Storage Management",
+  "vendor": "Walt Technologies",
+  "version": "1.0",
+  "description": "Storage device monitoring and management for OpenWRT One",
+  "multiInstance": true,
+  "mandatory": false,
+  "resources": [
+    {"id": 0, "name": "Storage Name", "operations": "R", "type": "String", "mandatory": true},
+    {"id": 1, "name": "Storage Type", "operations": "R", "type": "Integer", "mandatory": true},
+    {"id": 2, "name": "Mount Point", "operations": "R", "type": "String", "mandatory": false},
+    {"id": 3, "name": "Total Capacity", "operations": "R", "type": "Integer", "mandatory": true, "units": "bytes"},
+    {"id": 4, "name": "Used Capacity", "operations": "R", "type": "Integer", "mandatory": true, "units": "bytes"},
+    {"id": 5, "name": "Available Capacity", "operations": "R", "type": "Integer", "mandatory": true, "units": "bytes"},
+    {"id": 6, "name": "Usage Percentage", "operations": "R", "type": "Integer", "mandatory": true, "units": "%"},
+    {"id": 7, "name": "Filesystem Type", "operations": "R", "type": "String", "mandatory": false},
+    {"id": 8, "name": "Is Mounted", "operations": "R", "type": "Boolean", "mandatory": true},
+    {"id": 9, "name": "Is Bootable", "operations": "R", "type": "Boolean", "mandatory": false},
+    {"id": 10, "name": "Mount", "operations": "E", "type": "Execute", "mandatory": false},
+    {"id": 11, "name": "Unmount", "operations": "E", "type": "Execute", "mandatory": false},
+    {"id": 12, "name": "Format", "operations": "E", "type": "Execute", "mandatory": false}
+  ]
+}

@@ -27,6 +27,15 @@
 #ifdef OBJ_O_4_CONNECTIVITY_MONITORING
 #include "o_4_connectivity_monitoring/ConnectivityMonitoring.h"
 #endif
+#ifdef OBJ_O_6_LOCATION
+#include "o_6_location/Location.h"
+#endif
+#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+#include "o_12_wlan_connectivity/WlanConnectivity.h"
+#endif
+#ifdef OBJ_O_13_BEARER_SELECTION
+#include "o_13_bearer_selection/BearerSelection.h"
+#endif
 #ifdef OBJ_O_2_LWM2M_ACCESS_CONTROL
 #include "o_2_lwm2m_access_control/Lwm2mAccessControl.h"
 #endif
@@ -36,7 +45,43 @@
 #ifdef OBJ_O_5_FIRMWARE_UPDATE
 #include "o_5_firmware_update/FirmwareUpdate.h"
 #endif
+#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+#include "o_34607_hardware_watchdog/HardwareWatchdog.h"
+#endif
 /* ---------- Optional objects include block end ---------- */
+
+/* ---------- Walt Technologies objects include block begin ---------- */
+#ifdef OBJ_O_34600_STARLINK_TERMINAL
+#include "o_34600_starlink_terminal/StarlinkTerminal.h"
+#endif
+#ifdef OBJ_O_34608_MIKROBUS
+#include "o_34608_mikrobus/Mikrobus.h"
+#endif
+#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+#include "w_34601_router_management/RouterManagement.h"
+#endif
+#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+#include "w_34602_ethernet_interface/EthernetInterface.h"
+#endif
+#ifdef OBJ_W_34603_GPIO_CONTROL
+#include "w_34603_gpio_control/GpioControl.h"
+#endif
+#ifdef OBJ_W_34604_USB_MANAGEMENT
+#include "w_34604_usb_management/UsbManagement.h"
+#endif
+#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+#include "w_34605_storage_management/StorageManagement.h"
+#endif
+#ifdef OBJ_W_34606_SYSTEM_MONITOR
+#include "w_34606_system_monitor/SystemMonitor.h"
+#endif
+#ifdef OBJ_W_34609_FIREWALL_CONFIG
+#include "w_34609_firewall_config/FirewallConfig.h"
+#endif
+#ifdef OBJ_W_34610_POE_MANAGEMENT
+#include "w_34610_poe_management/PoeManagement.h"
+#endif
+/* ---------- Walt Technologies objects include block end ---------- */
 
 namespace wpp {
 
@@ -123,6 +168,15 @@ public:
 	#ifdef OBJ_O_4_CONNECTIVITY_MONITORING
 	Object & connectivityMonitoring();
 	#endif
+	#ifdef OBJ_O_6_LOCATION
+	Object & location();
+	#endif
+	#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+	Object & wlanConnectivity();
+	#endif
+	#ifdef OBJ_O_13_BEARER_SELECTION
+	Object & bearerSelection();
+	#endif
 	#ifdef OBJ_O_2_LWM2M_ACCESS_CONTROL
 	Object & lwm2mAccessControl();
 	#endif
@@ -132,7 +186,43 @@ public:
 	#ifdef OBJ_O_5_FIRMWARE_UPDATE
 	Object & firmwareUpdate();
 	#endif
+	#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+	Object & hardwareWatchdog();
+	#endif
 	/* ---------- Optional objects prototype block end ---------- */
+
+	/* ---------- Walt Technologies objects prototype block begin ---------- */
+	#ifdef OBJ_O_34600_STARLINK_TERMINAL
+	Object & starlinkTerminal();
+	#endif
+	#ifdef OBJ_O_34608_MIKROBUS
+	Object & mikrobus();
+	#endif
+	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+	Object & routerManagement();
+	#endif
+	#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+	Object & ethernetInterface();
+	#endif
+	#ifdef OBJ_W_34603_GPIO_CONTROL
+	Object & gpioControl();
+	#endif
+	#ifdef OBJ_W_34604_USB_MANAGEMENT
+	Object & usbManagement();
+	#endif
+	#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+	Object & storageManagement();
+	#endif
+	#ifdef OBJ_W_34606_SYSTEM_MONITOR
+	Object & systemMonitor();
+	#endif
+	#ifdef OBJ_W_34609_FIREWALL_CONFIG
+	Object & firewallConfig();
+	#endif
+	#ifdef OBJ_W_34610_POE_MANAGEMENT
+	Object & poeManagement();
+	#endif
+	/* ---------- Walt Technologies objects prototype block end ---------- */
 
 private:
 	lwm2m_context_t &_context;

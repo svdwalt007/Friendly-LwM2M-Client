@@ -49,29 +49,27 @@ void serverInit(WppClient &client) {
 void securityInit(WppClient &client) {
     client.registry().registerObj(Lwm2mSecurity::object(client));
     wpp::Instance *security = Lwm2mSecurity::createInst(client);
-    string url = "coaps://demodm.friendly-tech.com:"; //"coaps://leshan.eclipseprojects.io:"
+    string url = "coap://demo-iot.friendly-tech.com:"; // Bootstrap Server
 
+    // ========================================================================
+    // LwM2M Bootstrap Configuration
+    // ========================================================================
+    // Endpoint Name:    walttech888 (set in main.cpp)
+    // Bootstrap Server: coap://demo-iot.friendly-tech.com:5680
+    // Security Mode:    NO_SEC (3) - No DTLS encryption
+    // ========================================================================
+    // Note: PSK and RPK keys below are for reference only (not used with NO_SEC)
     // PSK key: 00112233445566778899998877665544
     // RPK public.pem: 3059301306072a8648ce3d020106082a8648ce3d03010703420004bada5475344ba22961a7d965ac518e73481a5f77832bd996c2fa3527e8f3c4248dda621fa9c1348d1365c357357c54869477e387fd2c2675b1c6f28aa506677b
     // RPK private.pem: 92045322a5b34562e1ffec4bcdcc257b9ecfc3478bfaea4b6b0731350202ef2d
 
 	#ifdef LWM2M_BOOTSTRAP
+        // Bootstrap mode enabled - connects to bootstrap server for provisioning
         security->set<BOOL_T>(Lwm2mSecurity::BOOTSTRAP_SERVER_1, true);
         security->set<INT_T>(Lwm2mSecurity::CLIENT_HOLD_OFF_TIME_11, 10);
-        #if DTLS_WITH_PSK
-        string pskId = "FRIENDLY_TEST_DEV_ID";
-        security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_PRE_SHARED_KEY);
-        security->set(Lwm2mSecurity::PUBLIC_KEY_OR_IDENTITY_3, OPAQUE_T(pskId.begin(), pskId.end()));
-        security->set(Lwm2mSecurity::SECRET_KEY_5, OPAQUE_T {0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44});
-        url += "5681";
-        #elif DTLS_WITH_RPK
-        security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_RAW_PUBLIC_KEY);
-        security->set(Lwm2mSecurity::PUBLIC_KEY_OR_IDENTITY_3, OPAQUE_T {0x04, 0xba, 0xda, 0x54, 0x75, 0x34, 0x4b, 0xa2, 0x29, 0x61, 0xa7, 0xd9, 0x65, 0xac, 0x51, 0x8e, 0x73, 0x48, 0x1a, 0x5f, 0x77, 0x83, 0x2b, 0xd9, 0x96, 0xc2, 0xfa, 0x35, 0x27, 0xe8, 0xf3, 0xc4, 0x24, 0x8d, 0xda, 0x62, 0x1f, 0xa9, 0xc1, 0x34, 0x8d, 0x13, 0x65, 0xc3, 0x57, 0x35, 0x7c, 0x54, 0x86, 0x94, 0x77, 0xe3, 0x87, 0xfd, 0x2c, 0x26, 0x75, 0xb1, 0xc6, 0xf2, 0x8a, 0xa5, 0x06, 0x67, 0x7b});
-        security->set(Lwm2mSecurity::SECRET_KEY_5, OPAQUE_T {0x92, 0x04, 0x53, 0x22, 0xa5, 0xb3, 0x45, 0x62, 0xe1, 0xff, 0xec, 0x4b, 0xcd, 0xcc, 0x25, 0x7b, 0x9e, 0xcf, 0xc3, 0x47, 0x8b, 0xfa, 0xea, 0x4b, 0x6b, 0x07, 0x31, 0x35, 0x02, 0x02, 0xef, 0x2d});
-        url += "5682";
-        #else
-        url += "5680";
-        #endif
+        // NO_SEC mode - CoAP without DTLS encryption (Security Mode 3)
+        security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_NONE);
+        url += "5680";  // Bootstrap server port
     #else
         #if DTLS_WITH_PSK
             url += "5684";
@@ -106,9 +104,9 @@ void deviceInit(WppClient &client) {
     });
     device->set<INT_T>(Device::ERROR_CODE_11, 0, Device::NO_ERROR);
     device->set<STRING_T>(Device::SUPPORTED_BINDING_AND_MODES_16, WPP_BINDING_UDP);
-    device->set<STRING_T>(Device::MANUFACTURER_0, "Friendly");
-    device->set<STRING_T>(Device::MODEL_NUMBER_1, "Lightweight M2M Client");
-    device->set<STRING_T>(Device::SERIAL_NUMBER_2, "0123456789");
+    device->set<STRING_T>(Device::MANUFACTURER_0, "OpenWrt/Walt Technologies");
+    device->set<STRING_T>(Device::MODEL_NUMBER_1, "OpenWRT One Router");
+    device->set<STRING_T>(Device::SERIAL_NUMBER_2, "OPENWRT-ONE-001");
 
     #if OBJ_O_2_LWM2M_ACCESS_CONTROL
 	Lwm2mAccessControl::create(Device::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
@@ -117,6 +115,19 @@ void deviceInit(WppClient &client) {
 }
 
 #ifdef OBJ_O_5_FIRMWARE_UPDATE
+// For OpenWRT devices with sysupgrade support, you can use the OpenWRT firmware updater:
+// To enable: cmake -DUSE_OPENWRT_FW_UPDATER=ON
+//
+// #ifdef USE_OPENWRT_FW_UPDATER
+// #include "OpenWrtFwInit.h"
+// static OpenWrtFwManager fwManager;
+// void fwUpdaterInit(WppClient &client) {
+//     initOpenWrtFirmwareUpdate(client, fwManager);
+// }
+// #else
+// ... use example firmware updater (below)
+// #endif
+
 void fwUpdaterInit(WppClient &client) {
     #if RES_5_8
     static FwUriDownloader fwUriDownloader;
@@ -164,6 +175,47 @@ void connMonitoringInit(WppClient &client) {
 }
 #endif
 
+#ifdef OBJ_O_6_LOCATION
+void locationInit(WppClient &client) {
+    client.registry().registerObj(Location::object(client));
+    Location::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+	Lwm2mAccessControl::create(Location::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+	#endif
+}
+#endif
+
+#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+void wlanConnectivityInit(WppClient &client) {
+    client.registry().registerObj(WlanConnectivity::object(client));
+
+    // Create instance for 2.4GHz WiFi (wlan0)
+    Instance *wlan0 = WlanConnectivity::createInst(client, 0);
+
+    // Create instance for 5GHz WiFi (wlan1)
+    Instance *wlan1 = WlanConnectivity::createInst(client, 1);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+	Lwm2mAccessControl::create(WlanConnectivity::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+	Lwm2mAccessControl::create(*wlan0, TEST_SERVER_SHORT_ID);
+	Lwm2mAccessControl::create(*wlan1, TEST_SERVER_SHORT_ID);
+	#endif
+}
+#endif
+
+#ifdef OBJ_O_13_BEARER_SELECTION
+void bearerSelectionInit(WppClient &client) {
+    client.registry().registerObj(BearerSelection::object(client));
+    Instance *bearer = BearerSelection::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+	Lwm2mAccessControl::create(BearerSelection::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+	Lwm2mAccessControl::create(*bearer, TEST_SERVER_SHORT_ID);
+	#endif
+}
+#endif
+
 #ifdef OBJ_O_3339_AUDIO_CLIP
 void audioClipInit(WppClient &client) {
     client.registry().registerObj(AudioClip::object(client));
@@ -175,8 +227,234 @@ void audioClipInit(WppClient &client) {
 }
 #endif
 
+#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+void hardwareWatchdogInit(WppClient &client) {
+    client.registry().registerObj(HardwareWatchdog::object(client));
+    HardwareWatchdog *watchdog = HardwareWatchdog::createInst(client);
+
+    // Configure watchdog with default settings
+    // Note: Watchdog is disabled by default for safety
+    // Enable it via LWM2M server or set WATCHDOG_ENABLE_0 to true
+
+    cout << "Hardware Watchdog initialized (Object ID: 34607)" << endl;
+    cout << "  Device: /dev/watchdog" << endl;
+    cout << "  Default Timeout: 30 seconds" << endl;
+    cout << "  Default Interval: 5 seconds" << endl;
+    cout << "  Status: Disabled (enable via LWM2M server)" << endl;
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(HardwareWatchdog::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*watchdog, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_O_34600_STARLINK_TERMINAL
+void starlinkTerminalInit(WppClient &client) {
+    client.registry().registerObj(StarlinkTerminal::object(client));
+    Instance *starlink = StarlinkTerminal::createInst(client);
+
+    // Initialize with default values - resources are already initialized
+    // The gRPC endpoint can be configured if needed:
+    // starlink->set<STRING_T>(StarlinkTerminal::GRPC_ENDPOINT_107, "192.168.100.1:9200");
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(StarlinkTerminal::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*starlink, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_O_34608_MIKROBUS
+void mikrobusInit(WppClient &client) {
+    client.registry().registerObj(Mikrobus::object(client));
+
+    // Create instance for MIKROBUS socket 1
+    Instance *mikrobus1 = Mikrobus::createInst(client, 0);
+    mikrobus1->set<STRING_T>(Mikrobus::SOCKET_NAME_1, "MIKROBUS-1");
+
+    // Create instance for MIKROBUS socket 2 (if hardware supports it)
+    // Instance *mikrobus2 = Mikrobus::createInst(client, 1);
+    // mikrobus2->set<STRING_T>(Mikrobus::SOCKET_NAME_1, "MIKROBUS-2");
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(Mikrobus::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*mikrobus1, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
 /* ------------- Helpful methods ------------- */
 
 bool isDeviceShouldBeRebooted() {
     return _rebootDevice;
 }
+/* ---------- Walt Technologies custom objects init begin ---------- */
+
+#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+void routerManagementInit(WppClient &client) {
+    client.registry().registerObj(RouterManagement::object(client));
+    Instance *routerMgmt = RouterManagement::createInst(client);
+
+    // Default values are set in initResources
+    // Can be overridden here if needed
+    
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(RouterManagement::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*routerMgmt, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+void ethernetInterfaceInit(WppClient &client) {
+    client.registry().registerObj(EthernetInterface::object(client));
+    
+    // Create instance for WAN port (eth0)
+    Instance *eth0 = EthernetInterface::createInst(client, 0);
+    eth0->set<STRING_T>(EthernetInterface::INTERFACE_NAME_0, "eth0");
+    eth0->set<INT_T>(EthernetInterface::PORT_TYPE_1, EthernetInterface::PORT_WAN);
+    eth0->set<INT_T>(EthernetInterface::SPEED_2, 2500); // 2.5 Gbps
+    
+    // Create instance for LAN port (eth1)
+    Instance *eth1 = EthernetInterface::createInst(client, 1);
+    eth1->set<STRING_T>(EthernetInterface::INTERFACE_NAME_0, "eth1");
+    eth1->set<INT_T>(EthernetInterface::PORT_TYPE_1, EthernetInterface::PORT_LAN);
+    eth1->set<INT_T>(EthernetInterface::SPEED_2, 1000); // 1 Gbps
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(EthernetInterface::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*eth0, TEST_SERVER_SHORT_ID);
+    Lwm2mAccessControl::create(*eth1, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34603_GPIO_CONTROL
+void gpioControlInit(WppClient &client) {
+    client.registry().registerObj(GpioControl::object(client));
+    
+    // Create instance for Status LED
+    Instance *ledStatus = GpioControl::createInst(client, 0);
+    ledStatus->set<STRING_T>(GpioControl::GPIO_NAME_0, "LED_STATUS");
+    ledStatus->set<INT_T>(GpioControl::GPIO_TYPE_2, GpioControl::TYPE_LED);
+    
+    // Create instance for WLAN LED
+    Instance *ledWlan = GpioControl::createInst(client, 1);
+    ledWlan->set<STRING_T>(GpioControl::GPIO_NAME_0, "LED_WLAN");
+    ledWlan->set<INT_T>(GpioControl::GPIO_TYPE_2, GpioControl::TYPE_LED);
+    ledWlan->set<INT_T>(GpioControl::TRIGGER_MODE_6, GpioControl::TRIGGER_NETDEV);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(GpioControl::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*ledStatus, TEST_SERVER_SHORT_ID);
+    Lwm2mAccessControl::create(*ledWlan, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34604_USB_MANAGEMENT
+void usbManagementInit(WppClient &client) {
+    client.registry().registerObj(UsbManagement::object(client));
+    
+    // Create instance for USB 2.0 Type-A port
+    Instance *usb1 = UsbManagement::createInst(client, 0);
+    usb1->set<STRING_T>(UsbManagement::PORT_NAME_0, "USB1");
+    usb1->set<INT_T>(UsbManagement::PORT_TYPE_1, UsbManagement::USB_2_0_TYPE_A);
+    
+    // Create instance for USB-C port
+    Instance *usb2 = UsbManagement::createInst(client, 1);
+    usb2->set<STRING_T>(UsbManagement::PORT_NAME_0, "USB2");
+    usb2->set<INT_T>(UsbManagement::PORT_TYPE_1, UsbManagement::USB_TYPE_C);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(UsbManagement::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*usb1, TEST_SERVER_SHORT_ID);
+    Lwm2mAccessControl::create(*usb2, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+void storageManagementInit(WppClient &client) {
+    client.registry().registerObj(StorageManagement::object(client));
+    
+    // Create instance for NAND flash
+    Instance *nand = StorageManagement::createInst(client, 0);
+    nand->set<STRING_T>(StorageManagement::STORAGE_NAME_0, "NAND");
+    nand->set<INT_T>(StorageManagement::STORAGE_TYPE_1, StorageManagement::STORAGE_NAND);
+    nand->set<STRING_T>(StorageManagement::MOUNT_POINT_2, "/");
+    nand->set<BOOL_T>(StorageManagement::IS_BOOTABLE_9, true);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(StorageManagement::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*nand, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34606_SYSTEM_MONITOR
+void systemMonitorInit(WppClient &client) {
+    client.registry().registerObj(SystemMonitor::object(client));
+    Instance &sysMon = SystemMonitor::createInst(client);
+
+    // Default values are set in initResources
+    // These would be updated periodically from /proc in real implementation
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(SystemMonitor::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(sysMon, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34609_FIREWALL_CONFIG
+void firewallConfigInit(WppClient &client) {
+    client.registry().registerObj(FirewallConfig::object(client));
+
+    // Create default firewall rules as examples
+    // Rule 0: Allow SSH from WAN to LAN
+    Instance *rule0 = FirewallConfig::createInst(client, 0);
+    rule0->set<STRING_T>(FirewallConfig::RULE_NAME_0, "allow_ssh");
+    rule0->set<BOOL_T>(FirewallConfig::ENABLED_2, true);
+    rule0->set<INT_T>(FirewallConfig::ACTION_3, FirewallConfig::ACTION_ACCEPT);
+    rule0->set<INT_T>(FirewallConfig::PROTOCOL_4, FirewallConfig::PROTOCOL_TCP);
+    rule0->set<INT_T>(FirewallConfig::DEST_PORT_8, 22);
+    rule0->set<STRING_T>(FirewallConfig::ZONE_FROM_11, "wan");
+    rule0->set<STRING_T>(FirewallConfig::ZONE_TO_12, "lan");
+    rule0->set<STRING_T>(FirewallConfig::COMMENT_13, "Allow SSH access");
+
+    // Rule 1: Allow HTTP/HTTPS from WAN to LAN
+    Instance *rule1 = FirewallConfig::createInst(client, 1);
+    rule1->set<STRING_T>(FirewallConfig::RULE_NAME_0, "allow_web");
+    rule1->set<BOOL_T>(FirewallConfig::ENABLED_2, true);
+    rule1->set<INT_T>(FirewallConfig::ACTION_3, FirewallConfig::ACTION_ACCEPT);
+    rule1->set<INT_T>(FirewallConfig::PROTOCOL_4, FirewallConfig::PROTOCOL_TCP);
+    rule1->set<STRING_T>(FirewallConfig::ZONE_FROM_11, "wan");
+    rule1->set<STRING_T>(FirewallConfig::ZONE_TO_12, "lan");
+    rule1->set<STRING_T>(FirewallConfig::COMMENT_13, "Allow web traffic");
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(FirewallConfig::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(*rule0, TEST_SERVER_SHORT_ID);
+    Lwm2mAccessControl::create(*rule1, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_34610_POE_MANAGEMENT
+void poeManagementInit(WppClient &client) {
+    client.registry().registerObj(PoeManagement::object(client));
+    Instance &poe = PoeManagement::createInst(client);
+
+    // Default values are set in initResources
+    // PoE support will be auto-detected and status updated periodically
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    Lwm2mAccessControl::create(PoeManagement::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+    Lwm2mAccessControl::create(poe, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+/* ---------- Walt Technologies custom objects init end ---------- */

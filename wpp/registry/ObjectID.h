@@ -28,6 +28,15 @@ enum OBJ_ID: ID_T {
 	#ifdef OBJ_O_4_CONNECTIVITY_MONITORING
 	CONNECTIVITY_MONITORING = 4,
 	#endif
+	#ifdef OBJ_O_6_LOCATION
+	LOCATION = 6,
+	#endif
+	#ifdef OBJ_O_12_WLAN_CONNECTIVITY
+	WLAN_CONNECTIVITY = 12,
+	#endif
+	#ifdef OBJ_O_13_BEARER_SELECTION
+	BEARER_SELECTION = 13,
+	#endif
 	#ifdef OBJ_O_2_LWM2M_ACCESS_CONTROL
 	LWM2M_ACCESS_CONTROL = 2,
 	#endif
@@ -37,7 +46,25 @@ enum OBJ_ID: ID_T {
 	#ifdef OBJ_O_5_FIRMWARE_UPDATE
 	FIRMWARE_UPDATE = 5,
 	#endif
+	#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+	HARDWARE_WATCHDOG = 34607,
+	#endif
 	/* ---------- Optional objects ID block end ---------- */
+
+	/* ---------- Walt Technologies objects ID block begin ---------- */
+	#ifdef OBJ_O_34600_STARLINK_TERMINAL
+	STARLINK_TERMINAL = 34600,
+	#endif
+	#ifdef OBJ_O_34608_MIKROBUS
+	MIKROBUS = 34608,
+	#endif
+	#ifdef OBJ_W_34609_FIREWALL_CONFIG
+	FIREWALL_CONFIG = 34609,
+	#endif
+	#ifdef OBJ_W_34610_POE_MANAGEMENT
+	POE_MANAGEMENT = 34610,
+	#endif
+	/* ---------- Walt Technologies objects ID block end ---------- */
 
 	MAX_ID = ID_T_MAX_VAL,
 };

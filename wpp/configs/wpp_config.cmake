@@ -29,7 +29,7 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} LWM2M_CLIENT_MODE)
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} LWM2M_COAP_DEFAULT_BLOCK_SIZE=1024)
 
 # Enable LWM2M Bootstrap support in a LWM2M Client
-# set(WPP_DEFINITIONS ${WPP_DEFINITIONS} LWM2M_BOOTSTRAP)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} LWM2M_BOOTSTRAP)
 
 # Enable CBOR payload support
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} LWM2M_SUPPORT_CBOR)
@@ -94,13 +94,47 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_M_0_LWM2M_SECURITY)
 # ---------- Optional objects config block begin ----------
 # Include optional ConnectivityMonitoring object in the build
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_4_CONNECTIVITY_MONITORING)
+# Include optional Location object in the build (Object ID: 6)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_6_LOCATION)
 # Include optional Lwm2mAccessControl object in the build
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_2_LWM2M_ACCESS_CONTROL)
 # Include optional AudioClip object in the build
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_3339_AUDIO_CLIP)
 # Include optional FirmwareUpdate object in the build
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_5_FIRMWARE_UPDATE)
+# Include optional WLAN Connectivity object in the build
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_12_WLAN_CONNECTIVITY)
+# Include optional Bearer Selection object in the build
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_13_BEARER_SELECTION)
+# Include optional Memory object in the build (IPSO 3331)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_3331_MEMORY)
+# Include optional HardwareWatchdog object in the build (Object ID: 34607)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34607_HARDWARE_WATCHDOG)
 # ---------- Optional objects config block end ----------
+
+# ---------- Walt Technologies objects config block begin ----------
+# Walt Technologies Object ID Range: 34600-34649
+# Include Walt Technologies Starlink Terminal object in the build (Object ID: 34600)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
+# Include Walt Tech Router Management object in the build (Object ID: 34601)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34601_ROUTER_MANAGEMENT)
+# Include Walt Tech Ethernet Interface object in the build (Object ID: 34602)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34602_ETHERNET_INTERFACE)
+# Include Walt Tech GPIO Control object in the build (Object ID: 34603)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34603_GPIO_CONTROL)
+# Include Walt Tech USB Management object in the build (Object ID: 34604)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34604_USB_MANAGEMENT)
+# Include Walt Tech Storage Management object in the build (Object ID: 34605)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34605_STORAGE_MANAGEMENT)
+# Include Walt Tech System Monitor object in the build (Object ID: 34606)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34606_SYSTEM_MONITOR)
+# Include Walt Tech MIKROBUS object in the build (Object ID: 34608)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34608_MIKROBUS)
+# Include Walt Tech Firewall Configuration object in the build (Object ID: 34609)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34609_FIREWALL_CONFIG)
+# Include Walt Tech PoE Management object in the build (Object ID: 34610)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_W_34610_POE_MANAGEMENT)
+# ---------- Walt Technologies objects config block end ----------
 
 
 

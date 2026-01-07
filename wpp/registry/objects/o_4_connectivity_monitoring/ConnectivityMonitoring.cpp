@@ -37,6 +37,11 @@
 #define SMCC_MIN 0
 #define SMCC_MAX 999
 #endif
+
+#ifdef OPENWRT_BUILD
+#include "OpenWrtConnectivityInfo.h"
+#endif
+
 /* --------------- Code_cpp block 0 end --------------- */
 
 #define TAG "ConnectivityMonitoring"
@@ -140,35 +145,97 @@ void ConnectivityMonitoring::resourcesCreate() {
 void ConnectivityMonitoring::resourcesInit() {
 	/* --------------- Code_cpp block 7 start --------------- */
 
+	#ifdef OPENWRT_BUILD
+	resource(NETWORK_BEARER_0)->set<INT_T>(OpenWrtConnectivityInfo::getNetworkBearer());
+	#else
 	resource(NETWORK_BEARER_0)->set<INT_T>(NTWRK_BRR_MAX);
+	#endif
 	resource(NETWORK_BEARER_0)->setDataVerifier((VERIFY_INT_T)[](const INT_T& value) { return GSM <= value && value < NTWRK_BRR_MAX; });
 
 	resource(AVAILABLE_NETWORK_BEARER_1)->setDataVerifier((VERIFY_INT_T)[](const INT_T& value) { return AVLB_NTWRK_BRR_MIN <= value && value <= AVLB_NTWRK_BRR_MAX; });
+	#ifdef OPENWRT_BUILD
+	std::vector<int> bearers = OpenWrtConnectivityInfo::getAvailableNetworkBearers();
+	for (size_t i = 0; i < bearers.size(); i++) {
+		resource(AVAILABLE_NETWORK_BEARER_1)->set<INT_T>(bearers[i], i);
+	}
+	#endif
 
+	#ifdef OPENWRT_BUILD
+	resource(RADIO_SIGNAL_STRENGTH_2)->set<INT_T>(OpenWrtConnectivityInfo::getRadioSignalStrength());
+	#else
 	resource(RADIO_SIGNAL_STRENGTH_2)->set<INT_T>(0);
+	#endif
 
 	#if RES_4_3
+	#ifdef OPENWRT_BUILD
+	resource(LINK_QUALITY_3)->set<INT_T>(OpenWrtConnectivityInfo::getLinkQuality());
+	#else
 	resource(LINK_QUALITY_3)->set<INT_T>(0);
+	#endif
 	resource(LINK_QUALITY_3)->setDataVerifier((VERIFY_INT_T)[this](const INT_T& value) { return this->checkLinkQuality(value); });
 	#endif
 
+	#ifdef OPENWRT_BUILD
+	// Set IP addresses
+	std::vector<std::string> ipAddrs = OpenWrtConnectivityInfo::getIpAddresses();
+	for (size_t i = 0; i < ipAddrs.size(); i++) {
+		resource(IP_ADDRESSES_4)->set<STRING_T>(ipAddrs[i], i);
+	}
+	#endif
+
+	#if RES_4_5
+	#ifdef OPENWRT_BUILD
+	// Set router/gateway IP addresses
+	std::vector<std::string> routerAddrs = OpenWrtConnectivityInfo::getRouterIpAddresses();
+	for (size_t i = 0; i < routerAddrs.size(); i++) {
+		resource(ROUTER_IP_ADDRESSES_5)->set<STRING_T>(routerAddrs[i], i);
+	}
+	#endif
+	#endif
+
 	#if RES_4_6
+	#ifdef OPENWRT_BUILD
+	resource(LINK_UTILIZATION_6)->set<INT_T>(OpenWrtConnectivityInfo::getLinkUtilization());
+	#else
 	resource(LINK_UTILIZATION_6)->set<INT_T>(LINK_UTLZTN_MIN);
+	#endif
 	resource(LINK_UTILIZATION_6)->setDataVerifier((VERIFY_INT_T)[](const INT_T& value) { return LINK_UTLZTN_MIN <= value && value <= LINK_UTLZTN_MAX; });
 	#endif
 
+	#if RES_4_7
+	#ifdef OPENWRT_BUILD
+	// Set APN (for cellular)
+	std::vector<std::string> apns = OpenWrtConnectivityInfo::getAPN();
+	for (size_t i = 0; i < apns.size(); i++) {
+		resource(APN_7)->set<STRING_T>(apns[i], i);
+	}
+	#endif
+	#endif
+
 	#if RES_4_8
+	#ifdef OPENWRT_BUILD
+	resource(CELL_ID_8)->set<INT_T>(OpenWrtConnectivityInfo::getCellId());
+	#else
 	resource(CELL_ID_8)->set<INT_T>(0);
+	#endif
 	resource(CELL_ID_8)->setDataVerifier((VERIFY_INT_T)[this](const INT_T& value) { return this->checkCellId(value); });
 	#endif
 
 	#if RES_4_9
+	#ifdef OPENWRT_BUILD
+	resource(SMNC_9)->set<INT_T>(OpenWrtConnectivityInfo::getSMNC());
+	#else
 	resource(SMNC_9)->set<INT_T>(SMNC_MIN);
+	#endif
 	resource(SMNC_9)->setDataVerifier((VERIFY_INT_T)[](const INT_T& value) { return SMNC_MIN <= value && value <= SMNC_MAX; });
 	#endif
 
 	#if RES_4_10
+	#ifdef OPENWRT_BUILD
+	resource(SMCC_10)->set<INT_T>(OpenWrtConnectivityInfo::getSMCC());
+	#else
 	resource(SMCC_10)->set<INT_T>(SMCC_MIN);
+	#endif
 	resource(SMCC_10)->setDataVerifier((VERIFY_INT_T)[](const INT_T& value) { return SMCC_MIN <= value && value <= SMCC_MAX; });
 	#endif
 
