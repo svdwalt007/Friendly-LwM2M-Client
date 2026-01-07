@@ -1,6 +1,47 @@
 # Configuration Guide
 
-Complete guide to configuring the Friendly LwM2M Client.
+Complete guide to configuring the Friendly LwM2M Client v1.1.0.
+
+**Version:** 1.1.0 | **Last Updated:** January 2026
+
+---
+
+## v1.1.0 CMake Build Options
+
+### New Options in v1.1.0
+
+```cmake
+# MQTT Transport Binding
+option(WITH_MQTT "Enable MQTT transport binding" ON)
+
+# Edge AI Inference
+option(WITH_EDGE_AI "Enable Edge AI inference" ON)
+option(WITH_TFLITE "Enable TensorFlow Lite backend" OFF)
+option(WITH_ONNX "Enable ONNX Runtime backend" OFF)
+
+# Delta Firmware Updates (already available)
+option(WITH_DELTA_FOTA "Enable delta firmware updates" ON)
+option(WITH_BSDIFF "Enable BSDIFF algorithm" ON)
+option(WITH_VCDIFF "Enable VCDIFF algorithm" ON)
+option(WITH_COURGETTE "Enable Courgette algorithm" ON)
+option(WITH_ROLLBACK "Enable A/B partition rollback" ON)
+```
+
+### Example Build Commands
+
+```bash
+# Build with all v1.1.0 features
+cmake -DWITH_MQTT=ON -DWITH_EDGE_AI=ON -DWITH_DELTA_FOTA=ON ..
+
+# Build with MQTT and TensorFlow Lite
+cmake -DWITH_MQTT=ON -DWITH_EDGE_AI=ON -DWITH_TFLITE=ON ..
+
+# Build with ONNX Runtime
+cmake -DWITH_MQTT=ON -DWITH_EDGE_AI=ON -DWITH_ONNX=ON ..
+
+# Minimal build (no new features)
+cmake -DWITH_MQTT=OFF -DWITH_EDGE_AI=OFF -DWITH_DELTA_FOTA=OFF ..
+```
 
 ---
 

@@ -1,14 +1,15 @@
 # Friendly LwM2M Client Documentation
 
-**Version:** 1.0
-**Last Updated:** November 2025
-**Project:** OpenWRT LwM2M Client with Location & Starlink Integration
+**Version:** 1.1.0
+**Last Updated:** January 2026
+**LwM2M Specification:** OMA LwM2M v1.2.2
+**Project:** Enhanced LwM2M Client with MQTT Transport, Edge AI, and Delta Firmware Updates
 
 ---
 
 ## 📚 Documentation Index
 
-This documentation provides comprehensive guides for implementing, configuring, and deploying the Friendly LwM2M Client on OpenWRT devices, with special focus on the Location object (ID 6) and Starlink Terminal integration.
+This documentation provides comprehensive guides for implementing, configuring, and deploying the Friendly LwM2M Client. Version 1.1.0 introduces MQTT transport binding, Edge AI inference capabilities, and advanced firmware update features with delta algorithms.
 
 ### Getting Started
 
@@ -89,18 +90,28 @@ This documentation provides comprehensive guides for implementing, configuring, 
 
 ## 🚀 Key Features
 
+### v1.1.0 Highlights
+
+- **MQTT Transport Binding** - Full OMA LwM2M v1.2.2 Section 8 compliance
+- **Edge AI Inference** - TensorFlow Lite and ONNX Runtime on-device ML
+- **Delta Firmware Updates** - BSDIFF, VCDIFF, Courgette algorithms
+- **A/B Partition Rollback** - Reliable firmware updates with automatic recovery
+
 ### OMA LwM2M Objects Implemented
 
 #### Mandatory Objects
-- **Device (ID 3)** - Device information with OpenWRT integration
-- **LwM2M Server (ID 1)** - Server configuration
 - **LwM2M Security (ID 0)** - Security credentials
+- **LwM2M Server (ID 1)** - Server configuration
+- **Device (ID 3)** - Device information with OpenWRT integration
 
-#### Optional Objects
-- **Location (ID 6)** ⭐ NEW - GPS location with Starlink integration
+#### Optional OMA Objects
 - **Connectivity Monitoring (ID 4)** - Network status with OpenWRT data
-- **Firmware Update (ID 5)** - FOTA support for OpenWRT
-- **Hardware Watchdog (ID 34607)** - Watchdog timer management
+- **Firmware Update (ID 5)** - Enhanced FOTA with delta updates
+- **Location (ID 6)** - GPS location with Starlink integration
+- **WLAN Connectivity (ID 12)** - WiFi interface management
+- **Bearer Selection (ID 13)** - Network bearer selection
+- **LwM2M COSE (ID 23)** ⭐ NEW v1.1.0 - MQTT security credentials
+- **MQTT Server (ID 24)** ⭐ NEW v1.1.0 - MQTT broker configuration
 
 #### Walt Technologies Custom Objects (34600-34608)
 
@@ -176,7 +187,7 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Pet count and trigger count tracking
   - Boot count monitoring for reliability analysis
 
-- **MIKROBUS (ID 34608)** ⭐ NEW - MIKROBUS socket and Click board management
+- **MIKROBUS (ID 34608)** - MIKROBUS socket and Click board management
   - 50+ resources across 8 functional groups
   - Multiple instance support (one per MIKROBUS socket)
   - Automatic Click board detection via I2C EEPROM
@@ -186,6 +197,23 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Click board manifest reading (JSON format)
   - Control actions: initialize, reset, shutdown
   - Status monitoring and error tracking
+
+- **Firewall Config (ID 34609)** - Firewall rule management
+
+- **PoE Management (ID 34610)** - Power over Ethernet control
+
+#### Edge AI Object (v1.1.0)
+
+- **Edge AI Inference (ID 33410)** ⭐ NEW v1.1.0 - On-device machine learning
+  - 100+ resources across 6 functional categories
+  - Model management: download, load, unload, hot-swap
+  - TensorFlow Lite and ONNX Runtime backends
+  - Hardware acceleration: CPU, GPU, NPU, TPU, DSP
+  - Quantization: FP32, FP16, INT8, INT4, dynamic, mixed
+  - Inference modes: synchronous, async, streaming, batched
+  - Pre/post processing pipelines
+  - Performance statistics with percentile tracking
+  - Benchmark and profiling capabilities
 
 ### OpenWRT One Platform Support
 
@@ -355,6 +383,25 @@ This project is open source. See LICENSE file for details.
 
 ## 📝 Version History
 
+### Version 1.1.0 (January 2026) - Current
+- ✅ **MQTT Transport Binding** - OMA LwM2M v1.2.2 Section 8 compliance
+  - MQTT 3.1.1 and MQTT 5.0 protocol support
+  - CBOR message encoding per OMA Section 8.7
+  - Topic structure per OMA Section 8.2
+  - Auto-reconnect with exponential backoff
+  - TLS/SSL support with certificate verification
+- ✅ **Edge AI Inference Object (ID 33410)** - On-device machine learning
+  - TensorFlow Lite and ONNX Runtime backends
+  - 100+ resources for model management and inference
+  - Hardware acceleration support (CPU, GPU, NPU, TPU)
+- ✅ **LwM2M COSE Object (ID 23)** - MQTT security credentials
+- ✅ **MQTT Server Object (ID 24)** - MQTT broker configuration
+- ✅ **Delta Firmware Updates** - BSDIFF, VCDIFF, Courgette algorithms
+- ✅ **A/B Partition Rollback** - Automatic recovery on update failure
+- ✅ **Block-wise Transfer** - RFC 7959 compliance
+- ✅ **Platform Abstraction Layer** - Linux, OpenWRT, Raspberry Pi
+- ✅ **Firewall Config (ID 34609)** and **PoE Management (ID 34610)** objects
+
 ### Version 1.0 (November 2025)
 - ✅ Location object (ID 6) implementation
 - ✅ OpenWRT integration for Device and Connectivity Monitoring
@@ -365,10 +412,10 @@ This project is open source. See LICENSE file for details.
 - ✅ Comprehensive documentation
 
 ### Planned Features
-- [ ] Enhanced FOTA with incremental updates
 - [ ] WebSocket transport support
-- [ ] MQTT bridge integration
+- [ ] HTTP transport binding
 - [ ] Additional IPSO objects
+- [ ] Enhanced security with hardware tokens
 
 ---
 

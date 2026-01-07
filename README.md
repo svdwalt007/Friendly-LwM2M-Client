@@ -1,13 +1,17 @@
-# Friendly LwM2M Client [<img align="right" height="100px" src="https://github.com/Friendly-Technologies/Friendly-LwM2M-Client/blob/main/logo.png">](https://hubs.li/Q02D_GnB0)
-This distribution contains **Friendly LwM2M client** as a reference for how to use Lightweight machine-to-machine implementations for IoT devices. 
-This code is provided under the associated 
+# Friendly LwM2M Client v1.1.0 [<img align="right" height="100px" src="https://github.com/Friendly-Technologies/Friendly-LwM2M-Client/blob/main/logo.png">](https://hubs.li/Q02D_GnB0)
+
+**Version:** 1.1.0 | **LwM2M Specification:** v1.2.2 | **Last Updated:** January 2026
+
+This distribution contains **Friendly LwM2M client** as a reference for how to use Lightweight machine-to-machine implementations for IoT devices.
+This code is provided under the associated
 [LICENSE](LICENSE)
 
 ## Table of Contents
 
-- [Friendly LwM2M Client ](#friendly-lwm2m-client-)
+- [Friendly LwM2M Client v1.1.0](#friendly-lwm2m-client-v110)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
+  - [What's New in v1.1.0](#whats-new-in-v110)
   - [Documentation](#documentation)
   - [Features](#features)
     - [Supported features](#supported-features)
@@ -23,6 +27,17 @@ This code is provided under the associated
 ## Introduction
 
 Friendly LwM2M Client is an open-source Lightweight machine-to-machine (LwM2M) client implementation designed for IoT devices. LwM2M is a protocol specified by the Open Mobile Alliance (OMA) for remote device management and service enablement for M2M and IoT devices and systems, intended for both resource-constrained and high-performance edge devices.
+
+## What's New in v1.1.0
+
+- **MQTT Transport Binding** - Full OMA LwM2M v1.2.2 Section 8 compliance with MQTT 3.1.1/5.0, CBOR encoding
+- **Edge AI Inference** - On-device ML inference with TensorFlow Lite and ONNX Runtime backends
+- **Delta Firmware Updates** - Efficient FOTA with BSDIFF, VCDIFF, and Courgette algorithms
+- **A/B Partition Rollback** - Reliable firmware updates with automatic rollback on failure
+- **New LwM2M Objects**:
+  - LwM2M COSE Object (ID: 23) - Security credentials for MQTT
+  - MQTT Server Object (ID: 24) - MQTT broker configuration
+  - Edge AI Inference Object (ID: 33410) - ML model management and inference
 
 ## Documentation
 [Friendly LWM2M Client](https://friendly-technologies.github.io/Friendly-LwM2M-Client/)
@@ -42,85 +57,86 @@ Friendly LwM2M Client is an open-source Lightweight machine-to-machine (LwM2M) c
 ## Features
 
 - Lightweight and efficient implementation
-- Supports LwM2M version 1.0 and 1.1
+- Full LwM2M v1.2.2 specification compliance
+- MQTT Transport Binding (OMA Section 8) with CBOR encoding
+- Edge AI Inference with TensorFlow Lite and ONNX Runtime
+- Delta Firmware Updates (BSDIFF, VCDIFF, Courgette)
+- A/B Partition with automatic rollback
 - Flexible configuration options
-- Secure communication using DTLS
+- Secure communication using DTLS and TLS
 - Resource management and reporting
-- Cross-platform support
+- Cross-platform support (Linux, OpenWRT, Raspberry Pi, prplOS)
 
-### Supported features 
+### Supported features
 
-Supported  LwM2M OMA Objects
+**LwM2M OMA Objects**
 
-Mandatory 		
-- LWM2M Security
-- LwM2M Server
-- Device
+Mandatory Objects:
+- LWM2M Security (ID 0)
+- LwM2M Server (ID 1)
+- Device (ID 3)
 
-Optional
+Optional OMA Objects:
 - LwM2M Access Control (ID 2)
 - Connectivity Monitoring (ID 4)
-- Firmware Update (ID 5)
-- WLAN Connectivity (ID 12) - WiFi interface management (2.4GHz + 5GHz)
-- Bearer Selection (ID 13) - Network bearer preference and automatic selection
-- Supported IPSO Objects
-- Walt Technologies Objects (ID 34600-34608)
-		
-Transport 		
-- UDP/DTLS
-		
-Supported Interfaces & Features		
+- Firmware Update (ID 5) - Enhanced with delta updates
+- Location (ID 6) - GPS with Starlink integration
+- WLAN Connectivity (ID 12) - WiFi interface management
+- Bearer Selection (ID 13) - Network bearer selection
+- LwM2M COSE (ID 23) - MQTT security credentials
+- MQTT Server (ID 24) - MQTT broker configuration
 
-Bootstrap 		
-- Request
-- Finish
-- Discover
-- Read
-- Write
-- Delete
+Custom Objects:
+- Starlink Terminal (ID 34600) - Satellite terminal management
+- Router Management (ID 34601)
+- Ethernet Interface (ID 34602)
+- GPIO Control (ID 34603)
+- USB Management (ID 34604)
+- Storage Management (ID 34605)
+- System Monitor (ID 34606)
+- Hardware Watchdog (ID 34607)
+- MIKROBUS (ID 34608)
+- Firewall Config (ID 34609)
+- PoE Management (ID 34610)
+- Edge AI Inference (ID 33410) - ML model management
 
-Registration 		
-- Register
-- Update
-- De-register
+**Transport Bindings**
+- UDP/DTLS (CoAP)
+- MQTT 3.1.1 and MQTT 5.0 with CBOR encoding
 
-Device Management & Service Enablement		
-- Read
-- Discover
-- Write
-- Execute
-- Create
-- Delete
-- Send
-		
-Information reporting 		
-- Observe
-- Notify
-- Cancel Observation
-- Send Operation
-		
-Data Formats 		
-- Plain Text
-- Opaque
-- CBOR
-- TLV
-- JSON
-- SenML JSON
-- SenML CBOR
-		
-Security 		
-- PSK
-- Raw Public Key
-- No-Sec mode
-		
-Additional features 		
-- Access control
-- Connectivity monitoring
-- Firmware update
-- CoAP Block transfer
+**Supported Interfaces & Features**
 
+Bootstrap:
+- Request, Finish, Discover, Read, Write, Delete
 
-Note that additional features such as transport layers (TCP/TLS, SMS binding, MQTT, and HTTP transport binding); Composite operations, and Security modes (Certificate and Certificate mode with EST) are commercially available.
+Registration:
+- Register, Update, De-register
+
+Device Management & Service Enablement:
+- Read, Discover, Write, Execute, Create, Delete, Send
+
+Information Reporting:
+- Observe, Notify, Cancel Observation, Send Operation
+
+Data Formats:
+- Plain Text, Opaque, CBOR, TLV, JSON, SenML JSON, SenML CBOR
+
+Security:
+- PSK, Raw Public Key, Certificate, No-Sec mode
+
+**Advanced Firmware Update (v1.1.0)**
+- Delta algorithms: BSDIFF, VCDIFF, Courgette
+- Compression: gzip, bzip2, lzma, zstd, brotli
+- A/B partition management with automatic rollback
+- Block-wise transfer (RFC 7959)
+- Integrity verification with SHA-256
+
+**Edge AI Inference (v1.1.0)**
+- TensorFlow Lite backend
+- ONNX Runtime backend
+- Hardware acceleration: CPU, GPU, NPU, TPU
+- Quantization: FP32, FP16, INT8, INT4
+- Inference modes: Synchronous, Async, Streaming, Batched
 
 For more information please contact [Friendly Technologies](https://hubs.li/Q02D_GnZ0)
 
