@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(FriendlyLwM2MClient
-    VERSION 1.0.0
-    DESCRIPTION "Enhanced LwM2M Client with Delta Firmware Updates"
+    VERSION 1.1.0
+    DESCRIPTION "Enhanced LwM2M Client with MQTT Transport, Edge AI, and Delta Firmware Updates"
     LANGUAGES CXX C
 )
 
@@ -19,6 +19,10 @@ option(WITH_VCDIFF "Enable VCDIFF algorithm" ON)
 option(WITH_COURGETTE "Enable Courgette algorithm" ON)
 option(WITH_COMPRESSION "Enable compression support" ON)
 option(WITH_ROLLBACK "Enable A/B partition rollback" ON)
+option(WITH_MQTT "Enable MQTT transport binding" ON)
+option(WITH_EDGE_AI "Enable Edge AI inference" ON)
+option(WITH_TFLITE "Enable TensorFlow Lite backend" OFF)
+option(WITH_ONNX "Enable ONNX Runtime backend" OFF)
 option(BUILD_TESTS "Build unit tests" ON)
 option(BUILD_EXAMPLES "Build example applications" ON)
 option(BUILD_DOCS "Build documentation" OFF)
@@ -105,6 +109,25 @@ endif()
 find_library(COAP_LIB coap-3)
 find_path(COAP_INCLUDE coap3/coap.h)
 
+# MQTT - Eclipse Paho
+if(WITH_MQTT)
+    find_library(PAHO_MQTT_C_LIB paho-mqtt3as)
+    find_library(PAHO_MQTT_CPP_LIB paho-mqttpp3)
+    find_path(PAHO_MQTT_INCLUDE mqtt/async_client.h)
+endif()
+
+# TensorFlow Lite
+if(WITH_TFLITE)
+    find_library(TFLITE_LIB tensorflowlite)
+    find_path(TFLITE_INCLUDE tensorflow/lite/interpreter.h)
+endif()
+
+# ONNX Runtime
+if(WITH_ONNX)
+    find_library(ONNX_LIB onnxruntime)
+    find_path(ONNX_INCLUDE onnxruntime_cxx_api.h)
+endif()
+
 # Testing
 if(BUILD_TESTS)
     find_package(GTest)
@@ -139,9 +162,31 @@ set(TRANSPORT_SOURCES
     src/transport/blockwise_transfer.cpp
 )
 
+# MQTT Transport sources (conditional)
+if(WITH_MQTT)
+    list(APPEND TRANSPORT_SOURCES
+        src/transport/mqtt_transport.cpp
+    )
+endif()
+
 set(OBJECTS_SOURCES
     src/objects/advanced_firmware_update_object.cpp
 )
+
+# MQTT Objects (conditional)
+if(WITH_MQTT)
+    list(APPEND OBJECTS_SOURCES
+        src/objects/mqtt_server_object.cpp
+        src/objects/lwm2m_cose_object.cpp
+    )
+endif()
+
+# Edge AI Objects (conditional)
+if(WITH_EDGE_AI)
+    list(APPEND OBJECTS_SOURCES
+        src/objects/edge_ai_inference_object.cpp
+    )
+endif()
 
 set(ALL_SOURCES
     ${PLATFORM_SOURCES}
@@ -212,6 +257,36 @@ endif()
 if(COAP_LIB AND COAP_INCLUDE)
     target_link_libraries(friendly_lwm2m PUBLIC ${COAP_LIB})
     target_include_directories(friendly_lwm2m PUBLIC ${COAP_INCLUDE})
+endif()
+
+# MQTT Paho libraries
+if(WITH_MQTT AND PAHO_MQTT_CPP_LIB AND PAHO_MQTT_C_LIB)
+    target_link_libraries(friendly_lwm2m PUBLIC
+        ${PAHO_MQTT_CPP_LIB} ${PAHO_MQTT_C_LIB})
+    target_include_directories(friendly_lwm2m PUBLIC ${PAHO_MQTT_INCLUDE})
+    target_compile_definitions(friendly_lwm2m PUBLIC WITH_MQTT=1)
+elseif(WITH_MQTT)
+    # MQTT enabled but libraries not found - stub implementation
+    target_compile_definitions(friendly_lwm2m PUBLIC WITH_MQTT=1 MQTT_STUB=1)
+endif()
+
+# TensorFlow Lite
+if(WITH_TFLITE AND TFLITE_LIB AND TFLITE_INCLUDE)
+    target_link_libraries(friendly_lwm2m PUBLIC ${TFLITE_LIB})
+    target_include_directories(friendly_lwm2m PUBLIC ${TFLITE_INCLUDE})
+    target_compile_definitions(friendly_lwm2m PUBLIC WITH_TFLITE=1)
+endif()
+
+# ONNX Runtime
+if(WITH_ONNX AND ONNX_LIB AND ONNX_INCLUDE)
+    target_link_libraries(friendly_lwm2m PUBLIC ${ONNX_LIB})
+    target_include_directories(friendly_lwm2m PUBLIC ${ONNX_INCLUDE})
+    target_compile_definitions(friendly_lwm2m PUBLIC WITH_ONNX=1)
+endif()
+
+# Edge AI compile definitions
+if(WITH_EDGE_AI)
+    target_compile_definitions(friendly_lwm2m PUBLIC WITH_EDGE_AI=1)
 endif()
 
 # Compile definitions
@@ -386,6 +461,10 @@ message(STATUS "  VCDIFF:           ${WITH_VCDIFF}")
 message(STATUS "  Courgette:        ${WITH_COURGETTE}")
 message(STATUS "  Compression:      ${WITH_COMPRESSION}")
 message(STATUS "  Rollback:         ${WITH_ROLLBACK}")
+message(STATUS "  MQTT Transport:   ${WITH_MQTT}")
+message(STATUS "  Edge AI:          ${WITH_EDGE_AI}")
+message(STATUS "  TensorFlow Lite:  ${WITH_TFLITE}")
+message(STATUS "  ONNX Runtime:     ${WITH_ONNX}")
 message(STATUS "")
 message(STATUS "Build options:")
 message(STATUS "  Tests:            ${BUILD_TESTS}")
