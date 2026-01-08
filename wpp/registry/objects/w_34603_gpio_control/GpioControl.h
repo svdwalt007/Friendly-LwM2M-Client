@@ -64,6 +64,31 @@ protected:
 private:
     /* Private methods */
     bool initResources(ItemOp *) override;
+
+    // GPIO export/control methods
+    bool exportGpio(INT_T gpioNum);
+    bool setGpioDirection(INT_T gpioNum, bool isOutput);
+    bool readGpioValue(INT_T gpioNum, bool& value);
+    bool writeGpioValue(INT_T gpioNum, bool value);
+
+    // LED control methods
+    bool readLedBrightness(const std::string& ledName, INT_T& brightness);
+    bool writeLedBrightness(const std::string& ledName, INT_T brightness);
+    bool readLedTrigger(const std::string& ledName, std::string& trigger);
+    bool writeLedTrigger(const std::string& ledName, const std::string& trigger);
+    bool setLedState(const std::string& ledName, bool state);
+    bool setupBlinkTimer(const std::string& ledName, INT_T intervalMs);
+
+    // Helper methods
+    std::string getTriggerName(INT_T triggerMode);
+    INT_T getTriggerMode(const std::string& triggerName);
+    void updateButtonState();
+    void updateHardwareState();
+
+    /* Private member variables */
+    bool _gpioExported;
+    bool _lastButtonState;
+    INT_T _buttonPressCount;
 };
 
 } // namespace wpp

@@ -54,6 +54,7 @@ protected:
 
 private:
     bool initResources(ItemOp *) override;
+    void updateCapacityInfo();
     static bool mountStorage(Instance& inst, ID_T resId, const OPAQUE_T& data);
     static bool unmountStorage(Instance& inst, ID_T resId, const OPAQUE_T& data);
     static bool formatStorage(Instance& inst, ID_T resId, const OPAQUE_T& data);

@@ -49,6 +49,28 @@ protected:
 
 private:
     bool initResources(ItemOp *) override;
+
+    // Update methods for reading /proc and /sys filesystem
+    void updateCpuUsage();
+    void updateCpuFrequency();
+    void updateCpuTemperature();
+    void updateMemoryInfo();
+    void updateLoadAverage();
+    void updateUptime();
+    void updateProcessCount();
+    void updateAllMetrics();
+
+    // Periodic update task ID
+    uint32_t _updateTaskId;
+
+    // CPU tracking for delta calculation
+    unsigned long long _prevCpuUser;
+    unsigned long long _prevCpuNice;
+    unsigned long long _prevCpuSystem;
+    unsigned long long _prevCpuIdle;
+    unsigned long long _prevCpuIowait;
+    unsigned long long _prevCpuIrq;
+    unsigned long long _prevCpuSoftirq;
 };
 
 } // namespace wpp

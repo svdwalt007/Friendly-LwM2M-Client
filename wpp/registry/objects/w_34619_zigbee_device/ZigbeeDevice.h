@@ -96,6 +96,14 @@ private:
 
     /* Device IEEE address */
     uint64_t ieeeAddress_;
+
+    /* Task ID for periodic updates */
+    void* _updateTaskId;
+
+public:
+    /* Static coordinator management */
+    static void initializeCoordinator(const std::string& serialPort = "");
+    static void shutdownCoordinator();
 };
 
 } // namespace wpp

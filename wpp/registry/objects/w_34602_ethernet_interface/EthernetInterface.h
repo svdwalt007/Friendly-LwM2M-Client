@@ -66,6 +66,13 @@ protected:
 private:
     /* Private methods */
     bool initResources(ItemOp *) override;
+
+    /* Helper methods */
+    void updateInterfaceStatus();
+    std::string getInterfaceName() const;
+
+    /* Member variables */
+    void* _updateTaskId;
 };
 
 } // namespace wpp

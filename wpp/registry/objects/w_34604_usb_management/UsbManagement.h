@@ -2,7 +2,7 @@
  * UsbManagement (Object 34604)
  * Walt Technologies - OpenWRT One Router
  *
- * USB port monitoring and control
+ * USB port monitoring and control with Linux sysfs integration
  */
 
 #ifndef WPP_W_34604_USB_MANAGEMENT_H
@@ -12,6 +12,10 @@
 #include "UsbManagementInfo.h"
 #include "Instance.h"
 #include "InstSubject.h"
+#include "WppTaskQueue.h"
+
+#include <string>
+#include <vector>
 
 namespace wpp {
 
@@ -56,6 +60,35 @@ protected:
 private:
     /* Private methods */
     bool initResources(ItemOp *) override;
+
+    // USB device information structure
+    struct UsbDeviceInfo {
+        std::string devicePath;
+        std::string vendorId;
+        std::string productId;
+        std::string manufacturer;
+        std::string product;
+        int deviceClass = 0;
+        int maxPowerMa = 0;
+        bool powerEnabled = true;
+        bool authorized = true;
+    };
+
+    // sysfs helper functions
+    std::string readSysfsFile(const std::string& path);
+    bool writeSysfsFile(const std::string& path, const std::string& value);
+    std::vector<std::string> listUsbDevices();
+    UsbDeviceInfo getDeviceInfo(const std::string& deviceName);
+
+    // USB monitoring and control
+    void updateUsbDeviceInfo();
+    bool handlePortEnable(bool enable);
+    bool handlePowerControl(bool enable);
+
+    // Member variables
+    INST_T _portIndex;                       // USB port index (instance ID)
+    WppTaskQueue::task_id_t _updateTaskId;   // Periodic update task ID
+    std::string _currentDevicePath;          // Current connected device path in sysfs
 };
 
 } // namespace wpp

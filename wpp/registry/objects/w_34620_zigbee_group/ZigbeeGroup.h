@@ -12,6 +12,8 @@
 #include "ZigbeeGroupInfo.h"
 #include "Instance.h"
 #include "InstSubject.h"
+#include <set>
+#include <vector>
 
 namespace wpp {
 
@@ -69,7 +71,12 @@ private:
 
     /* Helper methods */
     void updateMemberList();
-    bool sendGroupCommand(uint8_t commandId, const std::vector<uint8_t>& payload);
+    bool sendGroupCommand(uint16_t clusterId, uint8_t commandId, const std::vector<uint8_t>& payload);
+    bool sendZclCommandToDevice(uint64_t ieeeAddress, uint16_t clusterId,
+                                 uint8_t commandId, const std::vector<uint8_t>& payload);
+
+    /* Member device tracking */
+    std::set<uint64_t> memberDevices_;
 };
 
 } // namespace wpp
