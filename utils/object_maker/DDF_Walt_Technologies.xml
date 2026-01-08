@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Walt Technologies LwM2M Object Registry Entries
+
+    These entries are to be added to the OMA LwM2M Registry DDF.xml file.
+    Objects 34600-34623 are reserved for Walt Technologies.
+
+    Submit as PR to: https://github.com/OpenMobileAlliance/lwm2m-registry
+    Branch: walt-techn-reserv-obj
+-->
+
+<!-- Walt Technologies LwM2M Objects (34600-34623) -->
+<!-- Copy the following Item entries to DDF.xml after the last existing Item -->
+
+        <Item ID="34600">
+            <ObjectID>34600</ObjectID>
+            <URN>urn:oma:lwm2m:x:34600</URN>
+            <Name>Starlink Terminal</Name>
+            <Description>Management and monitoring of Starlink Gen3 satellite internet terminals. Remote access to telemetry, configuration, and control of Starlink dishes via gRPC protocol.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34600.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34601">
+            <ObjectID>34601</ObjectID>
+            <URN>urn:oma:lwm2m:x:34601</URN>
+            <Name>Router Management</Name>
+            <Description>General router configuration and management for OpenWRT-based routers. Includes hostname, IP settings, DNS, NTP, timezone, and firmware management.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34601.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34602">
+            <ObjectID>34602</ObjectID>
+            <URN>urn:oma:lwm2m:x:34602</URN>
+            <Name>Ethernet Interface</Name>
+            <Description>Ethernet port monitoring and configuration. Each instance represents one physical Ethernet port with status, statistics, and configuration.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34602.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34603">
+            <ObjectID>34603</ObjectID>
+            <URN>urn:oma:lwm2m:x:34603</URN>
+            <Name>GPIO Control</Name>
+            <Description>GPIO pin management for LED control, button inputs, and general-purpose I/O via Linux sysfs interface.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34603.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34604">
+            <ObjectID>34604</ObjectID>
+            <URN>urn:oma:lwm2m:x:34604</URN>
+            <Name>USB Management</Name>
+            <Description>USB device enumeration and power management. Monitors connected USB devices and provides power control capabilities.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34604.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34605">
+            <ObjectID>34605</ObjectID>
+            <URN>urn:oma:lwm2m:x:34605</URN>
+            <Name>Storage Management</Name>
+            <Description>Storage device management including mount points, capacity monitoring, and filesystem operations.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34605.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34606">
+            <ObjectID>34606</ObjectID>
+            <URN>urn:oma:lwm2m:x:34606</URN>
+            <Name>System Monitor</Name>
+            <Description>System resource monitoring including CPU usage, memory utilization, load average, uptime, and process count.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34606.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34607">
+            <ObjectID>34607</ObjectID>
+            <URN>urn:oma:lwm2m:x:34607</URN>
+            <Name>Hardware Watchdog</Name>
+            <Description>Hardware watchdog timer management for automatic system recovery. Supports /dev/watchdog interface.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34607.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34608">
+            <ObjectID>34608</ObjectID>
+            <URN>urn:oma:lwm2m:x:34608</URN>
+            <Name>MIKROBUS</Name>
+            <Description>MikroE Click board expansion slot management. Supports Click board detection and I2C/SPI/UART interface configuration.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34608.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34609">
+            <ObjectID>34609</ObjectID>
+            <URN>urn:oma:lwm2m:x:34609</URN>
+            <Name>Firewall Config</Name>
+            <Description>Firewall rule management for OpenWRT iptables/nftables. Port filtering, IP filtering, zone-based firewall via UCI.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34609.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34610">
+            <ObjectID>34610</ObjectID>
+            <URN>urn:oma:lwm2m:x:34610</URN>
+            <Name>PoE Management</Name>
+            <Description>Power over Ethernet port management for PoE-capable switches. Power budget, per-port control, and priority settings.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34610.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34611">
+            <ObjectID>34611</ObjectID>
+            <URN>urn:oma:lwm2m:x:34611</URN>
+            <Name>WAN Failover Policy</Name>
+            <Description>Multi-WAN failover configuration. Priority-based WAN selection, failover triggers, and load balancing policies.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34611.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34612">
+            <ObjectID>34612</ObjectID>
+            <URN>urn:oma:lwm2m:x:34612</URN>
+            <Name>Multi-WAN Health Check</Name>
+            <Description>WAN connection health monitoring with ping/HTTP checks, latency tracking, and automatic failover triggers.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34612.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34613">
+            <ObjectID>34613</ObjectID>
+            <URN>urn:oma:lwm2m:x:34613</URN>
+            <Name>WiFi Client Management</Name>
+            <Description>Connected WiFi client tracking and management. Client statistics, signal strength, bandwidth usage, and access control.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34613.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34614">
+            <ObjectID>34614</ObjectID>
+            <URN>urn:oma:lwm2m:x:34614</URN>
+            <Name>WiFi Channel Optimization</Name>
+            <Description>WiFi channel selection and optimization. Interference monitoring, automatic channel selection, and DFS management.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34614.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34615">
+            <ObjectID>34615</ObjectID>
+            <URN>urn:oma:lwm2m:x:34615</URN>
+            <Name>Matter Bridge</Name>
+            <Description>Matter protocol bridge functionality. Enables LwM2M-managed gateways to expose devices to Matter fabric ecosystems.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34615.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34616">
+            <ObjectID>34616</ObjectID>
+            <URN>urn:oma:lwm2m:x:34616</URN>
+            <Name>Matter Device</Name>
+            <Description>Individual Matter device representation. Device information, commissioning status, and endpoint management.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34616.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34617">
+            <ObjectID>34617</ObjectID>
+            <URN>urn:oma:lwm2m:x:34617</URN>
+            <Name>Thread Network</Name>
+            <Description>Thread mesh network management. Border router configuration, network formation, and mesh topology monitoring.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34617.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34618">
+            <ObjectID>34618</ObjectID>
+            <URN>urn:oma:lwm2m:x:34618</URN>
+            <Name>Zigbee Coordinator</Name>
+            <Description>Zigbee network coordinator management. Network formation, device joining, EZSP/Z-Stack support, and mesh orchestration.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34618.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34619">
+            <ObjectID>34619</ObjectID>
+            <URN>urn:oma:lwm2m:x:34619</URN>
+            <Name>Zigbee Device</Name>
+            <Description>Individual Zigbee device representation. Device info, status monitoring, ZCL attribute access, and device management.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34619.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34620">
+            <ObjectID>34620</ObjectID>
+            <URN>urn:oma:lwm2m:x:34620</URN>
+            <Name>Zigbee Group</Name>
+            <Description>Zigbee group management for collective device control. Group membership, scene management, and ZCL group commands.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34620.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34621">
+            <ObjectID>34621</ObjectID>
+            <URN>urn:oma:lwm2m:x:34621</URN>
+            <Name>LAN Configuration</Name>
+            <Description>LAN network configuration. DHCP server settings, IP ranges, DNS relay, and client lease management.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34621.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34622">
+            <ObjectID>34622</ObjectID>
+            <URN>urn:oma:lwm2m:x:34622</URN>
+            <Name>Routing Table</Name>
+            <Description>IP routing table management. Static routes, default gateway, policy-based routing, and route metrics.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34622.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+
+        <Item ID="34623">
+            <ObjectID>34623</ObjectID>
+            <URN>urn:oma:lwm2m:x:34623</URN>
+            <Name>VPN Configuration</Name>
+            <Description>VPN tunnel configuration. OpenVPN, WireGuard, IPsec support with connection management and status monitoring.</Description>
+            <Owner>Walt Technologies</Owner>
+            <Source>1</Source>
+            <Ver>1.0</Ver>
+            <DDF>34623.xml</DDF>
+            <Vorto></Vorto>
+            <DDFLink>1</DDFLink>
+            <TS></TS>
+            <TSLink>0</TSLink>
+        </Item>
+

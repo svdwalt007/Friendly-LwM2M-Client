@@ -11,7 +11,7 @@ All rights reserved.
         <Name>Zigbee Device</Name>
         <Description1><![CDATA[This LwM2M Object represents individual Zigbee devices in the network, providing comprehensive device information, status monitoring, and control capabilities. Tracks device identity (IEEE address, network address), capabilities (endpoints, clusters, device type), operational status (LQI, RSSI, last seen), and enables device management operations including interview, removal, and attribute read/write. Supports all Zigbee device types including lights, sensors, actuators, and security devices. Essential for centralized monitoring and control of Zigbee mesh networks through LwM2M protocol. Each instance represents one physical Zigbee device.]]></Description1>
         <ObjectID>34619</ObjectID>
-        <ObjectURN>urn:waltech:lwm2m:33461</ObjectURN>
+        <ObjectURN>urn:oma:lwm2m:x:34619</ObjectURN>
         <LWM2MVersion>1.0</LWM2MVersion>
         <ObjectVersion>1.0</ObjectVersion>
         <MultipleInstances>Multiple</MultipleInstances>
@@ -228,6 +228,6 @@ All rights reserved.
                 <Description><![CDATA[Execute to write ZCL attribute to device. Argument format: [endpoint][clusterId][attributeId][dataType][value]. Example: Set level to 128: [01][0008][0000][20][80]. Used for device configuration and control.]]></Description>
             </Item>
         </Resources>
-        <Description2></Description2>
+        <Description2><![CDATA[]]></Description2>
     </Object>
 </LWM2M>

@@ -11,7 +11,7 @@ All rights reserved.
         <Name>Zigbee Group</Name>
         <Description1><![CDATA[This LwM2M Object enables Zigbee group management for collective device control and scene automation. Groups allow simultaneous control of multiple devices (lights, switches, etc.) with a single command, reducing network traffic and ensuring synchronized operation. Supports dynamic group membership management, scene storage and recall, and common control commands (on/off, level, color). Essential for lighting zones, room control, and automation scenarios in smart home and commercial building deployments. Implements Zigbee Groups cluster (0x0004) and Scenes cluster (0x0005) functionality. Each instance represents one logical group with unique 16-bit Group ID.]]></Description1>
         <ObjectID>34620</ObjectID>
-        <ObjectURN>urn:waltech:lwm2m:33462</ObjectURN>
+        <ObjectURN>urn:oma:lwm2m:x:34620</ObjectURN>
         <LWM2MVersion>1.0</LWM2MVersion>
         <ObjectVersion>1.0</ObjectVersion>
         <MultipleInstances>Multiple</MultipleInstances>
@@ -168,6 +168,6 @@ All rights reserved.
                 <Description><![CDATA[Execute to set color for all color-capable devices in group. Arguments: hue (0-254), saturation (0-254) - 2 bytes total. Sends ZCL Move to Hue and Saturation command (cluster 0x0300). Only affects devices with color control capability.]]></Description>
             </Item>
         </Resources>
-        <Description2></Description2>
+        <Description2><![CDATA[]]></Description2>
     </Object>
 </LWM2M>

@@ -11,7 +11,7 @@ All rights reserved.
         <Name>Zigbee Coordinator</Name>
         <Description1><![CDATA[This LwM2M Object provides comprehensive management of Zigbee coordinator functionality with support for Silicon Labs EZSP (EmberZNet Serial Protocol) and Texas Instruments Z-Stack. Enables network formation, joining control, device management, and complete Zigbee network orchestration. Supports ZCL 8 compliance, Green Power, Touchlink commissioning, and OTA upgrade proxy. Essential for IoT gateways and home automation hubs requiring Zigbee coordinator capabilities with centralized management through LwM2M protocol.]]></Description1>
         <ObjectID>34618</ObjectID>
-        <ObjectURN>urn:waltech:lwm2m:33460</ObjectURN>
+        <ObjectURN>urn:oma:lwm2m:x:34618</ObjectURN>
         <LWM2MVersion>1.0</LWM2MVersion>
         <ObjectVersion>1.0</ObjectVersion>
         <MultipleInstances>Single</MultipleInstances>
@@ -228,6 +228,6 @@ All rights reserved.
                 <Description><![CDATA[Execute to backup current network configuration including keys, PAN ID, and device bindings. Enables network restoration after coordinator replacement or failure. Store backup securely due to security key inclusion.]]></Description>
             </Item>
         </Resources>
-        <Description2></Description2>
+        <Description2><![CDATA[]]></Description2>
     </Object>
 </LWM2M>
