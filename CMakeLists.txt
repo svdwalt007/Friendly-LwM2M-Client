@@ -282,80 +282,80 @@ endif()
 
 set(WPP_OBJECTS_SOURCES "")
 
-# Router Management Objects
-if(WITH_LAN_CONFIG)
-    list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_33611_lan_configuration/LanConfiguration.cpp
-    )
-    add_definitions(-DOBJ_W_33611_LAN_CONFIGURATION)
-endif()
-
-if(WITH_ROUTING_TABLE)
-    list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_33612_routing_table/RoutingTable.cpp
-    )
-    add_definitions(-DOBJ_W_33612_ROUTING_TABLE)
-endif()
-
-if(WITH_VPN_CONFIG)
-    list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_33613_vpn_configuration/VpnConfiguration.cpp
-    )
-    add_definitions(-DOBJ_W_33613_VPN_CONFIGURATION)
-endif()
-
 # Multi-WAN Objects
 if(WITH_WAN_FAILOVER)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_33420_wan_failover_policy/WanFailoverPolicy.cpp
+        wpp/registry/objects/w_34611_wan_failover_policy/WanFailoverPolicy.cpp
     )
-    add_definitions(-DOBJ_W_33420_WAN_FAILOVER_POLICY)
+    add_definitions(-DOBJ_W_34611_WAN_FAILOVER_POLICY)
 endif()
 
 if(WITH_MULTIWAN_HEALTH)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_33421_multiwan_health_check/MultiWanHealthCheck.cpp
+        wpp/registry/objects/w_34612_multiwan_health_check/MultiWanHealthCheck.cpp
     )
-    add_definitions(-DOBJ_W_33421_MULTIWAN_HEALTH_CHECK)
+    add_definitions(-DOBJ_W_34612_MULTIWAN_HEALTH_CHECK)
 endif()
 
 # WiFi Management Objects
 if(WITH_WIFI_CLIENT_MGMT)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_33422_wifi_client_management/WifiClientManagement.cpp
+        wpp/registry/objects/w_34613_wifi_client_management/WifiClientManagement.cpp
     )
-    add_definitions(-DOBJ_W_33422_WIFI_CLIENT_MANAGEMENT)
+    add_definitions(-DOBJ_W_34613_WIFI_CLIENT_MANAGEMENT)
 endif()
 
 if(WITH_WIFI_CHANNEL_OPT)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_33423_wifi_channel_optimization/WifiChannelOptimization.cpp
+        wpp/registry/objects/w_34614_wifi_channel_optimization/WifiChannelOptimization.cpp
     )
-    add_definitions(-DOBJ_W_33423_WIFI_CHANNEL_OPTIMIZATION)
+    add_definitions(-DOBJ_W_34614_WIFI_CHANNEL_OPTIMIZATION)
 endif()
 
 # Matter LwM2M Objects
 if(WITH_MATTER_BRIDGE)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_33450_matter_bridge/MatterBridge.cpp
-        wpp/registry/objects/w_33451_matter_device/MatterDevice.cpp
-        wpp/registry/objects/w_33452_thread_network/ThreadNetwork.cpp
+        wpp/registry/objects/w_34615_matter_bridge/MatterBridge.cpp
+        wpp/registry/objects/w_34616_matter_device/MatterDevice.cpp
+        wpp/registry/objects/w_34617_thread_network/ThreadNetwork.cpp
     )
-    add_definitions(-DOBJ_W_33450_MATTER_BRIDGE)
-    add_definitions(-DOBJ_W_33451_MATTER_DEVICE)
-    add_definitions(-DOBJ_W_33452_THREAD_NETWORK)
+    add_definitions(-DOBJ_W_34615_MATTER_BRIDGE)
+    add_definitions(-DOBJ_W_34616_MATTER_DEVICE)
+    add_definitions(-DOBJ_W_34617_THREAD_NETWORK)
 endif()
 
 # Zigbee LwM2M Objects
 if(WITH_ZIGBEE)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_33460_zigbee_coordinator/ZigbeeCoordinator.cpp
-        wpp/registry/objects/w_33461_zigbee_device/ZigbeeDevice.cpp
-        wpp/registry/objects/w_33462_zigbee_group/ZigbeeGroup.cpp
+        wpp/registry/objects/w_34618_zigbee_coordinator/ZigbeeCoordinator.cpp
+        wpp/registry/objects/w_34619_zigbee_device/ZigbeeDevice.cpp
+        wpp/registry/objects/w_34620_zigbee_group/ZigbeeGroup.cpp
     )
-    add_definitions(-DOBJ_W_33460_ZIGBEE_COORDINATOR)
-    add_definitions(-DOBJ_W_33461_ZIGBEE_DEVICE)
-    add_definitions(-DOBJ_W_33462_ZIGBEE_GROUP)
+    add_definitions(-DOBJ_W_34618_ZIGBEE_COORDINATOR)
+    add_definitions(-DOBJ_W_34619_ZIGBEE_DEVICE)
+    add_definitions(-DOBJ_W_34620_ZIGBEE_GROUP)
+endif()
+
+# Router Management Objects
+if(WITH_LAN_CONFIG)
+    list(APPEND WPP_OBJECTS_SOURCES
+        wpp/registry/objects/w_34621_lan_configuration/LanConfiguration.cpp
+    )
+    add_definitions(-DOBJ_W_34621_LAN_CONFIGURATION)
+endif()
+
+if(WITH_ROUTING_TABLE)
+    list(APPEND WPP_OBJECTS_SOURCES
+        wpp/registry/objects/w_34622_routing_table/RoutingTable.cpp
+    )
+    add_definitions(-DOBJ_W_34622_ROUTING_TABLE)
+endif()
+
+if(WITH_VPN_CONFIG)
+    list(APPEND WPP_OBJECTS_SOURCES
+        wpp/registry/objects/w_34623_vpn_configuration/VpnConfiguration.cpp
+    )
+    add_definitions(-DOBJ_W_34623_VPN_CONFIGURATION)
 endif()
 
 list(APPEND ALL_SOURCES ${WPP_OBJECTS_SOURCES})

@@ -1,5 +1,0 @@
-wpp_check_definition("OBJ_W_33422_WIFI_CLIENT_MANAGEMENT" is_defined)
-if(is_defined)
-    set(WPP_SOURCES ${WPP_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/WifiClientManagement.cpp)
-    set(WPP_SOURCES ${WPP_SOURCES} PARENT_SCOPE)
-endif()

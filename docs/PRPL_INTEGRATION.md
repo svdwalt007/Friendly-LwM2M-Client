@@ -7,7 +7,7 @@ The prpl Platform Abstraction Layer provides comprehensive integration between t
 - **Ambiorix (amxb/amxd)** bus integration for data model access
 - **TR-181 Device:2** data model support
 - **EasyMesh R2/R4** Multi-AP coordination
-- **prplMesh LwM2M Object (33440)** for mesh network management
+- **prplMesh LwM2M Object (34640)** for mesh network management
 - **USP Agent** interaction capabilities
 
 ## Architecture
@@ -18,7 +18,7 @@ The prpl Platform Abstraction Layer provides comprehensive integration between t
 ┌─────────────────────────────────────────────────────────────┐
 │             Friendly LwM2M Client                           │
 ├─────────────────────────────────────────────────────────────┤
-│  prplMesh LwM2M Object (33440)                             │
+│  prplMesh LwM2M Object (34640)                             │
 │  ├─ Network Topology                                        │
 │  ├─ Link Quality Metrics                                    │
 │  └─ Steering Policies                                       │
@@ -67,7 +67,7 @@ EasyMesh R2/R4 Multi-AP integration:
 - Event subscription
 
 #### 4. PrplMeshObject
-Custom LwM2M Object (33440) for mesh management:
+Custom LwM2M Object (34640) for mesh management:
 - Network status and configuration
 - Topology metrics
 - Link quality monitoring

@@ -39,7 +39,7 @@ The Zigbee Integration provides comprehensive Zigbee coordinator functionality f
 ┌─────────────────────────┴───────────────────────────────────┐
 │              Friendly LwM2M Client                          │
 │  ┌───────────────────────────────────────────────────────┐  │
-│  │  LwM2M Objects (33460, 33461, 33462)                  │  │
+│  │  LwM2M Objects (34618, 34619, 34620)                  │  │
 │  └─────────────────────┬─────────────────────────────────┘  │
 │  ┌─────────────────────┴─────────────────────────────────┐  │
 │  │  Zigbee Coordinator (C++ Library)                     │  │
@@ -125,7 +125,7 @@ The Zigbee Integration provides comprehensive Zigbee coordinator functionality f
 
 ## LwM2M Objects
 
-### Object 33460: Zigbee Coordinator
+### Object 34618: Zigbee Coordinator
 
 Manages the Zigbee coordinator and network.
 
@@ -152,7 +152,7 @@ Manages the Zigbee coordinator and network.
 - **19**: Start Touchlink (E, Execute) - Initiate Touchlink
 - **20**: Backup Network (E, Execute) - Backup network configuration
 
-### Object 33461: Zigbee Device
+### Object 34619: Zigbee Device
 
 Represents individual Zigbee devices in the network. Multiple instances.
 
@@ -179,7 +179,7 @@ Represents individual Zigbee devices in the network. Multiple instances.
 - **19**: Read Attribute (E, Execute) - Read ZCL attribute
 - **20**: Write Attribute (E, Execute) - Write ZCL attribute
 
-### Object 33462: Zigbee Group
+### Object 34620: Zigbee Group
 
 Manages Zigbee groups for collective device control. Multiple instances.
 
@@ -260,7 +260,7 @@ sudo udevadm control --reload-rules
 
 ### 2. Configure Coordinator Object
 
-Via LwM2M Server, set object 33460 resources:
+Via LwM2M Server, set object 34618 resources:
 
 ```json
 {
@@ -277,7 +277,7 @@ Via LwM2M Server, set object 33460 resources:
 
 ### 3. Form Network
 
-Execute resource 16 (Form Network) on object 33460.
+Execute resource 16 (Form Network) on object 34618.
 
 Monitor resource 0 (Network State):
 - 1 = Forming (in progress)
@@ -298,20 +298,20 @@ Execute resource 18 (Permit Join Command) with argument:
 # Python pseudocode using LwM2M client library
 
 # Configure coordinator
-lwm2m.write("/33460/0/12", "/dev/ttyUSB0")  # Serial port
-lwm2m.write("/33460/0/13", 115200)          # Baud rate
-lwm2m.write("/33460/0/3", 15)               # Channel
-lwm2m.write("/33460/0/1", 0x1A62)           # PAN ID
+lwm2m.write("/34618/0/12", "/dev/ttyUSB0")  # Serial port
+lwm2m.write("/34618/0/13", 115200)          # Baud rate
+lwm2m.write("/34618/0/3", 15)               # Channel
+lwm2m.write("/34618/0/1", 0x1A62)           # PAN ID
 
 # Form network
-lwm2m.execute("/33460/0/16")
+lwm2m.execute("/34618/0/16")
 
 # Wait for network ready
-while lwm2m.read("/33460/0/0") != 3:
+while lwm2m.read("/34618/0/0") != 3:
     time.sleep(1)
 
 # Permit joining for 60 seconds
-lwm2m.execute("/33460/0/18", bytes([60]))
+lwm2m.execute("/34618/0/18", bytes([60]))
 
 print("Network ready - add devices now")
 ```
@@ -320,15 +320,15 @@ print("Network ready - add devices now")
 
 ```python
 # Get device count
-device_count = lwm2m.read("/33460/0/6")
+device_count = lwm2m.read("/34618/0/6")
 print(f"Devices in network: {device_count}")
 
 # Enumerate devices
 for inst_id in range(device_count):
-    ieee = lwm2m.read(f"/33461/{inst_id}/0")
-    model = lwm2m.read(f"/33461/{inst_id}/4")
-    lqi = lwm2m.read(f"/33461/{inst_id}/7")
-    online = lwm2m.read(f"/33461/{inst_id}/13")
+    ieee = lwm2m.read(f"/34619/{inst_id}/0")
+    model = lwm2m.read(f"/34619/{inst_id}/4")
+    lqi = lwm2m.read(f"/34619/{inst_id}/7")
+    online = lwm2m.read(f"/34619/{inst_id}/13")
 
     print(f"Device {ieee}: {model}, LQI={lqi}, Online={online}")
 ```
@@ -337,27 +337,27 @@ for inst_id in range(device_count):
 
 ```python
 # Create group
-group_inst = lwm2m.create("/33462")
-lwm2m.write(f"/33462/{group_inst}/0", 0x0001)  # Group ID
-lwm2m.write(f"/33462/{group_inst}/1", "Living Room Lights")
+group_inst = lwm2m.create("/34620")
+lwm2m.write(f"/34620/{group_inst}/0", 0x0001)  # Group ID
+lwm2m.write(f"/34620/{group_inst}/1", "Living Room Lights")
 
 # Add devices to group
 device1_ieee = 0x00124B0012345678
 device2_ieee = 0x00124B00ABCDEF12
-lwm2m.execute(f"/33462/{group_inst}/6", device1_ieee.to_bytes(8, 'little'))
-lwm2m.execute(f"/33462/{group_inst}/6", device2_ieee.to_bytes(8, 'little'))
+lwm2m.execute(f"/34620/{group_inst}/6", device1_ieee.to_bytes(8, 'little'))
+lwm2m.execute(f"/34620/{group_inst}/6", device2_ieee.to_bytes(8, 'little'))
 
 # Turn on group
-lwm2m.execute(f"/33462/{group_inst}/10")
+lwm2m.execute(f"/34620/{group_inst}/10")
 
 # Set brightness to 50%
-lwm2m.execute(f"/33462/{group_inst}/13", bytes([127]))
+lwm2m.execute(f"/34620/{group_inst}/13", bytes([127]))
 
 # Store as scene 1
-lwm2m.execute(f"/33462/{group_inst}/9", bytes([1]))
+lwm2m.execute(f"/34620/{group_inst}/9", bytes([1]))
 
 # Later: recall scene 1
-lwm2m.execute(f"/33462/{group_inst}/8", bytes([1]))
+lwm2m.execute(f"/34620/{group_inst}/8", bytes([1]))
 ```
 
 ## ZCL Cluster Support

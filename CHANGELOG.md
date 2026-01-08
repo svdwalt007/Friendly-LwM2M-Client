@@ -23,16 +23,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Button press events (99-lwm2m)
 
 #### Router Management LwM2M Objects
-- **LAN Configuration Object (33611)** - Full LAN network management
+- **LAN Configuration Object (34621)** - Full LAN network management
   - Interface configuration (IP, DHCP, DNS)
   - DHCP server management
   - UCI configuration persistence
-- **Routing Table Object (33612)** - Static and dynamic routing
+- **Routing Table Object (34622)** - Static and dynamic routing
   - IPv4/IPv6 dual-stack support
   - Policy-based routing
   - Multi-table routing (main, local, custom)
   - Route state monitoring
-- **VPN Configuration Object (33613)** - Multi-protocol VPN management
+- **VPN Configuration Object (34623)** - Multi-protocol VPN management
   - OpenVPN client support
   - WireGuard interface management with key generation
   - IPsec/IKEv2 (strongSwan) integration
@@ -40,13 +40,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Traffic statistics
 
 #### Multi-WAN and Failover
-- **WAN Failover Policy Object (33420)** - Multi-WAN failover management
+- **WAN Failover Policy Object (34611)** - Multi-WAN failover management
   - mwan3 integration for OpenWRT
   - Failover, load-balance, and round-robin modes
   - Weight-based traffic distribution
   - Policy-based routing rules
   - Automatic failover/failback
-- **Multi-WAN Health Check Object (33421)** - WAN health monitoring
+- **Multi-WAN Health Check Object (34612)** - WAN health monitoring
   - ICMP, HTTP, DNS, TCP probe types
   - Asynchronous probe execution
   - Latency, jitter, and packet loss tracking
@@ -54,14 +54,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - mwan3 track integration
 
 #### WiFi/WLAN Management
-- **WiFi Client Management Object (33422)** - Connected client management
+- **WiFi Client Management Object (34613)** - Connected client management
   - Client enumeration with MAC, IP, hostname
   - Real-time RSSI monitoring
   - TX/RX bandwidth tracking
   - Band steering (802.11v BSS-TM)
   - MAC-based ACL (whitelist/blacklist)
   - hostapd integration
-- **WiFi Channel Optimization Object (33423)** - Channel management
+- **WiFi Channel Optimization Object (34614)** - Channel management
   - Automatic Channel Selection (ACS)
   - DFS (Dynamic Frequency Selection) support
   - Channel survey and interference detection
@@ -113,9 +113,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - OnOff, Level Control, Color Control
   - Temperature, Occupancy, Door Lock
   - Window Covering, Generic Switch
-- **Matter Bridge Object (33450)** - Controller management
-- **Matter Device Object (33451)** - Device instance management
-- **Thread Network Object (33452)** - Thread BR configuration
+- **Matter Bridge Object (34615)** - Controller management
+- **Matter Device Object (34616)** - Device instance management
+- **Thread Network Object (34617)** - Thread BR configuration
 
 #### Zigbee Integration
 - **Zigbee Coordinator** (`src/zigbee/`)
@@ -130,24 +130,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Zigbee OTA Proxy** - Firmware upgrade distribution
   - Multi-device coordination
   - Block transfer management
-- **Zigbee Coordinator Object (33460)** - Network management
-- **Zigbee Device Object (33461)** - Device management
-- **Zigbee Group Object (33462)** - Group control
+- **Zigbee Coordinator Object (34618)** - Network management
+- **Zigbee Device Object (34619)** - Device management
+- **Zigbee Group Object (34620)** - Group control
 
 #### OMA Registry XML Files
-- 33420.xml - WAN Failover Policy
-- 33421.xml - Multi-WAN Health Check
-- 33422.xml - WiFi Client Management
-- 33423.xml - WiFi Channel Optimization
-- 33450.xml - Matter Bridge
-- 33451.xml - Matter Device
-- 33452.xml - Thread Network
-- 33460.xml - Zigbee Coordinator
-- 33461.xml - Zigbee Device
-- 33462.xml - Zigbee Group
-- 33611.xml - LAN Configuration
-- 33612.xml - Routing Table
-- 33613.xml - VPN Configuration
+- 34611.xml - WAN Failover Policy
+- 34612.xml - Multi-WAN Health Check
+- 34613.xml - WiFi Client Management
+- 34614.xml - WiFi Channel Optimization
+- 34615.xml - Matter Bridge
+- 34616.xml - Matter Device
+- 34617.xml - Thread Network
+- 34618.xml - Zigbee Coordinator
+- 34619.xml - Zigbee Device
+- 34620.xml - Zigbee Group
+- 34621.xml - LAN Configuration
+- 34622.xml - Routing Table
+- 34623.xml - VPN Configuration
 
 #### Documentation
 - PRPL_INTEGRATION.md - prplOS/prplMesh integration guide
@@ -247,20 +247,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | 23 | LwM2M COSE | 1.1.0 |
 | 24 | MQTT Server | 1.1.0 |
 | 33410 | Edge AI Inference | 1.1.0 |
-| 33420 | WAN Failover Policy | 1.2.0 |
-| 33421 | Multi-WAN Health Check | 1.2.0 |
-| 33422 | WiFi Client Management | 1.2.0 |
-| 33423 | WiFi Channel Optimization | 1.2.0 |
+| 34611 | WAN Failover Policy | 1.2.0 |
+| 34612 | Multi-WAN Health Check | 1.2.0 |
+| 34613 | WiFi Client Management | 1.2.0 |
+| 34614 | WiFi Channel Optimization | 1.2.0 |
 | 33440 | prplMesh | 1.2.0 |
-| 33450 | Matter Bridge | 1.2.0 |
-| 33451 | Matter Device | 1.2.0 |
-| 33452 | Thread Network | 1.2.0 |
-| 33460 | Zigbee Coordinator | 1.2.0 |
-| 33461 | Zigbee Device | 1.2.0 |
-| 33462 | Zigbee Group | 1.2.0 |
-| 33611 | LAN Configuration | 1.2.0 |
-| 33612 | Routing Table | 1.2.0 |
-| 33613 | VPN Configuration | 1.2.0 |
+| 34615 | Matter Bridge | 1.2.0 |
+| 34616 | Matter Device | 1.2.0 |
+| 34617 | Thread Network | 1.2.0 |
+| 34618 | Zigbee Coordinator | 1.2.0 |
+| 34619 | Zigbee Device | 1.2.0 |
+| 34620 | Zigbee Group | 1.2.0 |
+| 34621 | LAN Configuration | 1.2.0 |
+| 34622 | Routing Table | 1.2.0 |
+| 34623 | VPN Configuration | 1.2.0 |
 | 34600 | Starlink Terminal | 1.0.0 |
 | 34601 | Router Management | 1.0.0 |
 | 34602 | Ethernet Interface | 1.0.0 |

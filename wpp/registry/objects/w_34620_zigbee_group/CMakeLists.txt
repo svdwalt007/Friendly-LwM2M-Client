@@ -1,0 +1,9 @@
+set(OBJECT_34620_SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/ZigbeeGroup.cpp
+)
+
+set(OBJECT_34620_HEADERS
+    ${CMAKE_CURRENT_LIST_DIR}/ZigbeeGroup.h
+    ${CMAKE_CURRENT_LIST_DIR}/ZigbeeGroupConfig.h
+    ${CMAKE_CURRENT_LIST_DIR}/ZigbeeGroupInfo.h
+)
