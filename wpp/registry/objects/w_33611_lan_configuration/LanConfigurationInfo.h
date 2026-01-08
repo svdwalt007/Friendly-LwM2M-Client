@@ -1,0 +1,23 @@
+/*
+ * LanConfiguration Info (Object 33611)
+ * Walt Technologies - OpenWRT One Router
+ */
+
+#ifndef WPP_LAN_CONFIGURATION_INFO_H
+#define WPP_LAN_CONFIGURATION_INFO_H
+
+#include "Lwm2mObjectBase.h"
+
+#ifdef OBJ_W_33611_LAN_CONFIGURATION
+
+#define LAN_CONFIGURATION_OBJECT_ID 33611
+
+static const Lwm2mObjectMetaInfo LAN_CONFIGURATION_META_INFO = {
+    .uri = "urn:waltech:lwm2m:33611",
+    .id = LAN_CONFIGURATION_OBJECT_ID,
+    .version = {1, 0},
+    .multi = true  // Multiple instances - one per LAN interface
+};
+
+#endif // OBJ_W_33611_LAN_CONFIGURATION
+#endif // WPP_LAN_CONFIGURATION_INFO_H

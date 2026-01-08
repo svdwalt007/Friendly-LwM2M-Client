@@ -1,0 +1,5 @@
+wpp_check_definition("OBJ_W_33423_WIFI_CHANNEL_OPTIMIZATION" is_defined)
+if(is_defined)
+    set(WPP_SOURCES ${WPP_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/WifiChannelOptimization.cpp)
+    set(WPP_SOURCES ${WPP_SOURCES} PARENT_SCOPE)
+endif()

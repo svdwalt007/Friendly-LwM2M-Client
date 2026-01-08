@@ -1,0 +1,43 @@
+{
+	"luci-app-lwm2m": {
+		"description": "Grant access to LwM2M client web interface",
+		"read": {
+			"ubus": {
+				"lwm2m": [
+					"status",
+					"list_objects",
+					"resource_read"
+				],
+				"file": [
+					"stat"
+				],
+				"service": [
+					"list"
+				]
+			},
+			"uci": [
+				"lwm2m"
+			]
+		},
+		"write": {
+			"ubus": {
+				"lwm2m": [
+					"register",
+					"update",
+					"deregister",
+					"reload_config",
+					"resource_write"
+				],
+				"service": [
+					"set"
+				]
+			},
+			"uci": [
+				"lwm2m"
+			],
+			"cgi-io": [
+				"upload"
+			]
+		}
+	}
+}

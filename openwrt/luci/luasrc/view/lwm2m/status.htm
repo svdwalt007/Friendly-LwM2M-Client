@@ -1,0 +1,372 @@
+<%#
+LwM2M Client Status Page
+
+Real-time status display for the LwM2M client with live updates,
+service control, and resource management.
+
+Copyright (C) 2024 Friendly Technologies
+License: MIT
+-%>
+
+<%+header%>
+
+<script type="text/javascript">//<![CDATA[
+	var statusInterval;
+	var isUpdating = false;
+
+	// Format timestamp
+	function formatTimestamp(timestamp) {
+		if (!timestamp) return 'Never';
+		var date = new Date(timestamp * 1000);
+		return date.toLocaleString();
+	}
+
+	// Format uptime
+	function formatUptime(seconds) {
+		if (!seconds) return '0s';
+		var days = Math.floor(seconds / 86400);
+		var hours = Math.floor((seconds % 86400) / 3600);
+		var minutes = Math.floor((seconds % 3600) / 60);
+		var secs = Math.floor(seconds % 60);
+
+		var parts = [];
+		if (days > 0) parts.push(days + 'd');
+		if (hours > 0) parts.push(hours + 'h');
+		if (minutes > 0) parts.push(minutes + 'm');
+		if (secs > 0 || parts.length === 0) parts.push(secs + 's');
+
+		return parts.join(' ');
+	}
+
+	// Update status display
+	function updateStatus() {
+		if (isUpdating) return;
+		isUpdating = true;
+
+		XHR.get('<%=url("admin/services/lwm2m/status_json")%>', null,
+			function(xhr, data) {
+				isUpdating = false;
+
+				if (!data || !data.success) {
+					document.getElementById('status-error').style.display = 'block';
+					document.getElementById('status-content').style.display = 'none';
+					return;
+				}
+
+				document.getElementById('status-error').style.display = 'none';
+				document.getElementById('status-content').style.display = 'block';
+
+				// Service status
+				var serviceStatus = data.service_running ?
+					'<span style="color: green; font-weight: bold;">Running</span>' :
+					'<span style="color: red; font-weight: bold;">Stopped</span>';
+				document.getElementById('service-status').innerHTML = serviceStatus;
+
+				// Enable/disable control buttons
+				var startBtn = document.getElementById('btn-start');
+				var stopBtn = document.getElementById('btn-stop');
+				var restartBtn = document.getElementById('btn-restart');
+
+				if (data.service_running) {
+					startBtn.disabled = true;
+					stopBtn.disabled = false;
+					restartBtn.disabled = false;
+				} else {
+					startBtn.disabled = false;
+					stopBtn.disabled = true;
+					restartBtn.disabled = true;
+				}
+
+				// Client status
+				var client = data.client_status || {};
+
+				var regStatus = client.registered ?
+					'<span style="color: green; font-weight: bold;">Registered</span>' :
+					'<span style="color: orange; font-weight: bold;">Not Registered</span>';
+				document.getElementById('reg-status').innerHTML = regStatus;
+
+				document.getElementById('endpoint-name').textContent = client.endpoint || 'N/A';
+				document.getElementById('server-uri').textContent = client.serverUri || 'N/A';
+				document.getElementById('lifetime').textContent = client.lifetime ? client.lifetime + 's' : 'N/A';
+				document.getElementById('last-update').textContent = formatTimestamp(client.lastUpdate);
+				document.getElementById('client-state').textContent = client.state || 'Unknown';
+				document.getElementById('system-uptime').textContent = formatUptime(data.system_uptime);
+
+				// Update timestamp
+				document.getElementById('last-refresh').textContent = new Date().toLocaleTimeString();
+			}
+		);
+	}
+
+	// Load objects list
+	function loadObjects() {
+		XHR.get('<%=url("admin/services/lwm2m/objects_json")%>', null,
+			function(xhr, data) {
+				if (!data || !data.success) {
+					return;
+				}
+
+				var objectsList = document.getElementById('objects-list');
+				objectsList.innerHTML = '';
+
+				if (!data.objects || data.objects.length === 0) {
+					objectsList.innerHTML = '<tr><td colspan="4" style="text-align: center;">No objects registered</td></tr>';
+					return;
+				}
+
+				var objectNames = {
+					0: 'Security',
+					1: 'Server',
+					2: 'Access Control',
+					3: 'Device',
+					4: 'Connectivity Monitoring',
+					5: 'Firmware Update',
+					12: 'WLAN Connectivity',
+					13: 'Bearer Selection',
+					3331: 'Memory',
+					34601: 'Router Management',
+					34602: 'Ethernet Interface',
+					34603: 'GPIO Control',
+					34604: 'USB Management',
+					34605: 'Storage Management',
+					34606: 'System Monitor'
+				};
+
+				data.objects.forEach(function(obj) {
+					var objId = obj.object_id || obj.id;
+					var objName = objectNames[objId] || 'Object ' + objId;
+					var instances = (obj.instances && obj.instances.join(', ')) || '0';
+					var status = obj.enabled ?
+						'<span style="color: green;">Enabled</span>' :
+						'<span style="color: gray;">Disabled</span>';
+
+					var row = '<tr>' +
+						'<td>' + objId + '</td>' +
+						'<td>' + objName + '</td>' +
+						'<td>' + instances + '</td>' +
+						'<td>' + status + '</td>' +
+						'</tr>';
+					objectsList.innerHTML += row;
+				});
+			}
+		);
+	}
+
+	// Client action (register, update, deregister, reload)
+	function clientAction(action) {
+		var btn = document.getElementById('btn-' + action);
+		if (btn) btn.disabled = true;
+
+		XHR.post('<%=url("admin/services/lwm2m/action")%>',
+			{ action: action },
+			function(xhr, data) {
+				if (btn) btn.disabled = false;
+
+				if (data && data.success) {
+					showMessage('Success', action.charAt(0).toUpperCase() + action.slice(1) + ' completed successfully', 'success');
+					setTimeout(updateStatus, 1000);
+				} else {
+					showMessage('Error', 'Failed to ' + action + ': ' + (data.error || 'Unknown error'), 'error');
+				}
+			}
+		);
+	}
+
+	// Show message
+	function showMessage(title, message, type) {
+		var msgDiv = document.getElementById('message-box');
+		var color = type === 'success' ? 'green' : 'red';
+		msgDiv.innerHTML = '<div style="padding: 10px; margin: 10px 0; border: 1px solid ' + color + '; background-color: ' + color + '22; border-radius: 4px;">' +
+			'<strong>' + title + ':</strong> ' + message +
+			'</div>';
+		msgDiv.style.display = 'block';
+		setTimeout(function() {
+			msgDiv.style.display = 'none';
+		}, 5000);
+	}
+
+	// Initialize
+	XHR.run(function() {
+		updateStatus();
+		loadObjects();
+
+		// Auto-refresh every 5 seconds
+		statusInterval = setInterval(function() {
+			updateStatus();
+			loadObjects();
+		}, 5000);
+	});
+
+	// Cleanup on page unload
+	window.addEventListener('beforeunload', function() {
+		if (statusInterval) {
+			clearInterval(statusInterval);
+		}
+	});
+//]]></script>
+
+<style type="text/css">
+	.lwm2m-status-section {
+		margin-bottom: 20px;
+	}
+	.lwm2m-status-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+	.lwm2m-status-table th {
+		text-align: left;
+		padding: 8px;
+		background-color: #f0f0f0;
+		border: 1px solid #ddd;
+		width: 30%;
+	}
+	.lwm2m-status-table td {
+		padding: 8px;
+		border: 1px solid #ddd;
+	}
+	.lwm2m-button {
+		margin: 5px;
+		padding: 8px 16px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		font-size: 14px;
+	}
+	.lwm2m-button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+	.btn-primary { background-color: #0066cc; color: white; }
+	.btn-success { background-color: #28a745; color: white; }
+	.btn-danger { background-color: #dc3545; color: white; }
+	.btn-warning { background-color: #ffc107; color: black; }
+	.btn-secondary { background-color: #6c757d; color: white; }
+</style>
+
+<h2 name="content"><%:LwM2M Client Status%></h2>
+
+<div id="message-box" style="display: none;"></div>
+
+<div id="status-error" style="display: none;">
+	<div class="alert-message error">
+		<h3><%:Error%></h3>
+		<p><%:Unable to communicate with LwM2M client. Make sure the service is running.%></p>
+		<p><%:Check service status: %><code>/etc/init.d/lwm2m status</code></p>
+	</div>
+</div>
+
+<div id="status-content">
+	<!-- Service Control -->
+	<fieldset class="cbi-section lwm2m-status-section">
+		<legend><%:Service Control%></legend>
+		<div class="cbi-section-node">
+			<button class="lwm2m-button btn-success" id="btn-start" onclick="clientAction('start')">
+				<%:Start Service%>
+			</button>
+			<button class="lwm2m-button btn-danger" id="btn-stop" onclick="clientAction('stop')">
+				<%:Stop Service%>
+			</button>
+			<button class="lwm2m-button btn-warning" id="btn-restart" onclick="clientAction('restart')">
+				<%:Restart Service%>
+			</button>
+			<button class="lwm2m-button btn-secondary" id="btn-reload" onclick="clientAction('reload')">
+				<%:Reload Config%>
+			</button>
+		</div>
+	</fieldset>
+
+	<!-- Connection Status -->
+	<fieldset class="cbi-section lwm2m-status-section">
+		<legend><%:Connection Status%></legend>
+		<div class="cbi-section-node">
+			<table class="lwm2m-status-table">
+				<tr>
+					<th><%:Service Status%></th>
+					<td id="service-status">-</td>
+				</tr>
+				<tr>
+					<th><%:Registration Status%></th>
+					<td id="reg-status">-</td>
+				</tr>
+				<tr>
+					<th><%:Endpoint Name%></th>
+					<td id="endpoint-name">-</td>
+				</tr>
+				<tr>
+					<th><%:Server URI%></th>
+					<td id="server-uri">-</td>
+				</tr>
+				<tr>
+					<th><%:Lifetime%></th>
+					<td id="lifetime">-</td>
+				</tr>
+				<tr>
+					<th><%:Last Update%></th>
+					<td id="last-update">-</td>
+				</tr>
+				<tr>
+					<th><%:Client State%></th>
+					<td id="client-state">-</td>
+				</tr>
+				<tr>
+					<th><%:System Uptime%></th>
+					<td id="system-uptime">-</td>
+				</tr>
+			</table>
+		</div>
+	</fieldset>
+
+	<!-- Client Actions -->
+	<fieldset class="cbi-section lwm2m-status-section">
+		<legend><%:Client Actions%></legend>
+		<div class="cbi-section-node">
+			<button class="lwm2m-button btn-primary" id="btn-register" onclick="clientAction('register')">
+				<%:Register%>
+			</button>
+			<button class="lwm2m-button btn-primary" id="btn-update" onclick="clientAction('update')">
+				<%:Update Registration%>
+			</button>
+			<button class="lwm2m-button btn-danger" id="btn-deregister" onclick="clientAction('deregister')">
+				<%:Deregister%>
+			</button>
+		</div>
+		<div style="margin-top: 10px;">
+			<p><em><%:Register: Connect to the LwM2M server and register objects%></em></p>
+			<p><em><%:Update: Send registration update to maintain connection%></em></p>
+			<p><em><%:Deregister: Cleanly disconnect from the server%></em></p>
+		</div>
+	</fieldset>
+
+	<!-- Registered Objects -->
+	<fieldset class="cbi-section lwm2m-status-section">
+		<legend><%:Registered Objects%></legend>
+		<div class="cbi-section-node">
+			<table class="table" style="width: 100%;">
+				<thead>
+					<tr>
+						<th><%:Object ID%></th>
+						<th><%:Name%></th>
+						<th><%:Instances%></th>
+						<th><%:Status%></th>
+					</tr>
+				</thead>
+				<tbody id="objects-list">
+					<tr>
+						<td colspan="4" style="text-align: center;"><%:Loading...%></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</fieldset>
+
+	<!-- Auto-refresh indicator -->
+	<fieldset class="cbi-section">
+		<legend><%:Refresh Status%></legend>
+		<div class="cbi-section-node">
+			<p><%:Last refreshed:%> <span id="last-refresh">-</span></p>
+			<p><em><%:Status updates automatically every 5 seconds%></em></p>
+		</div>
+	</fieldset>
+</div>
+
+<%+footer%>

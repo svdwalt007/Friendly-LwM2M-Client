@@ -1,0 +1,19 @@
+<%#
+LwM2M Client - Error Display Template
+
+Simple error display template for LwM2M status pages
+
+Copyright (C) 2024 Friendly Technologies
+License: MIT
+-%>
+
+<div class="alert-message error" style="padding: 15px; margin: 10px 0; border: 2px solid #dc3545; background-color: #f8d7da; border-radius: 5px; color: #721c24;">
+	<h3 style="margin-top: 0;"><%:Error%></h3>
+	<p style="margin: 10px 0;"><strong><%=pcdata(self.error or "Unknown error occurred")%></strong></p>
+	<% if self.description then %>
+		<p style="margin: 10px 0;"><%=pcdata(self.description)%></p>
+	<% end %>
+	<% if self.details then %>
+		<pre style="margin: 10px 0; padding: 10px; background-color: #fff; border: 1px solid #ccc; overflow-x: auto;"><%=pcdata(self.details)%></pre>
+	<% end %>
+</div>

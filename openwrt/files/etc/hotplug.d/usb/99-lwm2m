@@ -1,0 +1,264 @@
+#!/bin/sh
+# LwM2M Client USB Device Hotplug Handler
+# Copyright (C) 2024 Friendly Technologies
+#
+# This script is triggered by OpenWRT's hotplug system when USB devices
+# are connected or disconnected. It notifies the LwM2M client daemon
+# and updates the USB Management object (34604).
+#
+# Environment variables provided by hotplug:
+# - ACTION: "add" or "remove"
+# - DEVTYPE: Device type (e.g., "usb_device", "usb_interface")
+# - PRODUCT: USB product ID (VID/PID/version)
+# - TYPE: Device class/subclass/protocol
+# - BUSNUM: USB bus number
+# - DEVNUM: USB device number
+# - DEVPATH: sysfs device path
+
+# Exit if not enabled
+[ -f /etc/config/lwm2m ] || exit 0
+[ "$(uci -q get lwm2m.general.enabled 2>/dev/null)" = "1" ] || exit 0
+
+# Logging function
+log_lwm2m() {
+	logger -t lwm2m-hotplug-usb -p daemon.info "$@"
+}
+
+log_error() {
+	logger -t lwm2m-hotplug-usb -p daemon.err "$@"
+}
+
+# Check if LwM2M client is running
+is_lwm2m_running() {
+	pgrep -x lwm2m-client >/dev/null 2>&1
+	return $?
+}
+
+# Send event via ubus
+notify_ubus() {
+	local event="$1"
+	local data="$2"
+
+	if ! command -v ubus >/dev/null 2>&1; then
+		log_error "ubus command not found"
+		return 1
+	fi
+
+	# Check if lwm2m ubus object exists
+	if ! ubus list | grep -q "^lwm2m$"; then
+		log_lwm2m "LwM2M ubus object not available, skipping notification"
+		return 1
+	fi
+
+	# Send event via ubus
+	if ubus send "lwm2m.${event}" "${data}" 2>/dev/null; then
+		log_lwm2m "Sent ubus event: lwm2m.${event}"
+		return 0
+	else
+		log_error "Failed to send ubus event: lwm2m.${event}"
+		return 1
+	fi
+}
+
+# Parse USB product information
+parse_usb_product() {
+	local product="$1"
+	local vendor_id=""
+	local product_id=""
+	local version=""
+
+	# Product format: VID/PID/VERSION (e.g., "1234/5678/0100")
+	if [ -n "$product" ]; then
+		vendor_id="${product%%/*}"
+		product="${product#*/}"
+		product_id="${product%%/*}"
+		version="${product#*/}"
+	fi
+
+	echo "$vendor_id:$product_id:$version"
+}
+
+# Get USB device information from sysfs
+get_usb_device_info() {
+	local devpath="$1"
+	local manufacturer=""
+	local product_name=""
+	local serial=""
+
+	if [ -d "/sys${devpath}" ]; then
+		[ -f "/sys${devpath}/manufacturer" ] && \
+			manufacturer="$(cat /sys${devpath}/manufacturer 2>/dev/null | tr -d '\n')"
+		[ -f "/sys${devpath}/product" ] && \
+			product_name="$(cat /sys${devpath}/product 2>/dev/null | tr -d '\n')"
+		[ -f "/sys${devpath}/serial" ] && \
+			serial="$(cat /sys${devpath}/serial 2>/dev/null | tr -d '\n')"
+	fi
+
+	echo "${manufacturer}|${product_name}|${serial}"
+}
+
+# Determine USB device type/class
+get_usb_device_type() {
+	local type_code="$1"
+	local class_code="${type_code%%/*}"
+
+	case "$class_code" in
+		00) echo "composite" ;;
+		01) echo "audio" ;;
+		02) echo "communications" ;;
+		03) echo "hid" ;;
+		05) echo "physical" ;;
+		06) echo "image" ;;
+		07) echo "printer" ;;
+		08) echo "mass_storage" ;;
+		09) echo "hub" ;;
+		0a) echo "cdc_data" ;;
+		0b) echo "smart_card" ;;
+		0d) echo "content_security" ;;
+		0e) echo "video" ;;
+		0f) echo "personal_healthcare" ;;
+		dc) echo "diagnostic" ;;
+		e0) echo "wireless" ;;
+		ef) echo "miscellaneous" ;;
+		fe) echo "application_specific" ;;
+		ff) echo "vendor_specific" ;;
+		*) echo "unknown" ;;
+	esac
+}
+
+# Update USB Management object (Object ID 34604)
+update_usb_management() {
+	local action="$1"
+	local devtype="$2"
+
+	# Only process USB devices (not interfaces)
+	if [ "$devtype" != "usb_device" ]; then
+		return 0
+	fi
+
+	local product="${PRODUCT:-}"
+	local type="${TYPE:-}"
+	local busnum="${BUSNUM:-}"
+	local devnum="${DEVNUM:-}"
+	local devpath="${DEVPATH:-}"
+
+	# Parse product information
+	local product_info="$(parse_usb_product "$product")"
+	local vendor_id="${product_info%%:*}"
+	product_info="${product_info#*:}"
+	local product_id="${product_info%%:*}"
+	local version="${product_info#*:}"
+
+	# Get device information from sysfs
+	local device_info="$(get_usb_device_info "$devpath")"
+	local manufacturer="${device_info%%|*}"
+	device_info="${device_info#*|}"
+	local product_name="${device_info%%|*}"
+	local serial="${device_info#*|}"
+
+	# Get device type
+	local device_type="$(get_usb_device_type "$type")"
+
+	# Build comprehensive JSON notification
+	local json_data="{\"action\":\"${action}\""
+	json_data="${json_data},\"bus\":\"${busnum}\""
+	json_data="${json_data},\"device\":\"${devnum}\""
+	json_data="${json_data},\"vendor_id\":\"${vendor_id}\""
+	json_data="${json_data},\"product_id\":\"${product_id}\""
+	json_data="${json_data},\"version\":\"${version}\""
+	json_data="${json_data},\"device_type\":\"${device_type}\""
+	[ -n "$manufacturer" ] && json_data="${json_data},\"manufacturer\":\"${manufacturer}\""
+	[ -n "$product_name" ] && json_data="${json_data},\"product\":\"${product_name}\""
+	[ -n "$serial" ] && json_data="${json_data},\"serial\":\"${serial}\""
+	json_data="${json_data},\"devpath\":\"${devpath}\"}"
+
+	log_lwm2m "USB device $action: ${manufacturer:-Unknown} ${product_name:-Unknown} (${vendor_id}:${product_id})"
+
+	# Notify via ubus
+	notify_ubus "usb.${action}" "${json_data}"
+
+	# For mass storage devices, check if they create block devices
+	if [ "$device_type" = "mass_storage" ] && [ "$action" = "add" ]; then
+		# Wait a moment for block device enumeration
+		sleep 1
+
+		# Check for new block devices
+		local block_devices=""
+		for blk in /sys/block/sd*; do
+			if [ -d "$blk" ] && [ -e "${blk}/device" ]; then
+				local blk_name="$(basename $blk)"
+				block_devices="${block_devices}${block_devices:+,}${blk_name}"
+			fi
+		done
+
+		if [ -n "$block_devices" ]; then
+			log_lwm2m "USB mass storage created block devices: ${block_devices}"
+
+			# Notify about storage availability
+			local storage_json="{\"action\":\"storage_attached\",\"devices\":\"${block_devices}\",\"usb_device\":\"${busnum}:${devnum}\"}"
+			notify_ubus "storage.attached" "${storage_json}"
+		fi
+	fi
+}
+
+# Update Connectivity Monitoring for USB modems
+update_usb_modem() {
+	local action="$1"
+	local type="${TYPE:-}"
+
+	# Check if this is a modem/communications device (class 02)
+	local class_code="${type%%/*}"
+
+	if [ "$class_code" = "02" ]; then
+		log_lwm2m "USB modem/communications device ${action}"
+
+		# Notify about modem availability change
+		local modem_json="{\"action\":\"${action}\",\"type\":\"usb_modem\"}"
+		notify_ubus "modem.${action}" "${modem_json}"
+
+		# If modem was added, trigger connectivity update after delay
+		if [ "$action" = "add" ]; then
+			# Wait for modem initialization and ModemManager detection
+			( sleep 5; ubus call lwm2m update 2>/dev/null ) &
+		fi
+	fi
+}
+
+# Main hotplug handler
+main() {
+	local action="${ACTION:-}"
+	local devtype="${DEVTYPE:-}"
+
+	# Validate required variables
+	if [ -z "$action" ]; then
+		log_error "Missing ACTION in hotplug environment"
+		exit 1
+	fi
+
+	# Only process add and remove actions
+	case "$action" in
+		add|remove)
+			log_lwm2m "USB event: action=$action devtype=$devtype product=${PRODUCT:-} type=${TYPE:-}"
+			;;
+		*)
+			# Ignore other actions (bind, unbind, etc.)
+			exit 0
+			;;
+	esac
+
+	# Check if LwM2M client is running
+	if ! is_lwm2m_running; then
+		log_lwm2m "LwM2M client not running, skipping event processing"
+		exit 0
+	fi
+
+	# Update relevant LwM2M objects
+	update_usb_management "$action" "$devtype"
+	update_usb_modem "$action"
+
+	log_lwm2m "USB event processed successfully"
+}
+
+# Execute main function
+main "$@"
+exit 0

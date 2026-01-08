@@ -203,6 +203,28 @@ private:
      * @brief Helper to extract alerts from bitmap
      */
     bool getAlertBit(INT_T bitmap, int bitPosition);
+
+    /**
+     * @brief Initialize gRPC client connection
+     */
+    bool initGrpcClient();
+
+    /**
+     * @brief Shutdown gRPC client connection
+     */
+    void shutdownGrpcClient();
+
+#ifdef WITH_STARLINK_GRPC_INTEGRATION
+    // Forward declarations for Starlink gRPC types
+    namespace starlink {
+        class StarlinkGrpcClient;
+        class StarlinkDataCollector;
+    }
+
+    // gRPC client and data collector
+    std::shared_ptr<starlink::StarlinkGrpcClient> grpc_client_;
+    std::shared_ptr<starlink::StarlinkDataCollector> data_collector_;
+#endif
 };
 
 } // namespace wpp

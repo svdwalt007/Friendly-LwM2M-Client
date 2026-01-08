@@ -1,0 +1,284 @@
+#!/bin/sh
+# LwM2M Client Button Event Hotplug Handler
+# Copyright (C) 2024 Friendly Technologies
+#
+# This script is triggered by OpenWRT's hotplug system when buttons
+# are pressed or released. It notifies the LwM2M client daemon and
+# updates the GPIO Control object (34603).
+#
+# Environment variables provided by hotplug:
+# - ACTION: "pressed", "released", or "timeout"
+# - BUTTON: Button name (e.g., "reset", "wps", "power")
+# - SEEN: Duration button was pressed (in seconds)
+# - SEQNUM: Event sequence number
+
+# Exit if not enabled
+[ -f /etc/config/lwm2m ] || exit 0
+[ "$(uci -q get lwm2m.general.enabled 2>/dev/null)" = "1" ] || exit 0
+
+# Logging function
+log_lwm2m() {
+	logger -t lwm2m-hotplug-button -p daemon.info "$@"
+}
+
+log_error() {
+	logger -t lwm2m-hotplug-button -p daemon.err "$@"
+}
+
+# Check if LwM2M client is running
+is_lwm2m_running() {
+	pgrep -x lwm2m-client >/dev/null 2>&1
+	return $?
+}
+
+# Send event via ubus
+notify_ubus() {
+	local event="$1"
+	local data="$2"
+
+	if ! command -v ubus >/dev/null 2>&1; then
+		log_error "ubus command not found"
+		return 1
+	fi
+
+	# Check if lwm2m ubus object exists
+	if ! ubus list | grep -q "^lwm2m$"; then
+		log_lwm2m "LwM2M ubus object not available, skipping notification"
+		return 1
+	fi
+
+	# Send event via ubus
+	if ubus send "lwm2m.${event}" "${data}" 2>/dev/null; then
+		log_lwm2m "Sent ubus event: lwm2m.${event}"
+		return 0
+	else
+		log_error "Failed to send ubus event: lwm2m.${event}"
+		return 1
+	fi
+}
+
+# Write button event to state file
+write_button_state() {
+	local button="$1"
+	local action="$2"
+	local duration="$3"
+	local timestamp="$(date +%s)"
+
+	local state_dir="/var/run/lwm2m"
+	local state_file="${state_dir}/button_${button}_state"
+
+	# Create state directory if it doesn't exist
+	[ -d "$state_dir" ] || mkdir -p "$state_dir"
+
+	# Write state information
+	{
+		echo "BUTTON=${button}"
+		echo "ACTION=${action}"
+		echo "DURATION=${duration}"
+		echo "TIMESTAMP=${timestamp}"
+	} > "$state_file"
+}
+
+# Determine button press type based on duration
+get_press_type() {
+	local duration="$1"
+
+	if [ -z "$duration" ] || [ "$duration" -lt 1 ]; then
+		echo "short"
+	elif [ "$duration" -lt 3 ]; then
+		echo "medium"
+	elif [ "$duration" -lt 10 ]; then
+		echo "long"
+	else
+		echo "very_long"
+	fi
+}
+
+# Update GPIO Control object (Object ID 34603)
+update_gpio_control() {
+	local button="$1"
+	local action="$2"
+	local duration="$3"
+
+	# Determine press type for released events
+	local press_type=""
+	if [ "$action" = "released" ]; then
+		press_type="$(get_press_type "$duration")"
+	fi
+
+	# Build JSON notification
+	local json_data="{\"button\":\"${button}\""
+	json_data="${json_data},\"action\":\"${action}\""
+	[ -n "$duration" ] && json_data="${json_data},\"duration\":${duration}"
+	[ -n "$press_type" ] && json_data="${json_data},\"press_type\":\"${press_type}\""
+	json_data="${json_data},\"timestamp\":$(date +%s)}"
+
+	log_lwm2m "Button event: button=$button action=$action duration=${duration:-0}s type=${press_type:-n/a}"
+
+	# Notify via ubus
+	notify_ubus "button.${action}" "${json_data}"
+
+	# Write state for LwM2M client to read
+	write_button_state "$button" "$action" "${duration:-0}"
+}
+
+# Handle special button actions
+handle_special_button_action() {
+	local button="$1"
+	local action="$2"
+	local duration="$3"
+
+	# Check for long press on reset button (factory reset trigger)
+	if [ "$button" = "reset" ] && [ "$action" = "released" ]; then
+		local press_type="$(get_press_type "$duration")"
+
+		if [ "$press_type" = "very_long" ]; then
+			log_lwm2m "Factory reset trigger detected (button held for ${duration}s)"
+
+			# Notify about factory reset trigger
+			local reset_json="{\"trigger\":\"factory_reset\",\"button\":\"${button}\",\"duration\":${duration}}"
+			notify_ubus "system.factory_reset_trigger" "${reset_json}"
+		fi
+	fi
+
+	# Check for WPS button
+	if [ "$button" = "wps" ] && [ "$action" = "pressed" ]; then
+		log_lwm2m "WPS button pressed"
+
+		# Notify about WPS event
+		local wps_json="{\"trigger\":\"wps\",\"action\":\"${action}\"}"
+		notify_ubus "button.wps" "${wps_json}"
+	fi
+
+	# Check for power button
+	if [ "$button" = "power" ] && [ "$action" = "released" ]; then
+		local press_type="$(get_press_type "$duration")"
+
+		if [ "$press_type" = "long" ] || [ "$press_type" = "very_long" ]; then
+			log_lwm2m "Power button long press detected (button held for ${duration}s)"
+
+			# Notify about shutdown trigger
+			local power_json="{\"trigger\":\"shutdown\",\"button\":\"${button}\",\"duration\":${duration}}"
+			notify_ubus "system.shutdown_trigger" "${power_json}"
+		fi
+	fi
+}
+
+# Toggle LED indicator for button press feedback
+toggle_led_feedback() {
+	local button="$1"
+	local action="$2"
+
+	# Map buttons to LEDs (device-specific)
+	local led=""
+	case "$button" in
+		reset)
+			led="led:red:status"
+			;;
+		wps)
+			led="led:blue:wps"
+			;;
+		power)
+			led="led:green:power"
+			;;
+	esac
+
+	if [ -n "$led" ]; then
+		# Check if LED exists
+		if [ -d "/sys/class/leds/${led}" ]; then
+			case "$action" in
+				pressed)
+					# Turn on LED
+					echo 1 > "/sys/class/leds/${led}/brightness" 2>/dev/null || true
+					;;
+				released)
+					# Turn off LED
+					echo 0 > "/sys/class/leds/${led}/brightness" 2>/dev/null || true
+					;;
+			esac
+		fi
+	fi
+}
+
+# Update button statistics
+update_button_statistics() {
+	local button="$1"
+	local action="$2"
+
+	# Statistics file
+	local stats_dir="/var/run/lwm2m"
+	local stats_file="${stats_dir}/button_stats"
+
+	[ -d "$stats_dir" ] || mkdir -p "$stats_dir"
+
+	# Initialize stats file if it doesn't exist
+	if [ ! -f "$stats_file" ]; then
+		echo "# Button press statistics" > "$stats_file"
+	fi
+
+	# Count button presses
+	if [ "$action" = "pressed" ]; then
+		local count=0
+		if grep -q "^${button}=" "$stats_file" 2>/dev/null; then
+			count="$(grep "^${button}=" "$stats_file" | cut -d= -f2)"
+			count=$((count + 1))
+			sed -i "s/^${button}=.*/${button}=${count}/" "$stats_file"
+		else
+			count=1
+			echo "${button}=${count}" >> "$stats_file"
+		fi
+
+		log_lwm2m "Button ${button} press count: ${count}"
+	fi
+}
+
+# Main hotplug handler
+main() {
+	local action="${ACTION:-}"
+	local button="${BUTTON:-}"
+	local duration="${SEEN:-0}"
+	local seqnum="${SEQNUM:-0}"
+
+	# Validate required variables
+	if [ -z "$action" ] || [ -z "$button" ]; then
+		log_error "Missing ACTION or BUTTON in hotplug environment"
+		exit 1
+	fi
+
+	# Only process button actions
+	case "$action" in
+		pressed|released|timeout)
+			log_lwm2m "Button event received: button=$button action=$action duration=${duration}s seq=$seqnum"
+			;;
+		*)
+			# Unknown action, log and exit
+			log_error "Unknown button action: $action"
+			exit 0
+			;;
+	esac
+
+	# Check if LwM2M client is running
+	if ! is_lwm2m_running; then
+		log_lwm2m "LwM2M client not running, processing button event anyway"
+		# Continue processing even if client is not running
+		# This allows button handlers to work independently
+	fi
+
+	# Update GPIO Control object
+	update_gpio_control "$button" "$action" "$duration"
+
+	# Handle special button actions
+	handle_special_button_action "$button" "$action" "$duration"
+
+	# Toggle LED feedback (if available)
+	toggle_led_feedback "$button" "$action"
+
+	# Update button statistics
+	update_button_statistics "$button" "$action"
+
+	log_lwm2m "Button event processed successfully"
+}
+
+# Execute main function
+main "$@"
+exit 0

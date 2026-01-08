@@ -31,6 +31,47 @@ option(ENABLE_COVERAGE "Enable code coverage" OFF)
 option(ENABLE_SANITIZERS "Enable address/undefined sanitizers" OFF)
 
 # ============================================================================
+# v1.2.0 New Feature Options
+# ============================================================================
+
+# OpenWRT Extended Integration
+option(WITH_OPENWRT_EXTENDED "Enable extended OpenWRT integration" ON)
+option(WITH_LUCI_MODULE "Build LuCI web interface module" ON)
+option(WITH_HOTPLUG_HANDLERS "Install hotplug event handlers" ON)
+
+# Router Management Objects
+option(WITH_LAN_CONFIG "Enable LAN Configuration object (33611)" ON)
+option(WITH_ROUTING_TABLE "Enable Routing Table object (33612)" ON)
+option(WITH_VPN_CONFIG "Enable VPN Configuration object (33613)" ON)
+
+# Multi-WAN and Failover
+option(WITH_WAN_FAILOVER "Enable WAN Failover Policy object (33420)" ON)
+option(WITH_MULTIWAN_HEALTH "Enable Multi-WAN Health Check object (33421)" ON)
+
+# WiFi Management
+option(WITH_WIFI_CLIENT_MGMT "Enable WiFi Client Management object (33422)" ON)
+option(WITH_WIFI_CHANNEL_OPT "Enable WiFi Channel Optimization object (33423)" ON)
+
+# Starlink Integration
+option(WITH_STARLINK "Enable Starlink integration" ON)
+option(WITH_STARLINK_GRPC "Enable Starlink gRPC support (requires gRPC)" OFF)
+
+# prpl Integration
+option(WITH_PRPL "Enable prplOS/prplMesh integration" OFF)
+option(WITH_PRPL_EASYMESH "Enable EasyMesh R2/R4 support" OFF)
+option(WITH_PRPL_AMBIORIX "Enable Ambiorix bus support" OFF)
+
+# Matter Integration
+option(WITH_MATTER "Enable Matter/Thread integration" OFF)
+option(WITH_MATTER_BRIDGE "Enable Matter Bridge object (33450)" OFF)
+option(WITH_THREAD_BR "Enable Thread Border Router support" OFF)
+
+# Zigbee Integration
+option(WITH_ZIGBEE "Enable Zigbee integration" OFF)
+option(WITH_ZIGBEE_EZSP "Enable Silicon Labs EZSP support" OFF)
+option(WITH_ZIGBEE_ZSTACK "Enable TI Z-Stack support" OFF)
+
+# ============================================================================
 # C++ Standard
 # ============================================================================
 
@@ -194,6 +235,130 @@ set(ALL_SOURCES
     ${TRANSPORT_SOURCES}
     ${OBJECTS_SOURCES}
 )
+
+# ============================================================================
+# v1.2.0 Extended Source Files
+# ============================================================================
+
+# Starlink Integration
+if(WITH_STARLINK)
+    list(APPEND ALL_SOURCES
+        src/starlink/starlink_grpc_client.cpp
+        src/starlink/starlink_data_collector.cpp
+    )
+endif()
+
+# prpl Integration
+if(WITH_PRPL)
+    list(APPEND ALL_SOURCES
+        src/platform/prpl/prpl_platform.cpp
+        src/platform/prpl/prpl_amxb_client.cpp
+        src/platform/prpl/prpl_data_model.cpp
+        src/platform/prpl/prpl_easymesh.cpp
+        src/platform/prpl/prpl_mesh_object.cpp
+    )
+endif()
+
+# Matter Integration
+if(WITH_MATTER)
+    list(APPEND ALL_SOURCES
+        src/matter/matter_sdk_integration.cpp
+        src/matter/matter_cluster_client.cpp
+    )
+endif()
+
+# Zigbee Integration
+if(WITH_ZIGBEE)
+    list(APPEND ALL_SOURCES
+        src/zigbee/zigbee_coordinator.cpp
+        src/zigbee/zigbee_zcl_handlers.cpp
+        src/zigbee/zigbee_ota_proxy.cpp
+    )
+endif()
+
+# ============================================================================
+# WPP Registry Objects (v1.2.0)
+# ============================================================================
+
+set(WPP_OBJECTS_SOURCES "")
+
+# Router Management Objects
+if(WITH_LAN_CONFIG)
+    list(APPEND WPP_OBJECTS_SOURCES
+        wpp/registry/objects/w_33611_lan_configuration/LanConfiguration.cpp
+    )
+    add_definitions(-DOBJ_W_33611_LAN_CONFIGURATION)
+endif()
+
+if(WITH_ROUTING_TABLE)
+    list(APPEND WPP_OBJECTS_SOURCES
+        wpp/registry/objects/w_33612_routing_table/RoutingTable.cpp
+    )
+    add_definitions(-DOBJ_W_33612_ROUTING_TABLE)
+endif()
+
+if(WITH_VPN_CONFIG)
+    list(APPEND WPP_OBJECTS_SOURCES
+        wpp/registry/objects/w_33613_vpn_configuration/VpnConfiguration.cpp
+    )
+    add_definitions(-DOBJ_W_33613_VPN_CONFIGURATION)
+endif()
+
+# Multi-WAN Objects
+if(WITH_WAN_FAILOVER)
+    list(APPEND WPP_OBJECTS_SOURCES
+        wpp/registry/objects/w_33420_wan_failover_policy/WanFailoverPolicy.cpp
+    )
+    add_definitions(-DOBJ_W_33420_WAN_FAILOVER_POLICY)
+endif()
+
+if(WITH_MULTIWAN_HEALTH)
+    list(APPEND WPP_OBJECTS_SOURCES
+        wpp/registry/objects/w_33421_multiwan_health_check/MultiWanHealthCheck.cpp
+    )
+    add_definitions(-DOBJ_W_33421_MULTIWAN_HEALTH_CHECK)
+endif()
+
+# WiFi Management Objects
+if(WITH_WIFI_CLIENT_MGMT)
+    list(APPEND WPP_OBJECTS_SOURCES
+        wpp/registry/objects/w_33422_wifi_client_management/WifiClientManagement.cpp
+    )
+    add_definitions(-DOBJ_W_33422_WIFI_CLIENT_MANAGEMENT)
+endif()
+
+if(WITH_WIFI_CHANNEL_OPT)
+    list(APPEND WPP_OBJECTS_SOURCES
+        wpp/registry/objects/w_33423_wifi_channel_optimization/WifiChannelOptimization.cpp
+    )
+    add_definitions(-DOBJ_W_33423_WIFI_CHANNEL_OPTIMIZATION)
+endif()
+
+# Matter LwM2M Objects
+if(WITH_MATTER_BRIDGE)
+    list(APPEND WPP_OBJECTS_SOURCES
+        wpp/registry/objects/w_33450_matter_bridge/MatterBridge.cpp
+        wpp/registry/objects/w_33451_matter_device/MatterDevice.cpp
+        wpp/registry/objects/w_33452_thread_network/ThreadNetwork.cpp
+    )
+    add_definitions(-DOBJ_W_33450_MATTER_BRIDGE)
+    add_definitions(-DOBJ_W_33451_MATTER_DEVICE)
+    add_definitions(-DOBJ_W_33452_THREAD_NETWORK)
+endif()
+
+# Zigbee LwM2M Objects
+if(WITH_ZIGBEE)
+    list(APPEND WPP_OBJECTS_SOURCES
+        wpp/registry/objects/w_33460_zigbee_coordinator/ZigbeeCoordinator.cpp
+        wpp/registry/objects/w_33461_zigbee_device/ZigbeeDevice.cpp
+        wpp/registry/objects/w_33462_zigbee_group/ZigbeeGroup.cpp
+    )
+    add_definitions(-DOBJ_W_33460_ZIGBEE_COORDINATOR)
+    add_definitions(-DOBJ_W_33461_ZIGBEE_DEVICE)
+    add_definitions(-DOBJ_W_33462_ZIGBEE_GROUP)
+endif()
+
+list(APPEND ALL_SOURCES ${WPP_OBJECTS_SOURCES})
 
 # ============================================================================
 # Main Library
@@ -451,7 +616,7 @@ message(STATUS "  Version:          ${PROJECT_VERSION}")
 message(STATUS "  Build type:       ${CMAKE_BUILD_TYPE}")
 message(STATUS "  C++ Standard:     ${CMAKE_CXX_STANDARD}")
 message(STATUS "")
-message(STATUS "Features:")
+message(STATUS "Core Features:")
 message(STATUS "  DTLS:             ${WITH_DTLS}")
 message(STATUS "  mbedTLS:          ${WITH_MBEDTLS}")
 message(STATUS "  TinyDTLS:         ${WITH_TINYDTLS}")
@@ -465,6 +630,31 @@ message(STATUS "  MQTT Transport:   ${WITH_MQTT}")
 message(STATUS "  Edge AI:          ${WITH_EDGE_AI}")
 message(STATUS "  TensorFlow Lite:  ${WITH_TFLITE}")
 message(STATUS "  ONNX Runtime:     ${WITH_ONNX}")
+message(STATUS "")
+message(STATUS "v1.2.0 Extended Features:")
+message(STATUS "  OpenWRT Extended: ${WITH_OPENWRT_EXTENDED}")
+message(STATUS "  LUCI Module:      ${WITH_LUCI_MODULE}")
+message(STATUS "  Hotplug Handlers: ${WITH_HOTPLUG_HANDLERS}")
+message(STATUS "  LAN Config:       ${WITH_LAN_CONFIG}")
+message(STATUS "  Routing Table:    ${WITH_ROUTING_TABLE}")
+message(STATUS "  VPN Config:       ${WITH_VPN_CONFIG}")
+message(STATUS "  WAN Failover:     ${WITH_WAN_FAILOVER}")
+message(STATUS "  Multi-WAN Health: ${WITH_MULTIWAN_HEALTH}")
+message(STATUS "  WiFi Client Mgmt: ${WITH_WIFI_CLIENT_MGMT}")
+message(STATUS "  WiFi Channel Opt: ${WITH_WIFI_CHANNEL_OPT}")
+message(STATUS "  Starlink:         ${WITH_STARLINK}")
+message(STATUS "  Starlink gRPC:    ${WITH_STARLINK_GRPC}")
+message(STATUS "")
+message(STATUS "Platform Integrations:")
+message(STATUS "  prpl Integration: ${WITH_PRPL}")
+message(STATUS "  prpl EasyMesh:    ${WITH_PRPL_EASYMESH}")
+message(STATUS "  prpl Ambiorix:    ${WITH_PRPL_AMBIORIX}")
+message(STATUS "  Matter/Thread:    ${WITH_MATTER}")
+message(STATUS "  Matter Bridge:    ${WITH_MATTER_BRIDGE}")
+message(STATUS "  Thread BR:        ${WITH_THREAD_BR}")
+message(STATUS "  Zigbee:           ${WITH_ZIGBEE}")
+message(STATUS "  Zigbee EZSP:      ${WITH_ZIGBEE_EZSP}")
+message(STATUS "  Zigbee Z-Stack:   ${WITH_ZIGBEE_ZSTACK}")
 message(STATUS "")
 message(STATUS "Build options:")
 message(STATUS "  Tests:            ${BUILD_TESTS}")

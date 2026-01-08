@@ -1,0 +1,25 @@
+{
+  "id": 33612,
+  "name": "Routing Table",
+  "vendor": "Walt Technologies",
+  "version": "1.0",
+  "description": "IP routing table management with support for IPv4/IPv6, policy-based routing, and multi-table routing on OpenWRT",
+  "multiInstance": true,
+  "mandatory": false,
+  "resources": [
+    {"id": 0, "name": "Destination Network", "operations": "RW", "type": "String", "mandatory": true},
+    {"id": 1, "name": "Netmask/Prefix", "operations": "RW", "type": "String", "mandatory": false},
+    {"id": 2, "name": "Gateway", "operations": "RW", "type": "String", "mandatory": false},
+    {"id": 3, "name": "Interface", "operations": "RW", "type": "String", "mandatory": true},
+    {"id": 4, "name": "Metric", "operations": "RW", "type": "Integer", "mandatory": false},
+    {"id": 5, "name": "Protocol", "operations": "R", "type": "Integer", "mandatory": true},
+    {"id": 6, "name": "State", "operations": "R", "type": "Integer", "mandatory": true},
+    {"id": 7, "name": "Table", "operations": "RW", "type": "Integer", "mandatory": false},
+    {"id": 8, "name": "Scope", "operations": "RW", "type": "Integer", "mandatory": false},
+    {"id": 9, "name": "MTU", "operations": "RW", "type": "Integer", "mandatory": false, "units": "bytes"},
+    {"id": 10, "name": "Add Route", "operations": "E", "type": "Execute", "mandatory": true},
+    {"id": 11, "name": "Delete Route", "operations": "E", "type": "Execute", "mandatory": true},
+    {"id": 12, "name": "Flush Routes", "operations": "E", "type": "Execute", "mandatory": false},
+    {"id": 13, "name": "Reload Routes", "operations": "E", "type": "Execute", "mandatory": false}
+  ]
+}

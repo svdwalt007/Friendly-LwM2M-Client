@@ -5,13 +5,8 @@
  * via gRPC interface (default: 192.168.100.1:9200 for dish)
  *
  * Integration Note:
- * This implementation provides the LwM2M object structure and resource definitions.
- * The gRPC integration with Starlink requires additional dependencies:
- * - gRPC C++ library
- * - Starlink protobuf definitions
- * - Platform-specific networking
- *
- * The updateTelemetry() method should be extended to call actual gRPC endpoints.
+ * This implementation integrates with the Starlink gRPC client library
+ * located in src/starlink/ for real-time communication with Starlink dishes.
  */
 
 #include "StarlinkTerminal.h"
@@ -19,9 +14,18 @@
 #include "StarlinkTerminalConfig.h"
 #include "WppClient.h"
 #include "WppLogs.h"
+
+// Include Starlink gRPC client headers
+#ifdef WITH_STARLINK_GRPC_INTEGRATION
+#include "starlink/starlink_grpc_client.h"
+#include "starlink/starlink_data_collector.h"
+#endif
+
 #include <cmath>
 #include <sstream>
 #include <iomanip>
+#include <memory>
+#include <cstring>
 
 namespace wpp {
 
@@ -44,6 +48,11 @@ const std::string StarlinkTerminal::urn() {
 StarlinkTerminal::StarlinkTerminal(WppClient& client, OBJ_INST_ID_T instanceId)
     : Instance(STARLINK_TERMINAL_OBJ_ID, instanceId) {
     WPP_LOGD("StarlinkTerminal instance created: %d", instanceId);
+
+#ifdef WITH_STARLINK_GRPC_INTEGRATION
+    // Initialize gRPC client with default configuration
+    initGrpcClient();
+#endif
 }
 
 void StarlinkTerminal::resourcesCreate() {
@@ -371,17 +380,24 @@ void StarlinkTerminal::resourcesInit() {
 EXECUTE_RESULT StarlinkTerminal::executeReboot(Instance& inst, ID_T resId, const OPAQUE_T& data) {
     WPP_LOGI("Starlink Terminal Reboot requested");
 
-    /*
-     * TODO: Implement gRPC call to Starlink
-     * grpc::ClientContext context;
-     * Request request;
-     * request.mutable_reboot()->set_reboot(true);
-     * Response response;
-     * Status status = stub_->Handle(&context, request, &response);
-     */
+#ifdef WITH_STARLINK_GRPC_INTEGRATION
+    if (!grpc_client_ || !grpc_client_->isConnected()) {
+        WPP_LOGE("Starlink gRPC client not connected");
+        return EXECUTE_RESULT::EXECUTE_RESULT_ERROR;
+    }
 
-    // For now, return success - implement actual gRPC call when integrated
+    std::string error_msg;
+    if (!grpc_client_->reboot(error_msg)) {
+        WPP_LOGE("Failed to reboot Starlink dish: %s", error_msg.c_str());
+        return EXECUTE_RESULT::EXECUTE_RESULT_ERROR;
+    }
+
+    WPP_LOGI("Starlink dish reboot command sent successfully");
     return EXECUTE_RESULT::EXECUTE_RESULT_SUCCESS;
+#else
+    WPP_LOGW("Starlink gRPC integration not available");
+    return EXECUTE_RESULT::EXECUTE_RESULT_ERROR;
+#endif
 }
 
 EXECUTE_RESULT StarlinkTerminal::executeSpeedTest(Instance& inst, ID_T resId, const OPAQUE_T& data) {
@@ -390,18 +406,37 @@ EXECUTE_RESULT StarlinkTerminal::executeSpeedTest(Instance& inst, ID_T resId, co
     // Update status to running
     set<STRING_T>(SPEEDTEST_STATUS_102, "{\"status\":\"running\",\"progress\":0}");
 
-    /*
-     * TODO: Implement gRPC call for speed test
-     * grpc::ClientContext context;
-     * Request request;
-     * request.mutable_speed_test();
-     * Response response;
-     * Status status = stub_->Handle(&context, request, &response);
-     *
-     * Parse response and update SPEEDTEST_STATUS_102 with results
-     */
+#ifdef WITH_STARLINK_GRPC_INTEGRATION
+    if (!grpc_client_ || !grpc_client_->isConnected()) {
+        WPP_LOGE("Starlink gRPC client not connected");
+        set<STRING_T>(SPEEDTEST_STATUS_102, "{\"status\":\"error\",\"error\":\"Not connected\"}");
+        return EXECUTE_RESULT::EXECUTE_RESULT_ERROR;
+    }
+
+    // Start speed test asynchronously
+    grpc_client_->startSpeedTestAsync([this](bool success, const starlink::SpeedTestResult& result, const std::string& error) {
+        if (success) {
+            std::stringstream status_json;
+            status_json << "{\"status\":\"complete\","
+                       << "\"download_mbps\":" << result.download_mbps << ","
+                       << "\"upload_mbps\":" << result.upload_mbps << ","
+                       << "\"latency_ms\":" << result.latency_ms << "}";
+            set<STRING_T>(SPEEDTEST_STATUS_102, status_json.str());
+            WPP_LOGI("Speed test complete: %.2f Mbps down, %.2f Mbps up",
+                    result.download_mbps, result.upload_mbps);
+        } else {
+            std::stringstream status_json;
+            status_json << "{\"status\":\"error\",\"error\":\"" << error << "\"}";
+            set<STRING_T>(SPEEDTEST_STATUS_102, status_json.str());
+            WPP_LOGE("Speed test failed: %s", error.c_str());
+        }
+    });
 
     return EXECUTE_RESULT::EXECUTE_RESULT_SUCCESS;
+#else
+    set<STRING_T>(SPEEDTEST_STATUS_102, "{\"status\":\"error\",\"error\":\"gRPC not available\"}");
+    return EXECUTE_RESULT::EXECUTE_RESULT_ERROR;
+#endif
 }
 
 EXECUTE_RESULT StarlinkTerminal::executeFactoryReset(Instance& inst, ID_T resId, const OPAQUE_T& data) {
@@ -423,21 +458,51 @@ EXECUTE_RESULT StarlinkTerminal::executeFactoryReset(Instance& inst, ID_T resId,
 EXECUTE_RESULT StarlinkTerminal::executeGetObstructionMap(Instance& inst, ID_T resId, const OPAQUE_T& data) {
     WPP_LOGI("Starlink Obstruction Map retrieval requested");
 
-    /*
-     * TODO: Implement gRPC call to get obstruction map
-     * grpc::ClientContext context;
-     * Request request;
-     * request.mutable_dish_get_obstruction_map();
-     * Response response;
-     * Status status = stub_->Handle(&context, request, &response);
-     *
-     * if (status.ok() && response.has_dish_get_obstruction_map()) {
-     *     auto& map = response.dish_get_obstruction_map();
-     *     // Convert to OPAQUE_T and store in OBSTRUCTION_MAP_DATA_105
-     * }
-     */
+#ifdef WITH_STARLINK_GRPC_INTEGRATION
+    if (!grpc_client_ || !grpc_client_->isConnected()) {
+        WPP_LOGE("Starlink gRPC client not connected");
+        return EXECUTE_RESULT::EXECUTE_RESULT_ERROR;
+    }
+
+    starlink::ObstructionMap map;
+    std::string error_msg;
+
+    if (!grpc_client_->getObstructionMap(map, error_msg)) {
+        WPP_LOGE("Failed to get obstruction map: %s", error_msg.c_str());
+        return EXECUTE_RESULT::EXECUTE_RESULT_ERROR;
+    }
+
+#if RES_34600_105
+    // Convert obstruction map to binary data
+    // Format: [num_rows (4 bytes)][num_cols (4 bytes)][snr data][samples data]
+    size_t data_size = 8 + (map.snr.size() * sizeof(float)) + (map.num_samples.size() * sizeof(uint32_t));
+    OPAQUE_T map_data;
+    map_data.resize(data_size);
+
+    uint8_t* ptr = map_data.data();
+
+    // Write dimensions
+    *reinterpret_cast<uint32_t*>(ptr) = map.num_rows;
+    ptr += 4;
+    *reinterpret_cast<uint32_t*>(ptr) = map.num_cols;
+    ptr += 4;
+
+    // Write SNR data
+    std::memcpy(ptr, map.snr.data(), map.snr.size() * sizeof(float));
+    ptr += map.snr.size() * sizeof(float);
+
+    // Write sample counts
+    std::memcpy(ptr, map.num_samples.data(), map.num_samples.size() * sizeof(uint32_t));
+
+    set<OPAQUE_T>(OBSTRUCTION_MAP_DATA_105, map_data);
+    WPP_LOGI("Obstruction map retrieved: %ux%u cells", map.num_rows, map.num_cols);
+#endif
 
     return EXECUTE_RESULT::EXECUTE_RESULT_SUCCESS;
+#else
+    WPP_LOGW("Starlink gRPC integration not available");
+    return EXECUTE_RESULT::EXECUTE_RESULT_ERROR;
+#endif
 }
 
 EXECUTE_RESULT StarlinkTerminal::executeRefreshTelemetry(Instance& inst, ID_T resId, const OPAQUE_T& data) {
@@ -453,107 +518,182 @@ EXECUTE_RESULT StarlinkTerminal::executeRefreshTelemetry(Instance& inst, ID_T re
 /* Telemetry Update */
 
 bool StarlinkTerminal::updateTelemetry() {
-    /*
-     * TODO: Implement complete gRPC integration with Starlink
-     *
-     * This method should:
-     * 1. Create gRPC channel to endpoint (get from GRPC_ENDPOINT_107)
-     * 2. Call GetStatus() to retrieve current status
-     * 3. Call GetHistory() to retrieve historical data
-     * 4. Parse responses and update all resources
-     *
-     * Example integration:
-     *
-     * std::string endpoint = get<STRING_T>(GRPC_ENDPOINT_107);
-     * auto channel = grpc::CreateChannel(endpoint, grpc::InsecureChannelCredentials());
-     * auto stub = Device::NewStub(channel);
-     *
-     * // Get Status
-     * grpc::ClientContext status_context;
-     * Request status_request;
-     * status_request.mutable_get_status();
-     * Response status_response;
-     * Status status = stub->Handle(&status_context, status_request, &status_response);
-     *
-     * if (status.ok() && status_response.has_dish_get_status()) {
-     *     auto& dish_status = status_response.dish_get_status();
-     *
-     *     // Update device info
-     *     if (dish_status.has_device_info()) {
-     *         set<STRING_T>(DEVICE_ID_0, dish_status.device_info().id());
-     *         set<STRING_T>(HARDWARE_VERSION_1, dish_status.device_info().hardware_version());
-     *         set<STRING_T>(SOFTWARE_VERSION_2, dish_status.device_info().software_version());
-     *     }
-     *
-     *     // Update state
-     *     set<STRING_T>(CONNECTION_STATE_3, dish_status.state_name());
-     *     set<INT_T>(UPTIME_4, dish_status.device_state().uptime_s());
-     *
-     *     // Update network performance
-     *     set<FLOAT_T>(DOWNLINK_THROUGHPUT_10, dish_status.downlink_throughput_bps());
-     *     set<FLOAT_T>(UPLINK_THROUGHPUT_11, dish_status.uplink_throughput_bps());
-     *     set<FLOAT_T>(POP_PING_LATENCY_12, dish_status.pop_ping_latency_ms());
-     *     set<FLOAT_T>(POP_PING_DROP_RATE_13, dish_status.pop_ping_drop_rate());
-     *
-     *     // Update obstruction data
-     *     if (dish_status.has_obstruction_stats()) {
-     *         set<FLOAT_T>(FRACTION_OBSTRUCTED_30, dish_status.obstruction_stats().fraction_obstructed());
-     *         set<BOOL_T>(CURRENTLY_OBSTRUCTED_31, dish_status.obstruction_stats().currently_obstructed());
-     *     }
-     *
-     *     // Update dish alignment
-     *     if (dish_status.has_boresight()) {
-     *         set<FLOAT_T>(DIRECTION_AZIMUTH_40, dish_status.boresight().azimuth_deg());
-     *         set<FLOAT_T>(DIRECTION_ELEVATION_41, dish_status.boresight().elevation_deg());
-     *     }
-     *
-     *     // Update alerts
-     *     INT_T alerts = dish_status.alerts();
-     *     set<INT_T>(ALERTS_BITMAP_50, alerts);
-     *     set<BOOL_T>(ALERT_MOTORS_STUCK_51, getAlertBit(alerts, 0));
-     *     set<BOOL_T>(ALERT_THERMAL_SHUTDOWN_52, getAlertBit(alerts, 1));
-     *     // ... update all alert flags
-     *
-     *     // Update GPS
-     *     if (dish_status.has_gps_stats()) {
-     *         set<BOOL_T>(GPS_READY_80, dish_status.gps_stats().gps_valid());
-     *         set<INT_T>(GPS_SATELLITES_82, dish_status.gps_stats().gps_sats());
-     *         set<FLOAT_T>(LATITUDE_83, dish_status.gps_stats().latitude());
-     *         set<FLOAT_T>(LONGITUDE_84, dish_status.gps_stats().longitude());
-     *         set<FLOAT_T>(ALTITUDE_85, dish_status.gps_stats().altitude_meters());
-     *     }
-     *
-     *     // Update power
-     *     set<FLOAT_T>(LATEST_POWER_90, dish_status.power_w());
-     * }
-     *
-     * // Get History
-     * grpc::ClientContext history_context;
-     * Request history_request;
-     * history_request.mutable_get_history();
-     * Response history_response;
-     * status = stub->Handle(&history_context, history_request, &history_response);
-     *
-     * if (status.ok() && history_response.has_dish_get_history()) {
-     *     auto& history = history_response.dish_get_history();
-     *
-     *     // Update historical statistics
-     *     set<INT_T>(HISTORY_SAMPLES_110, history.current());
-     *     // Calculate and set mean latency, packet loss statistics, etc.
-     * }
-     *
-     * return true;
-     */
+#ifdef WITH_STARLINK_GRPC_INTEGRATION
+    if (!grpc_client_ || !grpc_client_->isConnected()) {
+        WPP_LOGW("Starlink gRPC client not connected, attempting to reconnect...");
+        if (!initGrpcClient()) {
+            return false;
+        }
+    }
 
-    // Placeholder implementation - return false until gRPC is integrated
-    WPP_LOGW("updateTelemetry() called but gRPC integration not yet implemented");
-    WPP_LOGW("To enable Starlink integration:");
-    WPP_LOGW("1. Add gRPC C++ dependencies to CMakeLists.txt");
-    WPP_LOGW("2. Generate Starlink protobuf files from dish protoset");
-    WPP_LOGW("3. Implement gRPC calls in updateTelemetry() method");
-    WPP_LOGW("4. Add periodic telemetry updates in main loop");
+    // Get current status from gRPC client
+    starlink::DishStatus dish_status;
+    std::string error_msg;
+
+    if (!grpc_client_->getStatus(dish_status, error_msg)) {
+        WPP_LOGE("Failed to get Starlink status: %s", error_msg.c_str());
+        return false;
+    }
+
+    // Update device information
+    set<STRING_T>(DEVICE_ID_0, dish_status.device_info.id);
+    set<STRING_T>(HARDWARE_VERSION_1, dish_status.device_info.hardware_version);
+    set<STRING_T>(SOFTWARE_VERSION_2, dish_status.device_info.software_version);
+    set<STRING_T>(CONNECTION_STATE_3, dish_status.state_name);
+    set<INT_T>(UPTIME_4, static_cast<INT_T>(dish_status.uptime_s));
+
+    // Update network performance
+    set<FLOAT_T>(DOWNLINK_THROUGHPUT_10, static_cast<FLOAT_T>(dish_status.network.downlink_throughput_bps));
+    set<FLOAT_T>(UPLINK_THROUGHPUT_11, static_cast<FLOAT_T>(dish_status.network.uplink_throughput_bps));
+    set<FLOAT_T>(POP_PING_LATENCY_12, dish_status.network.pop_ping_latency_ms);
+    set<FLOAT_T>(POP_PING_DROP_RATE_13, dish_status.network.pop_ping_drop_rate);
+
+#if RES_34600_14
+    set<FLOAT_T>(SECONDS_TO_FIRST_SLOT_14, dish_status.network.seconds_to_first_nonempty_slot);
+#endif
+#if RES_34600_15
+    set<FLOAT_T>(SNR_15, dish_status.signal.snr);
+#endif
+#if RES_34600_16
+    set<BOOL_T>(IS_SNR_ABOVE_NOISE_FLOOR_16, dish_status.signal.snr_above_noise_floor);
+#endif
+
+    // Update obstruction monitoring
+    set<FLOAT_T>(FRACTION_OBSTRUCTED_30, dish_status.obstruction.fraction_obstructed);
+    set<BOOL_T>(CURRENTLY_OBSTRUCTED_31, dish_status.obstruction.currently_obstructed);
+
+#if RES_34600_32
+    set<FLOAT_T>(OBSTRUCTION_DURATION_32, dish_status.obstruction.avg_prolonged_obstruction_duration_s);
+#endif
+#if RES_34600_33
+    set<FLOAT_T>(OBSTRUCTION_INTERVAL_33, dish_status.obstruction.avg_prolonged_obstruction_interval_s);
+#endif
+#if RES_34600_34
+    set<FLOAT_T>(OBSTRUCTION_VALID_S_34, dish_status.obstruction.valid_s);
+#endif
+#if RES_34600_35
+    // Convert wedge data to JSON array
+    std::stringstream wedges_json;
+    wedges_json << "[";
+    for (size_t i = 0; i < dish_status.obstruction.wedge_fraction_obstructed.size(); i++) {
+        if (i > 0) wedges_json << ",";
+        wedges_json << dish_status.obstruction.wedge_fraction_obstructed[i];
+    }
+    wedges_json << "]";
+    set<STRING_T>(WEDGES_FRACTION_OBSTRUCTED_35, wedges_json.str());
+#endif
+
+    // Update dish alignment
+    set<FLOAT_T>(DIRECTION_AZIMUTH_40, dish_status.alignment.azimuth_deg);
+    set<FLOAT_T>(DIRECTION_ELEVATION_41, dish_status.alignment.elevation_deg);
+#if RES_34600_42
+    set<BOOL_T>(DISH_STOWED_42, dish_status.alignment.is_stowed);
+#endif
+#if RES_34600_43
+    set<STRING_T>(DISH_ALIGNMENT_STATUS_43, dish_status.alignment.alignment_status);
+#endif
+
+    // Update alert system
+    set<INT_T>(ALERTS_BITMAP_50, static_cast<INT_T>(dish_status.alerts.alerts_bitmap));
+    set<BOOL_T>(ALERT_MOTORS_STUCK_51, dish_status.alerts.motors_stuck);
+    set<BOOL_T>(ALERT_THERMAL_SHUTDOWN_52, dish_status.alerts.thermal_shutdown);
+    set<BOOL_T>(ALERT_THERMAL_THROTTLE_53, dish_status.alerts.thermal_throttle);
+    set<BOOL_T>(ALERT_UNEXPECTED_LOCATION_54, dish_status.alerts.unexpected_location);
+    set<BOOL_T>(ALERT_MAST_NOT_VERTICAL_55, dish_status.alerts.mast_not_vertical);
+    set<BOOL_T>(ALERT_SLOW_ETHERNET_56, dish_status.alerts.slow_ethernet_speeds);
+    set<BOOL_T>(ALERT_ROAMING_57, dish_status.alerts.roaming);
+    set<BOOL_T>(ALERT_INSTALL_PENDING_58, dish_status.alerts.install_pending);
+    set<BOOL_T>(ALERT_IS_HEATING_59, dish_status.alerts.is_heating);
+    set<BOOL_T>(ALERT_POWER_SUPPLY_THROTTLE_60, dish_status.alerts.power_supply_thermal_throttle);
+    set<BOOL_T>(ALERT_IS_POWER_SAVE_IDLE_61, dish_status.alerts.is_power_save_idle);
+
+#if RES_34600_62
+    set<BOOL_T>(ALERT_LOW_MOTOR_CURRENT_62, dish_status.alerts.low_motor_current);
+#endif
+#if RES_34600_63
+    set<BOOL_T>(ALERT_LOWER_SIGNAL_63, dish_status.alerts.lower_signal_than_predicted);
+#endif
+#if RES_34600_64
+    set<BOOL_T>(ALERT_OBSTRUCTION_MAP_RESET_64, dish_status.alerts.obstruction_map_reset);
+#endif
+#if RES_34600_65
+    set<BOOL_T>(ALERT_DISH_WATER_DETECTED_65, dish_status.alerts.dish_water_detected);
+#endif
+#if RES_34600_66
+    set<BOOL_T>(ALERT_ROUTER_WATER_DETECTED_66, dish_status.alerts.router_water_detected);
+#endif
+
+    // Update GPS location
+    set<BOOL_T>(GPS_READY_80, dish_status.gps.gps_valid);
+    set<BOOL_T>(GPS_ENABLED_81, dish_status.gps.gps_enabled);
+    set<INT_T>(GPS_SATELLITES_82, static_cast<INT_T>(dish_status.gps.gps_sats));
+
+#if RES_34600_83
+    set<FLOAT_T>(LATITUDE_83, static_cast<FLOAT_T>(dish_status.gps.latitude));
+#endif
+#if RES_34600_84
+    set<FLOAT_T>(LONGITUDE_84, static_cast<FLOAT_T>(dish_status.gps.longitude));
+#endif
+#if RES_34600_85
+    set<FLOAT_T>(ALTITUDE_85, static_cast<FLOAT_T>(dish_status.gps.altitude_meters));
+#endif
+
+    // Update power management
+    set<FLOAT_T>(LATEST_POWER_90, dish_status.power.power_w);
+    set<FLOAT_T>(MEAN_POWER_91, dish_status.power.mean_power_w);
+
+#if RES_34600_92
+    set<FLOAT_T>(MIN_POWER_92, dish_status.power.min_power_w);
+#endif
+#if RES_34600_93
+    set<FLOAT_T>(MAX_POWER_93, dish_status.power.max_power_w);
+#endif
+#if RES_34600_94
+    set<FLOAT_T>(TOTAL_ENERGY_94, static_cast<FLOAT_T>(dish_status.power.total_energy_wh / 1000.0)); // Convert Wh to kWh
+#endif
+
+    // Get historical data
+    starlink::HistoryStats history;
+    if (grpc_client_->getHistory(history, error_msg)) {
+        set<INT_T>(HISTORY_SAMPLES_110, static_cast<INT_T>(history.current_samples));
+        set<INT_T>(HISTORY_INTERVAL_111, static_cast<INT_T>(history.history_period_s));
+        set<FLOAT_T>(MEAN_PING_LATENCY_112, history.mean_ping_latency_ms);
+        set<FLOAT_T>(MEAN_FULL_PING_LATENCY_113, history.mean_full_ping_latency_ms);
+
+#if RES_34600_114
+        set<FLOAT_T>(STDEV_FULL_PING_LATENCY_114, history.stdev_full_ping_latency_ms);
+#endif
+
+        set<FLOAT_T>(TOTAL_PING_DROP_115, history.total_ping_drop);
+        set<INT_T>(COUNT_FULL_PING_DROP_116, static_cast<INT_T>(history.count_full_ping_drop));
+        set<INT_T>(COUNT_OBSTRUCTED_117, static_cast<INT_T>(history.count_obstructed));
+
+#if RES_34600_118
+        // Convert latency deciles to JSON array
+        std::stringstream deciles_json;
+        deciles_json << "[";
+        for (size_t i = 0; i < history.latency_deciles_ms.size(); i++) {
+            if (i > 0) deciles_json << ",";
+            deciles_json << history.latency_deciles_ms[i];
+        }
+        deciles_json << "]";
+        set<STRING_T>(LATENCY_DECILES_118, deciles_json.str());
+#endif
+    }
+
+    WPP_LOGD("Starlink telemetry updated successfully");
+    return true;
+
+#else
+    // gRPC integration not compiled in
+    WPP_LOGW("Starlink gRPC integration not compiled");
+    WPP_LOGW("To enable real Starlink integration:");
+    WPP_LOGW("1. Extract Starlink proto files to src/starlink/proto/");
+    WPP_LOGW("2. Rebuild with: cmake -DWITH_STARLINK_GRPC=ON -DWITH_STARLINK_GRPC_INTEGRATION=ON");
+    WPP_LOGW("3. See src/starlink/proto/README.md for details");
 
     return false;
+#endif
 }
 
 /* Helper Methods */
@@ -573,6 +713,78 @@ StarlinkTerminal::ConnState StarlinkTerminal::parseConnectionState(const std::st
 
 bool StarlinkTerminal::getAlertBit(INT_T bitmap, int bitPosition) {
     return (bitmap & (1 << bitPosition)) != 0;
+}
+
+/* gRPC Client Management */
+
+bool StarlinkTerminal::initGrpcClient() {
+#ifdef WITH_STARLINK_GRPC_INTEGRATION
+    if (grpc_client_ && grpc_client_->isConnected()) {
+        return true;
+    }
+
+    try {
+        // Get endpoint from resource
+        std::string endpoint = get<STRING_T>(GRPC_ENDPOINT_107);
+
+        // Create connection configuration
+        starlink::ConnectionConfig config;
+        config.endpoint = endpoint;
+        config.timeout_ms = 5000;
+        config.retry_attempts = 3;
+        config.retry_delay_ms = 1000;
+
+        // Create gRPC client
+        grpc_client_ = std::make_shared<starlink::StarlinkGrpcClient>(config);
+
+        // Connect to Starlink dish
+        if (!grpc_client_->connect()) {
+            WPP_LOGE("Failed to connect to Starlink dish at %s", endpoint.c_str());
+            grpc_client_.reset();
+            return false;
+        }
+
+        // Create data collector with 5-second polling
+        starlink::CollectionConfig collector_config;
+        collector_config.status_interval_ms = 5000;   // 5 seconds
+        collector_config.history_interval_ms = 60000; // 1 minute
+        collector_config.enable_aggregation = true;
+
+        data_collector_ = std::make_shared<starlink::StarlinkDataCollector>(grpc_client_, collector_config);
+
+        // Start data collection
+        if (!data_collector_->start()) {
+            WPP_LOGW("Failed to start Starlink data collector");
+        }
+
+        WPP_LOGI("Starlink gRPC client connected to %s", endpoint.c_str());
+        return true;
+
+    } catch (const std::exception& e) {
+        WPP_LOGE("Exception initializing Starlink gRPC client: %s", e.what());
+        grpc_client_.reset();
+        data_collector_.reset();
+        return false;
+    }
+#else
+    return false;
+#endif
+}
+
+void StarlinkTerminal::shutdownGrpcClient() {
+#ifdef WITH_STARLINK_GRPC_INTEGRATION
+    if (data_collector_) {
+        data_collector_->stop();
+        data_collector_.reset();
+    }
+
+    if (grpc_client_) {
+        grpc_client_->disconnect();
+        grpc_client_.reset();
+    }
+
+    WPP_LOGD("Starlink gRPC client shutdown");
+#endif
 }
 
 } // namespace wpp

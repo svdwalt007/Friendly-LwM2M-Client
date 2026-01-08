@@ -1,0 +1,308 @@
+#!/bin/sh
+# LwM2M Client Network Device Hotplug Handler
+# Copyright (C) 2024 Friendly Technologies
+#
+# This script is triggered by OpenWRT's hotplug system when network
+# devices are added or removed. It notifies the LwM2M client daemon
+# and updates relevant object resources.
+#
+# Environment variables provided by hotplug:
+# - ACTION: "add" or "remove"
+# - DEVICENAME: Network device name (e.g., "eth0", "wlan0")
+# - INTERFACE: Logical interface name
+# - DEVPATH: sysfs device path
+
+# Exit if not enabled
+[ -f /etc/config/lwm2m ] || exit 0
+[ "$(uci -q get lwm2m.general.enabled 2>/dev/null)" = "1" ] || exit 0
+
+# Logging function
+log_lwm2m() {
+	logger -t lwm2m-hotplug-net -p daemon.info "$@"
+}
+
+log_error() {
+	logger -t lwm2m-hotplug-net -p daemon.err "$@"
+}
+
+# Check if LwM2M client is running
+is_lwm2m_running() {
+	pgrep -x lwm2m-client >/dev/null 2>&1
+	return $?
+}
+
+# Send event via ubus
+notify_ubus() {
+	local event="$1"
+	local data="$2"
+
+	if ! command -v ubus >/dev/null 2>&1; then
+		log_error "ubus command not found"
+		return 1
+	fi
+
+	# Check if lwm2m ubus object exists
+	if ! ubus list | grep -q "^lwm2m$"; then
+		log_lwm2m "LwM2M ubus object not available, skipping notification"
+		return 1
+	fi
+
+	# Send event via ubus
+	if ubus send "lwm2m.${event}" "${data}" 2>/dev/null; then
+		log_lwm2m "Sent ubus event: lwm2m.${event}"
+		return 0
+	else
+		log_error "Failed to send ubus event: lwm2m.${event}"
+		return 1
+	fi
+}
+
+# Determine network device type
+get_device_type() {
+	local device="$1"
+
+	case "$device" in
+		eth*)
+			echo "ethernet"
+			;;
+		wlan*|wl*|ath*|ra*)
+			echo "wireless"
+			;;
+		usb*)
+			echo "usb"
+			;;
+		wwan*|3g-*|lte-*)
+			echo "cellular"
+			;;
+		ppp*)
+			echo "ppp"
+			;;
+		br-*)
+			echo "bridge"
+			;;
+		tun*|tap*)
+			echo "tunnel"
+			;;
+		*)
+			echo "unknown"
+			;;
+	esac
+}
+
+# Get network device information from sysfs
+get_device_info() {
+	local device="$1"
+	local mac_address=""
+	local speed=""
+	local duplex=""
+	local operstate=""
+
+	if [ -d "/sys/class/net/${device}" ]; then
+		[ -f "/sys/class/net/${device}/address" ] && \
+			mac_address="$(cat /sys/class/net/${device}/address 2>/dev/null | tr -d '\n')"
+		[ -f "/sys/class/net/${device}/speed" ] && \
+			speed="$(cat /sys/class/net/${device}/speed 2>/dev/null | tr -d '\n')"
+		[ -f "/sys/class/net/${device}/duplex" ] && \
+			duplex="$(cat /sys/class/net/${device}/duplex 2>/dev/null | tr -d '\n')"
+		[ -f "/sys/class/net/${device}/operstate" ] && \
+			operstate="$(cat /sys/class/net/${device}/operstate 2>/dev/null | tr -d '\n')"
+	fi
+
+	echo "${mac_address}|${speed}|${duplex}|${operstate}"
+}
+
+# Get wireless information for WLAN devices
+get_wireless_info() {
+	local device="$1"
+	local ssid=""
+	local mode=""
+	local channel=""
+
+	if command -v iwinfo >/dev/null 2>&1; then
+		ssid="$(iwinfo $device info 2>/dev/null | grep 'ESSID' | sed 's/.*ESSID: "\(.*\)"/\1/')"
+		mode="$(iwinfo $device info 2>/dev/null | grep 'Mode:' | awk '{print $2}')"
+		channel="$(iwinfo $device info 2>/dev/null | grep 'Channel:' | awk '{print $2}')"
+	elif command -v iw >/dev/null 2>&1; then
+		local iw_info="$(iw dev $device info 2>/dev/null)"
+		ssid="$(echo "$iw_info" | grep 'ssid' | awk '{print $2}')"
+		mode="$(echo "$iw_info" | grep 'type' | awk '{print $2}')"
+		channel="$(echo "$iw_info" | grep 'channel' | awk '{print $2}')"
+	fi
+
+	echo "${ssid}|${mode}|${channel}"
+}
+
+# Update Ethernet Interface object (Object ID 34602)
+update_ethernet_interface() {
+	local device="$1"
+	local action="$2"
+
+	# Only process ethernet devices
+	case "$device" in
+		eth*)
+			log_lwm2m "Ethernet device $action: $device"
+
+			# Get device information
+			local device_info="$(get_device_info "$device")"
+			local mac_address="${device_info%%|*}"
+			device_info="${device_info#*|}"
+			local speed="${device_info%%|*}"
+			device_info="${device_info#*|}"
+			local duplex="${device_info%%|*}"
+			local operstate="${device_info#*|}"
+
+			# Build JSON notification
+			local json_data="{\"action\":\"${action}\""
+			json_data="${json_data},\"device\":\"${device}\""
+			[ -n "$mac_address" ] && json_data="${json_data},\"mac_address\":\"${mac_address}\""
+			[ -n "$speed" ] && [ "$speed" != "-1" ] && json_data="${json_data},\"speed\":\"${speed}\""
+			[ -n "$duplex" ] && json_data="${json_data},\"duplex\":\"${duplex}\""
+			[ -n "$operstate" ] && json_data="${json_data},\"operstate\":\"${operstate}\""
+			json_data="${json_data}}"
+
+			# Notify via ubus
+			notify_ubus "netdev.ethernet.${action}" "${json_data}"
+			;;
+	esac
+}
+
+# Update WLAN Connectivity object (Object ID 12)
+update_wlan_connectivity() {
+	local device="$1"
+	local action="$2"
+
+	# Only process wireless devices
+	case "$device" in
+		wlan*|wl*|ath*|ra*)
+			log_lwm2m "Wireless device $action: $device"
+
+			# Get device information
+			local device_info="$(get_device_info "$device")"
+			local mac_address="${device_info%%|*}"
+			device_info="${device_info#*|}"
+			local speed="${device_info%%|*}"
+			device_info="${device_info#*|}"
+			local duplex="${device_info%%|*}"
+			local operstate="${device_info#*|}"
+
+			# Get wireless-specific information
+			local wireless_info=""
+			local ssid=""
+			local mode=""
+			local channel=""
+
+			if [ "$action" = "add" ]; then
+				# Wait for interface to initialize
+				sleep 1
+				wireless_info="$(get_wireless_info "$device")"
+				ssid="${wireless_info%%|*}"
+				wireless_info="${wireless_info#*|}"
+				mode="${wireless_info%%|*}"
+				channel="${wireless_info#*|}"
+			fi
+
+			# Build JSON notification
+			local json_data="{\"action\":\"${action}\""
+			json_data="${json_data},\"device\":\"${device}\""
+			[ -n "$mac_address" ] && json_data="${json_data},\"mac_address\":\"${mac_address}\""
+			[ -n "$operstate" ] && json_data="${json_data},\"operstate\":\"${operstate}\""
+			[ -n "$ssid" ] && json_data="${json_data},\"ssid\":\"${ssid}\""
+			[ -n "$mode" ] && json_data="${json_data},\"mode\":\"${mode}\""
+			[ -n "$channel" ] && json_data="${json_data},\"channel\":\"${channel}\""
+			json_data="${json_data}}"
+
+			# Notify via ubus
+			notify_ubus "netdev.wireless.${action}" "${json_data}"
+			;;
+	esac
+}
+
+# Update Connectivity Monitoring object (Object ID 4)
+update_connectivity_monitoring() {
+	local device="$1"
+	local action="$2"
+	local device_type="$3"
+
+	# Check if this affects the primary network bearer
+	local is_primary=0
+
+	# Check if device is used by WAN interface
+	local wan_device="$(uci -q get network.wan.device 2>/dev/null)"
+	local wan6_device="$(uci -q get network.wan6.device 2>/dev/null)"
+
+	if [ "$device" = "$wan_device" ] || [ "$device" = "$wan6_device" ]; then
+		is_primary=1
+	fi
+
+	# Also check ifname (older OpenWRT versions)
+	local wan_ifname="$(uci -q get network.wan.ifname 2>/dev/null)"
+	[ "$device" = "$wan_ifname" ] && is_primary=1
+
+	if [ $is_primary -eq 1 ]; then
+		log_lwm2m "Primary WAN device $device changed: $action"
+
+		# Build notification
+		local json_data="{\"device\":\"${device}\",\"action\":\"${action}\",\"device_type\":\"${device_type}\"}"
+
+		# Notify via ubus
+		notify_ubus "connectivity.bearer.${action}" "${json_data}"
+
+		# Trigger connectivity update
+		if [ "$action" = "add" ]; then
+			# Wait for device to become operational
+			sleep 2
+			ubus call lwm2m update 2>/dev/null || true
+		fi
+	fi
+}
+
+# Main hotplug handler
+main() {
+	local action="${ACTION:-}"
+	local devicename="${DEVICENAME:-}"
+
+	# Validate required variables
+	if [ -z "$action" ] || [ -z "$devicename" ]; then
+		log_error "Missing ACTION or DEVICENAME in hotplug environment"
+		exit 1
+	fi
+
+	# Only process add and remove actions
+	case "$action" in
+		add|remove)
+			log_lwm2m "Network device event: action=$action device=$devicename"
+			;;
+		*)
+			# Ignore other actions
+			exit 0
+			;;
+	esac
+
+	# Check if LwM2M client is running
+	if ! is_lwm2m_running; then
+		log_lwm2m "LwM2M client not running, skipping event processing"
+		exit 0
+	fi
+
+	# Determine device type
+	local device_type="$(get_device_type "$devicename")"
+
+	# Update relevant LwM2M objects based on device type
+	case "$device_type" in
+		ethernet)
+			update_ethernet_interface "$devicename" "$action"
+			;;
+		wireless)
+			update_wlan_connectivity "$devicename" "$action"
+			;;
+	esac
+
+	# Update connectivity monitoring for all device types
+	update_connectivity_monitoring "$devicename" "$action" "$device_type"
+
+	log_lwm2m "Network device event processed successfully"
+}
+
+# Execute main function
+main "$@"
+exit 0
