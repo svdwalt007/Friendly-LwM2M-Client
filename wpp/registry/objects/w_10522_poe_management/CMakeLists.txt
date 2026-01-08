@@ -1,0 +1,5 @@
+wpp_check_definition("OBJ_W_10522_POE_MANAGEMENT" is_defined)
+if(is_defined)
+    set(WPP_SOURCES ${WPP_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/PoeManagement.cpp)
+    set(WPP_SOURCES ${WPP_SOURCES} PARENT_SCOPE)
+endif()

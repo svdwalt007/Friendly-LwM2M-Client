@@ -1,0 +1,23 @@
+{
+    "object_data": {
+        "name": "Hardware Watchdog",
+        "id": "10519",
+        "version": "1.0",
+        "lwm2m_version": "1.0",
+        "is_mandatory": false,
+        "is_multiple": false
+    },
+    "object_names": {
+        "class": "HardwareWatchdog",
+        "camelcase": "hardwareWatchdog",
+        "define": "OBJ_O_10519_HARDWARE_WATCHDOG",
+        "up_underline": "HARDWARE_WATCHDOG"
+    },
+    "object_files": {
+        "impl_h": "HardwareWatchdog.h",
+        "impl_cpp": "HardwareWatchdog.cpp",
+        "config": "HardwareWatchdogConfig.h",
+        "info": "HardwareWatchdogInfo.h",
+        "cmake": "CMakeLists.txt"
+    }
+}

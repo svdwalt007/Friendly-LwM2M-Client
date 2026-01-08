@@ -1,0 +1,25 @@
+{
+  "id": 10514,
+  "name": "Ethernet Interface",
+  "vendor": "Walt Technologies",
+  "version": "1.0",
+  "description": "Ethernet port management and statistics for OpenWRT One",
+  "multiInstance": true,
+  "mandatory": false,
+  "resources": [
+    {"id": 0, "name": "Interface Name", "operations": "R", "type": "String", "mandatory": true},
+    {"id": 1, "name": "Port Type", "operations": "R", "type": "Integer", "mandatory": true},
+    {"id": 2, "name": "Speed", "operations": "R", "type": "Integer", "mandatory": true, "units": "Mbps"},
+    {"id": 3, "name": "Duplex", "operations": "R", "type": "Integer", "mandatory": true},
+    {"id": 4, "name": "Link Status", "operations": "R", "type": "Boolean", "mandatory": true},
+    {"id": 5, "name": "MAC Address", "operations": "R", "type": "String", "mandatory": true},
+    {"id": 6, "name": "MTU", "operations": "RW", "type": "Integer", "mandatory": false, "units": "bytes"},
+    {"id": 7, "name": "Total Bytes Sent", "operations": "R", "type": "Integer", "mandatory": false},
+    {"id": 8, "name": "Total Bytes Received", "operations": "R", "type": "Integer", "mandatory": false},
+    {"id": 9, "name": "Total Packets Sent", "operations": "R", "type": "Integer", "mandatory": false},
+    {"id": 10, "name": "Total Packets Received", "operations": "R", "type": "Integer", "mandatory": false},
+    {"id": 11, "name": "Transmit Errors", "operations": "R", "type": "Integer", "mandatory": false},
+    {"id": 12, "name": "Receive Errors", "operations": "R", "type": "Integer", "mandatory": false},
+    {"id": 13, "name": "Interface Enabled", "operations": "RW", "type": "Boolean", "mandatory": true}
+  ]
+}

@@ -99,7 +99,7 @@ private:
      * @return true if successful
      */
     static bool getStarlinkLocation(double& latitude, double& longitude, double& altitude) {
-        #ifdef OBJ_O_34600_STARLINK_TERMINAL
+        #ifdef OBJ_O_10512_STARLINK_TERMINAL
         // Try to get GPS data from Starlink dish via grpcurl
         // Note: This requires grpcurl and Starlink protobuf definitions
         std::string cmd = "grpcurl -plaintext -d '{\"get_status\":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle 2>/dev/null";

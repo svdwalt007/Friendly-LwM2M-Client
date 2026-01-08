@@ -1,0 +1,20 @@
+{
+  "id": 10515,
+  "name": "GPIO Control",
+  "vendor": "Walt Technologies",
+  "version": "1.0",
+  "description": "LED and GPIO pin management for OpenWRT One",
+  "multiInstance": true,
+  "mandatory": false,
+  "resources": [
+    {"id": 0, "name": "GPIO Name", "operations": "R", "type": "String", "mandatory": true},
+    {"id": 1, "name": "GPIO Number", "operations": "R", "type": "Integer", "mandatory": true},
+    {"id": 2, "name": "GPIO Type", "operations": "R", "type": "Integer", "mandatory": true},
+    {"id": 3, "name": "Current State", "operations": "RW", "type": "Boolean", "mandatory": false},
+    {"id": 4, "name": "Blink Enabled", "operations": "RW", "type": "Boolean", "mandatory": false},
+    {"id": 5, "name": "Blink Interval", "operations": "RW", "type": "Integer", "mandatory": false, "units": "ms"},
+    {"id": 6, "name": "Trigger Mode", "operations": "RW", "type": "Integer", "mandatory": false},
+    {"id": 7, "name": "Button State", "operations": "R", "type": "Boolean", "mandatory": false},
+    {"id": 8, "name": "Button Press Count", "operations": "R", "type": "Integer", "mandatory": false}
+  ]
+}

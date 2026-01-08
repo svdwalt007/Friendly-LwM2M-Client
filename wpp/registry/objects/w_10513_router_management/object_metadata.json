@@ -1,0 +1,28 @@
+{
+  "id": 10513,
+  "name": "Router Management",
+  "vendor": "Walt Technologies",
+  "version": "1.0",
+  "description": "Core router configuration and management for OpenWRT One",
+  "multiInstance": false,
+  "mandatory": false,
+  "resources": [
+    {"id": 0, "name": "Router Name", "operations": "RW", "type": "String", "mandatory": true},
+    {"id": 1, "name": "LAN IP Address", "operations": "RW", "type": "String", "mandatory": true},
+    {"id": 2, "name": "LAN Subnet Mask", "operations": "RW", "type": "String", "mandatory": true},
+    {"id": 3, "name": "DHCP Enabled", "operations": "RW", "type": "Boolean", "mandatory": true},
+    {"id": 4, "name": "DHCP Start IP", "operations": "RW", "type": "String", "mandatory": false},
+    {"id": 5, "name": "DHCP End IP", "operations": "RW", "type": "String", "mandatory": false},
+    {"id": 6, "name": "DHCP Lease Time", "operations": "RW", "type": "Integer", "mandatory": false, "units": "seconds"},
+    {"id": 7, "name": "DNS Server 1", "operations": "RW", "type": "String", "mandatory": false},
+    {"id": 8, "name": "DNS Server 2", "operations": "RW", "type": "String", "mandatory": false},
+    {"id": 9, "name": "WAN Connection Type", "operations": "RW", "type": "Integer", "mandatory": true},
+    {"id": 10, "name": "WAN IP Address", "operations": "R", "type": "String", "mandatory": true},
+    {"id": 11, "name": "WAN Gateway", "operations": "RW", "type": "String", "mandatory": false},
+    {"id": 12, "name": "Firewall Enabled", "operations": "RW", "type": "Boolean", "mandatory": true},
+    {"id": 13, "name": "NAT Enabled", "operations": "RW", "type": "Boolean", "mandatory": true},
+    {"id": 14, "name": "UPnP Enabled", "operations": "RW", "type": "Boolean", "mandatory": false},
+    {"id": 15, "name": "Apply Configuration", "operations": "E", "type": "Execute", "mandatory": true},
+    {"id": 16, "name": "Reset to Defaults", "operations": "E", "type": "Execute", "mandatory": false}
+  ]
+}

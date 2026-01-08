@@ -3,179 +3,182 @@
     Walt Technologies LwM2M Object Registry Entries
 
     These entries are to be added to the OMA LwM2M Registry DDF.xml file.
-    Objects 34600-34623 are reserved for Walt Technologies.
+
+    Object ID Ranges:
+    - 10512-10522: Walt Technologies Core Objects (Official OMA allocation)
+    - 34611-34623: Walt Technologies Extended Objects (Reserved)
 
     Submit as PR to: https://github.com/OpenMobileAlliance/lwm2m-registry
-    Branch: walt-techn-reserv-obj
 -->
 
-<!-- Walt Technologies LwM2M Objects (34600-34623) -->
-<!-- Copy the following Item entries to DDF.xml after the last existing Item -->
+<!-- Walt Technologies Core LwM2M Objects (10512-10522) -->
 
-        <Item ID="34600">
-            <ObjectID>34600</ObjectID>
-            <URN>urn:oma:lwm2m:x:34600</URN>
+        <Item ID="10512">
+            <ObjectID>10512</ObjectID>
+            <URN>urn:oma:lwm2m:x:10512</URN>
             <Name>Starlink Terminal</Name>
             <Description>Management and monitoring of Starlink Gen3 satellite internet terminals. Remote access to telemetry, configuration, and control of Starlink dishes via gRPC protocol.</Description>
             <Owner>Walt Technologies</Owner>
             <Source>1</Source>
             <Ver>1.0</Ver>
-            <DDF>34600.xml</DDF>
+            <DDF>10512.xml</DDF>
             <Vorto></Vorto>
             <DDFLink>1</DDFLink>
             <TS></TS>
             <TSLink>0</TSLink>
         </Item>
 
-        <Item ID="34601">
-            <ObjectID>34601</ObjectID>
-            <URN>urn:oma:lwm2m:x:34601</URN>
+        <Item ID="10513">
+            <ObjectID>10513</ObjectID>
+            <URN>urn:oma:lwm2m:x:10513</URN>
             <Name>Router Management</Name>
             <Description>General router configuration and management for OpenWRT-based routers. Includes hostname, IP settings, DNS, NTP, timezone, and firmware management.</Description>
             <Owner>Walt Technologies</Owner>
             <Source>1</Source>
             <Ver>1.0</Ver>
-            <DDF>34601.xml</DDF>
+            <DDF>10513.xml</DDF>
             <Vorto></Vorto>
             <DDFLink>1</DDFLink>
             <TS></TS>
             <TSLink>0</TSLink>
         </Item>
 
-        <Item ID="34602">
-            <ObjectID>34602</ObjectID>
-            <URN>urn:oma:lwm2m:x:34602</URN>
+        <Item ID="10514">
+            <ObjectID>10514</ObjectID>
+            <URN>urn:oma:lwm2m:x:10514</URN>
             <Name>Ethernet Interface</Name>
             <Description>Ethernet port monitoring and configuration. Each instance represents one physical Ethernet port with status, statistics, and configuration.</Description>
             <Owner>Walt Technologies</Owner>
             <Source>1</Source>
             <Ver>1.0</Ver>
-            <DDF>34602.xml</DDF>
+            <DDF>10514.xml</DDF>
             <Vorto></Vorto>
             <DDFLink>1</DDFLink>
             <TS></TS>
             <TSLink>0</TSLink>
         </Item>
 
-        <Item ID="34603">
-            <ObjectID>34603</ObjectID>
-            <URN>urn:oma:lwm2m:x:34603</URN>
+        <Item ID="10515">
+            <ObjectID>10515</ObjectID>
+            <URN>urn:oma:lwm2m:x:10515</URN>
             <Name>GPIO Control</Name>
             <Description>GPIO pin management for LED control, button inputs, and general-purpose I/O via Linux sysfs interface.</Description>
             <Owner>Walt Technologies</Owner>
             <Source>1</Source>
             <Ver>1.0</Ver>
-            <DDF>34603.xml</DDF>
+            <DDF>10515.xml</DDF>
             <Vorto></Vorto>
             <DDFLink>1</DDFLink>
             <TS></TS>
             <TSLink>0</TSLink>
         </Item>
 
-        <Item ID="34604">
-            <ObjectID>34604</ObjectID>
-            <URN>urn:oma:lwm2m:x:34604</URN>
+        <Item ID="10516">
+            <ObjectID>10516</ObjectID>
+            <URN>urn:oma:lwm2m:x:10516</URN>
             <Name>USB Management</Name>
             <Description>USB device enumeration and power management. Monitors connected USB devices and provides power control capabilities.</Description>
             <Owner>Walt Technologies</Owner>
             <Source>1</Source>
             <Ver>1.0</Ver>
-            <DDF>34604.xml</DDF>
+            <DDF>10516.xml</DDF>
             <Vorto></Vorto>
             <DDFLink>1</DDFLink>
             <TS></TS>
             <TSLink>0</TSLink>
         </Item>
 
-        <Item ID="34605">
-            <ObjectID>34605</ObjectID>
-            <URN>urn:oma:lwm2m:x:34605</URN>
+        <Item ID="10517">
+            <ObjectID>10517</ObjectID>
+            <URN>urn:oma:lwm2m:x:10517</URN>
             <Name>Storage Management</Name>
             <Description>Storage device management including mount points, capacity monitoring, and filesystem operations.</Description>
             <Owner>Walt Technologies</Owner>
             <Source>1</Source>
             <Ver>1.0</Ver>
-            <DDF>34605.xml</DDF>
+            <DDF>10517.xml</DDF>
             <Vorto></Vorto>
             <DDFLink>1</DDFLink>
             <TS></TS>
             <TSLink>0</TSLink>
         </Item>
 
-        <Item ID="34606">
-            <ObjectID>34606</ObjectID>
-            <URN>urn:oma:lwm2m:x:34606</URN>
+        <Item ID="10518">
+            <ObjectID>10518</ObjectID>
+            <URN>urn:oma:lwm2m:x:10518</URN>
             <Name>System Monitor</Name>
             <Description>System resource monitoring including CPU usage, memory utilization, load average, uptime, and process count.</Description>
             <Owner>Walt Technologies</Owner>
             <Source>1</Source>
             <Ver>1.0</Ver>
-            <DDF>34606.xml</DDF>
+            <DDF>10518.xml</DDF>
             <Vorto></Vorto>
             <DDFLink>1</DDFLink>
             <TS></TS>
             <TSLink>0</TSLink>
         </Item>
 
-        <Item ID="34607">
-            <ObjectID>34607</ObjectID>
-            <URN>urn:oma:lwm2m:x:34607</URN>
+        <Item ID="10519">
+            <ObjectID>10519</ObjectID>
+            <URN>urn:oma:lwm2m:x:10519</URN>
             <Name>Hardware Watchdog</Name>
             <Description>Hardware watchdog timer management for automatic system recovery. Supports /dev/watchdog interface.</Description>
             <Owner>Walt Technologies</Owner>
             <Source>1</Source>
             <Ver>1.0</Ver>
-            <DDF>34607.xml</DDF>
+            <DDF>10519.xml</DDF>
             <Vorto></Vorto>
             <DDFLink>1</DDFLink>
             <TS></TS>
             <TSLink>0</TSLink>
         </Item>
 
-        <Item ID="34608">
-            <ObjectID>34608</ObjectID>
-            <URN>urn:oma:lwm2m:x:34608</URN>
+        <Item ID="10520">
+            <ObjectID>10520</ObjectID>
+            <URN>urn:oma:lwm2m:x:10520</URN>
             <Name>MIKROBUS</Name>
             <Description>MikroE Click board expansion slot management. Supports Click board detection and I2C/SPI/UART interface configuration.</Description>
             <Owner>Walt Technologies</Owner>
             <Source>1</Source>
             <Ver>1.0</Ver>
-            <DDF>34608.xml</DDF>
+            <DDF>10520.xml</DDF>
             <Vorto></Vorto>
             <DDFLink>1</DDFLink>
             <TS></TS>
             <TSLink>0</TSLink>
         </Item>
 
-        <Item ID="34609">
-            <ObjectID>34609</ObjectID>
-            <URN>urn:oma:lwm2m:x:34609</URN>
+        <Item ID="10521">
+            <ObjectID>10521</ObjectID>
+            <URN>urn:oma:lwm2m:x:10521</URN>
             <Name>Firewall Config</Name>
             <Description>Firewall rule management for OpenWRT iptables/nftables. Port filtering, IP filtering, zone-based firewall via UCI.</Description>
             <Owner>Walt Technologies</Owner>
             <Source>1</Source>
             <Ver>1.0</Ver>
-            <DDF>34609.xml</DDF>
+            <DDF>10521.xml</DDF>
             <Vorto></Vorto>
             <DDFLink>1</DDFLink>
             <TS></TS>
             <TSLink>0</TSLink>
         </Item>
 
-        <Item ID="34610">
-            <ObjectID>34610</ObjectID>
-            <URN>urn:oma:lwm2m:x:34610</URN>
+        <Item ID="10522">
+            <ObjectID>10522</ObjectID>
+            <URN>urn:oma:lwm2m:x:10522</URN>
             <Name>PoE Management</Name>
             <Description>Power over Ethernet port management for PoE-capable switches. Power budget, per-port control, and priority settings.</Description>
             <Owner>Walt Technologies</Owner>
             <Source>1</Source>
             <Ver>1.0</Ver>
-            <DDF>34610.xml</DDF>
+            <DDF>10522.xml</DDF>
             <Vorto></Vorto>
             <DDFLink>1</DDFLink>
             <TS></TS>
             <TSLink>0</TSLink>
         </Item>
+
+<!-- Walt Technologies Extended LwM2M Objects (34611-34623) -->
 
         <Item ID="34611">
             <ObjectID>34611</ObjectID>
