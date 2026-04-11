@@ -1,448 +1,208 @@
 # Friendly LwM2M Client Documentation
 
-**Version:** 1.1.0
-**Last Updated:** January 2026
+**Version:** 1.2.0
+**Last Updated:** April 2026
 **LwM2M Specification:** OMA LwM2M v1.2.2
-**Project:** Enhanced LwM2M Client with MQTT Transport, Edge AI, and Delta Firmware Updates
 
 ---
 
-## 📚 Documentation Index
+## 📚 Quick Navigation
 
-This documentation provides comprehensive guides for implementing, configuring, and deploying the Friendly LwM2M Client. Version 1.1.0 introduces MQTT transport binding, Edge AI inference capabilities, and advanced firmware update features with delta algorithms.
+**New to the project?** Start here:
+1. **[Quick Start Guide](../QUICK_START.md)** ⚡ - Get running in 5 minutes
+2. **[Getting Started](../GETTING_STARTED.md)** 📖 - Comprehensive tutorial
+3. **[Build Examples](../BUILD_EXAMPLES.md)** 🔨 - All build configurations
 
-### Getting Started
+---
 
-- **[Quick Start Guide](QUICKSTART.md)** - Get up and running in minutes
-  - Prerequisites and dependencies
-  - Build and installation steps
-  - Basic configuration
-  - First connection to LwM2M server
+## 📋 Documentation Index
 
-### Implementation & Development
+### Core Documentation
 
-- **[Implementation Guide](IMPLEMENTATION_GUIDE.md)** - Step-by-step implementation
-  - Building from source
-  - Cross-compilation for OpenWRT
-  - Custom object development
-  - Testing and validation
+#### Getting Started & Building
+- **[Quick Start Guide](../QUICK_START.md)** - 5-minute setup with automated installation script
+- **[Getting Started](../GETTING_STARTED.md)** - Complete tutorial with code examples
+- **[Build Examples](../BUILD_EXAMPLES.md)** - Build configurations for all platforms
+- **[Installation Script](../scripts/install-ubuntu-prerequisites.sh)** - Automated Ubuntu dependency installation
 
-- **[Architecture Overview](ARCHITECTURE.md)** - System design and structure
-  - Component architecture
-  - Object registry system
-  - Task queue management
-  - Data flow diagrams
-
-### Feature Documentation
-
-- **[Location Object (ID 6)](LOCATION_OBJECT.md)** - Complete Location object reference
-  - OMA LwM2M Location specification
-  - GPS data sources (Starlink, gpsd, UCI)
-  - Resource definitions
-  - Code examples
-
-- **[Starlink Terminal Object (ID 10512)](STARLINK_TERMINAL.md)** - Starlink satellite terminal management
-  - 70+ resources for comprehensive monitoring and control
-  - Network performance telemetry and diagnostics
-  - Obstruction detection and sky view analysis
-  - Dish alignment and GPS tracking
-  - Alert system and power management
-  - gRPC integration guide
-
-- **[MIKROBUS Object (ID 10520)](MIKROBUS_OBJECT.md)** - MIKROBUS socket and Click board management
-  - 50+ resources for comprehensive socket control
-  - Multiple instance support (one per socket)
-  - Click board detection and manifest reading
-  - Interface configuration (SPI, I2C, UART)
-  - GPIO and PWM control
-  - Power management and status monitoring
-
-- **[OpenWRT Integration](OPENWRT_INTEGRATION.md)** - OpenWRT-specific features
-  - Hardware information gathering
-  - Network connectivity monitoring
-  - GPS/Location services
-  - Walt Technologies objects integration
-  - System integration
-
-### Reference Material
-
+#### Reference & Configuration
 - **[API Reference](API_REFERENCE.md)** - Complete API documentation
-  - Core classes and methods
-  - Object implementations
-  - Helper utilities
-  - Code examples
+- **[Architecture](ARCHITECTURE.md)** - System architecture and design patterns
+- **[Configuration](CONFIGURATION.md)** - CMake options and runtime settings
+- **[Implementation Status](IMPLEMENTATION_STATUS.md)** - Feature implementation tracking
+- **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions
 
-- **[Configuration Guide](CONFIGURATION.md)** - Configuration options
-  - CMake build options
-  - Resource configuration
-  - Object enablement
-  - Runtime settings
+### Feature-Specific Guides
 
-### Support
+#### LwM2M Objects
+- **[WLAN Connectivity (ID 12)](WLAN_CONNECTIVITY.md)** - WiFi interface management
+- **[Bearer Selection (ID 13)](BEARER_SELECTION.md)** - Network bearer selection
+- **[Location Object (ID 6)](LOCATION_OBJECT.md)** - GPS and location services with Starlink integration
+- **[Starlink Terminal](STARLINK_TERMINAL.md)** - Starlink satellite terminal management
+- **[MIKROBUS Object](MIKROBUS_OBJECT.md)** - MIKROBUS socket and Click board management
+- **[Hardware Watchdog](WATCHDOG.md)** - Watchdog timer management
 
-- **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Common issues and solutions
-  - Build errors
-  - Runtime issues
-  - Connectivity problems
-  - Debug techniques
+### Platform Integration
 
----
+- **[OpenWrt Integration](OPENWRT_INTEGRATION.md)** - Deploy on OpenWrt routers
+- **[Raspberry Pi ARM64 Porting](RPI4_ARM64_PORTING_GUIDE.md)** - RPi4 deployment guide
+- **[prplOS Porting Guide](PRPLOS_PORTING_GUIDE.md)** - prplOS platform integration
 
-## 🚀 Key Features
+### Advanced Topics
 
-### v1.1.0 Highlights
-
-- **MQTT Transport Binding** - Full OMA LwM2M v1.2.2 Section 8 compliance
-- **Edge AI Inference** - TensorFlow Lite and ONNX Runtime on-device ML
-- **Delta Firmware Updates** - BSDIFF, VCDIFF, Courgette algorithms
-- **A/B Partition Rollback** - Reliable firmware updates with automatic recovery
-
-### OMA LwM2M Objects Implemented
-
-#### Mandatory Objects
-- **LwM2M Security (ID 0)** - Security credentials
-- **LwM2M Server (ID 1)** - Server configuration
-- **Device (ID 3)** - Device information with OpenWRT integration
-
-#### Optional OMA Objects
-- **Connectivity Monitoring (ID 4)** - Network status with OpenWRT data
-- **Firmware Update (ID 5)** - Enhanced FOTA with delta updates
-- **Location (ID 6)** - GPS location with Starlink integration
-- **WLAN Connectivity (ID 12)** - WiFi interface management
-- **Bearer Selection (ID 13)** - Network bearer selection
-- **LwM2M COSE (ID 23)** ⭐ NEW v1.1.0 - MQTT security credentials
-- **MQTT Server (ID 24)** ⭐ NEW v1.1.0 - MQTT broker configuration
-
-#### Walt Technologies Custom Objects (10512-10520)
-
-- **Starlink Terminal (ID 10512)** ⭐ FEATURED - Comprehensive Starlink Gen3 satellite terminal management
-  - 70+ resources across 10 functional groups
-  - Real-time telemetry: throughput, latency, SNR, packet loss
-  - Obstruction monitoring with 12-wedge sky view analysis
-  - Dish alignment tracking (azimuth/elevation)
-  - 16 alert conditions (thermal, motors, obstructions, water detection)
-  - Integrated GPS (lat/lon/alt with satellite count)
-  - Power management (current, mean, min/max, total energy)
-  - Control actions: reboot, speed test, factory reset, obstruction map
-  - Historical statistics and performance analytics
-  - gRPC interface to 192.168.100.1:9200
-
-- **Router Management (ID 10513)** - Core router configuration and management
-  - LAN/WAN network configuration (IP addressing, subnet masks)
-  - DHCP server settings (address pool, lease time, DNS servers)
-  - Firewall and NAT control
-  - WAN connection types: DHCP, Static IP, PPPoE
-  - UPnP configuration
-  - Apply configuration and reset to defaults actions
-
-- **Ethernet Interface (ID 10514)** - Ethernet port monitoring and management
-  - Multiple instances for WAN/LAN ports
-  - Link status, speed (10/100/1000 Mbps), duplex mode
-  - MAC address and MTU configuration
-  - Traffic statistics (bytes/packets sent and received)
-  - Error counters (TX/RX errors)
-  - Interface enable/disable control
-
-- **GPIO Control (ID 10515)** - GPIO pin, LED, and button management
-  - Multiple instances for different GPIO resources
-  - LED control with blink patterns and intervals
-  - Button state monitoring and press counters
-  - Trigger modes (manual, network activity, timer-based)
-  - Support for status LEDs, WLAN LEDs, reset buttons
-  - General-purpose I/O configuration
-
-- **USB Management (ID 10516)** - USB port monitoring and control
-  - Multiple instances for different USB ports
-  - USB 2.0 and Type-C support
-  - Device detection and identification (Vendor/Product ID)
-  - Device class recognition (storage, modem, HID, hub)
-  - Power management and current monitoring
-  - Port enable/disable control
-
-- **Storage Management (ID 10517)** - Storage device management
-  - Multiple instances for NAND, NVMe, USB, SD card
-  - Capacity monitoring (total, used, available)
-  - Filesystem type detection (ext4, f2fs, vfat, exfat)
-  - Mount status and mount point information
-  - Mount/unmount operations
-  - Format capability (with data loss warning)
-  - Bootable storage identification
-
-- **System Monitor (ID 10518)** - Comprehensive system monitoring
-  - CPU usage percentage and frequency
-  - CPU temperature monitoring
-  - RAM statistics (total, used, free, cached, buffers)
-  - Swap space monitoring
-  - System load averages (1, 5, 15 minutes)
-  - Uptime and process count
-  - Essential for device health monitoring
-
-- **Hardware Watchdog (ID 10519)** - Watchdog timer management
-  - Hardware watchdog enable/disable
-  - Timeout configuration (1-300 seconds)
-  - Pet interval settings
-  - Watchdog status and last pet time
-  - Magic close feature support
-  - Manual pet and reset actions
-  - Pet count and trigger count tracking
-  - Boot count monitoring for reliability analysis
-
-- **MIKROBUS (ID 10520)** - MIKROBUS socket and Click board management
-  - 50+ resources across 8 functional groups
-  - Multiple instance support (one per MIKROBUS socket)
-  - Automatic Click board detection via I2C EEPROM
-  - Interface configuration: SPI, I2C, UART
-  - GPIO control: AN (analog), PWM, INT, RST, CS pins
-  - Power management (3.3V/5V selection)
-  - Click board manifest reading (JSON format)
-  - Control actions: initialize, reset, shutdown
-  - Status monitoring and error tracking
-
-- **Firewall Config (ID 10521)** - Firewall rule management
-
-- **PoE Management (ID 10522)** - Power over Ethernet control
-
-#### Edge AI Object (v1.1.0)
-
-- **Edge AI Inference (ID 33410)** ⭐ NEW v1.1.0 - On-device machine learning
-  - 100+ resources across 6 functional categories
-  - Model management: download, load, unload, hot-swap
-  - TensorFlow Lite and ONNX Runtime backends
-  - Hardware acceleration: CPU, GPU, NPU, TPU, DSP
-  - Quantization: FP32, FP16, INT8, INT4, dynamic, mixed
-  - Inference modes: synchronous, async, streaming, batched
-  - Pre/post processing pipelines
-  - Performance statistics with percentile tracking
-  - Benchmark and profiling capabilities
-
-### OpenWRT One Platform Support
-
-Optimized for **OpenWRT One** (Banana Pi BPI-R4):
-- MediaTek MT7981B SoC
-- 2.5GbE WAN + Gigabit LAN ports
-- Multiple power sources (12V DC, PoE, USB-C PD)
-- WiFi 6 support
-- USB and NVMe expansion
-
-### Location Data Sources
-
-The Location object supports multiple GPS sources with automatic fallback:
-
-1. **Starlink Terminal GPS** (Highest Priority)
-   - Connects to Starlink dish at 192.168.100.1:9200
-   - Accuracy: ~10 meters
-   - Provides latitude, longitude, altitude
-   - Real-time satellite tracking
-
-2. **gpsd Daemon**
-   - Standard GPS daemon integration
-   - Accuracy: ~15 meters
-   - Supports multiple GPS receivers
-
-3. **Manual Configuration**
-   - UCI-based configuration
-   - User-defined coordinates
-   - Fallback for fixed installations
+- **[OMA LwM2M Compatibility Analysis](OMA_LWM2M_COMPATIBILITY_ANALYSIS.md)** - Standards compliance details
+- **[Wakaama Submodule Setup](../WAKAAMA_SUBMODULE_SETUP.md)** - Optional WPP objects configuration
 
 ---
 
-## 📋 Quick Reference
+## 🚀 Key Features (v1.2.0)
 
-### Build Commands
+### Object ID Mapping
 
-```bash
-# Standard build
-mkdir build && cd build
-cmake ..
-make
+| Object Name | Object ID | Category | Status |
+|------------|-----------|----------|--------|
+| **Core Objects** |
+| LwM2M Security | 0 | Standard | ✅ Mandatory |
+| LwM2M Server | 1 | Standard | ✅ Mandatory |
+| Device | 3 | Standard | ✅ Mandatory |
+| Connectivity Monitoring | 4 | Standard | ✅ Optional |
+| Firmware Update | 5 | Standard | ✅ Optional |
+| Location | 6 | Standard | ✅ Optional |
+| **Advanced Objects** |
+| WLAN Connectivity | 12 | Standard | ✅ Optional |
+| Bearer Selection | 13 | Standard | ✅ Optional |
+| **Custom Objects** |
+| **Advanced Firmware Update** | **33405** | Custom | ✅ **New v1.2.0** |
+| **MQTT Server** | **10512** | WPP | ✅ **New v1.2.0** |
+| **LwM2M COSE** | **10513** | WPP | ✅ **New v1.2.0** |
+| **Edge AI Inference** | **10514** | WPP | ✅ **New v1.2.0** |
+| **Optional WPP Objects** (require [Wakaama submodule](../WAKAAMA_SUBMODULE_SETUP.md)) |
+| WAN Failover Policy | 10525 | WPP | ⚙️ Optional |
+| Multi-WAN Health Check | 10526 | WPP | ⚙️ Optional |
+| WiFi Client Management | 10527 | WPP | ⚙️ Optional |
+| WiFi Channel Optimization | 10528 | WPP | ⚙️ Optional |
+| LAN Configuration | 10535 | WPP | ⚙️ Optional |
+| Routing Table | 10536 | WPP | ⚙️ Optional |
+| VPN Configuration | 10537 | WPP | ⚙️ Optional |
 
-# OpenWRT build with location support
-mkdir build && cd build
-cmake -DOPENWRT_BUILD=ON ..
-make
-```
+### Advanced Features
 
-### Enable/Disable Objects
-
-Edit `wpp/configs/wpp_config.cmake`:
-
-```cmake
-# Enable Location object
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_6_LOCATION)
-
-# Enable Starlink Terminal
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10512_STARLINK_TERMINAL)
-
-# Enable MIKROBUS object
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10520_MIKROBUS)
-
-# Enable System Monitor
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10518_SYSTEM_MONITOR)
-```
-
-### Key File Locations
-
-```
-wpp/registry/objects/
-├── o_6_location/              # Location object
-│   ├── Location.h
-│   ├── Location.cpp
-│   ├── OpenWrtLocationInfo.h
-│   └── LocationConfig.h
-├── o_10512_starlink_terminal/ # Starlink object
-├── m_3_device/                # Device object
-└── o_4_connectivity_monitoring/ # Connectivity object
-
-wpp/configs/
-└── wpp_config.cmake           # Main configuration
-
-examples/
-├── main.cpp                   # Main application
-└── objects.cpp                # Object initialization
-```
+- **Delta Firmware Updates** - bsdiff, vcdiff, Courgette algorithms
+- **Rollback Management** - A/B partition with automatic rollback
+- **MQTT Transport** - OMA LwM2M v1.2.2 Section 8 compliance
+- **Edge AI Inference** - TensorFlow Lite and ONNX Runtime backends
+- **Blockwise Transfer** - RFC 7959 with BERT support
+- **Platform Abstraction** - Linux, OpenWrt, Raspberry Pi support
+- **Starlink Integration** - Direct gRPC client for satellite terminals
 
 ---
 
-## 🔗 Related Resources
+## 📖 Documentation by Use Case
 
-### OMA LwM2M Specifications
-- [OMA LwM2M Registry](https://github.com/OpenMobileAlliance/lwm2m-registry)
-- [Location Object Specification](https://github.com/OpenMobileAlliance/lwm2m-registry/blob/prod/6.xml)
-- [Device Object Specification](https://github.com/OpenMobileAlliance/lwm2m-registry/blob/prod/3.xml)
+### For New Users
+1. Read [Quick Start Guide](../QUICK_START.md)
+2. Run [Installation Script](../scripts/install-ubuntu-prerequisites.sh)
+3. Build using [Build Examples](../BUILD_EXAMPLES.md#standard-release-build)
+4. Connect to LwM2M server
 
-### OpenWRT Resources
-- [OpenWRT One Hardware](https://openwrt.org/toh/openwrt/one)
-- [OpenWRT Documentation](https://openwrt.org/docs/start)
-- [UCI Configuration System](https://openwrt.org/docs/guide-user/base-system/uci)
+### For Developers
+1. Read [Getting Started](../GETTING_STARTED.md)
+2. Review [Architecture](ARCHITECTURE.md)
+3. Check [API Reference](API_REFERENCE.md)
+4. See [Configuration](CONFIGURATION.md) for build options
 
-### Project Components
-- [Wakaama LwM2M Stack](https://github.com/eclipse/wakaama)
-- [Starlink gRPC API](https://github.com/sparky8512/starlink-grpc-tools)
+### For Platform Integrators
+1. Choose your platform:
+   - [OpenWrt Integration](OPENWRT_INTEGRATION.md)
+   - [Raspberry Pi Guide](RPI4_ARM64_PORTING_GUIDE.md)
+   - [prplOS Porting](PRPLOS_PORTING_GUIDE.md)
+2. Review [Cross-Compilation](../BUILD_EXAMPLES.md#cross-compilation)
+3. Check [Platform Abstraction](../GETTING_STARTED.md#custom-platform-implementation)
 
-### Starlink Resources
-- [Starlink Gen3 Dishy Specifications](https://www.starlink.com)
-- [Starlink Protocol Buffers](https://github.com/starlink-community/starlink-grpc-api)
-- [Starlink Community Tools](https://github.com/sparky8512/starlink-grpc-tools)
-
----
-
-## 💡 Common Use Cases
-
-### 1. Asset Tracking
-Use the Location object with Starlink Terminal for real-time tracking:
-- Mobile installations (vehicles, vessels)
-- Remote site monitoring
-- Field equipment tracking
-
-### 2. Network Infrastructure Monitoring
-Monitor OpenWRT routers with full telemetry:
-- Device health (memory, CPU, uptime)
-- Network connectivity status
-- Power source monitoring
-- Environmental sensors
-
-### 3. IoT Gateway Deployment
-Use as an IoT gateway with LwM2M device management:
-- Centralized device management
-- Firmware updates (FOTA)
-- Configuration management
-- Status monitoring
-
-### 4. Satellite Internet Management
-Manage Starlink terminals via LwM2M:
-- Dish alignment monitoring
-- Performance metrics
-- Obstruction detection
-- GPS location tracking
-
----
-
-## 📞 Support & Contribution
-
-### Getting Help
-
-1. Check the [Troubleshooting Guide](TROUBLESHOOTING.md)
-2. Review the [API Reference](API_REFERENCE.md)
-3. Search existing issues
-4. Create a new issue with detailed information
-
-### Contributing
-
-Contributions are welcome! Please follow these guidelines:
-
-1. **Code Style**: Follow existing patterns
-2. **Documentation**: Update docs for new features
-3. **Testing**: Test on OpenWRT hardware
-4. **Commit Messages**: Use conventional commits
-
-### License
-
-This project is open source. See LICENSE file for details.
+### For Troubleshooting
+1. Check [Troubleshooting Guide](TROUBLESHOOTING.md)
+2. Review [Build Examples](../BUILD_EXAMPLES.md#troubleshooting-common-build-issues)
+3. Search GitHub Issues
+4. Enable debug logging with `--log-level debug`
 
 ---
 
 ## 📝 Version History
 
-### Version 1.1.0 (January 2026) - Current
-- ✅ **MQTT Transport Binding** - OMA LwM2M v1.2.2 Section 8 compliance
-  - MQTT 3.1.1 and MQTT 5.0 protocol support
-  - CBOR message encoding per OMA Section 8.7
-  - Topic structure per OMA Section 8.2
-  - Auto-reconnect with exponential backoff
-  - TLS/SSL support with certificate verification
-- ✅ **Edge AI Inference Object (ID 33410)** - On-device machine learning
-  - TensorFlow Lite and ONNX Runtime backends
-  - 100+ resources for model management and inference
-  - Hardware acceleration support (CPU, GPU, NPU, TPU)
-- ✅ **LwM2M COSE Object (ID 23)** - MQTT security credentials
-- ✅ **MQTT Server Object (ID 24)** - MQTT broker configuration
-- ✅ **Delta Firmware Updates** - BSDIFF, VCDIFF, Courgette algorithms
-- ✅ **A/B Partition Rollback** - Automatic recovery on update failure
-- ✅ **Block-wise Transfer** - RFC 7959 compliance
-- ✅ **Platform Abstraction Layer** - Linux, OpenWRT, Raspberry Pi
-- ✅ **Firewall Config (ID 10521)** and **PoE Management (ID 10522)** objects
+### v1.2.0 (Current - April 2026)
 
-### Version 1.0 (November 2025)
-- ✅ Location object (ID 6) implementation
-- ✅ OpenWRT integration for Device and Connectivity Monitoring
-- ✅ Starlink Terminal object (ID 10512)
-- ✅ Walt Technologies custom objects (10513-10520)
-- ✅ MIKROBUS object (ID 10520) with Click board support
-- ✅ OpenWRT One platform support
-- ✅ Comprehensive documentation
+**Major Changes:**
+- ✅ **Object ID Renumbering** - Now using 10512-10537 range for WPP objects
+- ✅ **Advanced Firmware Update** (ID 33405) - Delta updates with rollback
+- ✅ **New Core Objects** - MQTT Server (10512), COSE (10513), Edge AI (10514)
+- ✅ **Optional WPP Objects** - 10525-10537 range (require Wakaama submodule)
+- ✅ **Comprehensive Documentation** - Quick Start, Getting Started, Build Examples
+- ✅ **Installation Automation** - Ubuntu prerequisites installation script
+- ✅ **Documentation Rationalization** - Archived obsolete content
 
-### Planned Features
-- [ ] WebSocket transport support
-- [ ] HTTP transport binding
-- [ ] Additional IPSO objects
-- [ ] Enhanced security with hardware tokens
+**Bug Fixes:**
+- ✅ Fixed all test compilation errors
+- ✅ Resolved BlockSize enum scope issues
+- ✅ Updated test files to match API
+- ✅ Fixed UpdateResult enum values
+
+### v1.1.0 (January 2026)
+- MQTT Transport Binding
+- Edge AI Inference Object (33410)
+- Delta Firmware Updates
+- A/B Partition Rollback
+
+### v1.0 (November 2025)
+- Initial release
+- Location object implementation
+- Walt Technologies custom objects
+- OpenWrt integration
 
 ---
 
-## 🏗️ Project Structure
+## 🗃️ Archived Documentation
 
-```
-Friendly-LwM2M-Client/
-├── docs/                      # Documentation (you are here)
-│   ├── README.md
-│   ├── QUICKSTART.md
-│   ├── IMPLEMENTATION_GUIDE.md
-│   ├── LOCATION_OBJECT.md
-│   ├── OPENWRT_INTEGRATION.md
-│   ├── API_REFERENCE.md
-│   ├── CONFIGURATION.md
-│   ├── TROUBLESHOOTING.md
-│   └── ARCHITECTURE.md
-├── wpp/                       # WPP LwM2M library
-│   ├── registry/              # Object registry
-│   │   └── objects/           # LwM2M objects
-│   └── configs/               # Configuration files
-├── examples/                  # Example applications
-├── utils/                     # Utilities and tools
-│   └── object_maker/          # Object XML definitions
-└── CMakeLists.txt            # Build configuration
-```
+Historical and obsolete documentation has been moved to [docs/archive/](archive/README.md):
+
+- **Outdated**: Old quick starts, object renumbering docs, old object IDs
+- **Platform-Specific**: Niche platform guides (prpl, OpenWrt One specific)
+- **Integration Guides**: Future features not yet implemented (Matter, Zigbee)
+- **Analysis Docs**: Historical planning documents
+- **Legacy HTML**: Old Doxygen-generated HTML
+
+See [archive/README.md](archive/README.md) for details.
 
 ---
 
-**Next Steps:** Start with the [Quick Start Guide](QUICKSTART.md) to build and run your first LwM2M client!
+## 🆘 Getting Help
+
+### Resources
+- **GitHub Issues**: Bug reports and feature requests
+- **Discussions**: Questions and community support
+- **Email**: support@friendly-tech.com
+
+### Before Asking
+1. Check [Troubleshooting Guide](TROUBLESHOOTING.md)
+2. Search existing GitHub issues
+3. Review relevant documentation
+4. Enable debug logging: `--log-level debug`
+
+### Reporting Issues
+Include:
+- LwM2M Client version (v1.2.0)
+- Platform and OS version
+- Build configuration
+- Steps to reproduce
+- Log output (with `--log-level debug`)
+
+---
+
+## 📜 License
+
+Documentation is licensed under MIT License.
+Code examples are provided as-is for integration purposes.
+
+---
+
+**Last Updated**: April 11, 2026
+**Documentation Version**: 1.2.0
