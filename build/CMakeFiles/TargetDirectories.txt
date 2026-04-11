@@ -1,0 +1,16 @@
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/friendly_lwm2m.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/test_delta_algorithms.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/test_blockwise_transfer.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/test_rollback_manager.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/test_firmware_update_object.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/run_tests.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/coverage.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/package.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/package_source.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/test.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/edit_cache.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/rebuild_cache.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/list_install_components.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/install.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/install/local.dir
+/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/install/strip.dir

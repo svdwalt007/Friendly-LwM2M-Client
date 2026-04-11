@@ -39,18 +39,18 @@ option(WITH_OPENWRT_EXTENDED "Enable extended OpenWRT integration" ON)
 option(WITH_LUCI_MODULE "Build LuCI web interface module" ON)
 option(WITH_HOTPLUG_HANDLERS "Install hotplug event handlers" ON)
 
-# Router Management Objects
-option(WITH_LAN_CONFIG "Enable LAN Configuration object (33611)" ON)
-option(WITH_ROUTING_TABLE "Enable Routing Table object (33612)" ON)
-option(WITH_VPN_CONFIG "Enable VPN Configuration object (33613)" ON)
+# Router Management Objects (require Wakaama submodule)
+option(WITH_LAN_CONFIG "Enable LAN Configuration object (10535)" OFF)
+option(WITH_ROUTING_TABLE "Enable Routing Table object (10536)" OFF)
+option(WITH_VPN_CONFIG "Enable VPN Configuration object (10537)" OFF)
 
-# Multi-WAN and Failover
-option(WITH_WAN_FAILOVER "Enable WAN Failover Policy object (33420)" ON)
-option(WITH_MULTIWAN_HEALTH "Enable Multi-WAN Health Check object (33421)" ON)
+# Multi-WAN and Failover (requires Wakaama submodule)
+option(WITH_WAN_FAILOVER "Enable WAN Failover Policy object (10525)" OFF)
+option(WITH_MULTIWAN_HEALTH "Enable Multi-WAN Health Check object (10526)" OFF)
 
-# WiFi Management
-option(WITH_WIFI_CLIENT_MGMT "Enable WiFi Client Management object (33422)" ON)
-option(WITH_WIFI_CHANNEL_OPT "Enable WiFi Channel Optimization object (33423)" ON)
+# WiFi Management (requires Wakaama submodule)
+option(WITH_WIFI_CLIENT_MGMT "Enable WiFi Client Management object (10527)" OFF)
+option(WITH_WIFI_CHANNEL_OPT "Enable WiFi Channel Optimization object (10528)" OFF)
 
 # Starlink Integration
 option(WITH_STARLINK "Enable Starlink integration" ON)
