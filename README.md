@@ -48,6 +48,14 @@ Friendly LwM2M Client is an open-source Lightweight machine-to-machine (LwM2M) c
   - Edge AI Inference Object (ID: 33410) - ML model management and inference
 
 ## Documentation
+
+### Getting Started Guides
+- **[Quick Start Guide](QUICK_START.md)** - Get up and running in 5 minutes
+- **[Getting Started](GETTING_STARTED.md)** - Comprehensive introduction and tutorials
+- **[Build Examples](BUILD_EXAMPLES.md)** - Detailed build configurations and examples
+- **[Installation Script](scripts/install-ubuntu-prerequisites.sh)** - Automated Ubuntu setup
+
+### Online Documentation
 [Friendly LWM2M Client](https://friendly-technologies.github.io/Friendly-LwM2M-Client/)
 - [Build Instructions](https://friendly-technologies.github.io/Friendly-LwM2M-Client/build_tag.html)
 - [Architecture](https://friendly-technologies.github.io/Friendly-LwM2M-Client/architecture_tag.html)
@@ -60,7 +68,7 @@ Friendly LwM2M Client is an open-source Lightweight machine-to-machine (LwM2M) c
 - [Bearer Selection (ID 13)](docs/BEARER_SELECTION.md) - Network bearer selection
 - [OpenWRT Integration Guide](docs/OPENWRT_INTEGRATION.md)
 - [Implementation Guide](docs/IMPLEMENTATION_GUIDE.md)
-- [Quick Start Guide](docs/QUICKSTART.md)
+- [Wakaama Submodule Setup](WAKAAMA_SUBMODULE_SETUP.md) - Optional WPP objects configuration
 
 ## Features
 
@@ -94,19 +102,22 @@ Optional OMA Objects:
 - LwM2M COSE (ID 23) - MQTT security credentials
 - MQTT Server (ID 24) - MQTT broker configuration
 
-Custom Objects:
-- Starlink Terminal (ID 34600) - Satellite terminal management
-- Router Management (ID 34601)
-- Ethernet Interface (ID 34602)
-- GPIO Control (ID 34603)
-- USB Management (ID 34604)
-- Storage Management (ID 34605)
-- System Monitor (ID 34606)
-- Hardware Watchdog (ID 34607)
-- MIKROBUS (ID 34608)
-- Firewall Config (ID 34609)
-- PoE Management (ID 34610)
-- Edge AI Inference (ID 33410) - ML model management
+Custom Objects (v1.2.0 - Updated Object IDs):
+- Advanced Firmware Update (ID 33405) - Delta updates with rollback
+- MQTT Server (ID 10512) - MQTT broker configuration
+- LwM2M COSE (ID 10513) - Security credentials for MQTT
+- Edge AI Inference (ID 10514) - ML model management and inference
+
+Optional WPP Objects (require Wakaama submodule):
+- WAN Failover Policy (ID 10525)
+- Multi-WAN Health Check (ID 10526)
+- WiFi Client Management (ID 10527)
+- WiFi Channel Optimization (ID 10528)
+- LAN Configuration (ID 10535)
+- Routing Table (ID 10536)
+- VPN Configuration (ID 10537)
+
+**Note:** See [WAKAAMA_SUBMODULE_SETUP.md](WAKAAMA_SUBMODULE_SETUP.md) for enabling optional WPP objects
 
 **Transport Bindings**
 - UDP/DTLS (CoAP)
