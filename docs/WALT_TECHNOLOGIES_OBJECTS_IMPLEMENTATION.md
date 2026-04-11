@@ -5,7 +5,7 @@
 This document provides a comprehensive summary of the Walt Technologies custom LwM2M objects implementation for the OpenWRT One router.
 
 **Implementation Date**: 2025-11-01
-**Object ID Range**: 34601-34606 (Walt Technologies allocated range: 34601-34649)
+**Object ID Range**: 10513-10518 (Walt Technologies allocated range: 10513-34649)
 **Total Objects Implemented**: 6 comprehensive objects
 **Total Resources**: 82 resources across all objects
 **Lines of Code**: ~4,500+ lines of C++ implementation
@@ -14,7 +14,7 @@ This document provides a comprehensive summary of the Walt Technologies custom L
 
 ## Implemented Objects Summary
 
-### Object 34601: Router Management
+### Object 10513: Router Management
 **Purpose**: Core router configuration and management
 **Instance**: Single
 **Resources**: 17
@@ -40,16 +40,16 @@ This document provides a comprehensive summary of the Walt Technologies custom L
 | 16 | Reset to Defaults | Execute | E | Reset configuration |
 
 **Files**:
-- `w_34601_router_management/RouterManagement.h`
-- `w_34601_router_management/RouterManagement.cpp`
-- `w_34601_router_management/RouterManagementConfig.h`
-- `w_34601_router_management/RouterManagementInfo.h`
-- `w_34601_router_management/CMakeLists.txt`
-- `w_34601_router_management/object_metadata.json`
+- `w_10513_router_management/RouterManagement.h`
+- `w_10513_router_management/RouterManagement.cpp`
+- `w_10513_router_management/RouterManagementConfig.h`
+- `w_10513_router_management/RouterManagementInfo.h`
+- `w_10513_router_management/CMakeLists.txt`
+- `w_10513_router_management/object_metadata.json`
 
 ---
 
-### Object 34602: Ethernet Interface Management
+### Object 10514: Ethernet Interface Management
 **Purpose**: Manage LAN/WAN ethernet ports
 **Instance**: Multiple (one per port)
 **Resources**: 14
@@ -72,16 +72,16 @@ This document provides a comprehensive summary of the Walt Technologies custom L
 | 13 | Interface Enabled | Boolean | RW | Enable/disable port |
 
 **Files**:
-- `w_34602_ethernet_interface/EthernetInterface.h`
-- `w_34602_ethernet_interface/EthernetInterface.cpp`
-- `w_34602_ethernet_interface/EthernetInterfaceConfig.h`
-- `w_34602_ethernet_interface/EthernetInterfaceInfo.h`
-- `w_34602_ethernet_interface/CMakeLists.txt`
-- `w_34602_ethernet_interface/object_metadata.json`
+- `w_10514_ethernet_interface/EthernetInterface.h`
+- `w_10514_ethernet_interface/EthernetInterface.cpp`
+- `w_10514_ethernet_interface/EthernetInterfaceConfig.h`
+- `w_10514_ethernet_interface/EthernetInterfaceInfo.h`
+- `w_10514_ethernet_interface/CMakeLists.txt`
+- `w_10514_ethernet_interface/object_metadata.json`
 
 ---
 
-### Object 34603: GPIO Control
+### Object 10515: GPIO Control
 **Purpose**: LED and GPIO pin management
 **Instance**: Multiple (one per GPIO/LED/Button)
 **Resources**: 9
@@ -99,16 +99,16 @@ This document provides a comprehensive summary of the Walt Technologies custom L
 | 8 | Button Press Count | Integer | R | Press counter |
 
 **Files**:
-- `w_34603_gpio_control/GpioControl.h`
-- `w_34603_gpio_control/GpioControl.cpp`
-- `w_34603_gpio_control/GpioControlConfig.h`
-- `w_34603_gpio_control/GpioControlInfo.h`
-- `w_34603_gpio_control/CMakeLists.txt`
-- `w_34603_gpio_control/object_metadata.json`
+- `w_10515_gpio_control/GpioControl.h`
+- `w_10515_gpio_control/GpioControl.cpp`
+- `w_10515_gpio_control/GpioControlConfig.h`
+- `w_10515_gpio_control/GpioControlInfo.h`
+- `w_10515_gpio_control/CMakeLists.txt`
+- `w_10515_gpio_control/object_metadata.json`
 
 ---
 
-### Object 34604: USB Management
+### Object 10516: USB Management
 **Purpose**: USB port monitoring and control
 **Instance**: Multiple (one per USB port)
 **Resources**: 10
@@ -127,16 +127,16 @@ This document provides a comprehensive summary of the Walt Technologies custom L
 | 9 | Current Draw | Integer | R | Power draw in mA |
 
 **Files**:
-- `w_34604_usb_management/UsbManagement.h`
-- `w_34604_usb_management/UsbManagement.cpp`
-- `w_34604_usb_management/UsbManagementConfig.h`
-- `w_34604_usb_management/UsbManagementInfo.h`
-- `w_34604_usb_management/CMakeLists.txt`
-- `w_34604_usb_management/object_metadata.json`
+- `w_10516_usb_management/UsbManagement.h`
+- `w_10516_usb_management/UsbManagement.cpp`
+- `w_10516_usb_management/UsbManagementConfig.h`
+- `w_10516_usb_management/UsbManagementInfo.h`
+- `w_10516_usb_management/CMakeLists.txt`
+- `w_10516_usb_management/object_metadata.json`
 
 ---
 
-### Object 34605: Storage Management
+### Object 10517: Storage Management
 **Purpose**: Monitor and manage storage devices
 **Instance**: Multiple (one per storage device)
 **Resources**: 13
@@ -158,16 +158,16 @@ This document provides a comprehensive summary of the Walt Technologies custom L
 | 12 | Format | Execute | E | Format storage |
 
 **Files**:
-- `w_34605_storage_management/StorageManagement.h`
-- `w_34605_storage_management/StorageManagement.cpp`
-- `w_34605_storage_management/StorageManagementConfig.h`
-- `w_34605_storage_management/StorageManagementInfo.h`
-- `w_34605_storage_management/CMakeLists.txt`
-- `w_34605_storage_management/object_metadata.json`
+- `w_10517_storage_management/StorageManagement.h`
+- `w_10517_storage_management/StorageManagement.cpp`
+- `w_10517_storage_management/StorageManagementConfig.h`
+- `w_10517_storage_management/StorageManagementInfo.h`
+- `w_10517_storage_management/CMakeLists.txt`
+- `w_10517_storage_management/object_metadata.json`
 
 ---
 
-### Object 34606: System Monitor
+### Object 10518: System Monitor
 **Purpose**: CPU, memory, and system monitoring
 **Instance**: Single
 **Resources**: 15
@@ -191,12 +191,12 @@ This document provides a comprehensive summary of the Walt Technologies custom L
 | 14 | Process Count | Integer | R | Number of processes |
 
 **Files**:
-- `w_34606_system_monitor/SystemMonitor.h`
-- `w_34606_system_monitor/SystemMonitor.cpp`
-- `w_34606_system_monitor/SystemMonitorConfig.h`
-- `w_34606_system_monitor/SystemMonitorInfo.h`
-- `w_34606_system_monitor/CMakeLists.txt`
-- `w_34606_system_monitor/object_metadata.json`
+- `w_10518_system_monitor/SystemMonitor.h`
+- `w_10518_system_monitor/SystemMonitor.cpp`
+- `w_10518_system_monitor/SystemMonitorConfig.h`
+- `w_10518_system_monitor/SystemMonitorInfo.h`
+- `w_10518_system_monitor/CMakeLists.txt`
+- `w_10518_system_monitor/object_metadata.json`
 
 ---
 
@@ -206,42 +206,42 @@ This document provides a comprehensive summary of the Walt Technologies custom L
 
 ```
 wpp/registry/objects/
-├── w_34601_router_management/
+├── w_10513_router_management/
 │   ├── RouterManagement.h (220 lines)
 │   ├── RouterManagement.cpp (150 lines)
 │   ├── RouterManagementConfig.h (30 lines)
 │   ├── RouterManagementInfo.h (25 lines)
 │   ├── CMakeLists.txt (5 lines)
 │   └── object_metadata.json (30 lines)
-├── w_34602_ethernet_interface/
+├── w_10514_ethernet_interface/
 │   ├── EthernetInterface.h (180 lines)
 │   ├── EthernetInterface.cpp (125 lines)
 │   ├── EthernetInterfaceConfig.h (28 lines)
 │   ├── EthernetInterfaceInfo.h (25 lines)
 │   ├── CMakeLists.txt (5 lines)
 │   └── object_metadata.json (28 lines)
-├── w_34603_gpio_control/
+├── w_10515_gpio_control/
 │   ├── GpioControl.h (160 lines)
 │   ├── GpioControl.cpp (105 lines)
 │   ├── GpioControlConfig.h (26 lines)
 │   ├── GpioControlInfo.h (25 lines)
 │   ├── CMakeLists.txt (5 lines)
 │   └── object_metadata.json (24 lines)
-├── w_34604_usb_management/
+├── w_10516_usb_management/
 │   ├── UsbManagement.h (170 lines)
 │   ├── UsbManagement.cpp (115 lines)
 │   ├── UsbManagementConfig.h (27 lines)
 │   ├── UsbManagementInfo.h (25 lines)
 │   ├── CMakeLists.txt (5 lines)
 │   └── object_metadata.json (26 lines)
-├── w_34605_storage_management/
+├── w_10517_storage_management/
 │   ├── StorageManagement.h (190 lines)
 │   ├── StorageManagement.cpp (145 lines)
 │   ├── StorageManagementConfig.h (30 lines)
 │   ├── StorageManagementInfo.h (25 lines)
 │   ├── CMakeLists.txt (5 lines)
 │   └── object_metadata.json (30 lines)
-└── w_34606_system_monitor/
+└── w_10518_system_monitor/
     ├── SystemMonitor.h (175 lines)
     ├── SystemMonitor.cpp (130 lines)
     ├── SystemMonitorConfig.h (32 lines)
@@ -291,8 +291,8 @@ Each object implements comprehensive data validation:
 
 ### 2. Execute Operations
 Objects support execute operations for:
-- Router configuration apply/reset (34601)
-- Storage mount/unmount/format (34605)
+- Router configuration apply/reset (10513)
+- Storage mount/unmount/format (10517)
 
 ### 3. Multi-Instance Support
 Multi-instance objects properly support:
@@ -332,14 +332,14 @@ endforeach()
 Each object has its own CMakeLists.txt:
 ```cmake
 target_sources(Wpp PRIVATE
-    w_34601_router_management/RouterManagement.cpp
+    w_10513_router_management/RouterManagement.cpp
 )
 ```
 
 ### Conditional Compilation
 All objects are conditionally compiled based on preprocessor flags:
 ```cpp
-#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+#ifdef OBJ_W_10513_ROUTER_MANAGEMENT
 // Object code
 #endif
 ```
@@ -458,8 +458,8 @@ WppTaskQueue::addTask(60, [](WppClient &client, void *ctx) {
 | **Files Created** | 36 |
 | **Files Modified** | 5 |
 | **Lines of Code** | ~4,500 |
-| **Single Instance Objects** | 2 (34601, 34606) |
-| **Multi-Instance Objects** | 4 (34602, 34603, 34604, 34605) |
+| **Single Instance Objects** | 2 (10513, 10518) |
+| **Multi-Instance Objects** | 4 (10514, 10515, 10516, 10517) |
 | **Read-Only Resources** | 47 |
 | **Read-Write Resources** | 30 |
 | **Execute Resources** | 5 |
@@ -470,7 +470,7 @@ WppTaskQueue::addTask(60, [](WppClient &client, void *ctx) {
 
 - **OMA LwM2M**: v1.0/1.1 compliant
 - **C++ Standard**: C++17
-- **Object ID Range**: Walt Technologies (34601-34649)
+- **Object ID Range**: Walt Technologies (10513-34649)
 - **URI Format**: `urn:waltech:lwm2m:{OBJECT_ID}`
 - **Naming Convention**: Consistent with existing objects
 - **Code Style**: Matches Friendly LwM2M codebase

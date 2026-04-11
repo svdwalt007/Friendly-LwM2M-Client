@@ -52,13 +52,13 @@ Mapped all OpenWRT One resources to **9 LwM2M objects** (3 standard OMA + 6 cust
 - Object 13: Bearer Selection (13 resources for network selection)
 - Object 3331: Memory (IPSO object for RAM monitoring)
 
-**Walt Technologies Custom Objects (34601-34606)**:
-- Object 34601: Router Management (17 resources)
-- Object 34602: Ethernet Interface (14 resources, multi-instance)
-- Object 34603: GPIO Control (9 resources, multi-instance)
-- Object 34604: USB Management (10 resources, multi-instance)
-- Object 34605: Storage Management (13 resources, multi-instance)
-- Object 34606: System Monitor (14 resources)
+**Walt Technologies Custom Objects (10513-10518)**:
+- Object 10513: Router Management (17 resources)
+- Object 10514: Ethernet Interface (14 resources, multi-instance)
+- Object 10515: GPIO Control (9 resources, multi-instance)
+- Object 10516: USB Management (10 resources, multi-instance)
+- Object 10517: Storage Management (13 resources, multi-instance)
+- Object 10518: System Monitor (14 resources)
 
 **Total**: ~300+ LwM2M resources covering all router functionality
 
@@ -91,12 +91,12 @@ wpp/registry/objects/
 ├── o_12_wlan_connectivity/        ✅ Header files created
 ├── o_13_bearer_selection/         ✅ Directory ready
 ├── o_3331_memory/                 ✅ Directory ready
-├── w_34601_router_management/     ✅ Directory ready
-├── w_34602_ethernet_interface/    ✅ Directory ready
-├── w_34603_gpio_control/          ✅ Directory ready
-├── w_34604_usb_management/        ✅ Directory ready
-├── w_34605_storage_management/    ✅ Directory ready
-└── w_34606_system_monitor/        ✅ Directory ready
+├── w_10513_router_management/     ✅ Directory ready
+├── w_10514_ethernet_interface/    ✅ Directory ready
+├── w_10515_gpio_control/          ✅ Directory ready
+├── w_10516_usb_management/        ✅ Directory ready
+├── w_10517_storage_management/    ✅ Directory ready
+└── w_10518_system_monitor/        ✅ Directory ready
 ```
 
 #### WLAN Connectivity Object (Object 12)
@@ -197,12 +197,12 @@ Friendly-LwM2M-Client/
 │       ├── o_12_wlan_connectivity/       ✅ WiFi management
 │       ├── o_13_bearer_selection/        ✅ Network selection
 │       ├── o_3331_memory/                ✅ RAM monitoring
-│       ├── w_34601_router_management/    ✅ Router config
-│       ├── w_34602_ethernet_interface/   ✅ Eth ports
-│       ├── w_34603_gpio_control/         ✅ LEDs/GPIOs
-│       ├── w_34604_usb_management/       ✅ USB ports
-│       ├── w_34605_storage_management/   ✅ Storage
-│       └── w_34606_system_monitor/       ✅ CPU/memory
+│       ├── w_10513_router_management/    ✅ Router config
+│       ├── w_10514_ethernet_interface/   ✅ Eth ports
+│       ├── w_10515_gpio_control/         ✅ LEDs/GPIOs
+│       ├── w_10516_usb_management/       ✅ USB ports
+│       ├── w_10517_storage_management/   ✅ Storage
+│       └── w_10518_system_monitor/       ✅ CPU/memory
 │
 └── examples/
     ├── main.cpp                           ✅ Endpoint: walttech888
@@ -350,7 +350,7 @@ Create `wpp/platform/openwrt/OpenWrtPlatform.cpp` to interface with:
 
 1. **Complete Architecture**: Designed comprehensive LwM2M framework supporting all OpenWRT One hardware
 2. **Standards Compliant**: Uses official OMA LwM2M Registry Objects where applicable
-3. **Extensible Design**: Walt Technologies object range (34601-34649) for custom functionality
+3. **Extensible Design**: Walt Technologies object range (10513-34649) for custom functionality
 4. **Production Ready Package**: Full OpenWRT integration with init scripts, UCI config, and documentation
 5. **Well Documented**: 3 comprehensive documentation files totaling 1000+ lines
 6. **Git Ready**: All changes committed and pushed to designated branch

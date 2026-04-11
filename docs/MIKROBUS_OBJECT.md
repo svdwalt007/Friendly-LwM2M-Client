@@ -1,4 +1,4 @@
-# MIKROBUS Object (ID 34608)
+# MIKROBUS Object (ID 10520)
 
 Complete documentation for the Walt Technologies MIKROBUS LwM2M object.
 
@@ -8,8 +8,8 @@ Complete documentation for the Walt Technologies MIKROBUS LwM2M object.
 
 The MIKROBUS object provides comprehensive management and monitoring of MIKROBUS sockets and MikroElektronika Click boards. MIKROBUS is an add-on board standard that defines a specific pinout with SPI, I2C, UART, PWM, GPIO, and analog interfaces.
 
-**Object ID:** 34608 (Walt Technologies Custom Object Range)
-**URN:** `urn:oma:lwm2m:x:34608:1.0`
+**Object ID:** 10520 (Walt Technologies Custom Object Range)
+**URN:** `urn:oma:lwm2m:x:10520:1.0`
 **Version:** 1.0
 **Instance Type:** Multiple Instances (one per MIKROBUS socket)
 **Mandatory:** Optional
@@ -106,14 +106,14 @@ The MIKROBUS object provides comprehensive management and monitoring of MIKROBUS
 **wpp/configs/wpp_config.cmake:**
 ```cmake
 # Enable MIKROBUS object
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34608_MIKROBUS)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10520_MIKROBUS)
 ```
 
 ### Initialize MIKROBUS Sockets
 
 **examples/objects.cpp:**
 ```cpp
-#ifdef OBJ_O_34608_MIKROBUS
+#ifdef OBJ_O_10520_MIKROBUS
 void mikrobusInit(WppClient &client) {
     client.registry().registerObj(Mikrobus::object(client));
 

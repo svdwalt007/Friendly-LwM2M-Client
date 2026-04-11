@@ -1079,7 +1079,7 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} LWM2M_VERSION_1_0)  # Only LwM2M 1.0
 
 ### Example: GPIO LwM2M Object
 
-**Object ID**: 34611 (Walt Technologies range)
+**Object ID**: 10525 (Walt Technologies range)
 
 **Purpose**: Control Raspberry Pi 4 GPIO pins via LwM2M
 

@@ -1,4 +1,4 @@
-# Starlink Terminal Object (ID 34600)
+# Starlink Terminal Object (ID 10512)
 
 Complete documentation for the Walt Technologies Starlink Terminal LwM2M object.
 
@@ -8,8 +8,8 @@ Complete documentation for the Walt Technologies Starlink Terminal LwM2M object.
 
 The Starlink Terminal object provides comprehensive management and monitoring of Starlink Gen3 satellite internet terminals via the gRPC protocol. This custom LwM2M object enables remote access to telemetry, configuration, and control of Starlink dishes, including obstruction monitoring, alignment tracking, speed testing, and performance metrics.
 
-**Object ID:** 34600 (Walt Technologies Custom Object Range)
-**URN:** `urn:oma:lwm2m:x:34600:1.0`
+**Object ID:** 10512 (Walt Technologies Custom Object Range)
+**URN:** `urn:oma:lwm2m:x:10512:1.0`
 **Version:** 1.0
 **Instance Type:** Single Instance
 **Mandatory:** Optional
@@ -274,7 +274,7 @@ grpcurl -plaintext -d '{"get_status":{}}' \
 **wpp/configs/wpp_config.cmake:**
 ```cmake
 # Enable Starlink Terminal object
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10512_STARLINK_TERMINAL)
 ```
 
 ### Optional Resource Configuration
@@ -282,20 +282,20 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
 **StarlinkTerminalConfig.h:**
 ```cpp
 // Disable factory reset for safety
-#define RES_34600_103 0  // Factory Reset
+#define RES_10512_103 0  // Factory Reset
 
 // Enable all other optional resources
-#define RES_34600_14 1   // Seconds To First Slot
-#define RES_34600_15 1   // SNR
-#define RES_34600_104 1  // Get Obstruction Map
-#define RES_34600_118 1  // Latency Deciles
+#define RES_10512_14 1   // Seconds To First Slot
+#define RES_10512_15 1   // SNR
+#define RES_10512_104 1  // Get Obstruction Map
+#define RES_10512_118 1  // Latency Deciles
 ```
 
 ### Initialize in Application
 
 **examples/objects.cpp:**
 ```cpp
-#ifdef OBJ_O_34600_STARLINK_TERMINAL
+#ifdef OBJ_O_10512_STARLINK_TERMINAL
 void starlinkTerminalInit(WppClient &client) {
     client.registry().registerObj(StarlinkTerminal::object(client));
     Instance* starlink = StarlinkTerminal::createInst(client);

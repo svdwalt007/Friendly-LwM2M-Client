@@ -123,13 +123,15 @@ public:
         int maxBootAttempts = 3;           ///< Max boot attempts before rollback
         bool verifyAfterRollback = true;   ///< Verify partition after rollback
         std::chrono::seconds bootVerificationTimeout{120};  ///< Time to verify boot
+
+        Config() = default;
     };
 
     /**
      * @brief Constructor
      * @param config Configuration settings
      */
-    explicit RollbackManager(const Config& config = Config{});
+    explicit RollbackManager(const Config& config = Config());
 
     /**
      * @brief Destructor

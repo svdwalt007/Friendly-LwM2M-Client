@@ -16,6 +16,7 @@
 #include <filesystem>
 #include <chrono>
 #include <regex>
+#include <cstring>
 
 #include <curl/curl.h>
 #include <openssl/sha.h>
@@ -243,35 +244,41 @@ bool AdvancedFirmwareUpdateObject::read(FirmwareResourceId resourceId,
 
 bool AdvancedFirmwareUpdateObject::write(FirmwareResourceId resourceId,
                                           const std::string& value) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::string uriToDownload;
+    bool isDelta = false;
 
-    switch (resourceId) {
-        case FirmwareResourceId::PACKAGE_URI:
-            if (state_ != FirmwareState::IDLE) {
-                conflictReason_ = "Update already in progress";
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        switch (resourceId) {
+            case FirmwareResourceId::PACKAGE_URI:
+                if (state_ != FirmwareState::IDLE) {
+                    conflictReason_ = "Update already in progress";
+                    return false;
+                }
+                packageUri_ = value;
+                uriToDownload = value;
+                isDelta = false;
+                break;
+
+            case FirmwareResourceId::DELTA_PACKAGE_URI:
+                if (state_ != FirmwareState::IDLE) {
+                    conflictReason_ = "Update already in progress";
+                    return false;
+                }
+                deltaPackageUri_ = value;
+                uriToDownload = value;
+                isDelta = true;
+                break;
+
+            default:
                 return false;
-            }
-            packageUri_ = value;
-            // Trigger download
-            mutex_.unlock();
-            startDownload(value, false);
-            mutex_.lock();
-            return true;
-            
-        case FirmwareResourceId::DELTA_PACKAGE_URI:
-            if (state_ != FirmwareState::IDLE) {
-                conflictReason_ = "Update already in progress";
-                return false;
-            }
-            deltaPackageUri_ = value;
-            mutex_.unlock();
-            startDownload(value, true);
-            mutex_.lock();
-            return true;
-            
-        default:
-            return false;
-    }
+        }
+    }  // Lock released here
+
+    // Trigger download without holding lock
+    startDownload(uriToDownload, isDelta);
+    return true;
 }
 
 bool AdvancedFirmwareUpdateObject::write(FirmwareResourceId resourceId,
@@ -309,35 +316,44 @@ bool AdvancedFirmwareUpdateObject::write(FirmwareResourceId resourceId,
 
 bool AdvancedFirmwareUpdateObject::write(FirmwareResourceId resourceId,
                                           const std::vector<uint8_t>& value) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    size_t offset;
+    bool isDelta = false;
 
-    switch (resourceId) {
-        case FirmwareResourceId::PACKAGE:
-            if (state_ != FirmwareState::IDLE && 
-                state_ != FirmwareState::DOWNLOADING) {
-                conflictReason_ = "Cannot receive package in current state";
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        switch (resourceId) {
+            case FirmwareResourceId::PACKAGE:
+                if (state_ != FirmwareState::IDLE &&
+                    state_ != FirmwareState::DOWNLOADING) {
+                    conflictReason_ = "Cannot receive package in current state";
+                    return false;
+                }
+                offset = receivedData_.size();
+                isDelta = false;
+                break;
+
+            case FirmwareResourceId::DELTA_PACKAGE:
+                if (state_ != FirmwareState::IDLE &&
+                    state_ != FirmwareState::DOWNLOADING) {
+                    conflictReason_ = "Cannot receive delta in current state";
+                    return false;
+                }
+                offset = receivedData_.size();
+                isDelta = true;
+                break;
+
+            case FirmwareResourceId::CHECKSUM:
+                expectedChecksum_ = value;
+                return true;
+
+            default:
                 return false;
-            }
-            // Receive full package or chunk
-            mutex_.unlock();
-            return receivePackageData(value, receivedData_.size(), false);
-            
-        case FirmwareResourceId::DELTA_PACKAGE:
-            if (state_ != FirmwareState::IDLE &&
-                state_ != FirmwareState::DOWNLOADING) {
-                conflictReason_ = "Cannot receive delta in current state";
-                return false;
-            }
-            mutex_.unlock();
-            return receivePackageData(value, receivedData_.size(), true);
-            
-        case FirmwareResourceId::CHECKSUM:
-            expectedChecksum_ = value;
-            return true;
-            
-        default:
-            return false;
-    }
+        }
+    }  // Lock released here
+
+    // Receive package data without holding lock
+    return receivePackageData(value, offset, isDelta);
 }
 
 bool AdvancedFirmwareUpdateObject::execute(FirmwareResourceId resourceId,
@@ -771,9 +787,18 @@ bool AdvancedFirmwareUpdateObject::applyDeltaUpdate(
 
     setProgress(80, "Switching partitions");
 
-    // Mark and switch
-    partitionManager->setSlotBootable(inactiveSlot, true);
-    partitionManager->switchSlot(inactiveSlot);
+    // Mark and switch - check return values
+    if (!partitionManager->setSlotBootable(inactiveSlot, true)) {
+        conflictReason_ = "Failed to set slot bootable";
+        setState(FirmwareState::UPDATE_FAILED);
+        return false;
+    }
+
+    if (!partitionManager->switchSlot(inactiveSlot)) {
+        conflictReason_ = "Failed to switch boot slot";
+        setState(FirmwareState::UPDATE_FAILED);
+        return false;
+    }
 
     return true;
 }
@@ -852,11 +877,12 @@ firmware::DeltaResult AdvancedFirmwareUpdateObject::validateDelta() {
 
 bool AdvancedFirmwareUpdateObject::applyDeltaPackage(
     const std::vector<uint8_t>& deltaData) {
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    receivedData_ = deltaData;
-    
-    mutex_.unlock();
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        receivedData_ = deltaData;
+    }  // Lock released here
+
     return startUpdate();
 }
 

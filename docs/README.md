@@ -41,7 +41,7 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Resource definitions
   - Code examples
 
-- **[Starlink Terminal Object (ID 34600)](STARLINK_TERMINAL.md)** - Starlink satellite terminal management
+- **[Starlink Terminal Object (ID 10512)](STARLINK_TERMINAL.md)** - Starlink satellite terminal management
   - 70+ resources for comprehensive monitoring and control
   - Network performance telemetry and diagnostics
   - Obstruction detection and sky view analysis
@@ -49,7 +49,7 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Alert system and power management
   - gRPC integration guide
 
-- **[MIKROBUS Object (ID 34608)](MIKROBUS_OBJECT.md)** - MIKROBUS socket and Click board management
+- **[MIKROBUS Object (ID 10520)](MIKROBUS_OBJECT.md)** - MIKROBUS socket and Click board management
   - 50+ resources for comprehensive socket control
   - Multiple instance support (one per socket)
   - Click board detection and manifest reading
@@ -113,9 +113,9 @@ This documentation provides comprehensive guides for implementing, configuring, 
 - **LwM2M COSE (ID 23)** ⭐ NEW v1.1.0 - MQTT security credentials
 - **MQTT Server (ID 24)** ⭐ NEW v1.1.0 - MQTT broker configuration
 
-#### Walt Technologies Custom Objects (34600-34608)
+#### Walt Technologies Custom Objects (10512-10520)
 
-- **Starlink Terminal (ID 34600)** ⭐ FEATURED - Comprehensive Starlink Gen3 satellite terminal management
+- **Starlink Terminal (ID 10512)** ⭐ FEATURED - Comprehensive Starlink Gen3 satellite terminal management
   - 70+ resources across 10 functional groups
   - Real-time telemetry: throughput, latency, SNR, packet loss
   - Obstruction monitoring with 12-wedge sky view analysis
@@ -127,7 +127,7 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Historical statistics and performance analytics
   - gRPC interface to 192.168.100.1:9200
 
-- **Router Management (ID 34601)** - Core router configuration and management
+- **Router Management (ID 10513)** - Core router configuration and management
   - LAN/WAN network configuration (IP addressing, subnet masks)
   - DHCP server settings (address pool, lease time, DNS servers)
   - Firewall and NAT control
@@ -135,7 +135,7 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - UPnP configuration
   - Apply configuration and reset to defaults actions
 
-- **Ethernet Interface (ID 34602)** - Ethernet port monitoring and management
+- **Ethernet Interface (ID 10514)** - Ethernet port monitoring and management
   - Multiple instances for WAN/LAN ports
   - Link status, speed (10/100/1000 Mbps), duplex mode
   - MAC address and MTU configuration
@@ -143,7 +143,7 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Error counters (TX/RX errors)
   - Interface enable/disable control
 
-- **GPIO Control (ID 34603)** - GPIO pin, LED, and button management
+- **GPIO Control (ID 10515)** - GPIO pin, LED, and button management
   - Multiple instances for different GPIO resources
   - LED control with blink patterns and intervals
   - Button state monitoring and press counters
@@ -151,7 +151,7 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Support for status LEDs, WLAN LEDs, reset buttons
   - General-purpose I/O configuration
 
-- **USB Management (ID 34604)** - USB port monitoring and control
+- **USB Management (ID 10516)** - USB port monitoring and control
   - Multiple instances for different USB ports
   - USB 2.0 and Type-C support
   - Device detection and identification (Vendor/Product ID)
@@ -159,7 +159,7 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Power management and current monitoring
   - Port enable/disable control
 
-- **Storage Management (ID 34605)** - Storage device management
+- **Storage Management (ID 10517)** - Storage device management
   - Multiple instances for NAND, NVMe, USB, SD card
   - Capacity monitoring (total, used, available)
   - Filesystem type detection (ext4, f2fs, vfat, exfat)
@@ -168,7 +168,7 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Format capability (with data loss warning)
   - Bootable storage identification
 
-- **System Monitor (ID 34606)** - Comprehensive system monitoring
+- **System Monitor (ID 10518)** - Comprehensive system monitoring
   - CPU usage percentage and frequency
   - CPU temperature monitoring
   - RAM statistics (total, used, free, cached, buffers)
@@ -177,7 +177,7 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Uptime and process count
   - Essential for device health monitoring
 
-- **Hardware Watchdog (ID 34607)** - Watchdog timer management
+- **Hardware Watchdog (ID 10519)** - Watchdog timer management
   - Hardware watchdog enable/disable
   - Timeout configuration (1-300 seconds)
   - Pet interval settings
@@ -187,7 +187,7 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Pet count and trigger count tracking
   - Boot count monitoring for reliability analysis
 
-- **MIKROBUS (ID 34608)** - MIKROBUS socket and Click board management
+- **MIKROBUS (ID 10520)** - MIKROBUS socket and Click board management
   - 50+ resources across 8 functional groups
   - Multiple instance support (one per MIKROBUS socket)
   - Automatic Click board detection via I2C EEPROM
@@ -198,9 +198,9 @@ This documentation provides comprehensive guides for implementing, configuring, 
   - Control actions: initialize, reset, shutdown
   - Status monitoring and error tracking
 
-- **Firewall Config (ID 34609)** - Firewall rule management
+- **Firewall Config (ID 10521)** - Firewall rule management
 
-- **PoE Management (ID 34610)** - Power over Ethernet control
+- **PoE Management (ID 10522)** - Power over Ethernet control
 
 #### Edge AI Object (v1.1.0)
 
@@ -271,13 +271,13 @@ Edit `wpp/configs/wpp_config.cmake`:
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_6_LOCATION)
 
 # Enable Starlink Terminal
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10512_STARLINK_TERMINAL)
 
 # Enable MIKROBUS object
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34608_MIKROBUS)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10520_MIKROBUS)
 
 # Enable System Monitor
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34606_SYSTEM_MONITOR)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10518_SYSTEM_MONITOR)
 ```
 
 ### Key File Locations
@@ -289,7 +289,7 @@ wpp/registry/objects/
 │   ├── Location.cpp
 │   ├── OpenWrtLocationInfo.h
 │   └── LocationConfig.h
-├── o_34600_starlink_terminal/ # Starlink object
+├── o_10512_starlink_terminal/ # Starlink object
 ├── m_3_device/                # Device object
 └── o_4_connectivity_monitoring/ # Connectivity object
 
@@ -400,14 +400,14 @@ This project is open source. See LICENSE file for details.
 - ✅ **A/B Partition Rollback** - Automatic recovery on update failure
 - ✅ **Block-wise Transfer** - RFC 7959 compliance
 - ✅ **Platform Abstraction Layer** - Linux, OpenWRT, Raspberry Pi
-- ✅ **Firewall Config (ID 34609)** and **PoE Management (ID 34610)** objects
+- ✅ **Firewall Config (ID 10521)** and **PoE Management (ID 10522)** objects
 
 ### Version 1.0 (November 2025)
 - ✅ Location object (ID 6) implementation
 - ✅ OpenWRT integration for Device and Connectivity Monitoring
-- ✅ Starlink Terminal object (ID 34600)
-- ✅ Walt Technologies custom objects (34601-34608)
-- ✅ MIKROBUS object (ID 34608) with Click board support
+- ✅ Starlink Terminal object (ID 10512)
+- ✅ Walt Technologies custom objects (10513-10520)
+- ✅ MIKROBUS object (ID 10520) with Click board support
 - ✅ OpenWRT One platform support
 - ✅ Comprehensive documentation
 

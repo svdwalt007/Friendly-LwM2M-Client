@@ -1,6 +1,6 @@
-# Friendly LwM2M Client v1.1.0 [<img align="right" height="100px" src="https://github.com/Friendly-Technologies/Friendly-LwM2M-Client/blob/main/logo.png">](https://hubs.li/Q02D_GnB0)
+# Friendly LwM2M Client v1.2.2 [<img align="right" height="100px" src="https://github.com/Friendly-Technologies/Friendly-LwM2M-Client/blob/main/logo.png">](https://hubs.li/Q02D_GnB0)
 
-**Version:** 1.1.0 | **LwM2M Specification:** v1.2.2 | **Last Updated:** January 2026
+**Version:** 1.2.2 | **LwM2M Specification:** v1.2.2 | **Last Updated:** January 2026
 
 This distribution contains **Friendly LwM2M client** as a reference for how to use Lightweight machine-to-machine implementations for IoT devices.
 This code is provided under the associated
@@ -8,10 +8,10 @@ This code is provided under the associated
 
 ## Table of Contents
 
-- [Friendly LwM2M Client v1.1.0](#friendly-lwm2m-client-v110)
+- [Friendly LwM2M Client v1.2.2](#friendly-lwm2m-client-v122)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
-  - [What's New in v1.1.0](#whats-new-in-v110)
+  - [What's New in v1.2.2](#whats-new-in-v122)
   - [Documentation](#documentation)
   - [Features](#features)
     - [Supported features](#supported-features)
@@ -21,6 +21,14 @@ This code is provided under the associated
     - [Command line](#command-line)
     - [VS Code](#vs-code)
     - [Configuration](#configuration)
+  - [Command-Line Options](#command-line-options)
+    - [Core Options](#core-options)
+    - [Security Options](#security-options)
+    - [CoAP Options](#coap-options)
+    - [Application Options](#application-options)
+    - [Information Options](#information-options)
+    - [Usage Examples](#usage-examples)
+    - [Security Mode Notes](#security-mode-notes)
   - [Contributing](#contributing)
   - [License](#license)
 
@@ -28,7 +36,7 @@ This code is provided under the associated
 
 Friendly LwM2M Client is an open-source Lightweight machine-to-machine (LwM2M) client implementation designed for IoT devices. LwM2M is a protocol specified by the Open Mobile Alliance (OMA) for remote device management and service enablement for M2M and IoT devices and systems, intended for both resource-constrained and high-performance edge devices.
 
-## What's New in v1.1.0
+## What's New in v1.2.2
 
 - **MQTT Transport Binding** - Full OMA LwM2M v1.2.2 Section 8 compliance with MQTT 3.1.1/5.0, CBOR encoding
 - **Edge AI Inference** - On-device ML inference with TensorFlow Lite and ONNX Runtime backends
@@ -124,14 +132,14 @@ Data Formats:
 Security:
 - PSK, Raw Public Key, Certificate, No-Sec mode
 
-**Advanced Firmware Update (v1.1.0)**
+**Advanced Firmware Update (v1.2.2)**
 - Delta algorithms: BSDIFF, VCDIFF, Courgette
 - Compression: gzip, bzip2, lzma, zstd, brotli
 - A/B partition management with automatic rollback
 - Block-wise transfer (RFC 7959)
 - Integrity verification with SHA-256
 
-**Edge AI Inference (v1.1.0)**
+**Edge AI Inference (v1.2.2)**
 - TensorFlow Lite backend
 - ONNX Runtime backend
 - Hardware acceleration: CPU, GPU, NPU, TPU
@@ -195,6 +203,8 @@ After successfully completing these steps, we will have a fully configured envir
     ./WppExample
     ```
 
+    For advanced configuration, see [Command-Line Options](#command-line-options) below.
+
 ### VS Code
 
 1. Download [Visual Studio Code](https://code.visualstudio.com/download).
@@ -209,15 +219,188 @@ After successfully completing these steps, we will have a fully configured envir
 
 ### Configuration
 
-The generated client example is configured using the source file: `Friendly-LwM2M-Client/examples/objects.cpp`. After changing the configuration, the client example should be built again.
+The generated client example can be configured in two ways:
+
+1. **Command-Line Options** (Runtime) - See [Command-Line Options](#command-line-options) for flexible runtime configuration
+2. **Source Code** - Edit `Friendly-LwM2M-Client/examples/objects.cpp` and rebuild
 
 By default, `WppExample` has the following configurations:
-1. COAP server: coaps://demodm.friendly-tech.com:5684.
-2. DTLS enabled.
-3. Data formats: CBOR, SENML CBOR, SENML JSON, JSON, TLV.
-4. Objects: DEVICE, LWM2M SERVER, LWM2M SECURITY, CONNECTIVITY MONITORING, LWM2M ACCESS CONTROL, FIRMWARE UPDATE, WLAN CONNECTIVITY, BEARER SELECTION.
+1. COAP server: coap://demo-iot.friendly-tech.com:5680
+2. Endpoint name: walttech888
+3. Bootstrap mode: enabled
+4. Security: none (can be changed via CLI to PSK, RPK, or Certificate)
+5. Data formats: CBOR, SENML CBOR, SENML JSON, JSON, TLV
+6. Objects: DEVICE, LWM2M SERVER, LWM2M SECURITY, CONNECTIVITY MONITORING, LWM2M ACCESS CONTROL, FIRMWARE UPDATE, WLAN CONNECTIVITY, BEARER SELECTION
 
 Note: The example can be configured to enable additional objects including Walt Technologies objects (34600-34608) for specialized OpenWRT router functionality.
+
+## Command-Line Options
+
+The Friendly LwM2M Client supports extensive command-line configuration, allowing runtime customization without rebuilding. All options are optional and have sensible defaults.
+
+### Core Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `-n, --name=NAME` | LwM2M endpoint identifier | `walttech888` |
+| `-u, --uri=URI` | LwM2M server URI (coap:// or coaps://) | `coap://demo-iot.friendly-tech.com:5680` |
+| `-p, --port=PORT` | Local UDP port to bind | `56830` |
+| `-l, --lifetime=SECONDS` | Registration lifetime in seconds | `25` |
+| `-4, --ipv4` | Use IPv4 address family | enabled |
+| `-6, --ipv6` | Use IPv6 address family | disabled |
+| `-b, --bootstrap` | Enable bootstrap mode | enabled |
+| `-B, --no-bootstrap` | Disable bootstrap mode | - |
+
+### Security Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `-s, --security=MODE` | Security mode: `none`, `psk`, `rpk`, or `cert` | `none` |
+| `-i, --psk-identity=ID` | PSK identity string (required for PSK mode) | - |
+| `-k, --psk-key=KEY` | PSK key as hex string (required for PSK mode) | - |
+| `--rpk-public=KEY` | RPK public key as hex string | - |
+| `--rpk-private=KEY` | RPK private key as hex string | - |
+| `--cert=FILE` | Certificate file path (PEM format) | - |
+| `--key=FILE` | Private key file path (PEM format) | - |
+| `--ca=FILE` | CA certificate file path (PEM format) | - |
+
+### CoAP Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--block-size=SIZE` | CoAP block size in bytes (16-1024, must be power of 2) | `1024` |
+
+### Application Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `-v, --verbose` | Increase verbosity (can be repeated: -v, -vv, -vvv) | `0` |
+| `-q, --quiet` | Suppress non-error output | disabled |
+| `-d, --daemon` | Run as daemon process | disabled |
+| `-c, --config=FILE` | Load configuration from file | - |
+
+### Information Options
+
+| Option | Description |
+|--------|-------------|
+| `-h, --help` | Display help message and exit |
+| `-V, --version` | Display version information and exit |
+
+### Usage Examples
+
+#### Default Usage (Backward Compatible)
+
+Run with default settings:
+
+```sh
+./WppExample
+```
+
+This connects to the default demo server with no security.
+
+#### Custom Endpoint and Server
+
+Connect to a custom server with custom endpoint name:
+
+```sh
+./WppExample --name my-device-001 --uri coap://server.example.com:5683
+```
+
+#### PSK Security Mode
+
+Use Pre-Shared Key authentication:
+
+```sh
+./WppExample --security psk \
+  --psk-identity mydevice \
+  --psk-key 00112233445566778899aabbccddeeff \
+  --uri coaps://secure.example.com:5684
+```
+
+Note: PSK mode requires both `--psk-identity` and `--psk-key`. The key must be a valid hex string.
+
+#### Certificate-Based Security
+
+Use X.509 certificate authentication:
+
+```sh
+./WppExample --security cert \
+  --cert /path/to/device-cert.pem \
+  --key /path/to/device-key.pem \
+  --ca /path/to/ca-cert.pem \
+  --uri coaps://secure.example.com:5684
+```
+
+#### IPv6 with Custom Lifetime
+
+Use IPv6 with custom registration lifetime:
+
+```sh
+./WppExample --ipv6 \
+  --uri coap://[2001:db8::1]:5683 \
+  --lifetime 300
+```
+
+#### Disable Bootstrap
+
+Connect directly without bootstrap:
+
+```sh
+./WppExample --no-bootstrap --uri coap://server.example.com:5683
+```
+
+#### Verbose Debug Output
+
+Enable maximum verbosity for troubleshooting:
+
+```sh
+./WppExample -vvv
+```
+
+Verbosity levels:
+- `-v`: Basic debug information
+- `-vv`: Detailed debug information
+- `-vvv`: Maximum debug output
+
+#### Custom Block Size
+
+Adjust CoAP block transfer size:
+
+```sh
+./WppExample --block-size 512
+```
+
+Valid block sizes: 16, 32, 64, 128, 256, 512, 1024 bytes
+
+#### Combined Options
+
+Production deployment with PSK, IPv4, custom lifetime:
+
+```sh
+./WppExample \
+  --name production-sensor-42 \
+  --uri coaps://lwm2m.company.com:5684 \
+  --security psk \
+  --psk-identity sensor-42 \
+  --psk-key 0123456789abcdef0123456789abcdef \
+  --lifetime 3600 \
+  --ipv4 \
+  --no-bootstrap \
+  --quiet
+```
+
+### Security Mode Notes
+
+- **none**: No security, uses plain CoAP (not recommended for production)
+- **psk**: Pre-Shared Key mode, requires both identity and key
+- **rpk**: Raw Public Key mode, requires public and private keys
+- **cert**: Certificate mode, requires certificate, private key, and CA certificate
+
+When using secure modes (`psk`, `rpk`, `cert`), ensure the URI scheme matches:
+- Use `coaps://` for secure connections
+- Use `coap://` for non-secure connections
+
+The client will warn about scheme/security mode mismatches but will attempt to proceed.
 
 ## Contributing
 

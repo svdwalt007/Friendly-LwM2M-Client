@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <numeric>
 #include <cmath>
+#include <cstring>
 #include <fstream>
 #include <sstream>
 #include <thread>
@@ -46,6 +47,7 @@ EdgeAIInferenceObject::EdgeAIInferenceObject(uint16_t instanceId, const Config& 
 }
 
 EdgeAIInferenceObject::~EdgeAIInferenceObject() {
+    stopAllThreads();
     unloadModel();
 }
 
@@ -562,25 +564,35 @@ bool EdgeAIInferenceObject::downloadModel(const std::string& uri) {
     setModelState(ModelState::DOWNLOADING);
     downloadProgress_ = 0;
 
-    // Start download in background thread
-    std::thread([this, uri]() {
-        // Simulate download progress
-        for (int i = 0; i <= 100; i += 10) {
-            if (modelState_ != ModelState::DOWNLOADING) break;
-            downloadProgress_ = i;
-            if (downloadProgressCallback_) {
-                downloadProgressCallback_(i, i < 100 ? "Downloading..." : "Complete");
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    // Stop any existing download thread
+    {
+        std::lock_guard<std::mutex> lock(threadMutex_);
+        if (downloadThread_ && downloadThread_->joinable()) {
+            shouldStop_ = true;
+            downloadThread_->join();
+            shouldStop_ = false;
         }
 
-        if (modelState_ == ModelState::DOWNLOADING) {
-            // In real implementation, save downloaded model and load it
-            setModelState(ModelState::VALIDATING);
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
-            setModelState(ModelState::IDLE);
-        }
-    }).detach();
+        // Start new download in managed thread
+        downloadThread_ = std::make_unique<std::thread>([this, uri]() {
+            // Simulate download progress
+            for (int i = 0; i <= 100 && !shouldStop_; i += 10) {
+                if (modelState_ != ModelState::DOWNLOADING) break;
+                downloadProgress_ = i;
+                if (downloadProgressCallback_) {
+                    downloadProgressCallback_(i, i < 100 ? "Downloading..." : "Complete");
+                }
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
+
+            if (!shouldStop_ && modelState_ == ModelState::DOWNLOADING) {
+                // In real implementation, save downloaded model and load it
+                setModelState(ModelState::VALIDATING);
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+                setModelState(ModelState::IDLE);
+            }
+        });
+    }
 
     return true;
 }
@@ -840,12 +852,23 @@ bool EdgeAIInferenceObject::runInferenceAsync(const std::vector<uint8_t>& inputD
         return false;
     }
 
-    std::thread([this, inputData, callback]() {
-        auto result = runInference(inputData);
-        if (callback) {
-            callback(result);
+    // Stop any existing inference thread
+    {
+        std::lock_guard<std::mutex> lock(threadMutex_);
+        if (inferenceThread_ && inferenceThread_->joinable()) {
+            inferenceThread_->join();
         }
-    }).detach();
+
+        // Start new inference in managed thread
+        inferenceThread_ = std::make_unique<std::thread>([this, inputData, callback]() {
+            if (!shouldStop_) {
+                auto result = runInference(inputData);
+                if (callback && !shouldStop_) {
+                    callback(result);
+                }
+            }
+        });
+    }
 
     return true;
 }
@@ -1090,8 +1113,8 @@ void EdgeAIInferenceObject::calculatePercentiles() {
     std::sort(sorted.begin(), sorted.end());
 
     size_t n = sorted.size();
-    stats_.latencyP50 = sorted[static_cast<size_t>(n * 0.50)];
-    stats_.latencyP95 = sorted[static_cast<size_t>(n * 0.95)];
+    stats_.latencyP50 = sorted[std::min(static_cast<size_t>(n * 0.50), n - 1)];
+    stats_.latencyP95 = sorted[std::min(static_cast<size_t>(n * 0.95), n - 1)];
     stats_.latencyP99 = sorted[std::min(static_cast<size_t>(n * 0.99), n - 1)];
 }
 
@@ -1213,6 +1236,31 @@ std::vector<AcceleratorType> EdgeAIInferenceObjectFactory::getAvailableAccelerat
 
     // GPU detection would require runtime checks
     return accelerators;
+}
+
+// ============================================================================
+// Thread Management
+// ============================================================================
+
+void EdgeAIInferenceObject::stopAllThreads() {
+    shouldStop_ = true;
+
+    // Stop and join download thread
+    {
+        std::lock_guard<std::mutex> lock(threadMutex_);
+        if (downloadThread_ && downloadThread_->joinable()) {
+            downloadThread_->join();
+            downloadThread_.reset();
+        }
+
+        // Stop and join inference thread
+        if (inferenceThread_ && inferenceThread_->joinable()) {
+            inferenceThread_->join();
+            inferenceThread_.reset();
+        }
+    }
+
+    shouldStop_ = false;
 }
 
 } // namespace objects

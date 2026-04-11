@@ -350,23 +350,23 @@ Root CA (offline, HSM protected)
 | 10521 | Firewall Config | iptables/nftables config | MAY understand |
 | 10522 | PoE Management | PoE port control | MAY understand |
 
-### 4.4 Walt Technologies Extended Objects (34611-34623)
+### 4.4 Walt Technologies Extended Objects (10525-10537)
 
 | Object ID | Name | Description | Server Gap |
 |-----------|------|-------------|-----------|
-| 34611 | WAN Failover Policy | Multi-WAN failover | MAY understand |
-| 34612 | Multi-WAN Health Check | WAN health monitoring | MAY understand |
-| 34613 | WiFi Client Management | WiFi client tracking | MAY understand |
-| 34614 | WiFi Channel Optimization | Channel selection | MAY understand |
-| 34615 | Matter Bridge | Matter protocol bridge | MAY understand |
-| 34616 | Matter Device | Matter device representation | MAY understand |
-| 34617 | Thread Network | Thread mesh management | MAY understand |
-| 34618 | Zigbee Coordinator | Zigbee coordinator control | MAY understand |
-| 34619 | Zigbee Device | Zigbee device representation | MAY understand |
-| 34620 | Zigbee Group | Zigbee group management | MAY understand |
-| 34621 | LAN Configuration | LAN network config | MAY understand |
-| 34622 | Routing Table | IP routing management | MAY understand |
-| 34623 | VPN Configuration | VPN tunnel config | MAY understand |
+| 10525 | WAN Failover Policy | Multi-WAN failover | MAY understand |
+| 10526 | Multi-WAN Health Check | WAN health monitoring | MAY understand |
+| 10527 | WiFi Client Management | WiFi client tracking | MAY understand |
+| 10528 | WiFi Channel Optimization | Channel selection | MAY understand |
+| 10529 | Matter Bridge | Matter protocol bridge | MAY understand |
+| 10530 | Matter Device | Matter device representation | MAY understand |
+| 10531 | Thread Network | Thread mesh management | MAY understand |
+| 10532 | Zigbee Coordinator | Zigbee coordinator control | MAY understand |
+| 10533 | Zigbee Device | Zigbee device representation | MAY understand |
+| 10534 | Zigbee Group | Zigbee group management | MAY understand |
+| 10535 | LAN Configuration | LAN network config | MAY understand |
+| 10536 | Routing Table | IP routing management | MAY understand |
+| 10537 | VPN Configuration | VPN tunnel config | MAY understand |
 
 ---
 
@@ -561,7 +561,7 @@ The Friendly LwM2M Client provides comprehensive LwM2M support with full LwM2M 1
 4. **Bootstrap Server** - Enables scalable device provisioning
 5. **Multiple Data Formats** - TLV, JSON, and SenML for flexibility
 
-The custom Walt Technologies objects (10512-10522, 34611-34623) provide rich device management capabilities for OpenWRT-based routers and IoT gateways, including Zigbee, Matter, and Thread protocol support.
+The custom Walt Technologies objects (10512-10522, 10525-10537) provide rich device management capabilities for OpenWRT-based routers and IoT gateways, including Zigbee, Matter, and Thread protocol support.
 
 ---
 
@@ -593,7 +593,7 @@ void securityInit(WppClient &client) {
 ## Appendix B: Object XML Files Location
 
 All Walt Technologies LwM2M Object XML definitions are available at:
-- `utils/object_maker/` - Individual XML files (10512-10522.xml, 34611-34623.xml)
+- `utils/object_maker/` - Individual XML files (10512-10522.xml, 10525-10537.xml)
 - `utils/object_maker/walt_technologies_lwm2m_objects.zip` - Complete package
 - `utils/object_maker/DDF_Walt_Technologies.xml` - OMA Registry entries
 

@@ -1,8 +1,8 @@
-# Hardware Watchdog LWM2M Object (34607)
+# Hardware Watchdog LWM2M Object (10519)
 
 ## Overview
 
-This document describes the implementation of the Hardware Watchdog LWM2M Object (ID: 34607) for the Friendly LWM2M Client, specifically designed for OpenWRT One Router and similar embedded Linux systems.
+This document describes the implementation of the Hardware Watchdog LWM2M Object (ID: 10519) for the Friendly LWM2M Client, specifically designed for OpenWRT One Router and similar embedded Linux systems.
 
 ## Table of Contents
 
@@ -27,8 +27,8 @@ The Hardware Watchdog object provides remote monitoring and management of hardwa
 
 ### Object Information
 
-- **Object ID**: 34607
-- **Object URN**: urn:oma:lwm2m:x:34607
+- **Object ID**: 10519
+- **Object URN**: urn:oma:lwm2m:x:10519
 - **Object Name**: Hardware Watchdog
 - **Multiple Instances**: Single
 - **Mandatory**: Optional
@@ -37,7 +37,7 @@ The Hardware Watchdog object provides remote monitoring and management of hardwa
 
 ### Namespace
 
-This object uses the Walt Technologies custom object ID range (34600-34649). Object IDs 34600-34606 are reserved for other implementations.
+This object uses the Walt Technologies custom object ID range (10512-34649). Object IDs 10512-10518 are reserved for other implementations.
 
 ## OpenWRT Integration
 
@@ -159,37 +159,37 @@ OpenWRT's `procd` normally manages the watchdog. When using this LWM2M object:
 Using CoAP/LWM2M commands:
 
 ```
-WRITE /34607/0/0 true           # Enable watchdog
-WRITE /34607/0/1 60             # Set timeout to 60 seconds
-WRITE /34607/0/2 10             # Set interval to 10 seconds
+WRITE /10519/0/0 true           # Enable watchdog
+WRITE /10519/0/1 60             # Set timeout to 60 seconds
+WRITE /10519/0/2 10             # Set interval to 10 seconds
 ```
 
 ### Example 2: Monitor Watchdog Status
 
 ```
-READ /34607/0/3                 # Get status
-READ /34607/0/8                 # Get pet count
-READ /34607/0/9                 # Get trigger count
-READ /34607/0/12                # Get boot count
+READ /10519/0/3                 # Get status
+READ /10519/0/8                 # Get pet count
+READ /10519/0/9                 # Get trigger count
+READ /10519/0/12                # Get boot count
 ```
 
 ### Example 3: Manual Pet
 
 ```
-EXECUTE /34607/0/6              # Manually pet the watchdog
+EXECUTE /10519/0/6              # Manually pet the watchdog
 ```
 
 ### Example 4: Reset to Defaults
 
 ```
-EXECUTE /34607/0/7              # Reset configuration
+EXECUTE /10519/0/7              # Reset configuration
 ```
 
 ### Example 5: Programmatic Usage in C++
 
 ```cpp
 #include "WppClient.h"
-#include "o_34607_hardware_watchdog/HardwareWatchdog.h"
+#include "o_10519_hardware_watchdog/HardwareWatchdog.h"
 
 // Initialize watchdog
 hardwareWatchdogInit(client);
@@ -222,21 +222,21 @@ wd->stopWatchdog();
 Enable the watchdog object in your CMake configuration:
 
 ```cmake
-set(OBJ_O_34607_HARDWARE_WATCHDOG ON)
+set(OBJ_O_10519_HARDWARE_WATCHDOG ON)
 ```
 
 Or use object_maker to enable all optional resources:
 
 ```cmake
-set(RES_34607_4 ON)   # Last Pet Time
-set(RES_34607_5 ON)   # Magic Close Enable
-set(RES_34607_6 ON)   # Pet Watchdog Execute
-set(RES_34607_7 ON)   # Reset Watchdog Execute
-set(RES_34607_8 ON)   # Pet Count
-set(RES_34607_9 ON)   # Trigger Count
-set(RES_34607_10 ON)  # Device Path
-set(RES_34607_11 ON)  # Hardware Timeout
-set(RES_34607_12 ON)  # Boot Count
+set(RES_10519_4 ON)   # Last Pet Time
+set(RES_10519_5 ON)   # Magic Close Enable
+set(RES_10519_6 ON)   # Pet Watchdog Execute
+set(RES_10519_7 ON)   # Reset Watchdog Execute
+set(RES_10519_8 ON)   # Pet Count
+set(RES_10519_9 ON)   # Trigger Count
+set(RES_10519_10 ON)  # Device Path
+set(RES_10519_11 ON)  # Hardware Timeout
+set(RES_10519_12 ON)  # Boot Count
 ```
 
 ### Runtime Configuration Files
@@ -413,7 +413,7 @@ BSD 3-Clause License - See source files for details
 
 For issues or questions:
 - GitHub Issues: [Friendly-LwM2M-Client](https://github.com/Friendly-Technologies/Friendly-LwM2M-Client)
-- LWM2M Registry: Objects 34600-34649 reserved for Walt Technologies
+- LWM2M Registry: Objects 10512-34649 reserved for Walt Technologies
 
 ## Version History
 

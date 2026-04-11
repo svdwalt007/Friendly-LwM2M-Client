@@ -134,7 +134,7 @@ The Location object queries GPS sources in the following order:
 
 **Requirements:**
 - Starlink dish accessible at 192.168.100.1:9200
-- Object OBJ_O_34600_STARLINK_TERMINAL enabled
+- Object OBJ_O_10512_STARLINK_TERMINAL enabled
 - grpcurl installed (optional, for gRPC calls)
 
 **Data Retrieved:**
@@ -508,11 +508,11 @@ uci show lwm2m.location
 **Solution:**
 ```bash
 # Check Starlink GPS status
-# Object 34600, Resource 82 (GPS_SATELLITES)
+# Object 10512, Resource 82 (GPS_SATELLITES)
 # Should be > 4 for good fix
 
 # Check GPS valid flag
-# Object 34600, Resource 80 (GPS_READY)
+# Object 10512, Resource 80 (GPS_READY)
 # Should be true
 ```
 
@@ -534,12 +534,12 @@ uci show lwm2m.location
 
 ## Integration with Other Objects
 
-### Starlink Terminal (ID 34600)
+### Starlink Terminal (ID 10512)
 
 The Location object can read GPS data directly from the Starlink Terminal object resources:
 
 ```cpp
-// Starlink Terminal GPS resources (Object 34600):
+// Starlink Terminal GPS resources (Object 10512):
 // - GPS_READY_80 (Resource 80)      - Boolean: GPS fix available
 // - GPS_ENABLED_81 (Resource 81)    - Boolean: GPS enabled on terminal
 // - GPS_SATELLITES_82 (Resource 82) - Integer: Number of satellites in use
@@ -565,7 +565,7 @@ double lon = OpenWrtLocationInfo::getLongitude();   // Then tries gpsd, then UCI
 **Integration Example:**
 
 ```cpp
-#ifdef OBJ_O_34600_STARLINK_TERMINAL
+#ifdef OBJ_O_10512_STARLINK_TERMINAL
 // Both objects enabled - Location automatically uses Starlink GPS
 locationInit(client);           // Uses Starlink GPS via OpenWrtLocationInfo
 starlinkTerminalInit(client);   // Provides GPS data on resources 80-85

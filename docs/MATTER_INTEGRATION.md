@@ -62,14 +62,14 @@ src/matter/
 └── CMakeLists.txt               # Build configuration
 
 wpp/registry/objects/
-├── w_34615_matter_bridge/        # Matter Bridge LwM2M Object
-├── w_34616_matter_device/        # Matter Device LwM2M Object
-└── w_34617_thread_network/       # Thread Network LwM2M Object
+├── w_10529_matter_bridge/        # Matter Bridge LwM2M Object
+├── w_10530_matter_device/        # Matter Device LwM2M Object
+└── w_10531_thread_network/       # Thread Network LwM2M Object
 ```
 
 ### LwM2M Objects
 
-#### Object 34615 - Matter Bridge
+#### Object 10529 - Matter Bridge
 The Matter Bridge object provides Matter controller functionality via LwM2M:
 
 **Resources:**
@@ -85,7 +85,7 @@ The Matter Bridge object provides Matter controller functionality via LwM2M:
 - `9` - Discover Devices (E): Start device discovery
 - `10` - Enable Thread BR (E): Enable Thread Border Router
 
-#### Object 34616 - Matter Device
+#### Object 10530 - Matter Device
 Represents a commissioned Matter device:
 
 **Resources:**
@@ -107,7 +107,7 @@ Represents a commissioned Matter device:
 - `15` - Write Attribute (E): Write any cluster attribute
 - `16` - Send Command (E): Send any cluster command
 
-#### Object 34617 - Thread Network
+#### Object 10531 - Thread Network
 Thread network configuration and management:
 
 **Resources:**
@@ -174,9 +174,9 @@ make
 
 - `WITH_MATTER_SDK`: Enable Matter SDK integration (default: OFF)
 - `MATTER_SDK_ROOT`: Path to Matter SDK installation
-- `OBJ_W_34615_MATTER_BRIDGE`: Enable Matter Bridge object (default: ON)
-- `OBJ_W_34616_MATTER_DEVICE`: Enable Matter Device object (default: ON)
-- `OBJ_W_34617_THREAD_NETWORK`: Enable Thread Network object (default: ON)
+- `OBJ_W_10529_MATTER_BRIDGE`: Enable Matter Bridge object (default: ON)
+- `OBJ_W_10530_MATTER_DEVICE`: Enable Matter Device object (default: ON)
+- `OBJ_W_10531_THREAD_NETWORK`: Enable Thread Network object (default: ON)
 
 ## Usage Examples
 
@@ -282,57 +282,57 @@ if (controller.enableThreadBorderRouter(
 # Using lwm2m-client CLI
 
 # 1. Check controller status
-lwm2m read /34615/0/0
+lwm2m read /10529/0/0
 
 # 2. Commission device with QR code
-lwm2m execute /34615/0/7 "MT:Y.K9042C00KA0648G00"
+lwm2m execute /10529/0/7 "MT:Y.K9042C00KA0648G00"
 
 # 3. Monitor commissioning status
-lwm2m observe /34615/0/0
+lwm2m observe /10529/0/0
 
 # 4. Check commissioned devices count
-lwm2m read /34615/0/1
+lwm2m read /10529/0/1
 ```
 
 #### Control Device via LwM2M
 ```bash
 # Find commissioned device
-lwm2m read /34616/0/0  # Read node ID
+lwm2m read /10530/0/0  # Read node ID
 
 # Turn light on
-lwm2m execute /34616/0/13 "on"
+lwm2m execute /10530/0/13 "on"
 
 # Turn light off
-lwm2m execute /34616/0/13 "off"
+lwm2m execute /10530/0/13 "off"
 
 # Read OnOff state
-lwm2m execute /34616/0/14 "1:6:0"
+lwm2m execute /10530/0/14 "1:6:0"
 
 # Write Level (set to 50%)
-lwm2m execute /34616/0/15 "1:8:0:128"
+lwm2m execute /10530/0/15 "1:8:0:128"
 
 # Send MoveToLevel command
-lwm2m execute /34616/0/16 '1:8:0:{"level":128,"transitionTime":10}'
+lwm2m execute /10530/0/16 '1:8:0:{"level":128,"transitionTime":10}'
 ```
 
 #### Configure Thread Network
 ```bash
 # Set network parameters
-lwm2m write /34617/0/0 "home-thread"        # Network name
-lwm2m write /34617/0/1 4660                 # PAN ID (0x1234)
-lwm2m write /34617/0/2 15                   # Channel
+lwm2m write /10531/0/0 "home-thread"        # Network name
+lwm2m write /10531/0/1 4660                 # PAN ID (0x1234)
+lwm2m write /10531/0/2 15                   # Channel
 
 # Create network
-lwm2m execute /34617/0/9
+lwm2m execute /10531/0/9
 
 # Start Border Router
-lwm2m execute /34617/0/10
+lwm2m execute /10531/0/10
 
 # Check Border Router state
-lwm2m read /34617/0/6  # 3 = Running
+lwm2m read /10531/0/6  # 3 = Running
 
 # Get operational dataset
-lwm2m read /34617/0/7
+lwm2m read /10531/0/7
 ```
 
 ## Device Type Support

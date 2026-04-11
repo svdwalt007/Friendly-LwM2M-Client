@@ -10,12 +10,15 @@
 
 using namespace wpp;
 
+// Forward declaration for CLI options
+struct CliOptions;
+
 #define TEST_SERVER_SHORT_ID 123
 
 /* ------------- Methods to init objects ------------- */
-void serverInit(WppClient &client);
+void serverInit(WppClient &client, const CliOptions& options);
 
-void securityInit(WppClient &client);
+void securityInit(WppClient &client, const CliOptions& options);
 
 void deviceInit(WppClient &client);
 
@@ -47,48 +50,48 @@ void bearerSelectionInit(WppClient &client);
 void audioClipInit(WppClient &client);
 #endif
 
-#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+#ifdef OBJ_O_10519_HARDWARE_WATCHDOG
 void hardwareWatchdogInit(WppClient &client);
 #endif
 
 /* ---------- Walt Technologies objects init declarations ---------- */
-#ifdef OBJ_O_34600_STARLINK_TERMINAL
+#ifdef OBJ_O_10512_STARLINK_TERMINAL
 void starlinkTerminalInit(WppClient &client);
 #endif
 
-#ifdef OBJ_O_34608_MIKROBUS
+#ifdef OBJ_O_10520_MIKROBUS
 void mikrobusInit(WppClient &client);
 #endif
 
-#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+#ifdef OBJ_W_10513_ROUTER_MANAGEMENT
 void routerManagementInit(WppClient &client);
 #endif
 
-#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+#ifdef OBJ_W_10514_ETHERNET_INTERFACE
 void ethernetInterfaceInit(WppClient &client);
 #endif
 
-#ifdef OBJ_W_34603_GPIO_CONTROL
+#ifdef OBJ_W_10515_GPIO_CONTROL
 void gpioControlInit(WppClient &client);
 #endif
 
-#ifdef OBJ_W_34604_USB_MANAGEMENT
+#ifdef OBJ_W_10516_USB_MANAGEMENT
 void usbManagementInit(WppClient &client);
 #endif
 
-#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+#ifdef OBJ_W_10517_STORAGE_MANAGEMENT
 void storageManagementInit(WppClient &client);
 #endif
 
-#ifdef OBJ_W_34606_SYSTEM_MONITOR
+#ifdef OBJ_W_10518_SYSTEM_MONITOR
 void systemMonitorInit(WppClient &client);
 #endif
 
-#ifdef OBJ_W_34609_FIREWALL_CONFIG
+#ifdef OBJ_W_10521_FIREWALL_CONFIG
 void firewallConfigInit(WppClient &client);
 #endif
 
-#ifdef OBJ_W_34610_POE_MANAGEMENT
+#ifdef OBJ_W_10522_POE_MANAGEMENT
 void poeManagementInit(WppClient &client);
 #endif
 

@@ -4,6 +4,7 @@
 
 #include "Connection.h"
 #include "objects.h"
+#include "cli_options.h"
 
 using namespace std;
 using namespace wpp;
@@ -38,17 +39,43 @@ void wppErrorHandler(WppClient &client, int errCode) {
 // Found Wakaama bugs:
 // TODO: Device work with NON confirmation messages
 
-int main() {
+int main(int argc, char* argv[]) {
+	// Parse command-line options
+	CliOptions options;
+	if (!parseCliOptions(argc, argv, options)) {
+		return 1;
+	}
+
+	// Print configuration summary
+	if (!options.quiet && options.verbosity > 0) {
+		cout << "==================================================" << endl;
+		cout << "  Friendly LwM2M Client Configuration" << endl;
+		cout << "==================================================" << endl;
+		cout << "Endpoint Name:    " << options.endpoint_name << endl;
+		cout << "Server URI:       " << options.server_uri << endl;
+		cout << "Local Port:       " << options.local_port << endl;
+		cout << "Lifetime:         " << options.lifetime << " seconds" << endl;
+		cout << "Address Family:   " << (options.address_family == AF_INET ? "IPv4" : "IPv6") << endl;
+		cout << "Bootstrap Mode:   " << (options.use_bootstrap ? "Enabled" : "Disabled") << endl;
+		cout << "Security Mode:    ";
+		switch (options.security_mode) {
+			case SecurityMode::NONE: cout << "None"; break;
+			case SecurityMode::PSK:  cout << "PSK"; break;
+			case SecurityMode::RPK:  cout << "RPK"; break;
+			case SecurityMode::CERT: cout << "Certificate"; break;
+		}
+		cout << endl;
+		cout << "==================================================" << endl;
+	}
+
 	cout << endl << "---- Creating required components ----" << endl;
-	Connection connection("56830", AF_INET);
+	// CLI: Use local port and address family from command-line options
+	Connection connection(options.local_port, options.address_family);
 
 	// Client initialization
 	cout << endl << "---- Creating WppClient ----" << endl;
-	// LwM2M Bootstrap Configuration:
-	// - Endpoint Name: walttech888
-	// - Bootstrap Server: coap://demo-iot.friendly-tech.com:5680
-	// - Security Mode: NO_SEC (no DTLS encryption)
-	string clientName = "walttech888"; // OpenWRT One endpoint name
+	// CLI: Use endpoint name from command-line options
+	string clientName = options.endpoint_name;
 	cout << "WppClient name: " << clientName << endl;
 	WppClient::create({clientName, "", ""}, connection, wppErrorHandler);
 	WppClient *client = WppClient::takeOwnershipBlocking();
@@ -58,9 +85,11 @@ int main() {
 	acInit(*client);
 	#endif
 	cout << endl << "---- Initialization wpp Server ----" << endl;
-	serverInit(*client);
+	// CLI: Pass options to serverInit
+	serverInit(*client, options);
 	cout << endl << "---- Initialization wpp Security ----" << endl;
-	securityInit(*client);
+	// CLI: Pass options to securityInit
+	securityInit(*client, options);
 	cout << endl << "---- Initialization wpp Device ----" << endl;
 	deviceInit(*client);
 	#ifdef OBJ_O_5_FIRMWARE_UPDATE
@@ -87,49 +116,49 @@ int main() {
 	cout << endl << "---- Initialization wpp AudioClip ----" << endl;
 	audioClipInit(*client);
 	#endif
-	#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+	#ifdef OBJ_O_10519_HARDWARE_WATCHDOG
 	cout << endl << "---- Initialization wpp HardwareWatchdog ----" << endl;
 	hardwareWatchdogInit(*client);
 	#endif
 
 	/* ---------- Walt Technologies objects initialization ---------- */
-	#ifdef OBJ_O_34600_STARLINK_TERMINAL
+	#ifdef OBJ_O_10512_STARLINK_TERMINAL
 	cout << endl << "---- Initialization Walt Technologies StarlinkTerminal ----" << endl;
 	starlinkTerminalInit(*client);
 	#endif
-	#ifdef OBJ_O_34608_MIKROBUS
+	#ifdef OBJ_O_10520_MIKROBUS
 	cout << endl << "---- Initialization Walt Technologies MIKROBUS ----" << endl;
 	mikrobusInit(*client);
 	#endif
-	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+	#ifdef OBJ_W_10513_ROUTER_MANAGEMENT
 	cout << endl << "---- Initialization wpp RouterManagement ----" << endl;
 	routerManagementInit(*client);
 	#endif
-	#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+	#ifdef OBJ_W_10514_ETHERNET_INTERFACE
 	cout << endl << "---- Initialization wpp EthernetInterface ----" << endl;
 	ethernetInterfaceInit(*client);
 	#endif
-	#ifdef OBJ_W_34603_GPIO_CONTROL
+	#ifdef OBJ_W_10515_GPIO_CONTROL
 	cout << endl << "---- Initialization wpp GpioControl ----" << endl;
 	gpioControlInit(*client);
 	#endif
-	#ifdef OBJ_W_34604_USB_MANAGEMENT
+	#ifdef OBJ_W_10516_USB_MANAGEMENT
 	cout << endl << "---- Initialization wpp UsbManagement ----" << endl;
 	usbManagementInit(*client);
 	#endif
-	#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+	#ifdef OBJ_W_10517_STORAGE_MANAGEMENT
 	cout << endl << "---- Initialization wpp StorageManagement ----" << endl;
 	storageManagementInit(*client);
 	#endif
-	#ifdef OBJ_W_34606_SYSTEM_MONITOR
+	#ifdef OBJ_W_10518_SYSTEM_MONITOR
 	cout << endl << "---- Initialization wpp SystemMonitor ----" << endl;
 	systemMonitorInit(*client);
 	#endif
-	#ifdef OBJ_W_34609_FIREWALL_CONFIG
+	#ifdef OBJ_W_10521_FIREWALL_CONFIG
 	cout << endl << "---- Initialization wpp FirewallConfig ----" << endl;
 	firewallConfigInit(*client);
 	#endif
-	#ifdef OBJ_W_34610_POE_MANAGEMENT
+	#ifdef OBJ_W_10522_POE_MANAGEMENT
 	cout << endl << "---- Initialization wpp PoeManagement ----" << endl;
 	poeManagementInit(*client);
 	#endif

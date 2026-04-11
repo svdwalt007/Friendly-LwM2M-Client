@@ -540,7 +540,7 @@ bool getManualLocation(double& lat, double& lon, double& alt) {
 
 ## Starlink Terminal Integration
 
-### Starlink Terminal Object (ID 34600)
+### Starlink Terminal Object (ID 10512)
 
 Comprehensive management and monitoring of Starlink Gen3 satellite terminals via gRPC interface.
 
@@ -568,14 +568,14 @@ grpcurl -plaintext 192.168.100.1:9200 list
 **wpp/configs/wpp_config.cmake:**
 ```cmake
 # Enable Starlink Terminal object
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10512_STARLINK_TERMINAL)
 ```
 
 #### Initialize in Application
 
 **examples/objects.cpp:**
 ```cpp
-#ifdef OBJ_O_34600_STARLINK_TERMINAL
+#ifdef OBJ_O_10512_STARLINK_TERMINAL
 void starlinkTerminalInit(WppClient &client) {
     client.registry().registerObj(StarlinkTerminal::object(client));
     StarlinkTerminal::createInst(client);
@@ -710,22 +710,22 @@ The Starlink Terminal object provides 70+ resources organized into:
 
 ```bash
 # Monitor Starlink connection state via LwM2M
-# Object 34600, Resource 3: CONNECTION_STATE
+# Object 10512, Resource 3: CONNECTION_STATE
 # Values: CONNECTED, SEARCHING, BOOTING, STOWED, etc.
 
 # Check obstruction status
-# Object 34600, Resource 30: FRACTION_OBSTRUCTED (0.0-1.0)
-# Object 34600, Resource 31: CURRENTLY_OBSTRUCTED (true/false)
+# Object 10512, Resource 30: FRACTION_OBSTRUCTED (0.0-1.0)
+# Object 10512, Resource 31: CURRENTLY_OBSTRUCTED (true/false)
 
 # Monitor network performance
-# Object 34600, Resource 10: DOWNLINK_THROUGHPUT (bps)
-# Object 34600, Resource 11: UPLINK_THROUGHPUT (bps)
-# Object 34600, Resource 12: POP_PING_LATENCY (ms)
+# Object 10512, Resource 10: DOWNLINK_THROUGHPUT (bps)
+# Object 10512, Resource 11: UPLINK_THROUGHPUT (bps)
+# Object 10512, Resource 12: POP_PING_LATENCY (ms)
 ```
 
 #### Integration with Location Object
 
-When both Starlink Terminal (34600) and Location (6) objects are enabled, the Location object automatically uses Starlink GPS as its primary source:
+When both Starlink Terminal (10512) and Location (6) objects are enabled, the Location object automatically uses Starlink GPS as its primary source:
 
 ```cpp
 // Automatic GPS source priority:
@@ -742,7 +742,7 @@ When both Starlink Terminal (34600) and Location (6) objects are enabled, the Lo
 
 ## System Monitoring
 
-### System Monitor Object (ID 34606)
+### System Monitor Object (ID 10518)
 
 Monitors OpenWRT system resources:
 
@@ -792,7 +792,7 @@ uci commit system
 /etc/init.d/system reload
 ```
 
-**LwM2M Watchdog Object (ID 34607):**
+**LwM2M Watchdog Object (ID 10519):**
 
 Provides:
 - Watchdog enable/disable
@@ -1049,7 +1049,7 @@ top -b -n 1 | grep lwm2m_client
 
 ---
 
-## Walt Technologies Objects Integration (34600-34608)
+## Walt Technologies Objects Integration (10512-10520)
 
 The Friendly LwM2M Client includes **9 custom Walt Technologies objects** designed specifically for OpenWRT router and IoT gateway management. These objects provide comprehensive monitoring and control capabilities.
 
@@ -1057,17 +1057,17 @@ The Friendly LwM2M Client includes **9 custom Walt Technologies objects** design
 
 | Object ID | Name | Purpose | Instances | OpenWRT Integration |
 |-----------|------|---------|-----------|---------------------|
-| 34600 | Starlink Terminal | Satellite terminal management | Single | gRPC |
-| 34601 | Router Management | Core router configuration | Single | UCI, network config |
-| 34602 | Ethernet Interface | Ethernet port monitoring | Multiple | sysfs (/sys/class/net) |
-| 34603 | GPIO Control | GPIO/LED/Button control | Multiple | sysfs (/sys/class/gpio) |
-| 34604 | USB Management | USB port management | Multiple | sysfs (/sys/bus/usb) |
-| 34605 | Storage Management | Storage device management | Multiple | mount, df, filesystem |
-| 34606 | System Monitor | System health monitoring | Single | /proc (stat, meminfo) |
-| 34607 | Hardware Watchdog | Watchdog timer management | Single | /dev/watchdog |
-| 34608 | MIKROBUS | MIKROBUS socket and Click boards | Multiple | I2C, SPI, GPIO |
+| 10512 | Starlink Terminal | Satellite terminal management | Single | gRPC |
+| 10513 | Router Management | Core router configuration | Single | UCI, network config |
+| 10514 | Ethernet Interface | Ethernet port monitoring | Multiple | sysfs (/sys/class/net) |
+| 10515 | GPIO Control | GPIO/LED/Button control | Multiple | sysfs (/sys/class/gpio) |
+| 10516 | USB Management | USB port management | Multiple | sysfs (/sys/bus/usb) |
+| 10517 | Storage Management | Storage device management | Multiple | mount, df, filesystem |
+| 10518 | System Monitor | System health monitoring | Single | /proc (stat, meminfo) |
+| 10519 | Hardware Watchdog | Watchdog timer management | Single | /dev/watchdog |
+| 10520 | MIKROBUS | MIKROBUS socket and Click boards | Multiple | I2C, SPI, GPIO |
 
-### System Monitor (ID 34606) - OpenWRT Integration
+### System Monitor (ID 10518) - OpenWRT Integration
 
 **Purpose:** Monitor CPU, RAM, load, uptime, and temperature
 
@@ -1099,7 +1099,7 @@ cat /proc/uptime
 
 ```cmake
 # In wpp/configs/wpp_config.cmake
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34606_SYSTEM_MONITOR)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10518_SYSTEM_MONITOR)
 ```
 
 **Key Resources:**
@@ -1108,7 +1108,7 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34606_SYSTEM_MONITOR)
 - Load Averages (10-12): 1, 5, 15 minute
 - Uptime (13): seconds
 
-### MIKROBUS Object (ID 34608) - OpenWRT Integration
+### MIKROBUS Object (ID 10520) - OpenWRT Integration
 
 **Purpose:** Manage MIKROBUS sockets and MikroElektronika Click boards
 
@@ -1154,7 +1154,7 @@ i2cdump -y 0 0x50
 
 ```cmake
 # In wpp/configs/wpp_config.cmake
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34608_MIKROBUS)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10520_MIKROBUS)
 ```
 
 **Example Configuration:**
@@ -1169,7 +1169,7 @@ mikrobus0->set<INT_T>(Mikrobus::POWER_VOLTAGE_5, 3300);   // 3.3V
 mikrobus0->set<BOOL_T>(Mikrobus::POWER_STATE_6, true);
 ```
 
-### Router Management (ID 34601) - OpenWRT Integration
+### Router Management (ID 10513) - OpenWRT Integration
 
 **Purpose:** Core router configuration and management
 
@@ -1198,7 +1198,7 @@ uci commit firewall
 /etc/init.d/firewall restart
 ```
 
-### Ethernet Interface (ID 34602) - OpenWRT Integration
+### Ethernet Interface (ID 10514) - OpenWRT Integration
 
 **Purpose:** Monitor Ethernet ports (WAN/LAN)
 
@@ -1242,7 +1242,7 @@ lan->set<STRING_T>(EthernetInterface::INTERFACE_NAME_0, "eth0");
 lan->set<INT_T>(EthernetInterface::PORT_TYPE_1, 0);  // LAN
 ```
 
-### GPIO Control (ID 34603) - OpenWRT Integration
+### GPIO Control (ID 10515) - OpenWRT Integration
 
 **Purpose:** LED and button management
 
@@ -1271,7 +1271,7 @@ cat /sys/class/gpio/gpio12/value
 # Output: 1 (pressed) or 0 (released)
 ```
 
-### Storage Management (ID 34605) - OpenWRT Integration
+### Storage Management (ID 10517) - OpenWRT Integration
 
 **Purpose:** Manage NAND, NVMe, USB, SD card storage
 
@@ -1308,7 +1308,7 @@ umount /mnt/usb
 mkfs.ext4 /dev/sda1
 ```
 
-### Hardware Watchdog (ID 34607) - OpenWRT Integration
+### Hardware Watchdog (ID 10519) - OpenWRT Integration
 
 **Purpose:** Watchdog timer management
 
@@ -1346,15 +1346,15 @@ ubus call system watchdog
 ```cmake
 # In wpp/configs/wpp_config.cmake
 set(WPP_DEFINITIONS ${WPP_DEFINITIONS}
-    OBJ_O_34600_STARLINK_TERMINAL
-    OBJ_O_34601_ROUTER_MANAGEMENT
-    OBJ_O_34602_ETHERNET_INTERFACE
-    OBJ_O_34603_GPIO_CONTROL
-    OBJ_O_34604_USB_MANAGEMENT
-    OBJ_O_34605_STORAGE_MANAGEMENT
-    OBJ_O_34606_SYSTEM_MONITOR
-    OBJ_O_34607_HARDWARE_WATCHDOG
-    OBJ_O_34608_MIKROBUS
+    OBJ_O_10512_STARLINK_TERMINAL
+    OBJ_O_10513_ROUTER_MANAGEMENT
+    OBJ_O_10514_ETHERNET_INTERFACE
+    OBJ_O_10515_GPIO_CONTROL
+    OBJ_O_10516_USB_MANAGEMENT
+    OBJ_O_10517_STORAGE_MANAGEMENT
+    OBJ_O_10518_SYSTEM_MONITOR
+    OBJ_O_10519_HARDWARE_WATCHDOG
+    OBJ_O_10520_MIKROBUS
 )
 ```
 
@@ -1362,15 +1362,15 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS}
 
 ```cpp
 // In examples/main.cpp
-#ifdef OBJ_O_34600_STARLINK_TERMINAL
+#ifdef OBJ_O_10512_STARLINK_TERMINAL
 starlinkTerminalInit(*client);
 #endif
 
-#ifdef OBJ_O_34606_SYSTEM_MONITOR
+#ifdef OBJ_O_10518_SYSTEM_MONITOR
 systemMonitorInit(*client);
 #endif
 
-#ifdef OBJ_O_34608_MIKROBUS
+#ifdef OBJ_O_10520_MIKROBUS
 mikrobusInit(*client);
 #endif
 

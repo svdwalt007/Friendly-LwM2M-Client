@@ -61,7 +61,7 @@ Comprehensive OMA LwM2M v1.2.2 compliant client implementation with MQTT transpo
 
 - [x] Mapped OpenWRT resources to OMA LwM2M Registry Objects
   - Standard OMA objects: 0, 1, 3, 4, 5, 12, 13, 3331
-  - Custom Walt Tech objects: 34601-34606
+  - Custom Walt Tech objects: 10513-10518
 
 - [x] Created comprehensive design document
   - Complete object mapping
@@ -97,12 +97,12 @@ Comprehensive OMA LwM2M v1.2.2 compliant client implementation with MQTT transpo
     - `o_12_wlan_connectivity/`
     - `o_13_bearer_selection/`
     - `o_3331_memory/`
-    - `w_34601_router_management/`
-    - `w_34602_ethernet_interface/`
-    - `w_34603_gpio_control/`
-    - `w_34604_usb_management/`
-    - `w_34605_storage_management/`
-    - `w_34606_system_monitor/`
+    - `w_10513_router_management/`
+    - `w_10514_ethernet_interface/`
+    - `w_10515_gpio_control/`
+    - `w_10516_usb_management/`
+    - `w_10517_storage_management/`
+    - `w_10518_system_monitor/`
 
 - [x] Added object compile flags to configuration
   - Updated `wpp/configs/wpp_config.cmake`
@@ -175,16 +175,16 @@ The following objects have directory structure and header files created, but req
   2. Read from `/proc/meminfo`
   3. Implement periodic updates
 
-#### Walt Technologies Objects (34601-34606)
+#### Walt Technologies Objects (10513-10518)
 
 All custom objects have directories but need complete implementation:
 
-- **34601: Router Management** - LAN/WAN, DHCP, firewall
-- **34602: Ethernet Interface** - Port statistics, link status
-- **34603: GPIO Control** - LEDs, buttons via sysfs
-- **34604: USB Management** - USB port monitoring
-- **34605: Storage Management** - NAND, NVMe monitoring
-- **34606: System Monitor** - CPU, temperature, load
+- **10513: Router Management** - LAN/WAN, DHCP, firewall
+- **10514: Ethernet Interface** - Port statistics, link status
+- **10515: GPIO Control** - LEDs, buttons via sysfs
+- **10516: USB Management** - USB port monitoring
+- **10517: Storage Management** - NAND, NVMe monitoring
+- **10518: System Monitor** - CPU, temperature, load
 
 ---
 
@@ -192,7 +192,7 @@ All custom objects have directories but need complete implementation:
 
 ### 1. Complete Object Implementations
 
-For each object (12, 13, 3331, 34601-34606):
+For each object (12, 13, 3331, 10513-10518):
 
 1. **Create implementation files**:
    ```cpp
@@ -299,20 +299,20 @@ public:
 
 ### Phase 1: Core Objects (Week 1-2)
 1. Complete WLAN Connectivity (12) implementation
-2. Complete System Monitor (34606) implementation
+2. Complete System Monitor (10518) implementation
 3. Complete Memory (3331) implementation
 4. Test basic functionality
 
 ### Phase 2: Network Management (Week 3)
-1. Complete Ethernet Interface (34602) implementation
+1. Complete Ethernet Interface (10514) implementation
 2. Complete Bearer Selection (13) implementation
-3. Complete Router Management (34601) implementation
+3. Complete Router Management (10513) implementation
 4. Test network configuration
 
 ### Phase 3: Hardware Control (Week 4)
-1. Complete GPIO Control (34603) implementation
-2. Complete USB Management (34604) implementation
-3. Complete Storage Management (34605) implementation
+1. Complete GPIO Control (10515) implementation
+2. Complete USB Management (10516) implementation
+3. Complete Storage Management (10517) implementation
 4. Test hardware operations
 
 ### Phase 4: Integration & Testing (Week 5-6)

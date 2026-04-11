@@ -191,6 +191,8 @@ public:
         firmware::DeltaAlgorithm defaultDeltaAlgorithm = firmware::DeltaAlgorithm::BSDIFF;
         bool rollbackEnabled = true;
         int maxRollbackSnapshots = 3;
+
+        Config() = default;
     };
 
     /**
@@ -199,7 +201,7 @@ public:
      * @param config Configuration
      */
     explicit AdvancedFirmwareUpdateObject(uint16_t instanceId = 0,
-                                           const Config& config = Config{});
+                                           const Config& config = Config());
 
     /**
      * @brief Destructor

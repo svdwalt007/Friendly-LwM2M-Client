@@ -481,7 +481,7 @@ To improve 1.2.2 compatibility:
 | **IPSO Objects** |
 | Multiple IPSO Objects | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ Supported | Audio Clip (3339), Memory (3331) |
 | **Custom Objects** |
-| Walt Technologies Objects | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Supported | 34600-34610 (10+ objects) |
+| Walt Technologies Objects | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Supported | 10512-10522 (10+ objects) |
 
 ### Key Observations
 
@@ -510,7 +510,7 @@ To improve 1.2.2 compatibility:
 - ✅ All mandatory objects (0, 1, 3)
 - ✅ Standard optional objects (2, 4, 5, 6, 12, 13)
 - ✅ IPSO objects (3331, 3339)
-- ✅ Walt Technologies objects (34600-34610)
+- ✅ Walt Technologies objects (10512-10522)
 
 #### Features
 - ✅ Bootstrap (with incremental updates)

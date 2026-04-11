@@ -28,6 +28,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <limits>
 #include <map>
 #include <mutex>
 #include <atomic>
@@ -284,6 +285,8 @@ public:
         bool enableProfiling = false;
         uint64_t gpuMemoryLimit = 0;
         bool allowFP16 = true;
+
+        Config() = default;
     };
 
     /**
@@ -292,7 +295,7 @@ public:
      * @param config Configuration
      */
     explicit EdgeAIInferenceObject(uint16_t instanceId = 0,
-                                    const Config& config = Config{});
+                                    const Config& config = Config());
 
     /**
      * @brief Destructor
@@ -547,6 +550,12 @@ private:
     // Download state
     std::atomic<int> downloadProgress_{0};
 
+    // Thread management
+    std::unique_ptr<std::thread> downloadThread_;
+    std::unique_ptr<std::thread> inferenceThread_;
+    std::atomic<bool> shouldStop_{false};
+    mutable std::mutex threadMutex_;
+
     // Callbacks
     ModelStateCallback modelStateCallback_;
     DownloadProgressCallback downloadProgressCallback_;
@@ -557,6 +566,7 @@ private:
     void calculatePercentiles();
     std::vector<uint8_t> preprocess(const std::vector<uint8_t>& input) const;
     InferenceResult postprocess(const std::vector<uint8_t>& output) const;
+    void stopAllThreads();
 };
 
 /**

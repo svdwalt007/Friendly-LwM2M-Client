@@ -177,8 +177,8 @@ All 34 feature commits from the development branches are included:
 
 ### Walt Technologies Objects
 - `wpp/registry/objects/o_34600_starlink_terminal/`
-- `wpp/registry/objects/o_34607_hardware_watchdog/`
-- `wpp/registry/objects/o_34608_mikrobus/`
+- `wpp/registry/objects/o_10519_hardware_watchdog/`
+- `wpp/registry/objects/o_10520_mikrobus/`
 - `wpp/registry/objects/o_12_wlan_connectivity/`
 - `wpp/registry/objects/o_13_bearer_selection/`
 - `wpp/registry/objects/o_6_location/`
@@ -258,8 +258,8 @@ ls openwrt/uci/
 
 # Walt Technologies objects - PRESENT
 ls wpp/registry/objects/o_34600_starlink_terminal/
-ls wpp/registry/objects/o_34607_hardware_watchdog/
-ls wpp/registry/objects/o_34608_mikrobus/
+ls wpp/registry/objects/o_10519_hardware_watchdog/
+ls wpp/registry/objects/o_10520_mikrobus/
 ```
 
 **Compliance Score: 100%** - All v1.1.0 specification features implemented.

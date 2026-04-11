@@ -138,6 +138,356 @@ void securityInit(WppClient &client) {
 
 ---
 
+## 🔧 Configuring the Client via Command-Line
+
+The LwM2M client supports extensive command-line configuration, allowing you to customize connection parameters, security settings, and behavior without modifying code.
+
+### Available Command-Line Options
+
+#### Core Options
+- `-n, --name=NAME` - Endpoint name (default: walttech888)
+- `-u, --uri=URI` - Server URI (default: coap://demo-iot.friendly-tech.com:5680)
+- `-p, --port=PORT` - Local port (default: 56830)
+- `-l, --lifetime=SECONDS` - Registration lifetime (default: 25)
+- `-4, --ipv4` - Use IPv4 (default)
+- `-6, --ipv6` - Use IPv6
+- `-b, --bootstrap` - Enable bootstrap mode (default: true)
+- `-B, --no-bootstrap` - Disable bootstrap mode
+
+#### Security Options
+- `-s, --security=MODE` - Security mode: none|psk|rpk|cert (default: none)
+- `-i, --psk-identity=ID` - PSK identity string
+- `-k, --psk-key=KEY` - PSK key (hex string)
+- `--rpk-public=KEY` - RPK public key (hex string)
+- `--rpk-private=KEY` - RPK private key (hex string)
+- `--cert=FILE` - Certificate file path
+- `--key=FILE` - Private key file path
+- `--ca=FILE` - CA certificate file path
+
+#### CoAP Options
+- `--block-size=SIZE` - Block size in bytes (16-1024, power of 2, default: 1024)
+
+#### Application Options
+- `-v, --verbose` - Increase verbosity (can be used multiple times)
+- `-q, --quiet` - Suppress non-error output
+- `-d, --daemon` - Run as daemon
+- `-c, --config=FILE` - Load configuration from file
+
+#### Information
+- `-h, --help` - Show help message
+- `-V, --version` - Show version information
+
+### Common Use Cases
+
+#### 1. Running with Default Settings
+
+The simplest way to start the client with default configuration:
+
+```bash
+./lwm2m_client
+```
+
+This connects to the default demo server (coap://demo-iot.friendly-tech.com:5680) with endpoint name "walttech888".
+
+#### 2. Connecting to a Custom Server
+
+Connect to your own LwM2M server with a custom endpoint name:
+
+```bash
+./lwm2m_client -n mydevice -u coap://your-server.example.com:5683
+```
+
+For Leshan demo server testing:
+
+```bash
+./lwm2m_client -n testdevice123 -u coap://leshan.eclipseprojects.io:5683
+
+# Then visit: https://leshan.eclipseprojects.io/
+# Look for "testdevice123" in the client list
+```
+
+#### 3. Using PSK Security
+
+Connect with Pre-Shared Key (PSK) security for encrypted communication:
+
+```bash
+./lwm2m_client \
+  -n secure-device \
+  -u coaps://secure-server.example.com:5684 \
+  -s psk \
+  -i mydevice-identity \
+  -k 0123456789abcdef0123456789abcdef
+```
+
+Important PSK notes:
+- Use `coaps://` (not `coap://`) for secure connections
+- PSK key must be a hex string (32 hex characters = 16 bytes for 128-bit key)
+- PSK identity must match the server configuration
+- Common key lengths: 128-bit (32 hex chars), 256-bit (64 hex chars)
+
+Example with 256-bit key:
+
+```bash
+./lwm2m_client \
+  -s psk \
+  -i production-device-001 \
+  -k 00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff \
+  -u coaps://prod-server.example.com:5684
+```
+
+#### 4. Changing the Endpoint Name
+
+The endpoint name identifies your device on the LwM2M server:
+
+```bash
+# Simple name change
+./lwm2m_client -n office-gateway-01
+
+# With custom server
+./lwm2m_client -n warehouse-sensor-42 -u coap://10.0.1.50:5683
+
+# With full configuration
+./lwm2m_client \
+  -n "BuildingA-Floor2-Room203" \
+  -u coap://building-mgmt.example.com:5683 \
+  -l 300
+```
+
+#### 5. Custom Port Configuration
+
+Specify a custom local UDP port for the client:
+
+```bash
+# Use port 12345 instead of default 56830
+./lwm2m_client -p 12345
+
+# Useful when running multiple clients on same host
+./lwm2m_client -n device1 -p 56831
+./lwm2m_client -n device2 -p 56832
+```
+
+#### 6. IPv6 Configuration
+
+Use IPv6 instead of IPv4:
+
+```bash
+# Connect to IPv6 server
+./lwm2m_client -6 -u coap://[2001:db8::1]:5683
+
+# IPv6 localhost for testing
+./lwm2m_client -6 -u coap://[::1]:5683
+```
+
+#### 7. Adjusting Registration Lifetime
+
+Set how often the client re-registers with the server (in seconds):
+
+```bash
+# Short lifetime (60 seconds) - for testing
+./lwm2m_client -l 60
+
+# Long lifetime (1 hour = 3600 seconds) - for production
+./lwm2m_client -l 3600
+
+# Very short for debugging (10 seconds)
+./lwm2m_client -l 10 -v
+```
+
+#### 8. Disable Bootstrap Mode
+
+By default, bootstrap is enabled. To disable:
+
+```bash
+# Connect directly without bootstrap
+./lwm2m_client -B -u coap://server.example.com:5683
+```
+
+#### 9. Verbose Debug Output
+
+Increase verbosity for troubleshooting:
+
+```bash
+# Level 1 verbosity
+./lwm2m_client -v
+
+# Level 2 verbosity (more detailed)
+./lwm2m_client -vv
+
+# Maximum verbosity (level 3)
+./lwm2m_client -vvv
+```
+
+This shows:
+- Configuration summary at startup
+- Connection status
+- Resource updates
+- CoAP message details
+
+#### 10. Quiet Mode
+
+Suppress all non-error output:
+
+```bash
+./lwm2m_client -q
+```
+
+Useful for:
+- Production deployments
+- Running as a service
+- Log file management
+
+#### 11. Running as a Daemon
+
+Run the client in background (daemon mode):
+
+```bash
+./lwm2m_client -d
+
+# With custom configuration
+./lwm2m_client -d -n production-gateway -u coaps://mgmt.example.com:5684
+```
+
+### Complete Configuration Examples
+
+#### Example 1: Development Testing
+
+```bash
+# Local Leshan server, verbose output, short lifetime
+./lwm2m_client \
+  -n dev-test-device \
+  -u coap://localhost:5683 \
+  -l 30 \
+  -B \
+  -vv
+```
+
+#### Example 2: Production Deployment with PSK
+
+```bash
+# Secure production configuration
+./lwm2m_client \
+  --name=prod-gateway-001 \
+  --uri=coaps://mgmt.company.com:5684 \
+  --port=56830 \
+  --lifetime=3600 \
+  --security=psk \
+  --psk-identity=gateway-001 \
+  --psk-key=00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff \
+  --daemon \
+  --quiet
+```
+
+#### Example 3: IPv6 Testing Environment
+
+```bash
+# IPv6 with bootstrap and verbose logging
+./lwm2m_client \
+  -6 \
+  -n ipv6-test-client \
+  -u coap://[2001:db8:1::10]:5683 \
+  -p 12345 \
+  -l 120 \
+  -vvv
+```
+
+#### Example 4: Multiple Clients on Same Host
+
+```bash
+# Terminal 1
+./lwm2m_client -n client-alpha -p 56831 -u coap://server:5683
+
+# Terminal 2
+./lwm2m_client -n client-beta -p 56832 -u coap://server:5683
+
+# Terminal 3
+./lwm2m_client -n client-gamma -p 56833 -u coap://server:5683
+```
+
+#### Example 5: Certificate-Based Security
+
+```bash
+# X.509 certificate authentication
+./lwm2m_client \
+  --name=secure-device \
+  --uri=coaps://enterprise-server.com:5684 \
+  --security=cert \
+  --cert=/etc/lwm2m/device-cert.pem \
+  --key=/etc/lwm2m/device-key.pem \
+  --ca=/etc/lwm2m/ca-cert.pem \
+  --lifetime=7200
+```
+
+### Tips for Command-Line Usage
+
+1. **Use Long Options for Scripts**
+
+   Long options are more readable in scripts:
+   ```bash
+   #!/bin/bash
+   ./lwm2m_client \
+     --name="${DEVICE_NAME}" \
+     --uri="${LWM2M_SERVER}" \
+     --lifetime=3600 \
+     --daemon
+   ```
+
+2. **Combine Short Options**
+
+   Multiple single-letter options can be combined:
+   ```bash
+   # These are equivalent:
+   ./lwm2m_client -v -v -v -q
+   ./lwm2m_client -vvvq
+   ```
+
+3. **View Current Configuration**
+
+   Use verbose mode to see all active settings:
+   ```bash
+   ./lwm2m_client -v | head -20
+   ```
+
+4. **Environment Variables**
+
+   Create a wrapper script for consistent configuration:
+   ```bash
+   #!/bin/bash
+   # lwm2m-wrapper.sh
+   export LWM2M_SERVER="${LWM2M_SERVER:-coap://localhost:5683}"
+   export LWM2M_NAME="${LWM2M_NAME:-default-device}"
+
+   ./lwm2m_client -n "$LWM2M_NAME" -u "$LWM2M_SERVER" "$@"
+   ```
+
+5. **Testing Security Modes**
+
+   Always verify URI scheme matches security mode:
+   - `coap://` for `-s none`
+   - `coaps://` for `-s psk`, `-s rpk`, `-s cert`
+
+6. **Debugging Connection Issues**
+
+   Use maximum verbosity and disable quiet mode:
+   ```bash
+   ./lwm2m_client -vvv -u coap://your-server:5683
+   ```
+
+### Getting Help
+
+View all available options:
+
+```bash
+./lwm2m_client --help
+```
+
+Check version information:
+
+```bash
+./lwm2m_client --version
+```
+
+---
+
 ## 🌐 OpenWRT Build
 
 ### For OpenWRT One (Recommended)
@@ -208,7 +558,7 @@ If you have a Starlink dish at 192.168.100.1, location data will be automaticall
 
 **Enable Starlink Object:**
 ```cmake
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10512_STARLINK_TERMINAL)
 ```
 
 #### Option 2: gpsd Daemon
@@ -248,7 +598,7 @@ uci commit lwm2m
 
    ```cmake
    # Enable Starlink Terminal object
-   set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34600_STARLINK_TERMINAL)
+   set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10512_STARLINK_TERMINAL)
    ```
 
 2. **Rebuild**
@@ -346,7 +696,7 @@ The Starlink Terminal object provides 70+ resources organized into:
 
 ### Integration with Location Object
 
-When both Location (ID 6) and Starlink Terminal (ID 34600) are enabled, the Location object automatically uses Starlink GPS as its primary source:
+When both Location (ID 6) and Starlink Terminal (ID 10512) are enabled, the Location object automatically uses Starlink GPS as its primary source:
 
 ```
 GPS Source Priority:
@@ -361,21 +711,21 @@ This provides seamless location tracking for mobile Starlink installations.
 
 ## 🔧 Walt Technologies Objects Quick Setup
 
-The Friendly LwM2M Client includes **9 custom Walt Technologies objects** (IDs 34600-34608) for comprehensive OpenWRT router and peripheral management.
+The Friendly LwM2M Client includes **9 custom Walt Technologies objects** (IDs 10512-10520) for comprehensive OpenWRT router and peripheral management.
 
 ### Available Walt Technologies Objects
 
 | Object ID | Name | Purpose | Instances |
 |-----------|------|---------|-----------|
-| 34600 | Starlink Terminal | Satellite terminal management | Single |
-| 34601 | Router Management | Core router configuration | Single |
-| 34602 | Ethernet Interface | Ethernet port monitoring | Multiple |
-| 34603 | GPIO Control | GPIO/LED/Button control | Multiple |
-| 34604 | USB Management | USB port management | Multiple |
-| 34605 | Storage Management | Storage device management | Multiple |
-| 34606 | System Monitor | System health monitoring | Single |
-| 34607 | Hardware Watchdog | Watchdog timer management | Single |
-| 34608 | MIKROBUS | MIKROBUS socket and Click boards | Multiple |
+| 10512 | Starlink Terminal | Satellite terminal management | Single |
+| 10513 | Router Management | Core router configuration | Single |
+| 10514 | Ethernet Interface | Ethernet port monitoring | Multiple |
+| 10515 | GPIO Control | GPIO/LED/Button control | Multiple |
+| 10516 | USB Management | USB port management | Multiple |
+| 10517 | Storage Management | Storage device management | Multiple |
+| 10518 | System Monitor | System health monitoring | Single |
+| 10519 | Hardware Watchdog | Watchdog timer management | Single |
+| 10520 | MIKROBUS | MIKROBUS socket and Click boards | Multiple |
 
 ### Enable System Monitor
 
@@ -385,7 +735,7 @@ File: `wpp/configs/wpp_config.cmake`
 
 ```cmake
 # Enable System Monitor object
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34606_SYSTEM_MONITOR)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10518_SYSTEM_MONITOR)
 ```
 
 **What you get:**
@@ -403,7 +753,7 @@ File: `wpp/configs/wpp_config.cmake`
 
 ```cmake
 # Enable MIKROBUS object
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34608_MIKROBUS)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10520_MIKROBUS)
 ```
 
 **What you get:**
@@ -419,7 +769,7 @@ set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34608_MIKROBUS)
 
 ```cpp
 // In examples/objects.cpp
-#ifdef OBJ_O_34608_MIKROBUS
+#ifdef OBJ_O_10520_MIKROBUS
 void mikrobusInit(WppClient &client) {
     client.registry().registerObj(Mikrobus::object(client));
 
@@ -440,34 +790,34 @@ void mikrobusInit(WppClient &client) {
 
 ### Enable Other Walt Objects
 
-**Router Management (34601):** LAN/WAN configuration, DHCP, DNS, firewall
+**Router Management (10513):** LAN/WAN configuration, DHCP, DNS, firewall
 ```cmake
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34601_ROUTER_MANAGEMENT)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10513_ROUTER_MANAGEMENT)
 ```
 
-**Ethernet Interface (34602):** Monitor Ethernet ports, link status, traffic stats
+**Ethernet Interface (10514):** Monitor Ethernet ports, link status, traffic stats
 ```cmake
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34602_ETHERNET_INTERFACE)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10514_ETHERNET_INTERFACE)
 ```
 
-**GPIO Control (34603):** LED control, button monitoring
+**GPIO Control (10515):** LED control, button monitoring
 ```cmake
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34603_GPIO_CONTROL)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10515_GPIO_CONTROL)
 ```
 
-**USB Management (34604):** USB port control and device detection
+**USB Management (10516):** USB port control and device detection
 ```cmake
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34604_USB_MANAGEMENT)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10516_USB_MANAGEMENT)
 ```
 
-**Storage Management (34605):** NAND/NVMe/USB/SD card management
+**Storage Management (10517):** NAND/NVMe/USB/SD card management
 ```cmake
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34605_STORAGE_MANAGEMENT)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10517_STORAGE_MANAGEMENT)
 ```
 
-**Hardware Watchdog (34607):** Watchdog timer configuration
+**Hardware Watchdog (10519):** Watchdog timer configuration
 ```cmake
-set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_34607_HARDWARE_WATCHDOG)
+set(WPP_DEFINITIONS ${WPP_DEFINITIONS} OBJ_O_10519_HARDWARE_WATCHDOG)
 ```
 
 ### Rebuild After Enabling Objects
@@ -871,8 +1221,8 @@ uci commit lwm2m
 - **[WLAN Connectivity (ID 12)](WLAN_CONNECTIVITY.md)** - WiFi interface management (2.4GHz + 5GHz)
 - **[Bearer Selection (ID 13)](BEARER_SELECTION.md)** - Network bearer preference and automatic selection
 - **[Location Object (ID 6)](LOCATION_OBJECT.md)** - GPS/Location features
-- **[Starlink Terminal (ID 34600)](STARLINK_TERMINAL.md)** - Starlink satellite terminal management
-- **[MIKROBUS Object (ID 34608)](MIKROBUS_OBJECT.md)** - MIKROBUS socket and Click board management
+- **[Starlink Terminal (ID 10512)](STARLINK_TERMINAL.md)** - Starlink satellite terminal management
+- **[MIKROBUS Object (ID 10520)](MIKROBUS_OBJECT.md)** - MIKROBUS socket and Click board management
 
 ---
 

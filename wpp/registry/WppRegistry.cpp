@@ -41,40 +41,40 @@ WppRegistry::WppRegistry(lwm2m_context_t &context): _context(context) {
 	#if OBJ_O_5_FIRMWARE_UPDATE
 	_objects.push_back(new ObjectImpl<FirmwareUpdate>(_context, FIRMWARE_UPDATE_OBJ_INFO));
 	#endif
-	#if OBJ_O_34607_HARDWARE_WATCHDOG
+	#if OBJ_O_10519_HARDWARE_WATCHDOG
 	_objects.push_back(new ObjectImpl<HardwareWatchdog>(_context, HARDWARE_WATCHDOG_OBJ_INFO));
 	#endif
 	/* ---------- Optional objects init block end ---------- */
 
 	/* ---------- Walt Technologies objects init block begin ---------- */
-	#ifdef OBJ_O_34600_STARLINK_TERMINAL
+	#ifdef OBJ_O_10512_STARLINK_TERMINAL
 	_objects.push_back(new ObjectImpl<StarlinkTerminal>(_context, STARLINK_TERMINAL_OBJ_INFO));
 	#endif
-	#ifdef OBJ_O_34608_MIKROBUS
+	#ifdef OBJ_O_10520_MIKROBUS
 	_objects.push_back(new ObjectImpl<Mikrobus>(_context, MIKROBUS_OBJ_INFO));
 	#endif
-	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+	#ifdef OBJ_W_10513_ROUTER_MANAGEMENT
 	_objects.push_back(new ObjectImpl<RouterManagement>(_context, ROUTER_MANAGEMENT_META_INFO));
 	#endif
-	#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+	#ifdef OBJ_W_10514_ETHERNET_INTERFACE
 	_objects.push_back(new ObjectImpl<EthernetInterface>(_context, ETHERNET_INTERFACE_META_INFO));
 	#endif
-	#ifdef OBJ_W_34603_GPIO_CONTROL
+	#ifdef OBJ_W_10515_GPIO_CONTROL
 	_objects.push_back(new ObjectImpl<GpioControl>(_context, GPIO_CONTROL_META_INFO));
 	#endif
-	#ifdef OBJ_W_34604_USB_MANAGEMENT
+	#ifdef OBJ_W_10516_USB_MANAGEMENT
 	_objects.push_back(new ObjectImpl<UsbManagement>(_context, USB_MANAGEMENT_META_INFO));
 	#endif
-	#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+	#ifdef OBJ_W_10517_STORAGE_MANAGEMENT
 	_objects.push_back(new ObjectImpl<StorageManagement>(_context, STORAGE_MANAGEMENT_META_INFO));
 	#endif
-	#ifdef OBJ_W_34606_SYSTEM_MONITOR
+	#ifdef OBJ_W_10518_SYSTEM_MONITOR
 	_objects.push_back(new ObjectImpl<SystemMonitor>(_context, SYSTEM_MONITOR_META_INFO));
 	#endif
-	#ifdef OBJ_W_34609_FIREWALL_CONFIG
+	#ifdef OBJ_W_10521_FIREWALL_CONFIG
 	_objects.push_back(new ObjectImpl<FirewallConfig>(_context, FIREWALL_CONFIG_META_INFO));
 	#endif
-	#ifdef OBJ_W_34610_POE_MANAGEMENT
+	#ifdef OBJ_W_10522_POE_MANAGEMENT
 	_objects.push_back(new ObjectImpl<PoeManagement>(_context, POE_MANAGEMENT_META_INFO));
 	#endif
 	/* ---------- Walt Technologies objects init block end ---------- */
@@ -170,7 +170,7 @@ Object & WppRegistry::firmwareUpdate() {
 	return *object(OBJ_ID::FIRMWARE_UPDATE);
 }
 #endif
-#if OBJ_O_34607_HARDWARE_WATCHDOG
+#if OBJ_O_10519_HARDWARE_WATCHDOG
 Object & WppRegistry::hardwareWatchdog() {
 	return *object(OBJ_ID::HARDWARE_WATCHDOG);
 }
@@ -178,52 +178,52 @@ Object & WppRegistry::hardwareWatchdog() {
 /* ---------- Optional objects method block end ---------- */
 
 /* ---------- Walt Technologies objects method block begin ---------- */
-#ifdef OBJ_O_34600_STARLINK_TERMINAL
+#ifdef OBJ_O_10512_STARLINK_TERMINAL
 Object & WppRegistry::starlinkTerminal() {
 	return *object(OBJ_ID::STARLINK_TERMINAL);
 }
 #endif
-#ifdef OBJ_O_34608_MIKROBUS
+#ifdef OBJ_O_10520_MIKROBUS
 Object & WppRegistry::mikrobus() {
 	return *object(OBJ_ID::MIKROBUS);
 }
 #endif
-#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+#ifdef OBJ_W_10513_ROUTER_MANAGEMENT
 Object & WppRegistry::routerManagement() {
 	return *object(ROUTER_MANAGEMENT_OBJECT_ID);
 }
 #endif
-#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+#ifdef OBJ_W_10514_ETHERNET_INTERFACE
 Object & WppRegistry::ethernetInterface() {
 	return *object(ETHERNET_INTERFACE_OBJECT_ID);
 }
 #endif
-#ifdef OBJ_W_34603_GPIO_CONTROL
+#ifdef OBJ_W_10515_GPIO_CONTROL
 Object & WppRegistry::gpioControl() {
 	return *object(GPIO_CONTROL_OBJECT_ID);
 }
 #endif
-#ifdef OBJ_W_34604_USB_MANAGEMENT
+#ifdef OBJ_W_10516_USB_MANAGEMENT
 Object & WppRegistry::usbManagement() {
 	return *object(USB_MANAGEMENT_OBJECT_ID);
 }
 #endif
-#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+#ifdef OBJ_W_10517_STORAGE_MANAGEMENT
 Object & WppRegistry::storageManagement() {
 	return *object(STORAGE_MANAGEMENT_OBJECT_ID);
 }
 #endif
-#ifdef OBJ_W_34606_SYSTEM_MONITOR
+#ifdef OBJ_W_10518_SYSTEM_MONITOR
 Object & WppRegistry::systemMonitor() {
 	return *object(SYSTEM_MONITOR_OBJECT_ID);
 }
 #endif
-#ifdef OBJ_W_34609_FIREWALL_CONFIG
+#ifdef OBJ_W_10521_FIREWALL_CONFIG
 Object & WppRegistry::firewallConfig() {
 	return *object(FIREWALL_CONFIG_OBJECT_ID);
 }
 #endif
-#ifdef OBJ_W_34610_POE_MANAGEMENT
+#ifdef OBJ_W_10522_POE_MANAGEMENT
 Object & WppRegistry::poeManagement() {
 	return *object(POE_MANAGEMENT_OBJECT_ID);
 }

@@ -1077,7 +1077,7 @@ public:
 };
 ```
 
-**LwM2M Object**: Create custom object for mesh management (e.g., ID 34612)
+**LwM2M Object**: Create custom object for mesh management (e.g., ID 10526)
 
 ---
 

@@ -1,4 +1,5 @@
 #include "objects.h"
+#include "cli_options.h"
 #include <iostream>
 #include <ifaddrs.h>
 #include <arpa/inet.h>
@@ -31,13 +32,14 @@ static void getIpAddress(string* ip) {
 
 /* ------------- Methods to init objects ------------- */
 
-void serverInit(WppClient &client) {
+void serverInit(WppClient &client, const CliOptions& options) {
     client.registry().registerObj(Lwm2mServer::object(client));
     Instance *server = Lwm2mServer::createInst(client);
-	
+
 	server->set<INT_T>(Lwm2mServer::SHORT_SERVER_ID_0, TEST_SERVER_SHORT_ID);
 	server->set<STRING_T>(Lwm2mServer::BINDING_7, WPP_BINDING_UDP);
-	server->set<TIME_T>(Lwm2mServer::LIFETIME_1, 25);
+	// CLI: Use lifetime from command-line options instead of hardcoded value
+	server->set<TIME_T>(Lwm2mServer::LIFETIME_1, options.lifetime);
 	server->set<BOOL_T>(Lwm2mServer::NOTIFICATION_STORING_WHEN_DISABLED_OR_OFFLINE_6, false);
 
 	#if OBJ_O_2_LWM2M_ACCESS_CONTROL
@@ -46,48 +48,60 @@ void serverInit(WppClient &client) {
 	#endif
 }
 
-void securityInit(WppClient &client) {
+void securityInit(WppClient &client, const CliOptions& options) {
     client.registry().registerObj(Lwm2mSecurity::object(client));
     wpp::Instance *security = Lwm2mSecurity::createInst(client);
-    string url = "coap://demo-iot.friendly-tech.com:"; // Bootstrap Server
 
-    // ========================================================================
-    // LwM2M Bootstrap Configuration
-    // ========================================================================
-    // Endpoint Name:    walttech888 (set in main.cpp)
-    // Bootstrap Server: coap://demo-iot.friendly-tech.com:5680
-    // Security Mode:    NO_SEC (3) - No DTLS encryption
-    // ========================================================================
-    // Note: PSK and RPK keys below are for reference only (not used with NO_SEC)
-    // PSK key: 00112233445566778899998877665544
-    // RPK public.pem: 3059301306072a8648ce3d020106082a8648ce3d03010703420004bada5475344ba22961a7d965ac518e73481a5f77832bd996c2fa3527e8f3c4248dda621fa9c1348d1365c357357c54869477e387fd2c2675b1c6f28aa506677b
-    // RPK private.pem: 92045322a5b34562e1ffec4bcdcc257b9ecfc3478bfaea4b6b0731350202ef2d
+    // CLI: Use server URI from command-line options
+    string url = options.server_uri;
 
-	#ifdef LWM2M_BOOTSTRAP
-        // Bootstrap mode enabled - connects to bootstrap server for provisioning
-        security->set<BOOL_T>(Lwm2mSecurity::BOOTSTRAP_SERVER_1, true);
+    // CLI: Use bootstrap mode from command-line options
+    security->set<BOOL_T>(Lwm2mSecurity::BOOTSTRAP_SERVER_1, options.use_bootstrap);
+
+    if (options.use_bootstrap) {
         security->set<INT_T>(Lwm2mSecurity::CLIENT_HOLD_OFF_TIME_11, 10);
-        // NO_SEC mode - CoAP without DTLS encryption (Security Mode 3)
-        security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_NONE);
-        url += "5680";  // Bootstrap server port
-    #else
-        #if DTLS_WITH_PSK
-            url += "5684";
-            string pskId = "FRIENDLY_TEST_DEV_ID";
-            security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_PRE_SHARED_KEY);
-            security->set(Lwm2mSecurity::PUBLIC_KEY_OR_IDENTITY_3, OPAQUE_T(pskId.begin(), pskId.end()));
-            security->set(Lwm2mSecurity::SECRET_KEY_5, OPAQUE_T {0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44});
-        #elif DTLS_WITH_RPK
-            url += "5684";
-            security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_RAW_PUBLIC_KEY);
-            security->set(Lwm2mSecurity::PUBLIC_KEY_OR_IDENTITY_3, OPAQUE_T {0x04, 0xba, 0xda, 0x54, 0x75, 0x34, 0x4b, 0xa2, 0x29, 0x61, 0xa7, 0xd9, 0x65, 0xac, 0x51, 0x8e, 0x73, 0x48, 0x1a, 0x5f, 0x77, 0x83, 0x2b, 0xd9, 0x96, 0xc2, 0xfa, 0x35, 0x27, 0xe8, 0xf3, 0xc4, 0x24, 0x8d, 0xda, 0x62, 0x1f, 0xa9, 0xc1, 0x34, 0x8d, 0x13, 0x65, 0xc3, 0x57, 0x35, 0x7c, 0x54, 0x86, 0x94, 0x77, 0xe3, 0x87, 0xfd, 0x2c, 0x26, 0x75, 0xb1, 0xc6, 0xf2, 0x8a, 0xa5, 0x06, 0x67, 0x7b});
-            security->set(Lwm2mSecurity::SECRET_KEY_5, OPAQUE_T {0x92, 0x04, 0x53, 0x22, 0xa5, 0xb3, 0x45, 0x62, 0xe1, 0xff, 0xec, 0x4b, 0xcd, 0xcc, 0x25, 0x7b, 0x9e, 0xcf, 0xc3, 0x47, 0x8b, 0xfa, 0xea, 0x4b, 0x6b, 0x07, 0x31, 0x35, 0x02, 0x02, 0xef, 0x2d});
-        #else
-            url += "5683";
+    }
+
+    // CLI: Use security mode from command-line options (runtime selection)
+    switch (options.security_mode) {
+        case SecurityMode::NONE:
             security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_NONE);
-        #endif
-        security->set<BOOL_T>(Lwm2mSecurity::BOOTSTRAP_SERVER_1, false);
-    #endif
+            break;
+
+        case SecurityMode::PSK:
+            security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_PRE_SHARED_KEY);
+            // CLI: Use PSK identity and key from command-line options
+            security->set(Lwm2mSecurity::PUBLIC_KEY_OR_IDENTITY_3,
+                         OPAQUE_T(options.psk_identity.begin(), options.psk_identity.end()));
+            security->set(Lwm2mSecurity::SECRET_KEY_5,
+                         OPAQUE_T(options.psk_key.begin(), options.psk_key.end()));
+            break;
+
+        case SecurityMode::RPK:
+            security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_RAW_PUBLIC_KEY);
+            // CLI: Use RPK keys from command-line options
+            {
+                vector<uint8_t> rpkPublic, rpkPrivate;
+                if (hexStringToBytes(options.rpk_public_key, rpkPublic) &&
+                    hexStringToBytes(options.rpk_private_key, rpkPrivate)) {
+                    security->set(Lwm2mSecurity::PUBLIC_KEY_OR_IDENTITY_3,
+                                 OPAQUE_T(rpkPublic.begin(), rpkPublic.end()));
+                    security->set(Lwm2mSecurity::SECRET_KEY_5,
+                                 OPAQUE_T(rpkPrivate.begin(), rpkPrivate.end()));
+                } else {
+                    cerr << "Warning: Failed to parse RPK keys, falling back to NO_SEC" << endl;
+                    security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_NONE);
+                }
+            }
+            break;
+
+        case SecurityMode::CERT:
+            security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_CERTIFICATE);
+            // Note: Certificate mode requires file loading which is not fully implemented here
+            // The cert_file, key_file, and ca_file paths are available in options
+            cerr << "Warning: Certificate mode not fully implemented yet" << endl;
+            break;
+    }
 
     security->set<STRING_T>(Lwm2mSecurity::LWM2M_SERVER_URI_0, url);
     security->set<INT_T>(Lwm2mSecurity::SHORT_SERVER_ID_10, TEST_SERVER_SHORT_ID);
@@ -227,7 +241,7 @@ void audioClipInit(WppClient &client) {
 }
 #endif
 
-#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+#ifdef OBJ_O_10519_HARDWARE_WATCHDOG
 void hardwareWatchdogInit(WppClient &client) {
     client.registry().registerObj(HardwareWatchdog::object(client));
     HardwareWatchdog *watchdog = HardwareWatchdog::createInst(client);
@@ -249,7 +263,7 @@ void hardwareWatchdogInit(WppClient &client) {
 }
 #endif
 
-#ifdef OBJ_O_34600_STARLINK_TERMINAL
+#ifdef OBJ_O_10512_STARLINK_TERMINAL
 void starlinkTerminalInit(WppClient &client) {
     client.registry().registerObj(StarlinkTerminal::object(client));
     Instance *starlink = StarlinkTerminal::createInst(client);
@@ -265,7 +279,7 @@ void starlinkTerminalInit(WppClient &client) {
 }
 #endif
 
-#ifdef OBJ_O_34608_MIKROBUS
+#ifdef OBJ_O_10520_MIKROBUS
 void mikrobusInit(WppClient &client) {
     client.registry().registerObj(Mikrobus::object(client));
 
@@ -291,7 +305,7 @@ bool isDeviceShouldBeRebooted() {
 }
 /* ---------- Walt Technologies custom objects init begin ---------- */
 
-#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+#ifdef OBJ_W_10513_ROUTER_MANAGEMENT
 void routerManagementInit(WppClient &client) {
     client.registry().registerObj(RouterManagement::object(client));
     Instance *routerMgmt = RouterManagement::createInst(client);
@@ -306,7 +320,7 @@ void routerManagementInit(WppClient &client) {
 }
 #endif
 
-#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+#ifdef OBJ_W_10514_ETHERNET_INTERFACE
 void ethernetInterfaceInit(WppClient &client) {
     client.registry().registerObj(EthernetInterface::object(client));
     
@@ -330,7 +344,7 @@ void ethernetInterfaceInit(WppClient &client) {
 }
 #endif
 
-#ifdef OBJ_W_34603_GPIO_CONTROL
+#ifdef OBJ_W_10515_GPIO_CONTROL
 void gpioControlInit(WppClient &client) {
     client.registry().registerObj(GpioControl::object(client));
     
@@ -353,7 +367,7 @@ void gpioControlInit(WppClient &client) {
 }
 #endif
 
-#ifdef OBJ_W_34604_USB_MANAGEMENT
+#ifdef OBJ_W_10516_USB_MANAGEMENT
 void usbManagementInit(WppClient &client) {
     client.registry().registerObj(UsbManagement::object(client));
     
@@ -375,7 +389,7 @@ void usbManagementInit(WppClient &client) {
 }
 #endif
 
-#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+#ifdef OBJ_W_10517_STORAGE_MANAGEMENT
 void storageManagementInit(WppClient &client) {
     client.registry().registerObj(StorageManagement::object(client));
     
@@ -393,7 +407,7 @@ void storageManagementInit(WppClient &client) {
 }
 #endif
 
-#ifdef OBJ_W_34606_SYSTEM_MONITOR
+#ifdef OBJ_W_10518_SYSTEM_MONITOR
 void systemMonitorInit(WppClient &client) {
     client.registry().registerObj(SystemMonitor::object(client));
     Instance &sysMon = SystemMonitor::createInst(client);
@@ -408,7 +422,7 @@ void systemMonitorInit(WppClient &client) {
 }
 #endif
 
-#ifdef OBJ_W_34609_FIREWALL_CONFIG
+#ifdef OBJ_W_10521_FIREWALL_CONFIG
 void firewallConfigInit(WppClient &client) {
     client.registry().registerObj(FirewallConfig::object(client));
 
@@ -442,7 +456,7 @@ void firewallConfigInit(WppClient &client) {
 }
 #endif
 
-#ifdef OBJ_W_34610_POE_MANAGEMENT
+#ifdef OBJ_W_10522_POE_MANAGEMENT
 void poeManagementInit(WppClient &client) {
     client.registry().registerObj(PoeManagement::object(client));
     Instance &poe = PoeManagement::createInst(client);

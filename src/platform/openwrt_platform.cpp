@@ -67,21 +67,39 @@ constexpr const char* UBOOT_UPGRADE_AVAILABLE = "upgrade_available";
 // ============================================================================
 
 /**
+ * @brief Validate command string for safety
+ * Only allows alphanumeric characters, spaces, and safe punctuation
+ */
+static bool isCommandSafe(const std::string& cmd) {
+    // Allow only safe characters: alphanumeric, space, dash, underscore, dot, forward slash
+    static const std::regex safePattern("^[a-zA-Z0-9 ._/-]+$");
+    return std::regex_match(cmd, safePattern);
+}
+
+/**
  * @brief Execute command and capture output
+ * @warning Only accepts validated safe commands to prevent injection
  */
 static int execCommand(const std::string& cmd, std::string& output) {
+    // Validate command before execution
+    if (!isCommandSafe(cmd)) {
+        output = "Error: Command contains unsafe characters";
+        return -1;
+    }
+
     std::array<char, 4096> buffer;
     output.clear();
-    
+
     FILE* pipe = popen(cmd.c_str(), "r");
     if (!pipe) {
         return -1;
     }
-    
+
     while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
+        buffer[buffer.size() - 1] = '\0';  // Ensure null-termination
         output += buffer.data();
     }
-    
+
     return pclose(pipe);
 }
 
@@ -112,8 +130,8 @@ static std::map<std::string, std::pair<uint64_t, std::string>> parseProcMtd() {
     }
     
     std::string line;
-    std::regex mtdRegex(R"(mtd(\d+):\s+([0-9a-fA-F]+)\s+[0-9a-fA-F]+\s+"([^"]+)")");
-    
+    std::regex mtdRegex(R"(mtd(\d+):\s+([0-9a-fA-F]+)\s+[0-9a-fA-F]+\s+\"([^\"]+)\")");
+
     while (std::getline(mtdFile, line)) {
         std::smatch match;
         if (std::regex_search(line, match, mtdRegex)) {
@@ -818,7 +836,7 @@ public:
         // Get board name
         std::string boardContent;
         if (readFile(BOARD_JSON, boardContent)) {
-            std::regex boardRegex(R"("model":\s*{\s*"id":\s*"([^"]+)")");
+            std::regex boardRegex(R"(\"model\":\s*{\s*\"id\":\s*\"([^\"]+)\")");
             std::smatch match;
             if (std::regex_search(boardContent, match, boardRegex)) {
                 info.boardName = match[1].str();
@@ -935,7 +953,7 @@ bool PlatformFactory::initialized_ = false;
 bool PlatformFactory::detectPlatform() {
     // Check for OpenWRT
     std::string content;
-    if (readFile("/etc/openwrt_release", content)) {
+    if (openwrt::readFile("/etc/openwrt_release", content)) {
         platformName_ = "openwrt";
         
         partitionManager_ = std::make_shared<openwrt::OpenWRTPartitionManager>();

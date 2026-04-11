@@ -478,7 +478,7 @@ EXECUTE_RESULT TemperatureSensor::resetMinMax(Instance& inst, ID_T resId,
 
 ---
 
-### Example: Starlink Terminal Object (ID 34600)
+### Example: Starlink Terminal Object (ID 10512)
 
 The Starlink Terminal object demonstrates a complex custom object with 70+ resources, multiple functional groups, gRPC integration, and execute resources.
 
@@ -736,7 +736,7 @@ StarlinkTerminal::~StarlinkTerminal() {
 
 ---
 
-### Example: System Monitor Object (ID 34606)
+### Example: System Monitor Object (ID 10518)
 
 The System Monitor object demonstrates OpenWRT sysfs integration for system health monitoring.
 
@@ -921,7 +921,7 @@ void SystemMonitor::readLoadAverages() {
 
 ---
 
-### Example: MIKROBUS Object (ID 34608)
+### Example: MIKROBUS Object (ID 10520)
 
 The MIKROBUS object demonstrates multiple instance support and peripheral interface configuration.
 
@@ -1670,19 +1670,19 @@ The Friendly LwM2M Client includes standard OMA objects:
 
 ## Walt Technologies Objects Summary
 
-The Friendly LwM2M Client includes **9 custom Walt Technologies objects** (IDs 34600-34608):
+The Friendly LwM2M Client includes **9 custom Walt Technologies objects** (IDs 10512-10520):
 
 | ID | Object | Key Features | Example Above |
 |----|--------|--------------|---------------|
-| 34600 | Starlink Terminal | gRPC integration, 70+ resources | ✓ |
-| 34601 | Router Management | LAN/WAN, DHCP, firewall | - |
-| 34602 | Ethernet Interface | Link status, traffic stats | - |
-| 34603 | GPIO Control | LED/button management | - |
-| 34604 | USB Management | Port control, device detection | - |
-| 34605 | Storage Management | NAND/NVMe/USB/SD | - |
-| 34606 | System Monitor | CPU, RAM, load monitoring | ✓ |
-| 34607 | Hardware Watchdog | Watchdog timer control | - |
-| 34608 | MIKROBUS | Click board management | ✓ |
+| 10512 | Starlink Terminal | gRPC integration, 70+ resources | ✓ |
+| 10513 | Router Management | LAN/WAN, DHCP, firewall | - |
+| 10514 | Ethernet Interface | Link status, traffic stats | - |
+| 10515 | GPIO Control | LED/button management | - |
+| 10516 | USB Management | Port control, device detection | - |
+| 10517 | Storage Management | NAND/NVMe/USB/SD | - |
+| 10518 | System Monitor | CPU, RAM, load monitoring | ✓ |
+| 10519 | Hardware Watchdog | Watchdog timer control | - |
+| 10520 | MIKROBUS | Click board management | ✓ |
 
 All objects follow similar implementation patterns and are documented in detail in their respective documentation files.
 

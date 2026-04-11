@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(FriendlyLwM2MClient
-    VERSION 1.1.0
+    VERSION 1.2.2
     DESCRIPTION "Enhanced LwM2M Client with MQTT Transport, Edge AI, and Delta Firmware Updates"
     LANGUAGES CXX C
 )
@@ -25,10 +25,10 @@ option(WITH_TFLITE "Enable TensorFlow Lite backend" OFF)
 option(WITH_ONNX "Enable ONNX Runtime backend" OFF)
 option(BUILD_TESTS "Build unit tests" ON)
 option(BUILD_EXAMPLES "Build example applications" ON)
-option(BUILD_DOCS "Build documentation" OFF)
+option(BUILD_DOCS "Build documentation" ON)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
-option(ENABLE_COVERAGE "Enable code coverage" OFF)
-option(ENABLE_SANITIZERS "Enable address/undefined sanitizers" OFF)
+option(ENABLE_COVERAGE "Enable code coverage" ON)
+option(ENABLE_SANITIZERS "Enable address/undefined sanitizers" ON)
 
 # ============================================================================
 # v1.2.0 New Feature Options
@@ -54,7 +54,7 @@ option(WITH_WIFI_CHANNEL_OPT "Enable WiFi Channel Optimization object (33423)" O
 
 # Starlink Integration
 option(WITH_STARLINK "Enable Starlink integration" ON)
-option(WITH_STARLINK_GRPC "Enable Starlink gRPC support (requires gRPC)" OFF)
+option(WITH_STARLINK_GRPC "Enable Starlink gRPC support (requires gRPC)" ON)
 
 # prpl Integration
 option(WITH_PRPL "Enable prplOS/prplMesh integration" OFF)
@@ -285,77 +285,77 @@ set(WPP_OBJECTS_SOURCES "")
 # Multi-WAN Objects
 if(WITH_WAN_FAILOVER)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_34611_wan_failover_policy/WanFailoverPolicy.cpp
+        wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp
     )
-    add_definitions(-DOBJ_W_34611_WAN_FAILOVER_POLICY)
+    add_definitions(-DOBJ_W_10525_WAN_FAILOVER_POLICY)
 endif()
 
 if(WITH_MULTIWAN_HEALTH)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_34612_multiwan_health_check/MultiWanHealthCheck.cpp
+        wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp
     )
-    add_definitions(-DOBJ_W_34612_MULTIWAN_HEALTH_CHECK)
+    add_definitions(-DOBJ_W_10526_MULTIWAN_HEALTH_CHECK)
 endif()
 
 # WiFi Management Objects
 if(WITH_WIFI_CLIENT_MGMT)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_34613_wifi_client_management/WifiClientManagement.cpp
+        wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp
     )
-    add_definitions(-DOBJ_W_34613_WIFI_CLIENT_MANAGEMENT)
+    add_definitions(-DOBJ_W_10527_WIFI_CLIENT_MANAGEMENT)
 endif()
 
 if(WITH_WIFI_CHANNEL_OPT)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_34614_wifi_channel_optimization/WifiChannelOptimization.cpp
+        wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp
     )
-    add_definitions(-DOBJ_W_34614_WIFI_CHANNEL_OPTIMIZATION)
+    add_definitions(-DOBJ_W_10528_WIFI_CHANNEL_OPTIMIZATION)
 endif()
 
 # Matter LwM2M Objects
 if(WITH_MATTER_BRIDGE)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_34615_matter_bridge/MatterBridge.cpp
-        wpp/registry/objects/w_34616_matter_device/MatterDevice.cpp
-        wpp/registry/objects/w_34617_thread_network/ThreadNetwork.cpp
+        wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp
+        wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp
+        wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp
     )
-    add_definitions(-DOBJ_W_34615_MATTER_BRIDGE)
-    add_definitions(-DOBJ_W_34616_MATTER_DEVICE)
-    add_definitions(-DOBJ_W_34617_THREAD_NETWORK)
+    add_definitions(-DOBJ_W_10529_MATTER_BRIDGE)
+    add_definitions(-DOBJ_W_10530_MATTER_DEVICE)
+    add_definitions(-DOBJ_W_10531_THREAD_NETWORK)
 endif()
 
 # Zigbee LwM2M Objects
 if(WITH_ZIGBEE)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_34618_zigbee_coordinator/ZigbeeCoordinator.cpp
-        wpp/registry/objects/w_34619_zigbee_device/ZigbeeDevice.cpp
-        wpp/registry/objects/w_34620_zigbee_group/ZigbeeGroup.cpp
+        wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp
+        wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp
+        wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp
     )
-    add_definitions(-DOBJ_W_34618_ZIGBEE_COORDINATOR)
-    add_definitions(-DOBJ_W_34619_ZIGBEE_DEVICE)
-    add_definitions(-DOBJ_W_34620_ZIGBEE_GROUP)
+    add_definitions(-DOBJ_W_10532_ZIGBEE_COORDINATOR)
+    add_definitions(-DOBJ_W_10533_ZIGBEE_DEVICE)
+    add_definitions(-DOBJ_W_10534_ZIGBEE_GROUP)
 endif()
 
 # Router Management Objects
 if(WITH_LAN_CONFIG)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_34621_lan_configuration/LanConfiguration.cpp
+        wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp
     )
-    add_definitions(-DOBJ_W_34621_LAN_CONFIGURATION)
+    add_definitions(-DOBJ_W_10535_LAN_CONFIGURATION)
 endif()
 
 if(WITH_ROUTING_TABLE)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_34622_routing_table/RoutingTable.cpp
+        wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp
     )
-    add_definitions(-DOBJ_W_34622_ROUTING_TABLE)
+    add_definitions(-DOBJ_W_10536_ROUTING_TABLE)
 endif()
 
 if(WITH_VPN_CONFIG)
     list(APPEND WPP_OBJECTS_SOURCES
-        wpp/registry/objects/w_34623_vpn_configuration/VpnConfiguration.cpp
+        wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp
     )
-    add_definitions(-DOBJ_W_34623_VPN_CONFIGURATION)
+    add_definitions(-DOBJ_W_10537_VPN_CONFIGURATION)
 endif()
 
 list(APPEND ALL_SOURCES ${WPP_OBJECTS_SOURCES})
@@ -372,6 +372,8 @@ target_include_directories(friendly_lwm2m
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/wpp/registry
+        ${CMAKE_CURRENT_SOURCE_DIR}/wpp/registry/objects
 )
 
 # Link dependencies
@@ -535,15 +537,21 @@ endif()
 # ============================================================================
 
 if(BUILD_EXAMPLES)
-    add_executable(example_delta_update
-        examples/delta_update_example.cpp
-    )
-    target_link_libraries(example_delta_update friendly_lwm2m)
+    # Optional example: delta_update_example
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/delta_update_example.cpp")
+        add_executable(example_delta_update
+            examples/delta_update_example.cpp
+        )
+        target_link_libraries(example_delta_update friendly_lwm2m)
+    endif()
 
-    add_executable(example_firmware_client
-        examples/firmware_client_example.cpp
-    )
-    target_link_libraries(example_firmware_client friendly_lwm2m)
+    # Optional example: firmware_client_example
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/firmware_client_example.cpp")
+        add_executable(example_firmware_client
+            examples/firmware_client_example.cpp
+        )
+        target_link_libraries(example_firmware_client friendly_lwm2m)
+    endif()
 endif()
 
 # ============================================================================

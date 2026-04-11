@@ -45,41 +45,41 @@
 #ifdef OBJ_O_5_FIRMWARE_UPDATE
 #include "o_5_firmware_update/FirmwareUpdate.h"
 #endif
-#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
-#include "o_34607_hardware_watchdog/HardwareWatchdog.h"
+#ifdef OBJ_O_10519_HARDWARE_WATCHDOG
+#include "o_10519_hardware_watchdog/HardwareWatchdog.h"
 #endif
 /* ---------- Optional objects include block end ---------- */
 
 /* ---------- Walt Technologies objects include block begin ---------- */
-#ifdef OBJ_O_34600_STARLINK_TERMINAL
-#include "o_34600_starlink_terminal/StarlinkTerminal.h"
+#ifdef OBJ_O_10512_STARLINK_TERMINAL
+#include "o_10512_starlink_terminal/StarlinkTerminal.h"
 #endif
-#ifdef OBJ_O_34608_MIKROBUS
-#include "o_34608_mikrobus/Mikrobus.h"
+#ifdef OBJ_O_10520_MIKROBUS
+#include "o_10520_mikrobus/Mikrobus.h"
 #endif
-#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
-#include "w_34601_router_management/RouterManagement.h"
+#ifdef OBJ_W_10513_ROUTER_MANAGEMENT
+#include "w_10513_router_management/RouterManagement.h"
 #endif
-#ifdef OBJ_W_34602_ETHERNET_INTERFACE
-#include "w_34602_ethernet_interface/EthernetInterface.h"
+#ifdef OBJ_W_10514_ETHERNET_INTERFACE
+#include "w_10514_ethernet_interface/EthernetInterface.h"
 #endif
-#ifdef OBJ_W_34603_GPIO_CONTROL
-#include "w_34603_gpio_control/GpioControl.h"
+#ifdef OBJ_W_10515_GPIO_CONTROL
+#include "w_10515_gpio_control/GpioControl.h"
 #endif
-#ifdef OBJ_W_34604_USB_MANAGEMENT
-#include "w_34604_usb_management/UsbManagement.h"
+#ifdef OBJ_W_10516_USB_MANAGEMENT
+#include "w_10516_usb_management/UsbManagement.h"
 #endif
-#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
-#include "w_34605_storage_management/StorageManagement.h"
+#ifdef OBJ_W_10517_STORAGE_MANAGEMENT
+#include "w_10517_storage_management/StorageManagement.h"
 #endif
-#ifdef OBJ_W_34606_SYSTEM_MONITOR
-#include "w_34606_system_monitor/SystemMonitor.h"
+#ifdef OBJ_W_10518_SYSTEM_MONITOR
+#include "w_10518_system_monitor/SystemMonitor.h"
 #endif
-#ifdef OBJ_W_34609_FIREWALL_CONFIG
-#include "w_34609_firewall_config/FirewallConfig.h"
+#ifdef OBJ_W_10521_FIREWALL_CONFIG
+#include "w_10521_firewall_config/FirewallConfig.h"
 #endif
-#ifdef OBJ_W_34610_POE_MANAGEMENT
-#include "w_34610_poe_management/PoeManagement.h"
+#ifdef OBJ_W_10522_POE_MANAGEMENT
+#include "w_10522_poe_management/PoeManagement.h"
 #endif
 /* ---------- Walt Technologies objects include block end ---------- */
 
@@ -186,40 +186,40 @@ public:
 	#ifdef OBJ_O_5_FIRMWARE_UPDATE
 	Object & firmwareUpdate();
 	#endif
-	#ifdef OBJ_O_34607_HARDWARE_WATCHDOG
+	#ifdef OBJ_O_10519_HARDWARE_WATCHDOG
 	Object & hardwareWatchdog();
 	#endif
 	/* ---------- Optional objects prototype block end ---------- */
 
 	/* ---------- Walt Technologies objects prototype block begin ---------- */
-	#ifdef OBJ_O_34600_STARLINK_TERMINAL
+	#ifdef OBJ_O_10512_STARLINK_TERMINAL
 	Object & starlinkTerminal();
 	#endif
-	#ifdef OBJ_O_34608_MIKROBUS
+	#ifdef OBJ_O_10520_MIKROBUS
 	Object & mikrobus();
 	#endif
-	#ifdef OBJ_W_34601_ROUTER_MANAGEMENT
+	#ifdef OBJ_W_10513_ROUTER_MANAGEMENT
 	Object & routerManagement();
 	#endif
-	#ifdef OBJ_W_34602_ETHERNET_INTERFACE
+	#ifdef OBJ_W_10514_ETHERNET_INTERFACE
 	Object & ethernetInterface();
 	#endif
-	#ifdef OBJ_W_34603_GPIO_CONTROL
+	#ifdef OBJ_W_10515_GPIO_CONTROL
 	Object & gpioControl();
 	#endif
-	#ifdef OBJ_W_34604_USB_MANAGEMENT
+	#ifdef OBJ_W_10516_USB_MANAGEMENT
 	Object & usbManagement();
 	#endif
-	#ifdef OBJ_W_34605_STORAGE_MANAGEMENT
+	#ifdef OBJ_W_10517_STORAGE_MANAGEMENT
 	Object & storageManagement();
 	#endif
-	#ifdef OBJ_W_34606_SYSTEM_MONITOR
+	#ifdef OBJ_W_10518_SYSTEM_MONITOR
 	Object & systemMonitor();
 	#endif
-	#ifdef OBJ_W_34609_FIREWALL_CONFIG
+	#ifdef OBJ_W_10521_FIREWALL_CONFIG
 	Object & firewallConfig();
 	#endif
-	#ifdef OBJ_W_34610_POE_MANAGEMENT
+	#ifdef OBJ_W_10522_POE_MANAGEMENT
 	Object & poeManagement();
 	#endif
 	/* ---------- Walt Technologies objects prototype block end ---------- */
