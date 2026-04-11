@@ -1,0 +1,24 @@
+{
+  "id": 34621,
+  "name": "LAN Configuration",
+  "vendor": "Walt Technologies",
+  "version": "1.0",
+  "description": "LAN network and DHCP server configuration for OpenWRT routers",
+  "multiInstance": true,
+  "mandatory": false,
+  "resources": [
+    {"id": 0, "name": "LAN IP Address", "operations": "RW", "type": "String", "mandatory": true},
+    {"id": 1, "name": "Subnet Mask", "operations": "RW", "type": "String", "mandatory": true},
+    {"id": 2, "name": "DHCP Enabled", "operations": "RW", "type": "Boolean", "mandatory": true},
+    {"id": 3, "name": "DHCP Pool Start", "operations": "RW", "type": "String", "mandatory": false},
+    {"id": 4, "name": "DHCP Pool End", "operations": "RW", "type": "String", "mandatory": false},
+    {"id": 5, "name": "DHCP Lease Time", "operations": "RW", "type": "Integer", "mandatory": false, "units": "s"},
+    {"id": 6, "name": "DNS Server Primary", "operations": "RW", "type": "String", "mandatory": false},
+    {"id": 7, "name": "DNS Server Secondary", "operations": "RW", "type": "String", "mandatory": false},
+    {"id": 8, "name": "Domain Name", "operations": "RW", "type": "String", "mandatory": false},
+    {"id": 9, "name": "Static Leases", "operations": "RW", "type": "String", "mandatory": false, "multiple": true},
+    {"id": 10, "name": "Active Leases", "operations": "R", "type": "String", "mandatory": false, "multiple": true},
+    {"id": 11, "name": "Apply Configuration", "operations": "E", "type": "Execute", "mandatory": true},
+    {"id": 12, "name": "Configuration Status", "operations": "R", "type": "Integer", "mandatory": true}
+  ]
+}
