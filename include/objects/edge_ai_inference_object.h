@@ -33,6 +33,7 @@
 #include <mutex>
 #include <atomic>
 #include <chrono>
+#include <thread>
 
 namespace lwm2m {
 namespace objects {
@@ -285,8 +286,6 @@ public:
         bool enableProfiling = false;
         uint64_t gpuMemoryLimit = 0;
         bool allowFP16 = true;
-
-        Config() = default;
     };
 
     /**
@@ -295,7 +294,7 @@ public:
      * @param config Configuration
      */
     explicit EdgeAIInferenceObject(uint16_t instanceId = 0,
-                                    const Config& config = Config());
+                                    const Config& config = {});
 
     /**
      * @brief Destructor

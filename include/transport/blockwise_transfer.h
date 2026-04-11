@@ -126,14 +126,12 @@ public:
         std::chrono::seconds blockTimeout{30};
         bool autoRetry = true;
         bool verifyChecksum = true;
-
-        Config() = default;
     };
 
     /**
      * @brief Constructor
      */
-    explicit BlockwiseTransfer(const Config& config = Config());
+    explicit BlockwiseTransfer(const Config& config = {});
 
     /**
      * @brief Destructor

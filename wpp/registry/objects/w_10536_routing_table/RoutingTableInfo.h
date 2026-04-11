@@ -6,14 +6,12 @@
 #ifndef WPP_ROUTING_TABLE_INFO_H
 #define WPP_ROUTING_TABLE_INFO_H
 
-#include "Lwm2mObjectBase.h"
-
 #ifdef OBJ_W_10536_ROUTING_TABLE
 
-#define ROUTING_TABLE_OBJECT_ID 34622
+#define ROUTING_TABLE_OBJECT_ID 10536
 
 static const Lwm2mObjectMetaInfo ROUTING_TABLE_META_INFO = {
-    .uri = "urn:waltech:lwm2m:34622",
+    .uri = "urn:waltech:lwm2m:10536",
     .id = ROUTING_TABLE_OBJECT_ID,
     .version = {1, 0},
     .multi = true  // Multiple instances - one per route

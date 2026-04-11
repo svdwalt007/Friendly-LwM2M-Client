@@ -6,14 +6,12 @@
 #ifndef WPP_WIFI_CHANNEL_OPTIMIZATION_INFO_H
 #define WPP_WIFI_CHANNEL_OPTIMIZATION_INFO_H
 
-#include "Lwm2mObjectBase.h"
-
 #ifdef OBJ_W_10528_WIFI_CHANNEL_OPTIMIZATION
 
-#define WIFI_CHANNEL_OPTIMIZATION_OBJECT_ID 34614
+#define WIFI_CHANNEL_OPTIMIZATION_OBJECT_ID 10528
 
 static const Lwm2mObjectMetaInfo WIFI_CHANNEL_OPTIMIZATION_META_INFO = {
-    .uri = "urn:waltech:lwm2m:34614",
+    .uri = "urn:waltech:lwm2m:10528",
     .id = WIFI_CHANNEL_OPTIMIZATION_OBJECT_ID,
     .version = {1, 0},
     .multi = true  // Multiple instances - one per wireless interface

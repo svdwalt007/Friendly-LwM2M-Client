@@ -12,9 +12,19 @@
 #include <algorithm>
 #include <cmath>
 
-// Note: In a real implementation, you would include gRPC headers here:
+// Note: gRPC support is optional - uncomment these to enable:
 // #include <grpcpp/grpcpp.h>
 // #include "device.grpc.pb.h"  // Generated from Starlink protobuf definitions
+
+// Stub implementation when grpc is not available
+#ifndef GRPCPP_GRPCPP_H
+namespace grpc {
+    class CompletionQueue {
+    public:
+        void Shutdown() {}
+    };
+}
+#endif
 
 namespace starlink {
 

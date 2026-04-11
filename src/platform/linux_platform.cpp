@@ -33,7 +33,8 @@
 #include <sys/statvfs.h>
 #include <linux/reboot.h>
 #include <mntent.h>
-#include <blkid/blkid.h>
+// Optional: blkid support for unmounted partition detection
+// #include <blkid/blkid.h>
 #include <openssl/sha.h>
 
 namespace fs = std::filesystem;
@@ -304,23 +305,25 @@ private:
         }
         
         endmntent(mounts);
-        
-        // Also check for unmounted A/B partitions using blkid
-        detectUnmountedPartitions();
+
+        // Note: blkid support disabled - install libblkid-dev to enable
+        // detectUnmountedPartitions();
     }
 
+    // Disabled: requires libblkid-dev (sudo apt install libblkid-dev)
+    /*
     void detectUnmountedPartitions() {
         blkid_cache cache = nullptr;
         if (blkid_get_cache(&cache, nullptr) != 0) {
             return;
         }
-        
+
         blkid_dev_iterate iter = blkid_dev_iterate_begin(cache);
         blkid_dev dev;
-        
+
         while (blkid_dev_next(iter, &dev) == 0) {
             const char* devname = blkid_dev_devname(dev);
-            
+
             // Check if already in our list
             bool found = false;
             for (const auto& p : partitions_) {
@@ -329,34 +332,35 @@ private:
                     break;
                 }
             }
-            
+
             if (!found && devname) {
                 std::string name = devname;
                 // Look for potential A/B partition naming
                 if (name.find("rootfs") != std::string::npos ||
                     name.find("system") != std::string::npos) {
-                    
+
                     PartitionInfo info;
                     info.device = devname;
                     info.name = name;
-                    
+
                     if (name.find("_b") != std::string::npos) {
                         info.slot = PartitionSlot::SLOT_B;
                     } else {
                         info.slot = PartitionSlot::SLOT_A;
                     }
-                    
+
                     info.isActive = false;
                     info.isBootable = true;
-                    
+
                     partitions_.push_back(info);
                 }
             }
         }
-        
+
         blkid_dev_iterate_end(iter);
         blkid_put_cache(cache);
     }
+    */
 
     void detectActiveSlot() {
         // Check GRUB environment

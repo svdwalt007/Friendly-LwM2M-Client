@@ -6,14 +6,12 @@
 #ifndef WPP_LAN_CONFIGURATION_INFO_H
 #define WPP_LAN_CONFIGURATION_INFO_H
 
-#include "Lwm2mObjectBase.h"
-
 #ifdef OBJ_W_10535_LAN_CONFIGURATION
 
-#define LAN_CONFIGURATION_OBJECT_ID 34621
+#define LAN_CONFIGURATION_OBJECT_ID 10535
 
 static const Lwm2mObjectMetaInfo LAN_CONFIGURATION_META_INFO = {
-    .uri = "urn:waltech:lwm2m:34621",
+    .uri = "urn:waltech:lwm2m:10535",
     .id = LAN_CONFIGURATION_OBJECT_ID,
     .version = {1, 0},
     .multi = true  // Multiple instances - one per LAN interface

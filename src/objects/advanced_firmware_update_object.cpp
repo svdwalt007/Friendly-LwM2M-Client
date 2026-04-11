@@ -109,7 +109,7 @@ bool AdvancedFirmwareUpdateObject::initialize() {
     // Initialize block transfer handler
     blockTransfer_ = std::make_unique<transport::BlockwiseTransfer>();
     blockTransfer_->setPreferredBlockSize(
-        static_cast<transport::BlockwiseTransfer::BlockSize>(blockSize_));
+        static_cast<transport::BlockSize>(blockSize_));
 
     // Get current firmware version
     auto systemManager = platform::PlatformFactory::getSystemManager();
@@ -788,15 +788,15 @@ bool AdvancedFirmwareUpdateObject::applyDeltaUpdate(
     setProgress(80, "Switching partitions");
 
     // Mark and switch - check return values
-    if (!partitionManager->setSlotBootable(inactiveSlot, true)) {
+    if (partitionManager->setSlotBootable(inactiveSlot, true) != platform::PlatformResult::SUCCESS) {
         conflictReason_ = "Failed to set slot bootable";
-        setState(FirmwareState::UPDATE_FAILED);
+        setState(FirmwareState::IDLE);
         return false;
     }
 
-    if (!partitionManager->switchSlot(inactiveSlot)) {
+    if (partitionManager->switchSlot(inactiveSlot) != platform::PlatformResult::SUCCESS) {
         conflictReason_ = "Failed to switch boot slot";
-        setState(FirmwareState::UPDATE_FAILED);
+        setState(FirmwareState::IDLE);
         return false;
     }
 
@@ -988,10 +988,10 @@ bool AdvancedFirmwareUpdateObject::handleBlock(uint32_t blockNum,
 void AdvancedFirmwareUpdateObject::setBlockSize(uint32_t size) {
     std::lock_guard<std::mutex> lock(mutex_);
     blockSize_ = size;
-    
+
     if (blockTransfer_) {
         blockTransfer_->setPreferredBlockSize(
-            static_cast<transport::BlockwiseTransfer::BlockSize>(size));
+            static_cast<transport::BlockSize>(size));
     }
 }
 
