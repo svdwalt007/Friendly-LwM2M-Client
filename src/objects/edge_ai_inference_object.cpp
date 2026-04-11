@@ -46,6 +46,10 @@ EdgeAIInferenceObject::EdgeAIInferenceObject(uint16_t instanceId, const Config& 
     , profilingEnabled_(config.enableProfiling) {
 }
 
+EdgeAIInferenceObject::EdgeAIInferenceObject(uint16_t instanceId)
+    : EdgeAIInferenceObject(instanceId, Config()) {
+}
+
 EdgeAIInferenceObject::~EdgeAIInferenceObject() {
     stopAllThreads();
     unloadModel();

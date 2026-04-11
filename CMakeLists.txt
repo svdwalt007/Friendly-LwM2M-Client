@@ -374,6 +374,10 @@ target_include_directories(friendly_lwm2m
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/wpp/registry
         ${CMAKE_CURRENT_SOURCE_DIR}/wpp/registry/objects
+        ${CMAKE_CURRENT_SOURCE_DIR}/wpp/registry/data_model/instance
+        ${CMAKE_CURRENT_SOURCE_DIR}/wpp/registry/data_model/object/observer
+        ${CMAKE_CURRENT_SOURCE_DIR}/wpp/registry/data_model/resource
+        ${CMAKE_CURRENT_SOURCE_DIR}/wpp/registry/data_model/types
 )
 
 # Link dependencies

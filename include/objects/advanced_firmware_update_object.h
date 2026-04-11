@@ -194,12 +194,17 @@ public:
     };
 
     /**
-     * @brief Constructor
+     * @brief Constructor with config
      * @param instanceId Object instance ID
      * @param config Configuration
      */
-    explicit AdvancedFirmwareUpdateObject(uint16_t instanceId = 0,
-                                           const Config& config = {});
+    explicit AdvancedFirmwareUpdateObject(uint16_t instanceId, const Config& config);
+
+    /**
+     * @brief Default constructor
+     * @param instanceId Object instance ID
+     */
+    explicit AdvancedFirmwareUpdateObject(uint16_t instanceId = 0);
 
     /**
      * @brief Destructor

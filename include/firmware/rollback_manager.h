@@ -126,10 +126,15 @@ public:
     };
 
     /**
-     * @brief Constructor
+     * @brief Constructor with config
      * @param config Configuration settings
      */
-    explicit RollbackManager(const Config& config = {});
+    explicit RollbackManager(const Config& config);
+
+    /**
+     * @brief Default constructor
+     */
+    RollbackManager();
 
     /**
      * @brief Destructor

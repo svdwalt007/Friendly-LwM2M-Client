@@ -129,9 +129,14 @@ public:
     };
 
     /**
-     * @brief Constructor
+     * @brief Constructor with config
      */
-    explicit BlockwiseTransfer(const Config& config = {});
+    explicit BlockwiseTransfer(const Config& config);
+
+    /**
+     * @brief Default constructor
+     */
+    BlockwiseTransfer();
 
     /**
      * @brief Destructor

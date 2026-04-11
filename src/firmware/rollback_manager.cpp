@@ -31,6 +31,10 @@ RollbackManager::RollbackManager(const Config& config)
     : config_(config) {
 }
 
+RollbackManager::RollbackManager()
+    : config_() {
+}
+
 RollbackManager::~RollbackManager() {
     // Save state before destruction
     if (initialized_) {

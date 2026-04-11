@@ -32,6 +32,7 @@
 #include <sys/sysinfo.h>
 #include <sys/statvfs.h>
 #include <linux/reboot.h>
+#include <linux/fs.h>  // For BLKGETSIZE64
 #include <mntent.h>
 // Optional: blkid support for unmounted partition detection
 // #include <blkid/blkid.h>
@@ -758,7 +759,7 @@ public:
     std::string getFirmwareVersion() override {
         std::string content;
         if (readFile(OS_RELEASE, content)) {
-            std::regex versionRegex(R"(VERSION_ID="?([^"\n]+)"?)");
+            std::regex versionRegex(R"(VERSION_ID=\"?([^\"\n]+)\"?)");
             std::smatch match;
             if (std::regex_search(content, match, versionRegex)) {
                 return match[1].str();
@@ -780,16 +781,16 @@ public:
 
 bool PlatformFactory::detectPlatform() {
     std::string content;
-    
+
     // Check for OpenWRT first
-    if (readFile("/etc/openwrt_release", content)) {
+    if (linux_generic::readFile("/etc/openwrt_release", content)) {
         platformName_ = "openwrt";
         // OpenWRT initialization handled in openwrt_platform.cpp
         return true;
     }
-    
+
     // Check for generic Linux
-    if (readFile("/etc/os-release", content)) {
+    if (linux_generic::readFile("/etc/os-release", content)) {
         platformName_ = "linux";
         
         partitionManager_ = std::make_shared<linux_generic::LinuxPartitionManager>();

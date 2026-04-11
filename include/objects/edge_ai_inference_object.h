@@ -289,12 +289,17 @@ public:
     };
 
     /**
-     * @brief Constructor
+     * @brief Constructor with config
      * @param instanceId Instance ID
      * @param config Configuration
      */
-    explicit EdgeAIInferenceObject(uint16_t instanceId = 0,
-                                    const Config& config = {});
+    explicit EdgeAIInferenceObject(uint16_t instanceId, const Config& config);
+
+    /**
+     * @brief Default constructor
+     * @param instanceId Instance ID
+     */
+    explicit EdgeAIInferenceObject(uint16_t instanceId = 0);
 
     /**
      * @brief Destructor

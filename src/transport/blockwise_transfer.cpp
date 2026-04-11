@@ -27,6 +27,10 @@ BlockwiseTransfer::BlockwiseTransfer(const Config& config)
     : config_(config) {
 }
 
+BlockwiseTransfer::BlockwiseTransfer()
+    : config_() {
+}
+
 BlockwiseTransfer::~BlockwiseTransfer() {
     std::lock_guard<std::mutex> lock(mutex_);
     transfers_.clear();

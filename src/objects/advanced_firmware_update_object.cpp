@@ -62,8 +62,12 @@ AdvancedFirmwareUpdateObject::AdvancedFirmwareUpdateObject(uint16_t instanceId,
     , instanceId_(instanceId)
     , deltaAlgorithm_(config.defaultDeltaAlgorithm)
     , blockSize_(config.defaultBlockSize) {
-    
+
     lastStateChange_ = std::chrono::system_clock::now();
+}
+
+AdvancedFirmwareUpdateObject::AdvancedFirmwareUpdateObject(uint16_t instanceId)
+    : AdvancedFirmwareUpdateObject(instanceId, Config()) {
 }
 
 AdvancedFirmwareUpdateObject::~AdvancedFirmwareUpdateObject() {
