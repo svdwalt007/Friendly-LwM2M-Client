@@ -1,0 +1,1313 @@
+-- Build Environment: DEV
+-- Configuring DEV build environment
+-- ====================================================
+-- Build Environment Configuration Summary
+-- ====================================================
+-- Environment: DEV
+-- Build Type: RelWithDebInfo
+-- Build Tests: ON
+-- Build Examples: ON
+-- Coverage: OFF
+-- Sanitizers: ON
+-- Static DTLS Link: ON
+-- CXX Flags:  -fstack-protector-strong
+-- Linker Flags: 
+-- ====================================================
+-- Found mbedTLS: /usr/lib/x86_64-linux-gnu/libmbedtls.so
+-- DTLS Providers enabled: 1
+-- Default DTLS Provider: mbedtls
+-- Static DTLS linking enabled
+--   Static library not found for mbedtls, using dynamic
+--   Static library not found for mbedx509, using dynamic
+--   Static library not found for mbedcrypto, using dynamic
+-- ====================================================
+-- DTLS Configuration Summary
+-- ====================================================
+-- DTLS Providers: 1
+--   - mbedTLS: ON
+--   - TinyDTLS: OFF
+--   - OpenSSL: OFF
+--   - wolfSSL: OFF
+-- Default Provider: mbedtls
+-- Static Linking: ON
+-- Libraries: /usr/lib/x86_64-linux-gnu/libmbedtls.so;/usr/lib/x86_64-linux-gnu/libmbedx509.so;/usr/lib/x86_64-linux-gnu/libmbedcrypto.so
+-- Linker Flags: -Wl,--gc-sections -Wl,--as-needed -Wl,-O1 -static-libgcc -static-libstdc++
+-- ====================================================
+-- PostgreSQL library directory (from pg_config): /usr/lib/x86_64-linux-gnu
+-- Found GSSAPI via pkg-config: gssapi_krb5
+-- Found libssh for CURL: /usr/lib/x86_64-linux-gnu/libssh.a
+-- Found nghttp2 for CURL: /usr/lib/x86_64-linux-gnu/libnghttp2.a
+-- Found zstd for CURL: /usr/lib/x86_64-linux-gnu/libzstd.a
+-- Found brotli for CURL: /usr/lib/x86_64-linux-gnu/libbrotlicommon.a, /usr/lib/x86_64-linux-gnu/libbrotlidec.a
+-- Found libpsl for CURL: /usr/lib/x86_64-linux-gnu/libpsl.a
+-- Found librtmp for CURL: /usr/lib/x86_64-linux-gnu/librtmp.a
+-- Found libidn2 for CURL: /usr/lib/x86_64-linux-gnu/libidn2.a
+-- Found libldap for CURL: /usr/lib/x86_64-linux-gnu/libldap.a, /usr/lib/x86_64-linux-gnu/liblber.a
+-- Found GnuTLS for LDAP: /usr/lib/x86_64-linux-gnu/libgnutls.a
+-- Found SASL2 for LDAP: /usr/lib/x86_64-linux-gnu/libsasl2.a
+-- Found Nettle for GnuTLS: /usr/lib/x86_64-linux-gnu/libnettle.a
+-- Found Hogweed for GnuTLS: /usr/lib/x86_64-linux-gnu/libhogweed.a
+-- Found GMP for GnuTLS: /usr/lib/x86_64-linux-gnu/libgmp.a
+-- Found libtasn1 for GnuTLS: /usr/lib/x86_64-linux-gnu/libtasn1.a
+-- Found libunistring for libidn2: /usr/lib/x86_64-linux-gnu/libunistring.a
+-- Found OpenSSL for crypto: /usr/lib/x86_64-linux-gnu/libssl.a;/usr/lib/x86_64-linux-gnu/libcrypto.a
+-- Found Berkeley DB for SASL (optional): /usr/lib/x86_64-linux-gnu/libdb.a
+-- Found SQLite for SASL (optional): /usr/lib/x86_64-linux-gnu/libsqlite3.a
+-- Found PostgreSQL for SASL (optional): /usr/lib/x86_64-linux-gnu/libpq.a
+-- Found MySQL for SASL (optional): /usr/lib/x86_64-linux-gnu/libmysqlclient.a
+-- Found zstd for MySQL: /usr/lib/x86_64-linux-gnu/libzstd.a
+-- Found zstd: /usr/lib/x86_64-linux-gnu/libzstd.a
+-- Found brotli: /usr/lib/x86_64-linux-gnu/libbrotlienc.a
+-- Target 'friendly_lwm2m' linked with optimized DTLS libraries
+-- Target 'test_dtls_providers' linked with optimized DTLS libraries
+-- Target 'test_dtls_integration' linked with optimized DTLS libraries
+-- Building for 64 bit system
+-- Exceptions are not supported
+-- RTTI is not supported
+-- Found GSSAPI via pkg-config: gssapi_krb5
+-- Found libssh for CURL: /usr/lib/x86_64-linux-gnu/libssh.a
+-- Found nghttp2 for CURL: /usr/lib/x86_64-linux-gnu/libnghttp2.a
+-- Found zstd for CURL: /usr/lib/x86_64-linux-gnu/libzstd.a
+-- Found brotli for CURL: /usr/lib/x86_64-linux-gnu/libbrotlicommon.a, /usr/lib/x86_64-linux-gnu/libbrotlidec.a
+-- Enabling mbedTLS provider
+-- DTLS Provider Sources: platform/connection_dtls/MbedTlsProvider.cpp;platform/connection_dtls/DtlsProviderFactory.cpp
+-- DTLS Provider Libraries: MbedTLS::mbedtls;MbedTLS::mbedx509;MbedTLS::mbedcrypto
+-- friendly_example_client: Endiannes not set, defaulting to little endian
+-- libcoap built successfully. Library path: /mnt/d/Dev/Friendly-LwM2M-Client/examples/coap/libcoap/build
+-- Using example Firmware Updater
+-- 
+-- Friendly LwM2M Client Configuration:
+--   Version:          1.2.2
+--   Build type:       RelWithDebInfo
+--   C++ Standard:     17
+-- 
+-- Core Features:
+--   DTLS:             ON
+--   mbedTLS:          ON
+--   TinyDTLS:         OFF
+-- 
+-- DTLS Multi-Provider (v1.2.2):
+--   TinyDTLS Provider: OFF
+--   mbedTLS Provider:  ON (DEFAULT)
+--   OpenSSL Provider:  OFF
+--   wolfSSL Provider:  OFF
+--   Default Provider:  mbedtls
+--   Static Linking:    ON
+--   Delta FOTA:       ON
+--   BSDIFF:           ON
+--   VCDIFF:           ON
+--   Courgette:        ON
+--   Compression:      ON
+--   Rollback:         ON
+--   MQTT Transport:   ON
+--   Edge AI:          OFF
+--   TensorFlow Lite:  OFF
+--   ONNX Runtime:     OFF
+-- 
+-- v1.2.0 Extended Features:
+--   OpenWRT Extended: ON
+--   LUCI Module:      ON
+--   Hotplug Handlers: ON
+--   LAN Config:       OFF
+--   Routing Table:    OFF
+--   VPN Config:       OFF
+--   WAN Failover:     OFF
+--   Multi-WAN Health: OFF
+--   WiFi Client Mgmt: OFF
+--   WiFi Channel Opt: OFF
+--   Starlink:         OFF
+--   Starlink gRPC:    ON
+-- 
+-- Platform Integrations:
+--   prpl Integration: OFF
+--   prpl EasyMesh:    OFF
+--   prpl Ambiorix:    OFF
+--   Matter/Thread:    OFF
+--   Matter Bridge:    OFF
+--   Thread BR:        OFF
+--   Zigbee:           OFF
+--   Zigbee EZSP:      OFF
+--   Zigbee Z-Stack:   OFF
+-- 
+-- Build options:
+--   Tests:            ON
+--   Examples:         ON
+--   Documentation:    ON
+--   Coverage:         OFF
+--   Sanitizers:       ON
+-- 
+-- Optional libraries found:
+--   BZip2:            TRUE
+--   LZMA:             TRUE
+--   Zstd:             TRUE
+--   Brotli:           TRUE
+-- 
+-- Configuring done (8.4s)
+-- Generating done (6.9s)
+-- Build files have been written to: /mnt/d/Dev/Friendly-LwM2M-Client/build
+[  6%] Built target test_dtls_providers
+[  9%] Built target test_dtls_integration
+[ 20%] Built target friendly_lwm2m
+[ 23%] Built target test_rollback_manager
+[ 23%] Linking CXX executable test_firmware_update_object
+[ 28%] Built target test_delta_algorithms
+[ 28%] Built target test_blockwise_transfer
+[ 29%] Linking CXX executable friendly_example_client
+lto-wrapper: warning: using serial compilation of 10 LTRANS jobs
+lto-wrapper: note: see the ‘-flto’ option documentation for more information
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c: In function ‘lwm2m_handle_packet’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:794:25: warning: ‘block2_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  794 |                         LOG_ARG("Blockwise: block2 response NUM %u (SZX %u/ SZX Max%u) MORE %u", block2_num,
+      |                         ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:788:34: note: ‘block2_size’ was declared here
+  788 |                         uint16_t block2_size;
+      |                                  ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:798:43: warning: ‘block2_more’ may be used uninitialized [-Wmaybe-uninitialized]
+  798 |                         coap_error_code = coap_block2_handler(&peerP->blockData, message->mid, message->payload, message->payload_len, block2_size, block2_num, block2_more, &complete_buffer, &complete_buffer_size);
+      |                                           ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:787:34: note: ‘block2_more’ was declared here
+  787 |                         uint8_t  block2_more;
+      |                                  ^
+In function ‘coap_block2_handler’,
+    inlined from ‘lwm2m_handle_packet’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:798:43:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/coap/block.c:345:12: warning: ‘block2_num’ may be used uninitialized [-Wmaybe-uninitialized]
+  345 |     return prv_coap_block_handler(pBlockDataHead, identifier, BLOCK_2, buffer, length, blockSize, blockNum, blockMore, outputBuffer, outputLength);
+      |            ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c: In function ‘lwm2m_handle_packet’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:786:34: note: ‘block2_num’ was declared here
+  786 |                         uint32_t block2_num;
+      |                                  ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:583:21: warning: ‘block1_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  583 |                     LOG_ARG("Blockwise: block1 request NUM %u (SZX %u/ SZX Max%u) MORE %u", block1_num, block1_size,
+      |                     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:577:30: note: ‘block1_size’ was declared here
+  577 |                     uint16_t block1_size;
+      |                              ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:583:21: warning: ‘block1_more’ may be used uninitialized [-Wmaybe-uninitialized]
+  583 |                     LOG_ARG("Blockwise: block1 request NUM %u (SZX %u/ SZX Max%u) MORE %u", block1_num, block1_size,
+      |                     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:576:30: note: ‘block1_more’ was declared here
+  576 |                     uint8_t  block1_more;
+      |                              ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:583:21: warning: ‘block1_num’ may be used uninitialized [-Wmaybe-uninitialized]
+  583 |                     LOG_ARG("Blockwise: block1 request NUM %u (SZX %u/ SZX Max%u) MORE %u", block1_num, block1_size,
+      |                     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:575:30: note: ‘block1_num’ was declared here
+  575 |                     uint32_t block1_num;
+      |                              ^
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libsasl2.a(digestmd5.o): in function `dec_des':
+(.text+0xc3e): undefined reference to `DES_cbc_encrypt'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libsasl2.a(digestmd5.o): in function `enc_des':
+(.text+0xd7b): undefined reference to `DES_cbc_encrypt'
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/json.c: In function ‘json_parse’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/json.c:631:36: warning: ‘size’ may be used uninitialized [-Wmaybe-uninitialized]
+  631 |                     for (i = 0 ; i < size && resP == NULL; i++)
+      |                                    ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/json.c:556:13: note: ‘size’ was declared here
+  556 |         int size;
+      |             ^
+In function ‘senml_json_parse’,
+    inlined from ‘lwm2m_data_parse’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/data.c:856:16:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/senml_json.c:713:32: warning: ‘size’ may be used uninitialized [-Wmaybe-uninitialized]
+  713 |                 for (i = 0 ; i < size && resP == NULL; i++)
+      |                                ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/senml_json.c: In function ‘lwm2m_data_parse’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/senml_json.c:673:9: note: ‘size’ was declared here
+  673 |     int size;
+      |         ^
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `myssh_statemach_act':
+(.text+0x105): undefined reference to `ssh_scp_free'
+/usr/bin/ld: (.text+0x11e): undefined reference to `ssh_set_blocking'
+/usr/bin/ld: (.text+0x13d): undefined reference to `ssh_scp_free'
+/usr/bin/ld: (.text+0x154): undefined reference to `ssh_disconnect'
+/usr/bin/ld: (.text+0x15e): undefined reference to `ssh_version'
+/usr/bin/ld: (.text+0x178): undefined reference to `ssh_string_free_char'
+/usr/bin/ld: (.text+0x1ad): undefined reference to `ssh_free'
+/usr/bin/ld: (.text+0x1c9): undefined reference to `ssh_string_free_char'
+/usr/bin/ld: (.text+0x1e5): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x1f6): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x207): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x218): undefined reference to `ssh_key_free'
+/usr/bin/ld: (.text+0x229): undefined reference to `ssh_key_free'
+/usr/bin/ld: (.text+0x2bb): undefined reference to `ssh_string_free_char'
+/usr/bin/ld: (.text+0x391): undefined reference to `ssh_set_blocking'
+/usr/bin/ld: (.text+0x3ab): undefined reference to `ssh_connect'
+/usr/bin/ld: (.text+0x41e): undefined reference to `ssh_get_server_publickey'
+/usr/bin/ld: (.text+0x45c): undefined reference to `ssh_get_publickey_hash'
+/usr/bin/ld: (.text+0x4c4): undefined reference to `ssh_clean_pubkey_hash'
+/usr/bin/ld: (.text+0x4d0): undefined reference to `ssh_key_free'
+/usr/bin/ld: (.text+0x4e1): undefined reference to `ssh_knownhosts_entry_free'
+/usr/bin/ld: (.text+0x515): undefined reference to `ssh_userauth_none'
+/usr/bin/ld: (.text+0x560): undefined reference to `ssh_scp_init'
+/usr/bin/ld: (.text+0x582): undefined reference to `ssh_scp_pull_request'
+/usr/bin/ld: (.text+0x597): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x5fc): undefined reference to `ssh_userauth_password'
+/usr/bin/ld: (.text+0x64d): undefined reference to `ssh_set_blocking'
+/usr/bin/ld: (.text+0x659): undefined reference to `sftp_new'
+/usr/bin/ld: (.text+0x671): undefined reference to `sftp_init'
+/usr/bin/ld: (.text+0x69a): undefined reference to `sftp_canonicalize_path'
+/usr/bin/ld: (.text+0x6cc): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x741): undefined reference to `ssh_scp_close'
+/usr/bin/ld: (.text+0x788): undefined reference to `ssh_scp_init'
+/usr/bin/ld: (.text+0x7af): undefined reference to `ssh_scp_push_file'
+/usr/bin/ld: (.text+0x7c3): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x830): undefined reference to `sftp_fstat'
+/usr/bin/ld: (.text+0x8a5): undefined reference to `sftp_close'
+/usr/bin/ld: (.text+0x8c3): undefined reference to `sftp_open'
+/usr/bin/ld: (.text+0x8db): undefined reference to `sftp_file_set_nonblocking'
+/usr/bin/ld: (.text+0x900): undefined reference to `sftp_closedir'
+/usr/bin/ld: (.text+0x94d): undefined reference to `sftp_close'
+/usr/bin/ld: (.text+0x969): undefined reference to `sftp_free'
+/usr/bin/ld: (.text+0x985): undefined reference to `ssh_string_free_char'
+/usr/bin/ld: (.text+0x9c5): undefined reference to `sftp_close'
+/usr/bin/ld: (.text+0xa7d): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0xa90): undefined reference to `sftp_lstat'
+/usr/bin/ld: (.text+0xb5c): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0xb6f): undefined reference to `sftp_readdir'
+/usr/bin/ld: (.text+0xc78): undefined reference to `sftp_mkdir'
+/usr/bin/ld: (.text+0xd79): undefined reference to `sftp_close'
+/usr/bin/ld: (.text+0xd98): undefined reference to `sftp_open'
+/usr/bin/ld: (.text+0xe44): undefined reference to `sftp_seek64'
+/usr/bin/ld: (.text+0xe66): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0xece): undefined reference to `sftp_setstat'
+/usr/bin/ld: (.text+0xf32): undefined reference to `sftp_stat'
+/usr/bin/ld: (.text+0xf49): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x1041): undefined reference to `ssh_userauth_publickey'
+/usr/bin/ld: (.text+0x1266): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x1279): undefined reference to `sftp_stat'
+/usr/bin/ld: (.text+0x1447): undefined reference to `sftp_rmdir'
+/usr/bin/ld: (.text+0x1487): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x14af): undefined reference to `sftp_statvfs'
+/usr/bin/ld: (.text+0x14fd): undefined reference to `sftp_statvfs_free'
+/usr/bin/ld: (.text+0x158d): undefined reference to `sftp_mkdir'
+/usr/bin/ld: (.text+0x15cd): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x161f): undefined reference to `sftp_unlink'
+/usr/bin/ld: (.text+0x165f): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x168e): undefined reference to `sftp_rename'
+/usr/bin/ld: (.text+0x16e6): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x1716): undefined reference to `sftp_symlink'
+/usr/bin/ld: (.text+0x176e): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x17b3): undefined reference to `ssh_string_free_char'
+/usr/bin/ld: (.text+0x1842): undefined reference to `ssh_userauth_kbdint'
+/usr/bin/ld: (.text+0x1860): undefined reference to `ssh_userauth_kbdint_getnprompts'
+/usr/bin/ld: (.text+0x187e): undefined reference to `ssh_userauth_kbdint_setanswer'
+/usr/bin/ld: (.text+0x18a1): undefined reference to `ssh_userauth_kbdint'
+/usr/bin/ld: (.text+0x18c3): undefined reference to `ssh_userauth_kbdint_getnprompts'
+/usr/bin/ld: (.text+0x18e6): undefined reference to `ssh_userauth_kbdint'
+/usr/bin/ld: (.text+0x1942): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x19bf): undefined reference to `sftp_seek64'
+/usr/bin/ld: (.text+0x1af8): undefined reference to `ssh_scp_request_get_size'
+/usr/bin/ld: (.text+0x1c1d): undefined reference to `ssh_pki_import_privkey_file'
+/usr/bin/ld: (.text+0x1cdd): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x1d50): undefined reference to `ssh_string_free_char'
+/usr/bin/ld: (.text+0x1ef4): undefined reference to `ssh_userauth_list'
+/usr/bin/ld: (.text+0x1f34): undefined reference to `ssh_session_get_known_hosts_entry'
+/usr/bin/ld: (.text+0x1f68): undefined reference to `ssh_pki_export_pubkey_base64'
+/usr/bin/ld: (.text+0x1f9a): undefined reference to `ssh_key_type'
+/usr/bin/ld: (.text+0x2182): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2323): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2361): undefined reference to `sftp_opendir'
+/usr/bin/ld: (.text+0x23c4): undefined reference to `ssh_set_blocking'
+/usr/bin/ld: (.text+0x23f7): undefined reference to `ssh_scp_new'
+/usr/bin/ld: (.text+0x2421): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x245f): undefined reference to `ssh_userauth_gssapi'
+/usr/bin/ld: (.text+0x258f): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x25d2): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x263d): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x2673): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x26a3): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2857): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x287c): undefined reference to `sftp_dir_eof'
+/usr/bin/ld: (.text+0x2976): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x2a5b): undefined reference to `sftp_readlink'
+/usr/bin/ld: (.text+0x2ae8): undefined reference to `sftp_stat'
+/usr/bin/ld: (.text+0x2b0d): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x2bc9): undefined reference to `ssh_scp_new'
+/usr/bin/ld: (.text+0x2c4a): undefined reference to `ssh_userauth_publickey_auto'
+/usr/bin/ld: (.text+0x2ddf): undefined reference to `ssh_pki_export_pubkey_base64'
+/usr/bin/ld: (.text+0x2e13): undefined reference to `ssh_key_type'
+/usr/bin/ld: (.text+0x3037): undefined reference to `sftp_seek64'
+/usr/bin/ld: (.text+0x31d1): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x31f6): undefined reference to `ssh_userauth_try_publickey'
+/usr/bin/ld: (.text+0x3226): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x3390): undefined reference to `ssh_session_update_known_hosts'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `sftp_send':
+(.text+0x382d): undefined reference to `sftp_write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `scp_send':
+(.text+0x3883): undefined reference to `ssh_scp_write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `scp_recv':
+(.text+0x38ca): undefined reference to `ssh_scp_read'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `sftp_recv':
+(.text+0x3aed): undefined reference to `sftp_async_read'
+/usr/bin/ld: (.text+0x3b28): undefined reference to `ssh_get_poll_flags'
+/usr/bin/ld: (.text+0x3b65): undefined reference to `sftp_async_read_begin'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `myssh_multi_statemach':
+(.text+0x3c18): undefined reference to `ssh_get_poll_flags'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `scp_doing':
+(.text+0x3d98): undefined reference to `ssh_get_poll_flags'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `sftp_doing':
+(.text+0x3e48): undefined reference to `ssh_get_poll_flags'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `myssh_connect':
+(.text+0x3f0c): undefined reference to `ssh_new'
+/usr/bin/ld: (.text+0x3f2d): undefined reference to `ssh_options_set'
+/usr/bin/ld: (.text+0x3f43): undefined reference to `ssh_options_parse_config'
+/usr/bin/ld: (.text+0x3f60): undefined reference to `ssh_options_set'
+/usr/bin/ld: (.text+0x3f99): undefined reference to `ssh_options_set'
+/usr/bin/ld: (.text+0x3fce): undefined reference to `ssh_options_set'
+/usr/bin/ld: (.text+0x3fef): undefined reference to `ssh_options_set'
+/usr/bin/ld: (.text+0x4038): undefined reference to `ssh_pki_import_pubkey_file'
+/usr/bin/ld: (.text+0x4154): undefined reference to `ssh_options_set'
+/usr/bin/ld: (.text+0x41b4): undefined reference to `ssh_options_set'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `Curl_ssh_init':
+(.text+0x4269): undefined reference to `ssh_init'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `Curl_ssh_version':
+(.text+0x42a4): undefined reference to `ssh_version'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `Curl_ssh_cleanup':
+(.text+0x4285): undefined reference to `ssh_finalize'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_query':
+(.text+0x113): undefined reference to `nghttp2_session_check_request_allowed'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `h2_process_pending_input':
+(.text+0x2c0): undefined reference to `nghttp2_session_mem_recv'
+/usr/bin/ld: (.text+0x325): undefined reference to `nghttp2_session_check_request_allowed'
+/usr/bin/ld: (.text+0x367): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_is_alive':
+(.text+0x562): undefined reference to `nghttp2_session_want_read'
+/usr/bin/ld: (.text+0x576): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `h2_pri_spec':
+(.text+0x6bf): undefined reference to `nghttp2_priority_spec_init'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `h2_progress_egress':
+(.text+0x7ae): undefined reference to `nghttp2_submit_priority'
+/usr/bin/ld: (.text+0x7bb): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0x824): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: (.text+0x830): undefined reference to `nghttp2_session_send'
+/usr/bin/ld: (.text+0x849): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0x8de): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `on_begin_headers':
+(.text+0xa0c): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `req_body_read_callback':
+(.text+0xcbe): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `on_stream_close':
+(.text+0xeb9): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: (.text+0xf29): undefined reference to `nghttp2_session_set_stream_user_data'
+/usr/bin/ld: (.text+0xf7d): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `http2_handle_stream_close':
+(.text+0x129d): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_recv':
+(.text+0x15e2): undefined reference to `nghttp2_session_consume'
+/usr/bin/ld: (.text+0x166d): undefined reference to `nghttp2_session_get_local_window_size'
+/usr/bin/ld: (.text+0x167c): undefined reference to `nghttp2_session_get_stream_effective_local_window_size'
+/usr/bin/ld: (.text+0x168b): undefined reference to `nghttp2_session_get_stream_effective_recv_data_length'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `on_data_chunk_recv':
+(.text+0x17f6): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: (.text+0x18b9): undefined reference to `nghttp2_session_consume'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_adjust_pollset':
+(.text+0x1968): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x19d7): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0x1a01): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: (.text+0x1a48): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_ctx_clear':
+(.text+0x1a87): undefined reference to `nghttp2_session_del'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_keep_alive':
+(.text+0x2013): undefined reference to `nghttp2_submit_ping'
+/usr/bin/ld: (.text+0x201f): undefined reference to `nghttp2_session_send'
+/usr/bin/ld: (.text+0x204e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2074): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `http2_data_done.isra.0':
+(.text+0x211c): undefined reference to `nghttp2_submit_rst_stream'
+/usr/bin/ld: (.text+0x214a): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: (.text+0x215b): undefined reference to `nghttp2_session_set_stream_user_data'
+/usr/bin/ld: (.text+0x2209): undefined reference to `nghttp2_session_consume'
+/usr/bin/ld: (.text+0x2224): undefined reference to `nghttp2_session_send'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_cntrl':
+(.text+0x22d1): undefined reference to `nghttp2_session_set_local_window_size'
+/usr/bin/ld: (.text+0x2396): undefined reference to `nghttp2_session_resume_data'
+/usr/bin/ld: (.text+0x23da): undefined reference to `nghttp2_session_set_local_window_size'
+/usr/bin/ld: (.text+0x2434): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_ctx_init':
+(.text+0x262c): undefined reference to `nghttp2_session_callbacks_new'
+/usr/bin/ld: (.text+0x264e): undefined reference to `nghttp2_session_callbacks_set_send_callback'
+/usr/bin/ld: (.text+0x2661): undefined reference to `nghttp2_session_callbacks_set_on_frame_recv_callback'
+/usr/bin/ld: (.text+0x2674): undefined reference to `nghttp2_session_callbacks_set_on_frame_send_callback'
+/usr/bin/ld: (.text+0x2687): undefined reference to `nghttp2_session_callbacks_set_on_data_chunk_recv_callback'
+/usr/bin/ld: (.text+0x269a): undefined reference to `nghttp2_session_callbacks_set_on_stream_close_callback'
+/usr/bin/ld: (.text+0x26ad): undefined reference to `nghttp2_session_callbacks_set_on_begin_headers_callback'
+/usr/bin/ld: (.text+0x26c0): undefined reference to `nghttp2_session_callbacks_set_on_header_callback'
+/usr/bin/ld: (.text+0x26d3): undefined reference to `nghttp2_session_callbacks_set_error_callback'
+/usr/bin/ld: (.text+0x26f4): undefined reference to `nghttp2_option_new'
+/usr/bin/ld: (.text+0x2725): undefined reference to `nghttp2_option_set_no_auto_window_update'
+/usr/bin/ld: (.text+0x2736): undefined reference to `nghttp2_option_set_no_rfc9113_leading_and_trailing_ws_validation'
+/usr/bin/ld: (.text+0x2753): undefined reference to `nghttp2_session_client_new2'
+/usr/bin/ld: (.text+0x2765): undefined reference to `nghttp2_option_del'
+/usr/bin/ld: (.text+0x27fa): undefined reference to `nghttp2_pack_settings_payload'
+/usr/bin/ld: (.text+0x2835): undefined reference to `nghttp2_session_callbacks_del'
+/usr/bin/ld: (.text+0x28bc): undefined reference to `nghttp2_submit_settings'
+/usr/bin/ld: (.text+0x28d8): undefined reference to `nghttp2_session_set_local_window_size'
+/usr/bin/ld: (.text+0x2981): undefined reference to `nghttp2_session_upgrade2'
+/usr/bin/ld: (.text+0x2997): undefined reference to `nghttp2_session_set_stream_user_data'
+/usr/bin/ld: (.text+0x2a23): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a5f): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a8b): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_send':
+(.text+0x2fec): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x30c9): undefined reference to `nghttp2_session_check_request_allowed'
+/usr/bin/ld: (.text+0x3139): undefined reference to `nghttp2_submit_request'
+/usr/bin/ld: (.text+0x3365): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x3374): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0x342c): undefined reference to `nghttp2_session_want_read'
+/usr/bin/ld: (.text+0x343c): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: (.text+0x3474): undefined reference to `nghttp2_session_want_read'
+/usr/bin/ld: (.text+0x3484): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: (.text+0x34c8): undefined reference to `nghttp2_session_resume_data'
+/usr/bin/ld: (.text+0x34cf): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0x354d): undefined reference to `nghttp2_submit_request'
+/usr/bin/ld: (.text+0x37ee): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0x3818): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0x38c8): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x391e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `on_header':
+(.text+0x39be): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: (.text+0x3d4d): undefined reference to `nghttp2_submit_rst_stream'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `Curl_http2_ver':
+(.text+0x40c4): undefined reference to `nghttp2_version'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `on_frame_recv':
+(.text+0x436e): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: (.text+0x43e7): undefined reference to `nghttp2_session_get_remote_settings'
+/usr/bin/ld: (.text+0x43f8): undefined reference to `nghttp2_session_get_remote_settings'
+/usr/bin/ld: (.text+0x45b2): undefined reference to `nghttp2_session_get_stream_effective_local_window_size'
+/usr/bin/ld: (.text+0x45cb): undefined reference to `nghttp2_session_get_stream_effective_recv_data_length'
+/usr/bin/ld: (.text+0x4647): undefined reference to `nghttp2_session_get_stream_local_window_size'
+/usr/bin/ld: (.text+0x4673): undefined reference to `nghttp2_session_set_local_window_size'
+/usr/bin/ld: (.text+0x4ab7): undefined reference to `nghttp2_submit_rst_stream'
+/usr/bin/ld: (.text+0x4ac0): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0x4b5d): undefined reference to `nghttp2_submit_rst_stream'
+/usr/bin/ld: (.text+0x4b64): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0x4d95): undefined reference to `nghttp2_session_set_stream_user_data'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `Curl_http2_request_upgrade':
+(.text+0x4e85): undefined reference to `nghttp2_pack_settings_payload'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `proxy_h2_process_pending_input':
+(.text+0xe3): undefined reference to `nghttp2_session_mem_recv'
+/usr/bin/ld: (.text+0x1a0): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `proxy_h2_on_stream_close':
+(.text+0x499): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `proxy_h2_progress_egress':
+(.text+0x51d): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: (.text+0x52a): undefined reference to `nghttp2_session_send'
+/usr/bin/ld: (.text+0x544): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0x5fd): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `cf_h2_proxy_recv':
+(.text+0x975): undefined reference to `nghttp2_session_consume'
+/usr/bin/ld: (.text+0xd0f): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `cf_h2_proxy_send':
+(.text+0xead): undefined reference to `nghttp2_session_resume_data'
+/usr/bin/ld: (.text+0xeb4): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0xf07): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0xf43): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x1064): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x1076): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0x1154): undefined reference to `nghttp2_session_want_read'
+/usr/bin/ld: (.text+0x121c): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `cf_h2_proxy_adjust_pollset':
+(.text+0x1383): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x140a): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0x1424): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `cf_h2_proxy_ctx_clear':
+(.text+0x14c7): undefined reference to `nghttp2_session_del'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `tunnel_send_callback':
+(.text+0x1892): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `cf_h2_proxy_is_alive':
+(.text+0x22bb): undefined reference to `nghttp2_session_want_read'
+/usr/bin/ld: (.text+0x22cf): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `cf_h2_proxy_connect':
+(.text+0x258f): undefined reference to `nghttp2_submit_request'
+/usr/bin/ld: (.text+0x28d0): undefined reference to `nghttp2_session_callbacks_new'
+/usr/bin/ld: (.text+0x28eb): undefined reference to `nghttp2_session_callbacks_set_send_callback'
+/usr/bin/ld: (.text+0x28fe): undefined reference to `nghttp2_session_callbacks_set_on_frame_recv_callback'
+/usr/bin/ld: (.text+0x2911): undefined reference to `nghttp2_session_callbacks_set_on_frame_send_callback'
+/usr/bin/ld: (.text+0x2924): undefined reference to `nghttp2_session_callbacks_set_on_data_chunk_recv_callback'
+/usr/bin/ld: (.text+0x2937): undefined reference to `nghttp2_session_callbacks_set_on_stream_close_callback'
+/usr/bin/ld: (.text+0x294a): undefined reference to `nghttp2_session_callbacks_set_on_header_callback'
+/usr/bin/ld: (.text+0x296f): undefined reference to `nghttp2_option_new'
+/usr/bin/ld: (.text+0x2999): undefined reference to `nghttp2_session_callbacks_del'
+/usr/bin/ld: (.text+0x2e62): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2eb5): undefined reference to `nghttp2_option_set_no_auto_window_update'
+/usr/bin/ld: (.text+0x2ec6): undefined reference to `nghttp2_option_set_no_rfc9113_leading_and_trailing_ws_validation'
+/usr/bin/ld: (.text+0x2ee3): undefined reference to `nghttp2_session_client_new2'
+/usr/bin/ld: (.text+0x2ef5): undefined reference to `nghttp2_option_del'
+/usr/bin/ld: (.text+0x2f42): undefined reference to `nghttp2_submit_settings'
+/usr/bin/ld: (.text+0x2f5b): undefined reference to `nghttp2_session_set_local_window_size'
+/usr/bin/ld: (.text+0x2f7b): undefined reference to `nghttp2_session_callbacks_del'
+/usr/bin/ld: (.text+0x3101): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x312c): undefined reference to `nghttp2_session_callbacks_del'
+/usr/bin/ld: (.text+0x31b2): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x31d1): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `_gnutls_pkcs11_reinit':
+(.text+0x53): undefined reference to `p11_kit_module_initialize'
+/usr/bin/ld: (.text+0x84): undefined reference to `p11_kit_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `add_obj_attrs':
+(.text+0xfa): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x129): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x165): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `find_flags_cb':
+(.text+0x286): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: (.text+0x295): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: (.text+0x2a2): undefined reference to `p11_kit_module_get_flags'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `find_token_num_cb':
+(.text+0x355): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x3ef): undefined reference to `p11_kit_uri_get_module_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_obj_import':
+(.text+0x528): undefined reference to `p11_kit_uri_set_attribute'
+/usr/bin/ld: (.text+0x551): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x5eb): undefined reference to `p11_kit_uri_get_module_info'
+/usr/bin/ld: (.text+0x75b): undefined reference to `p11_kit_uri_set_attribute'
+/usr/bin/ld: (.text+0x79b): undefined reference to `p11_kit_uri_set_attribute'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `find_token_modname_cb':
+(.text+0x857): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: (.text+0x866): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: (.text+0x879): undefined reference to `p11_kit_config_option'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_add_module':
+(.text+0xa39): undefined reference to `p11_kit_module_get_flags'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `auto_load':
+(.text+0xb61): undefined reference to `p11_kit_modules_load_and_initialize'
+/usr/bin/ld: (.text+0xb96): undefined reference to `p11_kit_module_get_name'
+/usr/bin/ld: (.text+0xc99): undefined reference to `p11_kit_message'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `retrieve_pin_from_callback':
+(.text+0xe32): undefined reference to `p11_kit_space_strdup'
+/usr/bin/ld: (.text+0xe43): undefined reference to `p11_kit_uri_new'
+/usr/bin/ld: (.text+0xe57): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0xf09): undefined reference to `p11_kit_uri_format'
+/usr/bin/ld: (.text+0xf19): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: (.text+0xfa9): undefined reference to `p11_kit_pin_new_for_string'
+/usr/bin/ld: (.text+0x10b1): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `find_obj_session_cb':
+(.text+0x13ad): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: (.text+0x13c5): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_add_provider':
+(.text+0x23ac): undefined reference to `p11_kit_module_load'
+/usr/bin/ld: (.text+0x2411): undefined reference to `p11_kit_module_release'
+/usr/bin/ld: (.text+0x2454): undefined reference to `p11_kit_module_release'
+/usr/bin/ld: (.text+0x2494): undefined reference to `p11_kit_module_initialize'
+/usr/bin/ld: (.text+0x24a4): undefined reference to `p11_kit_module_finalize'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_get_info':
+(.text+0x27a1): undefined reference to `p11_kit_uri_get_module_info'
+/usr/bin/ld: (.text+0x2839): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x2861): undefined reference to `p11_kit_uri_get_module_info'
+/usr/bin/ld: (.text+0x287a): undefined reference to `p11_kit_space_strlen'
+/usr/bin/ld: (.text+0x2891): undefined reference to `p11_kit_uri_get_module_info'
+/usr/bin/ld: (.text+0x28a1): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x28b1): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x28c1): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x28d6): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x2906): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x2956): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_init':
+(.text+0x2a39): undefined reference to `p11_kit_pin_file_callback'
+/usr/bin/ld: (.text+0x2a57): undefined reference to `p11_kit_pin_register_callback'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_deinit':
+(.text+0x2ec1): undefined reference to `p11_kit_module_release'
+/usr/bin/ld: (.text+0x2ee3): undefined reference to `p11_kit_module_finalize'
+/usr/bin/ld: (.text+0x2f18): undefined reference to `p11_kit_pin_file_callback'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_url_to_info':
+(.text+0x2fa8): undefined reference to `p11_kit_uri_parse'
+/usr/bin/ld: (.text+0x3028): undefined reference to `p11_kit_uri_set_attribute'
+/usr/bin/ld: (.text+0x3035): undefined reference to `p11_kit_uri_new'
+/usr/bin/ld: (.text+0x3052): undefined reference to `p11_kit_uri_parse'
+/usr/bin/ld: (.text+0x3065): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_info_to_url':
+(.text+0x3143): undefined reference to `p11_kit_uri_format'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_obj_init':
+(.text+0x31db): undefined reference to `p11_kit_uri_new'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_obj_deinit':
+(.text+0x32da): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_find_slot':
+(.text+0x36d8): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: (.text+0x375d): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `find_single_obj_cb':
+(.text+0x4aa6): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: (.text+0x4ac1): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `find_multi_objs_cb':
+(.text+0x4e76): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: (.text+0x4e8e): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: (.text+0x50c7): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x53ba): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x5412): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x5467): undefined reference to `p11_kit_iter_new'
+/usr/bin/ld: (.text+0x548f): undefined reference to `p11_kit_iter_add_filter'
+/usr/bin/ld: (.text+0x54a9): undefined reference to `p11_kit_iter_begin_with'
+/usr/bin/ld: (.text+0x5508): undefined reference to `p11_kit_iter_get_object'
+/usr/bin/ld: (.text+0x5561): undefined reference to `p11_kit_iter_next'
+/usr/bin/ld: (.text+0x55e1): undefined reference to `p11_kit_iter_get_attributes'
+/usr/bin/ld: (.text+0x5627): undefined reference to `p11_kit_iter_get_attributes'
+/usr/bin/ld: (.text+0x56db): undefined reference to `p11_kit_iter_get_object'
+/usr/bin/ld: (.text+0x577e): undefined reference to `p11_kit_iter_free'
+/usr/bin/ld: (.text+0x5944): undefined reference to `p11_kit_iter_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_obj_export_url':
+(.text+0x5d3c): undefined reference to `p11_kit_uri_format'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_retrieve_pin':
+(.text+0x5e43): undefined reference to `p11_kit_uri_get_pin_value'
+/usr/bin/ld: (.text+0x5e6f): undefined reference to `p11_kit_pin_new_for_string'
+/usr/bin/ld: (.text+0x5eec): undefined reference to `p11_kit_uri_get_pin_source'
+/usr/bin/ld: (.text+0x5f19): undefined reference to `p11_kit_space_strdup'
+/usr/bin/ld: (.text+0x5f2b): undefined reference to `p11_kit_uri_new'
+/usr/bin/ld: (.text+0x5f40): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x6025): undefined reference to `p11_kit_pin_request'
+/usr/bin/ld: (.text+0x6031): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_login':
+(.text+0x6470): undefined reference to `p11_kit_pin_get_length'
+/usr/bin/ld: (.text+0x6481): undefined reference to `p11_kit_pin_get_value'
+/usr/bin/ld: (.text+0x64a6): undefined reference to `p11_kit_pin_unref'
+/usr/bin/ld: (.text+0x683d): undefined reference to `p11_kit_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `_pkcs11_traverse_tokens':
+(.text+0x71e6): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: (.text+0x72f1): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `_gnutls_pkcs11_token_get_url':
+(.text+0x79d9): undefined reference to `p11_kit_uri_new'
+/usr/bin/ld: (.text+0x7a13): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: (.text+0x7a45): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_token_get_info':
+(.text+0x7bc4): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x7bd5): undefined reference to `p11_kit_space_strlen'
+/usr/bin/ld: (.text+0x7c25): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: (.text+0x7c34): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x7c45): undefined reference to `p11_kit_space_strlen'
+/usr/bin/ld: (.text+0x7c6c): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x7c84): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_token_get_ptr':
+(.text+0x7e8e): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_call_token_func':
+(.text+0x7f6f): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x7f7c): undefined reference to `p11_kit_space_strdup'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_obj_list_import_url4':
+(.text+0x809c): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_token_get_flags':
+(.text+0x85c8): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_token_get_mechanism':
+(.text+0x879a): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_token_check_mechanism':
+(.text+0x89cf): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_get_raw_issuer':
+(.text+0x8e0d): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o):(.text+0x910c): more undefined references to `p11_kit_uri_free' follow
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_deinit':
+(.text+0x2f40): undefined reference to `p11_kit_pin_unregister_callback'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11x.o): in function `find_ext_cb':
+(.text+0x4f): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: (.text+0x66): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11_privkey.o): in function `find_object.constprop.0':
+(.text+0x44): undefined reference to `p11_kit_uri_get_attributes'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11_privkey.o): in function `gnutls_pkcs11_privkey_init':
+(.text+0x2ef): undefined reference to `p11_kit_uri_new'
+/usr/bin/ld: (.text+0x351): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11_privkey.o): in function `gnutls_pkcs11_privkey_deinit':
+(.text+0x3f5): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11_privkey.o): in function `gnutls_pkcs11_privkey_import_url':
+(.text+0xd51): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: (.text+0xd9a): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0xddf): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: (.text+0xe78): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x1046): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11_privkey.o): in function `gnutls_pkcs11_privkey_generate3':
+(.text+0x1ee7): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11_int.o): in function `pkcs11_strerror':
+(.text+0x475): undefined reference to `p11_kit_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libsasl2.a(ntlm.o): in function `P16_nt':
+(.text+0x526): undefined reference to `MD4'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `sslVerifyProtocolVersion':
+(.text+0x970): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x983): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x996): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x9a9): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `parseServiceFile':
+(.text+0xb6d): undefined reference to `pg_strncasecmp'
+/usr/bin/ld: (.text+0xf53): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0xf6c): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0xf8d): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `emitHostIdentityInfo':
+(.text+0x17c8): undefined reference to `pg_getnameinfo_all'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `connectFailureMessage':
+(.text+0x18cd): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `PQconnectPoll':
+(.text+0x28db): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x2916): undefined reference to `pg_getaddrinfo_all'
+/usr/bin/ld: (.text+0x29ed): undefined reference to `pg_freeaddrinfo_all'
+/usr/bin/ld: (.text+0x2d3e): undefined reference to `pg_freeaddrinfo_all'
+/usr/bin/ld: (.text+0x3197): undefined reference to `getpeereid'
+/usr/bin/ld: (.text+0x31bb): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x33a0): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x33c6): undefined reference to `pg_getaddrinfo_all'
+/usr/bin/ld: (.text+0x3424): undefined reference to `pg_getaddrinfo_all'
+/usr/bin/ld: (.text+0x34e9): undefined reference to `pg_prng_uint64_range'
+/usr/bin/ld: (.text+0x38da): undefined reference to `pg_inet_net_ntop'
+/usr/bin/ld: (.text+0x3c4e): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x3cb3): undefined reference to `pg_inet_net_ntop'
+/usr/bin/ld: (.text+0x3e4b): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x4038): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x4160): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x4268): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x4299): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o):(.text+0x4303): more undefined references to `pg_strerror_r' follow
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `connectDBStart':
+(.text+0x4861): undefined reference to `pg_link_canary_is_frontend'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `PQsetClientEncoding':
+(.text+0x50cb): undefined reference to `pg_sprintf'
+/usr/bin/ld: (.text+0x5120): undefined reference to `pg_get_encoding_from_locale'
+/usr/bin/ld: (.text+0x5127): undefined reference to `pg_encoding_to_char'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `parseServiceInfo':
+(.text+0x537e): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x544f): undefined reference to `pg_snprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `connectOptions2':
+(.text+0x6962): undefined reference to `pg_strip_crlf'
+/usr/bin/ld: (.text+0x72d9): undefined reference to `pg_strong_random'
+/usr/bin/ld: (.text+0x72f3): undefined reference to `pg_prng_seed_check'
+/usr/bin/ld: (.text+0x733e): undefined reference to `pg_prng_seed'
+/usr/bin/ld: (.text+0x7369): undefined reference to `pg_prng_uint64_range'
+/usr/bin/ld: (.text+0x7615): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x7873): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x7919): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x7933): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x7950): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x7994): undefined reference to `pg_get_encoding_from_locale'
+/usr/bin/ld: (.text+0x799b): undefined reference to `pg_encoding_to_char'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `defaultNoticeProcessor':
+(.text+0x2bb): undefined reference to `pg_fprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `pqGetHomeDirectory':
+(.text+0x5262): undefined reference to `pg_get_user_home_dir'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-exec.o): in function `PQescapeStringInternal':
+(.text+0x5f9): undefined reference to `pg_encoding_mblen_or_incomplete'
+/usr/bin/ld: (.text+0x634): undefined reference to `pg_encoding_set_invalid'
+/usr/bin/ld: (.text+0x67e): undefined reference to `pg_encoding_verifymbchar'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-exec.o): in function `PQescapeInternal':
+(.text+0x96e): undefined reference to `pg_encoding_mblen_or_incomplete'
+/usr/bin/ld: (.text+0x9e2): undefined reference to `pg_encoding_verifymbstr'
+/usr/bin/ld: (.text+0xaa3): undefined reference to `pg_encoding_mblen'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-exec.o): in function `pqInternalNotice':
+(.text+0x1f29): undefined reference to `pg_vsnprintf'
+/usr/bin/ld: (.text+0x1fd5): undefined reference to `pg_sprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-exec.o): in function `pqSaveParameterStatus':
+(.text+0x26a5): undefined reference to `pg_char_to_encoding'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-exec.o): in function `PQfnumber':
+(.text+0x41d7): undefined reference to `pg_tolower'
+/usr/bin/ld: (.text+0x42b1): undefined reference to `pg_tolower'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-misc.o): in function `PQmblenBounded':
+(.text+0x766): undefined reference to `pg_encoding_mblen'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-misc.o): in function `PQenv2encoding':
+(.text+0x7c9): undefined reference to `pg_char_to_encoding'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-misc.o): in function `pqSocketCheck':
+(.text+0xc55): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-misc.o): in function `PQmblen':
+(.text+0x73d): undefined reference to `pg_encoding_mblen'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-misc.o): in function `PQdsplen':
+(.text+0x78d): undefined reference to `pg_encoding_dsplen'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-protocol3.o): in function `build_startup_packet':
+(.text+0x688): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-protocol3.o): in function `pqBuildErrorMessage3':
+(.text+0xa31): undefined reference to `pg_encoding_max_length'
+/usr/bin/ld: (.text+0xaa2): undefined reference to `pg_encoding_dsplen'
+/usr/bin/ld: (.text+0xd2a): undefined reference to `pg_encoding_dsplen'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure.o): in function `pqsecure_raw_read':
+(.text+0x136): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure.o): in function `pqsecure_raw_write.part.0':
+(.text+0x48b): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x54b): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x56f): undefined reference to `pg_snprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-trace.o): in function `pqTraceOutputByte1':
+(.text+0x3e): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x60): undefined reference to `pg_fprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-trace.o): in function `pqTraceOutputNchar':
+(.text+0xaf): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x110): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x14c): undefined reference to `pg_fprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-trace.o):(.text+0x191): more undefined references to `pg_fprintf' follow
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-trace.o): in function `pqTraceFormatTimestamp.constprop.0':
+(.text+0x2ef): undefined reference to `pg_snprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-trace.o): in function `pqTraceOutputMessage':
+(.text+0x48d): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x4cd): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x51c): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x541): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x5c5): undefined reference to `pg_fprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-trace.o):(.text+0x5dd): more undefined references to `pg_fprintf' follow
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(pqexpbuffer.o): in function `appendPQExpBufferVA':
+(.text+0x232): undefined reference to `pg_vsnprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth.o): in function `pg_fe_sendauth':
+(.text+0xb00): undefined reference to `pg_md5_encrypt'
+/usr/bin/ld: (.text+0xb1f): undefined reference to `pg_md5_encrypt'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth.o): in function `pg_fe_getusername':
+(.text+0xd83): undefined reference to `pg_get_user_name'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth.o): in function `PQencryptPassword':
+(.text+0xe9e): undefined reference to `pg_md5_encrypt'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth.o): in function `PQencryptPasswordConn':
+(.text+0xf91): undefined reference to `pg_md5_encrypt'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `SSLerrmessage':
+(.text+0xc6): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0xf2): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x112): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `ssl_protocol_version_to_openssl':
+(.text+0x147): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x161): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x17b): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x195): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `initialize_SSL':
+(.text+0x5c7): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x957): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0xba4): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0xc07): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0xd6d): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0xf53): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `pgtls_read':
+(.text+0x1282): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `pgtls_write':
+(.text+0x152e): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `pgtls_open_client':
+(.text+0x1f13): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `PQsslAttribute':
+(.text+0x2178): undefined reference to `pg_snprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `PQdefaultSSLKeyPassHook_OpenSSL':
+(.text+0x228c): undefined reference to `pg_fprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-gssapi-common.o): in function `pg_GSS_load_servicename':
+(.text+0x27a): undefined reference to `pg_snprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth-scram.o): in function `scram_exchange':
+(.text+0x19e): undefined reference to `pg_strong_random'
+/usr/bin/ld: (.text+0x1b0): undefined reference to `pg_b64_enc_len'
+/usr/bin/ld: (.text+0x1de): undefined reference to `pg_b64_encode'
+/usr/bin/ld: (.text+0x43f): undefined reference to `pg_b64_dec_len'
+/usr/bin/ld: (.text+0x480): undefined reference to `pg_b64_decode'
+/usr/bin/ld: (.text+0x5a0): undefined reference to `pg_hmac_create'
+/usr/bin/ld: (.text+0x5de): undefined reference to `scram_SaltedPassword'
+/usr/bin/ld: (.text+0x610): undefined reference to `scram_ClientKey'
+/usr/bin/ld: (.text+0x63d): undefined reference to `scram_H'
+/usr/bin/ld: (.text+0x658): undefined reference to `pg_hmac_init'
+/usr/bin/ld: (.text+0x67a): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0x699): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0x6c6): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0x6de): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0x6fc): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0x717): undefined reference to `pg_hmac_final'
+/usr/bin/ld: (.text+0x752): undefined reference to `pg_hmac_free'
+/usr/bin/ld: (.text+0x76a): undefined reference to `pg_b64_enc_len'
+/usr/bin/ld: (.text+0x7a0): undefined reference to `pg_b64_encode'
+/usr/bin/ld: (.text+0x88c): undefined reference to `pg_b64_dec_len'
+/usr/bin/ld: (.text+0x8c6): undefined reference to `pg_b64_decode'
+/usr/bin/ld: (.text+0x969): undefined reference to `pg_hmac_create'
+/usr/bin/ld: (.text+0x994): undefined reference to `scram_ServerKey'
+/usr/bin/ld: (.text+0x9ab): undefined reference to `pg_hmac_init'
+/usr/bin/ld: (.text+0x9cd): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0x9ec): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0xa19): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0xa31): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0xa53): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0xa6a): undefined reference to `pg_hmac_final'
+/usr/bin/ld: (.text+0xa76): undefined reference to `pg_hmac_free'
+/usr/bin/ld: (.text+0xacc): undefined reference to `pg_hmac_error'
+/usr/bin/ld: (.text+0xadb): undefined reference to `pg_hmac_free'
+/usr/bin/ld: (.text+0xc12): undefined reference to `pg_hmac_error'
+/usr/bin/ld: (.text+0xc21): undefined reference to `pg_hmac_free'
+/usr/bin/ld: (.text+0xcfd): undefined reference to `pg_b64_enc_len'
+/usr/bin/ld: (.text+0xd36): undefined reference to `pg_b64_encode'
+/usr/bin/ld: (.text+0xd93): undefined reference to `pg_hmac_error'
+/usr/bin/ld: (.text+0xdf7): undefined reference to `pg_hmac_error'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth-scram.o): in function `scram_init':
+(.text+0xf31): undefined reference to `pg_saslprep'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth-scram.o): in function `pg_fe_scram_build_secret':
+(.text+0x1020): undefined reference to `pg_saslprep'
+/usr/bin/ld: (.text+0x103e): undefined reference to `pg_strong_random'
+/usr/bin/ld: (.text+0x1065): undefined reference to `scram_build_secret'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-common.o): in function `pq_verify_peer_name_matches_certificate_name':
+(.text+0xe7): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x14c): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-common.o): in function `pq_verify_peer_name_matches_certificate_ip':
+(.text+0x248): undefined reference to `pg_inet_net_ntop'
+/usr/bin/ld: (.text+0x334): undefined reference to `pg_strerror_r'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/test_firmware_update_object.dir/build.make:180: test_firmware_update_object] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1354: CMakeFiles/test_firmware_update_object.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+In function ‘observe_handleRequest’,
+    inlined from ‘prv_handle_observe_operation’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/management.c:298:14,
+    inlined from ‘dm_handleRequest’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/management.c:435:18,
+    inlined from ‘handle_request.constprop’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:168:22:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/observe.c:181:5: warning: ‘count’ may be used uninitialized [-Wmaybe-uninitialized]
+  181 |     switch (count)
+      |     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/observe.c: In function ‘handle_request.constprop’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/observe.c:172:14: note: ‘count’ was declared here
+  172 |     uint32_t count;
+      |              ^
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `_gnutls_pkcs11_reinit':
+(.text+0x53): undefined reference to `p11_kit_module_initialize'
+/usr/bin/ld: (.text+0x84): undefined reference to `p11_kit_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `add_obj_attrs':
+(.text+0xfa): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x129): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x165): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `find_flags_cb':
+(.text+0x286): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: (.text+0x295): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: (.text+0x2a2): undefined reference to `p11_kit_module_get_flags'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `find_token_num_cb':
+(.text+0x355): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x3ef): undefined reference to `p11_kit_uri_get_module_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_obj_import':
+(.text+0x528): undefined reference to `p11_kit_uri_set_attribute'
+/usr/bin/ld: (.text+0x551): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x5eb): undefined reference to `p11_kit_uri_get_module_info'
+/usr/bin/ld: (.text+0x75b): undefined reference to `p11_kit_uri_set_attribute'
+/usr/bin/ld: (.text+0x79b): undefined reference to `p11_kit_uri_set_attribute'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `find_token_modname_cb':
+(.text+0x857): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: (.text+0x866): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: (.text+0x879): undefined reference to `p11_kit_config_option'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_add_module':
+(.text+0xa39): undefined reference to `p11_kit_module_get_flags'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `auto_load':
+(.text+0xb61): undefined reference to `p11_kit_modules_load_and_initialize'
+/usr/bin/ld: (.text+0xb96): undefined reference to `p11_kit_module_get_name'
+/usr/bin/ld: (.text+0xc99): undefined reference to `p11_kit_message'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `retrieve_pin_from_callback':
+(.text+0xe32): undefined reference to `p11_kit_space_strdup'
+/usr/bin/ld: (.text+0xe43): undefined reference to `p11_kit_uri_new'
+/usr/bin/ld: (.text+0xe57): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0xf09): undefined reference to `p11_kit_uri_format'
+/usr/bin/ld: (.text+0xf19): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: (.text+0xfa9): undefined reference to `p11_kit_pin_new_for_string'
+/usr/bin/ld: (.text+0x10b1): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `find_obj_session_cb':
+(.text+0x13ad): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: (.text+0x13c5): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_add_provider':
+(.text+0x23ac): undefined reference to `p11_kit_module_load'
+/usr/bin/ld: (.text+0x2411): undefined reference to `p11_kit_module_release'
+/usr/bin/ld: (.text+0x2454): undefined reference to `p11_kit_module_release'
+/usr/bin/ld: (.text+0x2494): undefined reference to `p11_kit_module_initialize'
+/usr/bin/ld: (.text+0x24a4): undefined reference to `p11_kit_module_finalize'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_get_info':
+(.text+0x27a1): undefined reference to `p11_kit_uri_get_module_info'
+/usr/bin/ld: (.text+0x2839): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x2861): undefined reference to `p11_kit_uri_get_module_info'
+/usr/bin/ld: (.text+0x287a): undefined reference to `p11_kit_space_strlen'
+/usr/bin/ld: (.text+0x2891): undefined reference to `p11_kit_uri_get_module_info'
+/usr/bin/ld: (.text+0x28a1): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x28b1): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x28c1): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x28d6): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x2906): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x2956): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_init':
+(.text+0x2a39): undefined reference to `p11_kit_pin_file_callback'
+/usr/bin/ld: (.text+0x2a57): undefined reference to `p11_kit_pin_register_callback'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_deinit':
+(.text+0x2ec1): undefined reference to `p11_kit_module_release'
+/usr/bin/ld: (.text+0x2ee3): undefined reference to `p11_kit_module_finalize'
+/usr/bin/ld: (.text+0x2f18): undefined reference to `p11_kit_pin_file_callback'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_url_to_info':
+(.text+0x2fa8): undefined reference to `p11_kit_uri_parse'
+/usr/bin/ld: (.text+0x3028): undefined reference to `p11_kit_uri_set_attribute'
+/usr/bin/ld: (.text+0x3035): undefined reference to `p11_kit_uri_new'
+/usr/bin/ld: (.text+0x3052): undefined reference to `p11_kit_uri_parse'
+/usr/bin/ld: (.text+0x3065): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_info_to_url':
+(.text+0x3143): undefined reference to `p11_kit_uri_format'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_obj_init':
+(.text+0x31db): undefined reference to `p11_kit_uri_new'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_obj_deinit':
+(.text+0x32da): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_find_slot':
+(.text+0x36d8): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: (.text+0x375d): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `find_single_obj_cb':
+(.text+0x4aa6): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: (.text+0x4ac1): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `find_multi_objs_cb':
+(.text+0x4e76): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: (.text+0x4e8e): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: (.text+0x50c7): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x53ba): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x5412): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x5467): undefined reference to `p11_kit_iter_new'
+/usr/bin/ld: (.text+0x548f): undefined reference to `p11_kit_iter_add_filter'
+/usr/bin/ld: (.text+0x54a9): undefined reference to `p11_kit_iter_begin_with'
+/usr/bin/ld: (.text+0x5508): undefined reference to `p11_kit_iter_get_object'
+/usr/bin/ld: (.text+0x5561): undefined reference to `p11_kit_iter_next'
+/usr/bin/ld: (.text+0x55e1): undefined reference to `p11_kit_iter_get_attributes'
+/usr/bin/ld: (.text+0x5627): undefined reference to `p11_kit_iter_get_attributes'
+/usr/bin/ld: (.text+0x56db): undefined reference to `p11_kit_iter_get_object'
+/usr/bin/ld: (.text+0x577e): undefined reference to `p11_kit_iter_free'
+/usr/bin/ld: (.text+0x5944): undefined reference to `p11_kit_iter_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_obj_export_url':
+(.text+0x5d3c): undefined reference to `p11_kit_uri_format'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_retrieve_pin':
+(.text+0x5e43): undefined reference to `p11_kit_uri_get_pin_value'
+/usr/bin/ld: (.text+0x5e6f): undefined reference to `p11_kit_pin_new_for_string'
+/usr/bin/ld: (.text+0x5eec): undefined reference to `p11_kit_uri_get_pin_source'
+/usr/bin/ld: (.text+0x5f19): undefined reference to `p11_kit_space_strdup'
+/usr/bin/ld: (.text+0x5f2b): undefined reference to `p11_kit_uri_new'
+/usr/bin/ld: (.text+0x5f40): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x6025): undefined reference to `p11_kit_pin_request'
+/usr/bin/ld: (.text+0x6031): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_login':
+(.text+0x6470): undefined reference to `p11_kit_pin_get_length'
+/usr/bin/ld: (.text+0x6481): undefined reference to `p11_kit_pin_get_value'
+/usr/bin/ld: (.text+0x64a6): undefined reference to `p11_kit_pin_unref'
+/usr/bin/ld: (.text+0x683d): undefined reference to `p11_kit_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `_pkcs11_traverse_tokens':
+(.text+0x71e6): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: (.text+0x72f1): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `_gnutls_pkcs11_token_get_url':
+(.text+0x79d9): undefined reference to `p11_kit_uri_new'
+/usr/bin/ld: (.text+0x7a13): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: (.text+0x7a45): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_token_get_info':
+(.text+0x7bc4): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x7bd5): undefined reference to `p11_kit_space_strlen'
+/usr/bin/ld: (.text+0x7c25): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: (.text+0x7c34): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x7c45): undefined reference to `p11_kit_space_strlen'
+/usr/bin/ld: (.text+0x7c6c): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x7c84): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_token_get_ptr':
+(.text+0x7e8e): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `pkcs11_call_token_func':
+(.text+0x7f6f): undefined reference to `p11_kit_uri_get_token_info'
+/usr/bin/ld: (.text+0x7f7c): undefined reference to `p11_kit_space_strdup'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_obj_list_import_url4':
+(.text+0x809c): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_token_get_flags':
+(.text+0x85c8): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_token_get_mechanism':
+(.text+0x879a): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_token_check_mechanism':
+(.text+0x89cf): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_get_raw_issuer':
+(.text+0x8e0d): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o):(.text+0x910c): more undefined references to `p11_kit_uri_free' follow
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11.o): in function `gnutls_pkcs11_deinit':
+(.text+0x2f40): undefined reference to `p11_kit_pin_unregister_callback'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11x.o): in function `find_ext_cb':
+(.text+0x4f): undefined reference to `p11_kit_uri_match_token_info'
+/usr/bin/ld: (.text+0x66): undefined reference to `p11_kit_uri_match_module_info'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11_privkey.o): in function `find_object.constprop.0':
+(.text+0x44): undefined reference to `p11_kit_uri_get_attributes'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11_privkey.o): in function `gnutls_pkcs11_privkey_init':
+(.text+0x2ef): undefined reference to `p11_kit_uri_new'
+/usr/bin/ld: (.text+0x351): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11_privkey.o): in function `gnutls_pkcs11_privkey_deinit':
+(.text+0x3f5): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11_privkey.o): in function `gnutls_pkcs11_privkey_import_url':
+(.text+0xd51): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: (.text+0xd9a): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0xddf): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: (.text+0xe78): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: (.text+0x1046): undefined reference to `p11_kit_uri_get_attribute'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11_privkey.o): in function `gnutls_pkcs11_privkey_generate3':
+(.text+0x1ee7): undefined reference to `p11_kit_uri_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libgnutls.a(pkcs11_int.o): in function `pkcs11_strerror':
+(.text+0x475): undefined reference to `p11_kit_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `sslVerifyProtocolVersion':
+(.text+0x970): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x983): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x996): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x9a9): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `parseServiceFile':
+(.text+0xb6d): undefined reference to `pg_strncasecmp'
+/usr/bin/ld: (.text+0xf53): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0xf6c): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0xf8d): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `emitHostIdentityInfo':
+(.text+0x17c8): undefined reference to `pg_getnameinfo_all'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `connectFailureMessage':
+(.text+0x18cd): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `PQconnectPoll':
+(.text+0x28db): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x2916): undefined reference to `pg_getaddrinfo_all'
+/usr/bin/ld: (.text+0x29ed): undefined reference to `pg_freeaddrinfo_all'
+/usr/bin/ld: (.text+0x2d3e): undefined reference to `pg_freeaddrinfo_all'
+/usr/bin/ld: (.text+0x3197): undefined reference to `getpeereid'
+/usr/bin/ld: (.text+0x31bb): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x33a0): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x33c6): undefined reference to `pg_getaddrinfo_all'
+/usr/bin/ld: (.text+0x3424): undefined reference to `pg_getaddrinfo_all'
+/usr/bin/ld: (.text+0x34e9): undefined reference to `pg_prng_uint64_range'
+/usr/bin/ld: (.text+0x38da): undefined reference to `pg_inet_net_ntop'
+/usr/bin/ld: (.text+0x3c4e): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x3cb3): undefined reference to `pg_inet_net_ntop'
+/usr/bin/ld: (.text+0x3e4b): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x4038): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x4160): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x4268): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x4299): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o):(.text+0x4303): more undefined references to `pg_strerror_r' follow
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `connectDBStart':
+(.text+0x4861): undefined reference to `pg_link_canary_is_frontend'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `PQsetClientEncoding':
+(.text+0x50cb): undefined reference to `pg_sprintf'
+/usr/bin/ld: (.text+0x5120): undefined reference to `pg_get_encoding_from_locale'
+/usr/bin/ld: (.text+0x5127): undefined reference to `pg_encoding_to_char'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `parseServiceInfo':
+(.text+0x537e): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x544f): undefined reference to `pg_snprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `connectOptions2':
+(.text+0x6962): undefined reference to `pg_strip_crlf'
+/usr/bin/ld: (.text+0x72d9): undefined reference to `pg_strong_random'
+/usr/bin/ld: (.text+0x72f3): undefined reference to `pg_prng_seed_check'
+/usr/bin/ld: (.text+0x733e): undefined reference to `pg_prng_seed'
+/usr/bin/ld: (.text+0x7369): undefined reference to `pg_prng_uint64_range'
+/usr/bin/ld: (.text+0x7615): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x7873): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x7919): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x7933): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x7950): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x7994): undefined reference to `pg_get_encoding_from_locale'
+/usr/bin/ld: (.text+0x799b): undefined reference to `pg_encoding_to_char'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `defaultNoticeProcessor':
+(.text+0x2bb): undefined reference to `pg_fprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-connect.o): in function `pqGetHomeDirectory':
+(.text+0x5262): undefined reference to `pg_get_user_home_dir'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-exec.o): in function `PQescapeStringInternal':
+(.text+0x5f9): undefined reference to `pg_encoding_mblen_or_incomplete'
+/usr/bin/ld: (.text+0x634): undefined reference to `pg_encoding_set_invalid'
+/usr/bin/ld: (.text+0x67e): undefined reference to `pg_encoding_verifymbchar'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-exec.o): in function `PQescapeInternal':
+(.text+0x96e): undefined reference to `pg_encoding_mblen_or_incomplete'
+/usr/bin/ld: (.text+0x9e2): undefined reference to `pg_encoding_verifymbstr'
+/usr/bin/ld: (.text+0xaa3): undefined reference to `pg_encoding_mblen'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-exec.o): in function `pqInternalNotice':
+(.text+0x1f29): undefined reference to `pg_vsnprintf'
+/usr/bin/ld: (.text+0x1fd5): undefined reference to `pg_sprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-exec.o): in function `pqSaveParameterStatus':
+(.text+0x26a5): undefined reference to `pg_char_to_encoding'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-exec.o): in function `PQfnumber':
+(.text+0x41d7): undefined reference to `pg_tolower'
+/usr/bin/ld: (.text+0x42b1): undefined reference to `pg_tolower'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-misc.o): in function `PQmblenBounded':
+(.text+0x766): undefined reference to `pg_encoding_mblen'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-misc.o): in function `PQenv2encoding':
+(.text+0x7c9): undefined reference to `pg_char_to_encoding'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-misc.o): in function `pqSocketCheck':
+(.text+0xc55): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-misc.o): in function `PQmblen':
+(.text+0x73d): undefined reference to `pg_encoding_mblen'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-misc.o): in function `PQdsplen':
+(.text+0x78d): undefined reference to `pg_encoding_dsplen'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-protocol3.o): in function `build_startup_packet':
+(.text+0x688): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-protocol3.o): in function `pqBuildErrorMessage3':
+(.text+0xa31): undefined reference to `pg_encoding_max_length'
+/usr/bin/ld: (.text+0xaa2): undefined reference to `pg_encoding_dsplen'
+/usr/bin/ld: (.text+0xd2a): undefined reference to `pg_encoding_dsplen'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure.o): in function `pqsecure_raw_read':
+(.text+0x136): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure.o): in function `pqsecure_raw_write.part.0':
+(.text+0x48b): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x54b): undefined reference to `pg_strerror_r'
+/usr/bin/ld: (.text+0x56f): undefined reference to `pg_snprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-trace.o): in function `pqTraceOutputByte1':
+(.text+0x3e): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x60): undefined reference to `pg_fprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-trace.o): in function `pqTraceOutputNchar':
+(.text+0xaf): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x110): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x14c): undefined reference to `pg_fprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-trace.o):(.text+0x191): more undefined references to `pg_fprintf' follow
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-trace.o): in function `pqTraceFormatTimestamp.constprop.0':
+(.text+0x2ef): undefined reference to `pg_snprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-trace.o): in function `pqTraceOutputMessage':
+(.text+0x48d): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x4cd): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x51c): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x541): undefined reference to `pg_fprintf'
+/usr/bin/ld: (.text+0x5c5): undefined reference to `pg_fprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-trace.o):(.text+0x5dd): more undefined references to `pg_fprintf' follow
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(pqexpbuffer.o): in function `appendPQExpBufferVA':
+(.text+0x232): undefined reference to `pg_vsnprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth.o): in function `pg_fe_sendauth':
+(.text+0xb00): undefined reference to `pg_md5_encrypt'
+/usr/bin/ld: (.text+0xb1f): undefined reference to `pg_md5_encrypt'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth.o): in function `pg_fe_getusername':
+(.text+0xd83): undefined reference to `pg_get_user_name'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth.o): in function `PQencryptPassword':
+(.text+0xe9e): undefined reference to `pg_md5_encrypt'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth.o): in function `PQencryptPasswordConn':
+(.text+0xf91): undefined reference to `pg_md5_encrypt'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `SSLerrmessage':
+(.text+0xc6): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0xf2): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x112): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `ssl_protocol_version_to_openssl':
+(.text+0x147): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x161): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x17b): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x195): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `initialize_SSL':
+(.text+0x5c7): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0x957): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0xba4): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0xc07): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0xd6d): undefined reference to `pg_snprintf'
+/usr/bin/ld: (.text+0xf53): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `pgtls_read':
+(.text+0x1282): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `pgtls_write':
+(.text+0x152e): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `pgtls_open_client':
+(.text+0x1f13): undefined reference to `pg_strerror_r'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `PQsslAttribute':
+(.text+0x2178): undefined reference to `pg_snprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-openssl.o): in function `PQdefaultSSLKeyPassHook_OpenSSL':
+(.text+0x228c): undefined reference to `pg_fprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-gssapi-common.o): in function `pg_GSS_load_servicename':
+(.text+0x27a): undefined reference to `pg_snprintf'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth-scram.o): in function `scram_exchange':
+(.text+0x19e): undefined reference to `pg_strong_random'
+/usr/bin/ld: (.text+0x1b0): undefined reference to `pg_b64_enc_len'
+/usr/bin/ld: (.text+0x1de): undefined reference to `pg_b64_encode'
+/usr/bin/ld: (.text+0x43f): undefined reference to `pg_b64_dec_len'
+/usr/bin/ld: (.text+0x480): undefined reference to `pg_b64_decode'
+/usr/bin/ld: (.text+0x5a0): undefined reference to `pg_hmac_create'
+/usr/bin/ld: (.text+0x5de): undefined reference to `scram_SaltedPassword'
+/usr/bin/ld: (.text+0x610): undefined reference to `scram_ClientKey'
+/usr/bin/ld: (.text+0x63d): undefined reference to `scram_H'
+/usr/bin/ld: (.text+0x658): undefined reference to `pg_hmac_init'
+/usr/bin/ld: (.text+0x67a): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0x699): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0x6c6): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0x6de): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0x6fc): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0x717): undefined reference to `pg_hmac_final'
+/usr/bin/ld: (.text+0x752): undefined reference to `pg_hmac_free'
+/usr/bin/ld: (.text+0x76a): undefined reference to `pg_b64_enc_len'
+/usr/bin/ld: (.text+0x7a0): undefined reference to `pg_b64_encode'
+/usr/bin/ld: (.text+0x88c): undefined reference to `pg_b64_dec_len'
+/usr/bin/ld: (.text+0x8c6): undefined reference to `pg_b64_decode'
+/usr/bin/ld: (.text+0x969): undefined reference to `pg_hmac_create'
+/usr/bin/ld: (.text+0x994): undefined reference to `scram_ServerKey'
+/usr/bin/ld: (.text+0x9ab): undefined reference to `pg_hmac_init'
+/usr/bin/ld: (.text+0x9cd): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0x9ec): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0xa19): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0xa31): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0xa53): undefined reference to `pg_hmac_update'
+/usr/bin/ld: (.text+0xa6a): undefined reference to `pg_hmac_final'
+/usr/bin/ld: (.text+0xa76): undefined reference to `pg_hmac_free'
+/usr/bin/ld: (.text+0xacc): undefined reference to `pg_hmac_error'
+/usr/bin/ld: (.text+0xadb): undefined reference to `pg_hmac_free'
+/usr/bin/ld: (.text+0xc12): undefined reference to `pg_hmac_error'
+/usr/bin/ld: (.text+0xc21): undefined reference to `pg_hmac_free'
+/usr/bin/ld: (.text+0xcfd): undefined reference to `pg_b64_enc_len'
+/usr/bin/ld: (.text+0xd36): undefined reference to `pg_b64_encode'
+/usr/bin/ld: (.text+0xd93): undefined reference to `pg_hmac_error'
+/usr/bin/ld: (.text+0xdf7): undefined reference to `pg_hmac_error'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth-scram.o): in function `scram_init':
+(.text+0xf31): undefined reference to `pg_saslprep'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-auth-scram.o): in function `pg_fe_scram_build_secret':
+(.text+0x1020): undefined reference to `pg_saslprep'
+/usr/bin/ld: (.text+0x103e): undefined reference to `pg_strong_random'
+/usr/bin/ld: (.text+0x1065): undefined reference to `scram_build_secret'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-common.o): in function `pq_verify_peer_name_matches_certificate_name':
+(.text+0xe7): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: (.text+0x14c): undefined reference to `pg_strcasecmp'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libpq.a(fe-secure-common.o): in function `pq_verify_peer_name_matches_certificate_ip':
+(.text+0x248): undefined reference to `pg_inet_net_ntop'
+/usr/bin/ld: (.text+0x334): undefined reference to `pg_strerror_r'
+collect2: error: ld returned 1 exit status
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:1114: examples/friendly_example_client] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1492: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+make: *** [Makefile:166: all] Error 2

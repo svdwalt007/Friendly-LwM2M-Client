@@ -1,0 +1,57 @@
+[ 11%] Built target friendly_lwm2m
+[ 13%] Built target test_delta_algorithms
+[ 15%] Built target test_blockwise_transfer
+[ 18%] Built target test_rollback_manager
+[ 20%] Built target test_firmware_update_object
+[ 25%] Built target test_dtls_providers
+[ 26%] Building CXX object CMakeFiles/test_dtls_integration.dir/test/test_dtls_integration.cpp.o
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:49:29: error: field ‘addr’ has incomplete type ‘sockaddr_storage’
+   49 |     struct sockaddr_storage addr;
+      |                             ^~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:49:12: note: forward declaration of ‘struct sockaddr_storage’
+   49 |     struct sockaddr_storage addr;
+      |            ^~~~~~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp: In member function ‘session_t* DtlsIntegrationTest::createMockSession()’:
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:96:26: error: aggregate ‘session_t mockSession’ has incomplete type and cannot be defined
+   96 |         static session_t mockSession;
+      |                          ^~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:98:28: error: invalid application of ‘sizeof’ to incomplete type ‘DtlsIntegrationTest::createMockSession()::sockaddr_in’
+   98 |         mockSession.size = sizeof(struct sockaddr_in);
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:99:43: error: ‘AF_INET’ was not declared in this scope
+   99 |         mockSession.addr.sin.sin_family = AF_INET;
+      |                                           ^~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:100:41: error: ‘htons’ was not declared in this scope
+  100 |         mockSession.addr.sin.sin_port = htons(5684);
+      |                                         ^~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:101:9: error: ‘inet_pton’ was not declared in this scope
+  101 |         inet_pton(AF_INET, "127.0.0.1", &mockSession.addr.sin.sin_addr);
+      |         ^~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp: In member function ‘virtual void DtlsIntegrationTest_HandshakeInitiation_Test::TestBody()’:
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:147:9: warning: unused variable ‘result’ [-Wunused-variable]
+  147 |     int result = provider->connect(session);
+      |         ^~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp: In member function ‘virtual void DtlsIntegrationTest_MultipleSessionCreation_Test::TestBody()’:
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:284:20: error: invalid use of incomplete type ‘session_t’ {aka ‘struct session_t’}
+  284 |         mockSession->addr.sin.sin_port = htons(5684 + i);
+      |                    ^~
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:26:
+/mnt/d/Dev/Friendly-LwM2M-Client/test/../examples/platform/connection_dtls/DtlsProvider.h:25:8: note: forward declaration of ‘session_t’ {aka ‘struct session_t’}
+   25 | struct session_t;
+      |        ^~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:284:42: error: ‘htons’ was not declared in this scope
+  284 |         mockSession->addr.sin.sin_port = htons(5684 + i);
+      |                                          ^~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp: In member function ‘virtual void DtlsIntegrationTest_SessionCreationPerformance_Test::TestBody()’:
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:385:20: error: invalid use of incomplete type ‘session_t’ {aka ‘struct session_t’}
+  385 |         mockSession->addr.sin.sin_port = htons(5684 + (i % 100));
+      |                    ^~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/../examples/platform/connection_dtls/DtlsProvider.h:25:8: note: forward declaration of ‘session_t’ {aka ‘struct session_t’}
+   25 | struct session_t;
+      |        ^~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:385:42: error: ‘htons’ was not declared in this scope
+  385 |         mockSession->addr.sin.sin_port = htons(5684 + (i % 100));
+      |                                          ^~~~~
+gmake[2]: *** [CMakeFiles/test_dtls_integration.dir/build.make:79: CMakeFiles/test_dtls_integration.dir/test/test_dtls_integration.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:1418: CMakeFiles/test_dtls_integration.dir/all] Error 2
+gmake: *** [Makefile:166: all] Error 2

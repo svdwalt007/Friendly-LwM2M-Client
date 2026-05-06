@@ -1,0 +1,15 @@
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection.cpp:1:
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection.h:12:10: fatal error: tinydtls.h: No such file or directory
+   12 | #include "tinydtls.h"
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:849: examples/CMakeFiles/friendly_example_client.dir/platform/connection_dtls/Connection.cpp.o] Error 1
+make[2]: *** Waiting for unfinished jobs....
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/examples/main.cpp:5:
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection.h:12:10: fatal error: tinydtls.h: No such file or directory
+   12 | #include "tinydtls.h"
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:807: examples/CMakeFiles/friendly_example_client.dir/main.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1239: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+make: *** [Makefile:156: all] Error 2

@@ -1,0 +1,887 @@
+[  7%] Built target test_dtls_integration
+[  7%] Built target test_dtls_providers
+[ 37%] Built target friendly_lwm2m
+[ 44%] Built target test_blockwise_transfer
+[ 44%] Built target test_rollback_manager
+[ 44%] Built target test_delta_algorithms
+[ 44%] Linking CXX executable test_firmware_update_object
+[ 45%] Linking CXX executable friendly_example_client
+lto-wrapper: warning: using serial compilation of 10 LTRANS jobs
+lto-wrapper: note: see the ‘-flto’ option documentation for more information
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(idna.o): warning: relocation against `uninorm_nfc' in read-only section `.text'
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c: In function ‘lwm2m_handle_packet’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:794:25: warning: ‘block2_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  794 |                         LOG_ARG("Blockwise: block2 response NUM %u (SZX %u/ SZX Max%u) MORE %u", block2_num,
+      |                         ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:788:34: note: ‘block2_size’ was declared here
+  788 |                         uint16_t block2_size;
+      |                                  ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:798:43: warning: ‘block2_more’ may be used uninitialized [-Wmaybe-uninitialized]
+  798 |                         coap_error_code = coap_block2_handler(&peerP->blockData, message->mid, message->payload, message->payload_len, block2_size, block2_num, block2_more, &complete_buffer, &complete_buffer_size);
+      |                                           ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:787:34: note: ‘block2_more’ was declared here
+  787 |                         uint8_t  block2_more;
+      |                                  ^
+In function ‘coap_block2_handler’,
+    inlined from ‘lwm2m_handle_packet’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:798:43:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/coap/block.c:345:12: warning: ‘block2_num’ may be used uninitialized [-Wmaybe-uninitialized]
+  345 |     return prv_coap_block_handler(pBlockDataHead, identifier, BLOCK_2, buffer, length, blockSize, blockNum, blockMore, outputBuffer, outputLength);
+      |            ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c: In function ‘lwm2m_handle_packet’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:786:34: note: ‘block2_num’ was declared here
+  786 |                         uint32_t block2_num;
+      |                                  ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:583:21: warning: ‘block1_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  583 |                     LOG_ARG("Blockwise: block1 request NUM %u (SZX %u/ SZX Max%u) MORE %u", block1_num, block1_size,
+      |                     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:577:30: note: ‘block1_size’ was declared here
+  577 |                     uint16_t block1_size;
+      |                              ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:583:21: warning: ‘block1_more’ may be used uninitialized [-Wmaybe-uninitialized]
+  583 |                     LOG_ARG("Blockwise: block1 request NUM %u (SZX %u/ SZX Max%u) MORE %u", block1_num, block1_size,
+      |                     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:576:30: note: ‘block1_more’ was declared here
+  576 |                     uint8_t  block1_more;
+      |                              ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:583:21: warning: ‘block1_num’ may be used uninitialized [-Wmaybe-uninitialized]
+  583 |                     LOG_ARG("Blockwise: block1 request NUM %u (SZX %u/ SZX Max%u) MORE %u", block1_num, block1_size,
+      |                     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:575:30: note: ‘block1_num’ was declared here
+  575 |                     uint32_t block1_num;
+      |                              ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/json.c: In function ‘json_parse’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/json.c:631:36: warning: ‘size’ may be used uninitialized [-Wmaybe-uninitialized]
+  631 |                     for (i = 0 ; i < size && resP == NULL; i++)
+      |                                    ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/json.c:556:13: note: ‘size’ was declared here
+  556 |         int size;
+      |             ^
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-psl.o): in function `Curl_psl_destroy':
+(.text+0x31): undefined reference to `psl_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-psl.o): in function `Curl_psl_use':
+(.text+0xc8): undefined reference to `psl_latest'
+/usr/bin/ld: (.text+0x169): undefined reference to `psl_builtin'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `myssh_statemach_act':
+(.text+0x105): undefined reference to `ssh_scp_free'
+/usr/bin/ld: (.text+0x11e): undefined reference to `ssh_set_blocking'
+/usr/bin/ld: (.text+0x13d): undefined reference to `ssh_scp_free'
+/usr/bin/ld: (.text+0x154): undefined reference to `ssh_disconnect'
+/usr/bin/ld: (.text+0x15e): undefined reference to `ssh_version'
+/usr/bin/ld: (.text+0x178): undefined reference to `ssh_string_free_char'
+/usr/bin/ld: (.text+0x1ad): undefined reference to `ssh_free'
+/usr/bin/ld: (.text+0x1c9): undefined reference to `ssh_string_free_char'
+/usr/bin/ld: (.text+0x1e5): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x1f6): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x207): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x218): undefined reference to `ssh_key_free'
+/usr/bin/ld: (.text+0x229): undefined reference to `ssh_key_free'
+/usr/bin/ld: (.text+0x2bb): undefined reference to `ssh_string_free_char'
+/usr/bin/ld: (.text+0x391): undefined reference to `ssh_set_blocking'
+/usr/bin/ld: (.text+0x3ab): undefined reference to `ssh_connect'
+/usr/bin/ld: (.text+0x41e): undefined reference to `ssh_get_server_publickey'
+/usr/bin/ld: (.text+0x45c): undefined reference to `ssh_get_publickey_hash'
+/usr/bin/ld: (.text+0x4c4): undefined reference to `ssh_clean_pubkey_hash'
+/usr/bin/ld: (.text+0x4d0): undefined reference to `ssh_key_free'
+/usr/bin/ld: (.text+0x4e1): undefined reference to `ssh_knownhosts_entry_free'
+/usr/bin/ld: (.text+0x515): undefined reference to `ssh_userauth_none'
+/usr/bin/ld: (.text+0x560): undefined reference to `ssh_scp_init'
+/usr/bin/ld: (.text+0x582): undefined reference to `ssh_scp_pull_request'
+/usr/bin/ld: (.text+0x597): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x5fc): undefined reference to `ssh_userauth_password'
+/usr/bin/ld: (.text+0x64d): undefined reference to `ssh_set_blocking'
+/usr/bin/ld: (.text+0x659): undefined reference to `sftp_new'
+/usr/bin/ld: (.text+0x671): undefined reference to `sftp_init'
+/usr/bin/ld: (.text+0x69a): undefined reference to `sftp_canonicalize_path'
+/usr/bin/ld: (.text+0x6cc): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x741): undefined reference to `ssh_scp_close'
+/usr/bin/ld: (.text+0x788): undefined reference to `ssh_scp_init'
+/usr/bin/ld: (.text+0x7af): undefined reference to `ssh_scp_push_file'
+/usr/bin/ld: (.text+0x7c3): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x830): undefined reference to `sftp_fstat'
+/usr/bin/ld: (.text+0x8a5): undefined reference to `sftp_close'
+/usr/bin/ld: (.text+0x8c3): undefined reference to `sftp_open'
+/usr/bin/ld: (.text+0x8db): undefined reference to `sftp_file_set_nonblocking'
+/usr/bin/ld: (.text+0x900): undefined reference to `sftp_closedir'
+/usr/bin/ld: (.text+0x94d): undefined reference to `sftp_close'
+/usr/bin/ld: (.text+0x969): undefined reference to `sftp_free'
+/usr/bin/ld: (.text+0x985): undefined reference to `ssh_string_free_char'
+/usr/bin/ld: (.text+0x9c5): undefined reference to `sftp_close'
+/usr/bin/ld: (.text+0xa7d): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0xa90): undefined reference to `sftp_lstat'
+/usr/bin/ld: (.text+0xb5c): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0xb6f): undefined reference to `sftp_readdir'
+/usr/bin/ld: (.text+0xc78): undefined reference to `sftp_mkdir'
+/usr/bin/ld: (.text+0xd79): undefined reference to `sftp_close'
+/usr/bin/ld: (.text+0xd98): undefined reference to `sftp_open'
+/usr/bin/ld: (.text+0xe44): undefined reference to `sftp_seek64'
+/usr/bin/ld: (.text+0xe66): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0xece): undefined reference to `sftp_setstat'
+/usr/bin/ld: (.text+0xf32): undefined reference to `sftp_stat'
+/usr/bin/ld: (.text+0xf49): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x1041): undefined reference to `ssh_userauth_publickey'
+/usr/bin/ld: (.text+0x1266): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x1279): undefined reference to `sftp_stat'
+/usr/bin/ld: (.text+0x1447): undefined reference to `sftp_rmdir'
+/usr/bin/ld: (.text+0x1487): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x14af): undefined reference to `sftp_statvfs'
+/usr/bin/ld: (.text+0x14fd): undefined reference to `sftp_statvfs_free'
+/usr/bin/ld: (.text+0x158d): undefined reference to `sftp_mkdir'
+/usr/bin/ld: (.text+0x15cd): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x161f): undefined reference to `sftp_unlink'
+/usr/bin/ld: (.text+0x165f): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x168e): undefined reference to `sftp_rename'
+/usr/bin/ld: (.text+0x16e6): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x1716): undefined reference to `sftp_symlink'
+/usr/bin/ld: (.text+0x176e): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x17b3): undefined reference to `ssh_string_free_char'
+/usr/bin/ld: (.text+0x1842): undefined reference to `ssh_userauth_kbdint'
+/usr/bin/ld: (.text+0x1860): undefined reference to `ssh_userauth_kbdint_getnprompts'
+/usr/bin/ld: (.text+0x187e): undefined reference to `ssh_userauth_kbdint_setanswer'
+/usr/bin/ld: (.text+0x18a1): undefined reference to `ssh_userauth_kbdint'
+/usr/bin/ld: (.text+0x18c3): undefined reference to `ssh_userauth_kbdint_getnprompts'
+/usr/bin/ld: (.text+0x18e6): undefined reference to `ssh_userauth_kbdint'
+/usr/bin/ld: (.text+0x1942): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x19bf): undefined reference to `sftp_seek64'
+/usr/bin/ld: (.text+0x1af8): undefined reference to `ssh_scp_request_get_size'
+/usr/bin/ld: (.text+0x1c1d): undefined reference to `ssh_pki_import_privkey_file'
+/usr/bin/ld: (.text+0x1cdd): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x1d50): undefined reference to `ssh_string_free_char'
+/usr/bin/ld: (.text+0x1ef4): undefined reference to `ssh_userauth_list'
+/usr/bin/ld: (.text+0x1f34): undefined reference to `ssh_session_get_known_hosts_entry'
+/usr/bin/ld: (.text+0x1f68): undefined reference to `ssh_pki_export_pubkey_base64'
+/usr/bin/ld: (.text+0x1f9a): undefined reference to `ssh_key_type'
+/usr/bin/ld: (.text+0x2182): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2323): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2361): undefined reference to `sftp_opendir'
+/usr/bin/ld: (.text+0x23c4): undefined reference to `ssh_set_blocking'
+/usr/bin/ld: (.text+0x23f7): undefined reference to `ssh_scp_new'
+/usr/bin/ld: (.text+0x2421): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x245f): undefined reference to `ssh_userauth_gssapi'
+/usr/bin/ld: (.text+0x258f): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x25d2): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x263d): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x2673): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x26a3): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2857): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x287c): undefined reference to `sftp_dir_eof'
+/usr/bin/ld: (.text+0x2976): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x2a5b): undefined reference to `sftp_readlink'
+/usr/bin/ld: (.text+0x2ae8): undefined reference to `sftp_stat'
+/usr/bin/ld: (.text+0x2b0d): undefined reference to `sftp_attributes_free'
+/usr/bin/ld: (.text+0x2bc9): undefined reference to `ssh_scp_new'
+/usr/bin/ld: (.text+0x2c4a): undefined reference to `ssh_userauth_publickey_auto'
+/usr/bin/ld: (.text+0x2ddf): undefined reference to `ssh_pki_export_pubkey_base64'
+/usr/bin/ld: (.text+0x2e13): undefined reference to `ssh_key_type'
+/usr/bin/ld: (.text+0x3037): undefined reference to `sftp_seek64'
+/usr/bin/ld: (.text+0x31d1): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x31f6): undefined reference to `ssh_userauth_try_publickey'
+/usr/bin/ld: (.text+0x3226): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x3390): undefined reference to `ssh_session_update_known_hosts'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `sftp_send':
+(.text+0x382d): undefined reference to `sftp_write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `scp_send':
+(.text+0x3883): undefined reference to `ssh_scp_write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `scp_recv':
+(.text+0x38ca): undefined reference to `ssh_scp_read'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `sftp_recv':
+(.text+0x3aed): undefined reference to `sftp_async_read'
+/usr/bin/ld: (.text+0x3b28): undefined reference to `ssh_get_poll_flags'
+/usr/bin/ld: (.text+0x3b65): undefined reference to `sftp_async_read_begin'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `myssh_multi_statemach':
+(.text+0x3c18): undefined reference to `ssh_get_poll_flags'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `scp_doing':
+(.text+0x3d98): undefined reference to `ssh_get_poll_flags'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `sftp_doing':
+(.text+0x3e48): undefined reference to `ssh_get_poll_flags'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `myssh_connect':
+(.text+0x3f0c): undefined reference to `ssh_new'
+/usr/bin/ld: (.text+0x3f2d): undefined reference to `ssh_options_set'
+/usr/bin/ld: (.text+0x3f43): undefined reference to `ssh_options_parse_config'
+/usr/bin/ld: (.text+0x3f60): undefined reference to `ssh_options_set'
+/usr/bin/ld: (.text+0x3f99): undefined reference to `ssh_options_set'
+/usr/bin/ld: (.text+0x3fce): undefined reference to `ssh_options_set'
+/usr/bin/ld: (.text+0x3fef): undefined reference to `ssh_options_set'
+/usr/bin/ld: (.text+0x4038): undefined reference to `ssh_pki_import_pubkey_file'
+/usr/bin/ld: (.text+0x4154): undefined reference to `ssh_options_set'
+/usr/bin/ld: (.text+0x41b4): undefined reference to `ssh_options_set'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `Curl_ssh_init':
+(.text+0x4269): undefined reference to `ssh_init'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `Curl_ssh_version':
+(.text+0x42a4): undefined reference to `ssh_version'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-libssh.o): in function `Curl_ssh_cleanup':
+(.text+0x4285): undefined reference to `ssh_finalize'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cookie.o): in function `Curl_cookie_add':
+(.text+0x12e6): undefined reference to `psl_is_cookie_domain_acceptable'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_rtmp.o): in function `rtmp_disconnect':
+(.text+0x38): undefined reference to `RTMP_Close'
+/usr/bin/ld: (.text+0x40): undefined reference to `RTMP_Free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_rtmp.o): in function `rtmp_connect':
+(.text+0xef): undefined reference to `RTMP_Connect1'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_rtmp.o): in function `rtmp_send':
+(.text+0x196): undefined reference to `RTMP_Write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_rtmp.o): in function `rtmp_recv':
+(.text+0x1f4): undefined reference to `RTMP_Read'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_rtmp.o): in function `rtmp_do':
+(.text+0x27f): undefined reference to `RTMP_ConnectStream'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_rtmp.o): in function `rtmp_setup_connection':
+(.text+0x308): undefined reference to `RTMP_Alloc'
+/usr/bin/ld: (.text+0x318): undefined reference to `RTMP_Init'
+/usr/bin/ld: (.text+0x325): undefined reference to `RTMP_SetBufferMS'
+/usr/bin/ld: (.text+0x335): undefined reference to `RTMP_SetupURL'
+/usr/bin/ld: (.text+0x374): undefined reference to `RTMP_Free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_query':
+(.text+0x113): undefined reference to `nghttp2_session_check_request_allowed'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `h2_process_pending_input':
+(.text+0x2c0): undefined reference to `nghttp2_session_mem_recv'
+/usr/bin/ld: (.text+0x325): undefined reference to `nghttp2_session_check_request_allowed'
+/usr/bin/ld: (.text+0x367): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_is_alive':
+(.text+0x562): undefined reference to `nghttp2_session_want_read'
+/usr/bin/ld: (.text+0x576): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `h2_pri_spec':
+(.text+0x6bf): undefined reference to `nghttp2_priority_spec_init'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `h2_progress_egress':
+(.text+0x7ae): undefined reference to `nghttp2_submit_priority'
+/usr/bin/ld: (.text+0x7bb): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0x824): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: (.text+0x830): undefined reference to `nghttp2_session_send'
+/usr/bin/ld: (.text+0x849): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0x8de): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `on_begin_headers':
+(.text+0xa0c): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `req_body_read_callback':
+(.text+0xcbe): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `on_stream_close':
+(.text+0xeb9): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: (.text+0xf29): undefined reference to `nghttp2_session_set_stream_user_data'
+/usr/bin/ld: (.text+0xf7d): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `http2_handle_stream_close':
+(.text+0x129d): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_recv':
+(.text+0x15e2): undefined reference to `nghttp2_session_consume'
+/usr/bin/ld: (.text+0x166d): undefined reference to `nghttp2_session_get_local_window_size'
+/usr/bin/ld: (.text+0x167c): undefined reference to `nghttp2_session_get_stream_effective_local_window_size'
+/usr/bin/ld: (.text+0x168b): undefined reference to `nghttp2_session_get_stream_effective_recv_data_length'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `on_data_chunk_recv':
+(.text+0x17f6): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: (.text+0x18b9): undefined reference to `nghttp2_session_consume'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_adjust_pollset':
+(.text+0x1968): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x19d7): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0x1a01): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: (.text+0x1a48): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_ctx_clear':
+(.text+0x1a87): undefined reference to `nghttp2_session_del'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_keep_alive':
+(.text+0x2013): undefined reference to `nghttp2_submit_ping'
+/usr/bin/ld: (.text+0x201f): undefined reference to `nghttp2_session_send'
+/usr/bin/ld: (.text+0x204e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2074): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `http2_data_done.isra.0':
+(.text+0x211c): undefined reference to `nghttp2_submit_rst_stream'
+/usr/bin/ld: (.text+0x214a): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: (.text+0x215b): undefined reference to `nghttp2_session_set_stream_user_data'
+/usr/bin/ld: (.text+0x2209): undefined reference to `nghttp2_session_consume'
+/usr/bin/ld: (.text+0x2224): undefined reference to `nghttp2_session_send'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_cntrl':
+(.text+0x22d1): undefined reference to `nghttp2_session_set_local_window_size'
+/usr/bin/ld: (.text+0x2396): undefined reference to `nghttp2_session_resume_data'
+/usr/bin/ld: (.text+0x23da): undefined reference to `nghttp2_session_set_local_window_size'
+/usr/bin/ld: (.text+0x2434): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_ctx_init':
+(.text+0x262c): undefined reference to `nghttp2_session_callbacks_new'
+/usr/bin/ld: (.text+0x264e): undefined reference to `nghttp2_session_callbacks_set_send_callback'
+/usr/bin/ld: (.text+0x2661): undefined reference to `nghttp2_session_callbacks_set_on_frame_recv_callback'
+/usr/bin/ld: (.text+0x2674): undefined reference to `nghttp2_session_callbacks_set_on_frame_send_callback'
+/usr/bin/ld: (.text+0x2687): undefined reference to `nghttp2_session_callbacks_set_on_data_chunk_recv_callback'
+/usr/bin/ld: (.text+0x269a): undefined reference to `nghttp2_session_callbacks_set_on_stream_close_callback'
+/usr/bin/ld: (.text+0x26ad): undefined reference to `nghttp2_session_callbacks_set_on_begin_headers_callback'
+/usr/bin/ld: (.text+0x26c0): undefined reference to `nghttp2_session_callbacks_set_on_header_callback'
+/usr/bin/ld: (.text+0x26d3): undefined reference to `nghttp2_session_callbacks_set_error_callback'
+/usr/bin/ld: (.text+0x26f4): undefined reference to `nghttp2_option_new'
+/usr/bin/ld: (.text+0x2725): undefined reference to `nghttp2_option_set_no_auto_window_update'
+/usr/bin/ld: (.text+0x2736): undefined reference to `nghttp2_option_set_no_rfc9113_leading_and_trailing_ws_validation'
+/usr/bin/ld: (.text+0x2753): undefined reference to `nghttp2_session_client_new2'
+/usr/bin/ld: (.text+0x2765): undefined reference to `nghttp2_option_del'
+/usr/bin/ld: (.text+0x27fa): undefined reference to `nghttp2_pack_settings_payload'
+/usr/bin/ld: (.text+0x2835): undefined reference to `nghttp2_session_callbacks_del'
+/usr/bin/ld: (.text+0x28bc): undefined reference to `nghttp2_submit_settings'
+/usr/bin/ld: (.text+0x28d8): undefined reference to `nghttp2_session_set_local_window_size'
+/usr/bin/ld: (.text+0x2981): undefined reference to `nghttp2_session_upgrade2'
+/usr/bin/ld: (.text+0x2997): undefined reference to `nghttp2_session_set_stream_user_data'
+/usr/bin/ld: (.text+0x2a23): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a5f): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a8b): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `cf_h2_send':
+(.text+0x2fec): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x30c9): undefined reference to `nghttp2_session_check_request_allowed'
+/usr/bin/ld: (.text+0x3139): undefined reference to `nghttp2_submit_request'
+/usr/bin/ld: (.text+0x3365): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x3374): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0x342c): undefined reference to `nghttp2_session_want_read'
+/usr/bin/ld: (.text+0x343c): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: (.text+0x3474): undefined reference to `nghttp2_session_want_read'
+/usr/bin/ld: (.text+0x3484): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: (.text+0x34c8): undefined reference to `nghttp2_session_resume_data'
+/usr/bin/ld: (.text+0x34cf): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0x354d): undefined reference to `nghttp2_submit_request'
+/usr/bin/ld: (.text+0x37ee): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0x3818): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0x38c8): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x391e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `on_header':
+(.text+0x39be): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: (.text+0x3d4d): undefined reference to `nghttp2_submit_rst_stream'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `Curl_http2_ver':
+(.text+0x40c4): undefined reference to `nghttp2_version'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `on_frame_recv':
+(.text+0x436e): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: (.text+0x43e7): undefined reference to `nghttp2_session_get_remote_settings'
+/usr/bin/ld: (.text+0x43f8): undefined reference to `nghttp2_session_get_remote_settings'
+/usr/bin/ld: (.text+0x45b2): undefined reference to `nghttp2_session_get_stream_effective_local_window_size'
+/usr/bin/ld: (.text+0x45cb): undefined reference to `nghttp2_session_get_stream_effective_recv_data_length'
+/usr/bin/ld: (.text+0x4647): undefined reference to `nghttp2_session_get_stream_local_window_size'
+/usr/bin/ld: (.text+0x4673): undefined reference to `nghttp2_session_set_local_window_size'
+/usr/bin/ld: (.text+0x4ab7): undefined reference to `nghttp2_submit_rst_stream'
+/usr/bin/ld: (.text+0x4ac0): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0x4b5d): undefined reference to `nghttp2_submit_rst_stream'
+/usr/bin/ld: (.text+0x4b64): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0x4d95): undefined reference to `nghttp2_session_set_stream_user_data'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-http2.o): in function `Curl_http2_request_upgrade':
+(.text+0x4e85): undefined reference to `nghttp2_pack_settings_payload'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_disconnect':
+(.text+0x7e): undefined reference to `ldap_get_option'
+/usr/bin/ld: (.text+0x96): undefined reference to `ber_sockbuf_add_io'
+/usr/bin/ld: (.text+0xa4): undefined reference to `ldap_unbind_ext'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_done':
+(.text+0x294): undefined reference to `ldap_abandon_ext'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_recv':
+(.text+0x3ea): undefined reference to `ldap_result'
+/usr/bin/ld: (.text+0x411): undefined reference to `ldap_msgtype'
+/usr/bin/ld: (.text+0x42d): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x486): undefined reference to `ldap_parse_result'
+/usr/bin/ld: (.text+0x4da): undefined reference to `ldap_memfree'
+/usr/bin/ld: (.text+0x4e6): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x51f): undefined reference to `ldap_get_dn_ber'
+/usr/bin/ld: (.text+0x52f): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x551): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x5b7): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x5cb): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x5eb): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x613): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x658): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x6b9): undefined reference to `ldap_get_attribute_ber'
+/usr/bin/ld: (.text+0x86e): undefined reference to `ber_memfree'
+/usr/bin/ld: (.text+0x88a): undefined reference to `ber_free'
+/usr/bin/ld: (.text+0x896): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x8a9): undefined reference to `ber_memfree'
+/usr/bin/ld: (.text+0x909): undefined reference to `ldap_get_attribute_ber'
+/usr/bin/ld: (.text+0x91f): undefined reference to `ber_free'
+/usr/bin/ld: (.text+0x959): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0xa3e): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0xa56): undefined reference to `ber_memfree'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_ssl_connect':
+(.text+0xafe): undefined reference to `ldap_get_option'
+/usr/bin/ld: (.text+0xb16): undefined reference to `ber_sockbuf_add_io'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_perform_mechs':
+(.text+0xb83): undefined reference to `ldap_search_ext'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_perform_bind':
+(.text+0xc73): undefined reference to `ldap_sasl_bind'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_cancel_auth':
+(.text+0xd42): undefined reference to `ldap_sasl_bind'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_connecting':
+(.text+0xe82): undefined reference to `ldap_result'
+/usr/bin/ld: (.text+0xef1): undefined reference to `ldap_parse_result'
+/usr/bin/ld: (.text+0xf5d): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0xf8f): undefined reference to `ldap_abandon_ext'
+/usr/bin/ld: (.text+0xfc6): undefined reference to `ldap_msgtype'
+/usr/bin/ld: (.text+0x10bd): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x114a): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x11c7): undefined reference to `ber_free'
+/usr/bin/ld: (.text+0x1260): undefined reference to `ldap_parse_sasl_bind_result'
+/usr/bin/ld: (.text+0x128a): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x12e3): undefined reference to `ber_bvfree'
+/usr/bin/ld: (.text+0x12f3): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x1340): undefined reference to `ldap_msgtype'
+/usr/bin/ld: (.text+0x13dd): undefined reference to `ldap_parse_sasl_bind_result'
+/usr/bin/ld: (.text+0x143d): undefined reference to `ldap_get_dn_ber'
+/usr/bin/ld: (.text+0x146e): undefined reference to `ldap_get_attribute_ber'
+/usr/bin/ld: (.text+0x14ae): undefined reference to `ldap_get_attribute_ber'
+/usr/bin/ld: (.text+0x1517): undefined reference to `ber_memfree'
+/usr/bin/ld: (.text+0x15c9): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x16e1): undefined reference to `ldap_set_option'
+/usr/bin/ld: (.text+0x16ea): undefined reference to `ldap_msgfree'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_perform_auth':
+(.text+0x17ff): undefined reference to `ldap_sasl_bind'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_do':
+(.text+0x1970): undefined reference to `ldap_url_parse'
+/usr/bin/ld: (.text+0x19e0): undefined reference to `ldap_get_option'
+/usr/bin/ld: (.text+0x19f8): undefined reference to `ber_sockbuf_add_io'
+/usr/bin/ld: (.text+0x1a25): undefined reference to `ldap_search_ext'
+/usr/bin/ld: (.text+0x1a35): undefined reference to `ldap_free_urldesc'
+/usr/bin/ld: (.text+0x1a9a): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x1ad2): undefined reference to `ldap_abandon_ext'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_connect':
+(.text+0x1b5f): undefined reference to `ldap_pvt_url_scheme2proto'
+/usr/bin/ld: (.text+0x1cb7): undefined reference to `ldap_init_fd'
+/usr/bin/ld: (.text+0x1ce0): undefined reference to `ldap_set_option'
+/usr/bin/ld: (.text+0x1cf0): undefined reference to `ldap_set_option'
+/usr/bin/ld: (.text+0x1d7e): undefined reference to `ldap_start_tls'
+/usr/bin/ld: (.text+0x1deb): undefined reference to `ldap_err2string'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_setup_connection':
+(.text+0x1ec6): undefined reference to `ldap_free_urldesc'
+/usr/bin/ld: (.text+0x1f0b): undefined reference to `ldap_url_parse'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_version':
+(.text+0x337): undefined reference to `OpenSSL_version'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_new_session_cb':
+(.text+0x5e8): undefined reference to `SSL_get_ex_data'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_trace':
+(.text+0x847): undefined reference to `SSL_alert_desc_string_long'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_data_pending':
+(.text+0xd8a): undefined reference to `SSL_pending'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_init':
+(.text+0xdc0): undefined reference to `OPENSSL_init_ssl'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_strerror':
+(.text+0xf9f): undefined reference to `OpenSSL_version'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_send':
+(.text+0x1195): undefined reference to `SSL_write'
+/usr/bin/ld: (.text+0x11d8): undefined reference to `SSL_get_error'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_recv':
+(.text+0x1407): undefined reference to `SSL_read'
+/usr/bin/ld: (.text+0x1447): undefined reference to `SSL_get_error'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_close':
+(.text+0x15aa): undefined reference to `SSL_free'
+/usr/bin/ld: (.text+0x15bf): undefined reference to `SSL_CTX_free'
+/usr/bin/ld: (.text+0x1623): undefined reference to `SSL_read'
+/usr/bin/ld: (.text+0x1631): undefined reference to `SSL_shutdown'
+/usr/bin/ld: (.text+0x167a): undefined reference to `SSL_set_connect_state'
+/usr/bin/ld: (.text+0x169d): undefined reference to `SSL_read'
+/usr/bin/ld: (.text+0x16a8): undefined reference to `SSL_get_error'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_shutdown':
+(.text+0x18d1): undefined reference to `SSL_get_shutdown'
+/usr/bin/ld: (.text+0x1905): undefined reference to `SSL_free'
+/usr/bin/ld: (.text+0x1952): undefined reference to `SSL_read'
+/usr/bin/ld: (.text+0x195d): undefined reference to `SSL_get_error'
+/usr/bin/ld: (.text+0x1a55): undefined reference to `SSL_shutdown'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `cert_stuff':
+(.text+0x1c70): undefined reference to `SSL_CTX_set_default_passwd_cb_userdata'
+/usr/bin/ld: (.text+0x1c83): undefined reference to `SSL_CTX_set_default_passwd_cb'
+/usr/bin/ld: (.text+0x1d18): undefined reference to `PKCS12_parse'
+/usr/bin/ld: (.text+0x1d3b): undefined reference to `SSL_CTX_use_certificate'
+/usr/bin/ld: (.text+0x1d57): undefined reference to `SSL_CTX_use_PrivateKey'
+/usr/bin/ld: (.text+0x1dfa): undefined reference to `PEM_read_bio_X509_AUX'
+/usr/bin/ld: (.text+0x1e19): undefined reference to `SSL_CTX_use_certificate'
+/usr/bin/ld: (.text+0x1e56): undefined reference to `SSL_CTX_ctrl'
+/usr/bin/ld: (.text+0x1e9e): undefined reference to `SSL_CTX_ctrl'
+/usr/bin/ld: (.text+0x1ebb): undefined reference to `PEM_read_bio_X509'
+/usr/bin/ld: (.text+0x1fa5): undefined reference to `SSL_CTX_use_PrivateKey'
+/usr/bin/ld: (.text+0x1fce): undefined reference to `SSL_new'
+/usr/bin/ld: (.text+0x1fe2): undefined reference to `SSL_get_certificate'
+/usr/bin/ld: (.text+0x2001): undefined reference to `SSL_get_privatekey'
+/usr/bin/ld: (.text+0x201c): undefined reference to `SSL_get_privatekey'
+/usr/bin/ld: (.text+0x2038): undefined reference to `SSL_free'
+/usr/bin/ld: (.text+0x2044): undefined reference to `SSL_CTX_check_private_key'
+/usr/bin/ld: (.text+0x2087): undefined reference to `SSL_CTX_set_default_passwd_cb_userdata'
+/usr/bin/ld: (.text+0x2096): undefined reference to `SSL_CTX_set_default_passwd_cb'
+/usr/bin/ld: (.text+0x2150): undefined reference to `SSL_CTX_use_certificate'
+/usr/bin/ld: (.text+0x2292): undefined reference to `SSL_CTX_use_certificate'
+/usr/bin/ld: (.text+0x23db): undefined reference to `SSL_CTX_use_certificate_chain_file'
+/usr/bin/ld: (.text+0x240d): undefined reference to `SSL_CTX_use_PrivateKey_file'
+/usr/bin/ld: (.text+0x2430): undefined reference to `SSL_CTX_use_certificate_file'
+/usr/bin/ld: (.text+0x267b): undefined reference to `SSL_CTX_use_PrivateKey'
+/usr/bin/ld: (.text+0x27af): undefined reference to `SSL_free'
+/usr/bin/ld: (.text+0x2830): undefined reference to `SSL_CTX_check_private_key'
+/usr/bin/ld: (.text+0x286e): undefined reference to `SSL_CTX_add_client_CA'
+/usr/bin/ld: (.text+0x2888): undefined reference to `SSL_CTX_ctrl'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `Curl_ossl_certchain':
+(.text+0x2b52): undefined reference to `SSL_get_peer_cert_chain'
+/usr/bin/ld: (.text+0x3258): undefined reference to `PEM_write_bio_X509'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `servercert':
+(.text+0x3c66): undefined reference to `SSL_get1_peer_certificate'
+/usr/bin/ld: (.text+0x3e06): undefined reference to `PEM_read_bio_X509'
+/usr/bin/ld: (.text+0x3e5c): undefined reference to `SSL_get_verify_result'
+/usr/bin/ld: (.text+0x3ef9): undefined reference to `SSL_get_verify_result'
+/usr/bin/ld: (.text+0x3f0a): undefined reference to `SSL_get_peer_cert_chain'
+/usr/bin/ld: (.text+0x42b1): undefined reference to `SSL_get0_verified_chain'
+/usr/bin/ld: (.text+0x4412): undefined reference to `SSL_ctrl'
+/usr/bin/ld: (.text+0x444e): undefined reference to `OCSP_response_status'
+/usr/bin/ld: (.text+0x4460): undefined reference to `OCSP_response_get1_basic'
+/usr/bin/ld: (.text+0x4479): undefined reference to `SSL_get_peer_cert_chain'
+/usr/bin/ld: (.text+0x4494): undefined reference to `SSL_CTX_get_cert_store'
+/usr/bin/ld: (.text+0x44a8): undefined reference to `OCSP_basic_verify'
+/usr/bin/ld: (.text+0x44b9): undefined reference to `SSL_get1_peer_certificate'
+/usr/bin/ld: (.text+0x47b5): undefined reference to `OCSP_cert_to_id'
+/usr/bin/ld: (.text+0x4800): undefined reference to `OCSP_resp_find_status'
+/usr/bin/ld: (.text+0x483d): undefined reference to `OCSP_check_validity'
+/usr/bin/ld: (.text+0x4884): undefined reference to `OCSP_crl_reason_str'
+/usr/bin/ld: (.text+0x4935): undefined reference to `OCSP_response_status_str'
+/usr/bin/ld: (.text+0x4ae5): undefined reference to `OCSP_cert_status_str'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `Curl_ssl_setup_x509_store':
+(.text+0x4bcc): undefined reference to `SSL_CTX_get_cert_store'
+/usr/bin/ld: (.text+0x4c68): undefined reference to `PEM_X509_INFO_read_bio'
+/usr/bin/ld: (.text+0x4d11): undefined reference to `X509_INFO_free'
+/usr/bin/ld: (.text+0x4d68): undefined reference to `X509_LOOKUP_file'
+/usr/bin/ld: (.text+0x4d8d): undefined reference to `X509_load_crl_file'
+/usr/bin/ld: (.text+0x4f17): undefined reference to `SSL_CTX_set_cert_store'
+/usr/bin/ld: (.text+0x4f6b): undefined reference to `X509_STORE_load_file'
+/usr/bin/ld: (.text+0x4fb5): undefined reference to `X509_STORE_load_path'
+/usr/bin/ld: (.text+0x510c): undefined reference to `X509_STORE_load_path'
+/usr/bin/ld: (.text+0x529b): undefined reference to `X509_INFO_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_connect_step1':
+(.text+0x54e1): undefined reference to `TLS_client_method'
+/usr/bin/ld: (.text+0x5508): undefined reference to `SSL_CTX_new'
+/usr/bin/ld: (.text+0x5528): undefined reference to `SSL_CTX_ctrl'
+/usr/bin/ld: (.text+0x55db): undefined reference to `SSL_CTX_ctrl'
+/usr/bin/ld: (.text+0x562f): undefined reference to `SSL_CTX_ctrl'
+/usr/bin/ld: (.text+0x5647): undefined reference to `SSL_CTX_set_options'
+/usr/bin/ld: (.text+0x568a): undefined reference to `SSL_CTX_set_alpn_protos'
+/usr/bin/ld: (.text+0x573f): undefined reference to `SSL_CTX_set_cipher_list'
+/usr/bin/ld: (.text+0x5776): undefined reference to `SSL_CTX_set_ciphersuites'
+/usr/bin/ld: (.text+0x579f): undefined reference to `SSL_CTX_set_post_handshake_auth'
+/usr/bin/ld: (.text+0x57be): undefined reference to `SSL_CTX_ctrl'
+/usr/bin/ld: (.text+0x5808): undefined reference to `SSL_CTX_set_srp_username'
+/usr/bin/ld: (.text+0x581f): undefined reference to `SSL_CTX_set_srp_password'
+/usr/bin/ld: (.text+0x584d): undefined reference to `SSL_CTX_set_verify'
+/usr/bin/ld: (.text+0x586e): undefined reference to `SSL_CTX_ctrl'
+/usr/bin/ld: (.text+0x587d): undefined reference to `SSL_CTX_sess_set_new_cb'
+/usr/bin/ld: (.text+0x58f7): undefined reference to `SSL_free'
+/usr/bin/ld: (.text+0x58ff): undefined reference to `SSL_new'
+/usr/bin/ld: (.text+0x5919): undefined reference to `SSL_set_ex_data'
+/usr/bin/ld: (.text+0x592d): undefined reference to `SSL_set_connect_state'
+/usr/bin/ld: (.text+0x5955): undefined reference to `SSL_ctrl'
+/usr/bin/ld: (.text+0x596c): undefined reference to `SSL_set_ex_data'
+/usr/bin/ld: (.text+0x59ae): undefined reference to `SSL_set_session'
+/usr/bin/ld: (.text+0x5a75): undefined reference to `SSL_set0_rbio'
+/usr/bin/ld: (.text+0x5a81): undefined reference to `SSL_set0_wbio'
+/usr/bin/ld: (.text+0x5aeb): undefined reference to `SSL_CTX_set_msg_callback'
+/usr/bin/ld: (.text+0x5afd): undefined reference to `SSL_CTX_ctrl'
+/usr/bin/ld: (.text+0x5b91): undefined reference to `SSL_CTX_set_keylog_callback'
+/usr/bin/ld: (.text+0x5bcb): undefined reference to `SSL_ctrl'
+/usr/bin/ld: (.text+0x5cb4): undefined reference to `SSL_CTX_set_cipher_list'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_connect_step2':
+(.text+0x5f04): undefined reference to `SSL_connect'
+/usr/bin/ld: (.text+0x5f27): undefined reference to `SSL_get_error'
+/usr/bin/ld: (.text+0x60d0): undefined reference to `SSL_get_peer_signature_type_nid'
+/usr/bin/ld: (.text+0x60e3): undefined reference to `SSL_ctrl'
+/usr/bin/ld: (.text+0x6123): undefined reference to `SSL_get0_alpn_selected'
+/usr/bin/ld: (.text+0x6186): undefined reference to `SSL_get_current_cipher'
+/usr/bin/ld: (.text+0x618e): undefined reference to `SSL_CIPHER_get_name'
+/usr/bin/ld: (.text+0x619f): undefined reference to `SSL_get_version'
+/usr/bin/ld: (.text+0x62b6): undefined reference to `SSL_get_verify_result'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openssl.o): in function `ossl_session_free':
+(.text+0x5b5): undefined reference to `SSL_SESSION_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `proxy_h2_process_pending_input':
+(.text+0xe3): undefined reference to `nghttp2_session_mem_recv'
+/usr/bin/ld: (.text+0x1a0): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `proxy_h2_on_stream_close':
+(.text+0x499): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `proxy_h2_progress_egress':
+(.text+0x51d): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: (.text+0x52a): undefined reference to `nghttp2_session_send'
+/usr/bin/ld: (.text+0x544): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0x5fd): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `cf_h2_proxy_recv':
+(.text+0x975): undefined reference to `nghttp2_session_consume'
+/usr/bin/ld: (.text+0xd0f): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `cf_h2_proxy_send':
+(.text+0xead): undefined reference to `nghttp2_session_resume_data'
+/usr/bin/ld: (.text+0xeb4): undefined reference to `nghttp2_is_fatal'
+/usr/bin/ld: (.text+0xf07): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0xf43): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x1064): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x1076): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0x1154): undefined reference to `nghttp2_session_want_read'
+/usr/bin/ld: (.text+0x121c): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `cf_h2_proxy_adjust_pollset':
+(.text+0x1383): undefined reference to `nghttp2_session_get_remote_window_size'
+/usr/bin/ld: (.text+0x140a): undefined reference to `nghttp2_session_get_stream_remote_window_size'
+/usr/bin/ld: (.text+0x1424): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `cf_h2_proxy_ctx_clear':
+(.text+0x14c7): undefined reference to `nghttp2_session_del'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `tunnel_send_callback':
+(.text+0x1892): undefined reference to `nghttp2_session_get_stream_user_data'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `cf_h2_proxy_is_alive':
+(.text+0x22bb): undefined reference to `nghttp2_session_want_read'
+/usr/bin/ld: (.text+0x22cf): undefined reference to `nghttp2_session_want_write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cf-h2-proxy.o): in function `cf_h2_proxy_connect':
+(.text+0x258f): undefined reference to `nghttp2_submit_request'
+/usr/bin/ld: (.text+0x28d0): undefined reference to `nghttp2_session_callbacks_new'
+/usr/bin/ld: (.text+0x28eb): undefined reference to `nghttp2_session_callbacks_set_send_callback'
+/usr/bin/ld: (.text+0x28fe): undefined reference to `nghttp2_session_callbacks_set_on_frame_recv_callback'
+/usr/bin/ld: (.text+0x2911): undefined reference to `nghttp2_session_callbacks_set_on_frame_send_callback'
+/usr/bin/ld: (.text+0x2924): undefined reference to `nghttp2_session_callbacks_set_on_data_chunk_recv_callback'
+/usr/bin/ld: (.text+0x2937): undefined reference to `nghttp2_session_callbacks_set_on_stream_close_callback'
+/usr/bin/ld: (.text+0x294a): undefined reference to `nghttp2_session_callbacks_set_on_header_callback'
+/usr/bin/ld: (.text+0x296f): undefined reference to `nghttp2_option_new'
+/usr/bin/ld: (.text+0x2999): undefined reference to `nghttp2_session_callbacks_del'
+/usr/bin/ld: (.text+0x2e62): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2eb5): undefined reference to `nghttp2_option_set_no_auto_window_update'
+/usr/bin/ld: (.text+0x2ec6): undefined reference to `nghttp2_option_set_no_rfc9113_leading_and_trailing_ws_validation'
+/usr/bin/ld: (.text+0x2ee3): undefined reference to `nghttp2_session_client_new2'
+/usr/bin/ld: (.text+0x2ef5): undefined reference to `nghttp2_option_del'
+/usr/bin/ld: (.text+0x2f42): undefined reference to `nghttp2_submit_settings'
+/usr/bin/ld: (.text+0x2f5b): undefined reference to `nghttp2_session_set_local_window_size'
+/usr/bin/ld: (.text+0x2f7b): undefined reference to `nghttp2_session_callbacks_del'
+/usr/bin/ld: (.text+0x3101): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x312c): undefined reference to `nghttp2_session_callbacks_del'
+/usr/bin/ld: (.text+0x31b2): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x31d1): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(lookup.o): in function `idn2_lookup_u8':
+(.text+0x88): undefined reference to `u8_strlen'
+/usr/bin/ld: (.text+0x99): undefined reference to `u8_to_u32'
+/usr/bin/ld: (.text+0x496): undefined reference to `uninorm_nfc'
+/usr/bin/ld: (.text+0x4a1): undefined reference to `u32_normalize'
+/usr/bin/ld: (.text+0x830): undefined reference to `u32_to_u8'
+/usr/bin/ld: (.text+0x8c1): undefined reference to `u32_cmp'
+/usr/bin/ld: (.text+0xa5a): undefined reference to `u32_to_u8'
+/usr/bin/ld: (.text+0xb2e): undefined reference to `u32_to_u8'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(lookup.o): in function `idn2_to_ascii_4i2.part.0':
+(.text+0xce7): undefined reference to `u32_cpy'
+/usr/bin/ld: (.text+0xd01): undefined reference to `u32_to_u8'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(lookup.o): in function `idn2_lookup_ul':
+(.text+0xdbd): undefined reference to `u8_strconv_from_encoding'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(lookup.o): in function `idn2_to_ascii_4z':
+(.text+0xfb3): undefined reference to `u32_strlen'
+/usr/bin/ld: (.text+0xfc5): undefined reference to `u32_to_u8'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(decode.o): in function `idn2_to_unicode_8z4z':
+(.text+0xb6): undefined reference to `u8_to_u32'
+/usr/bin/ld: (.text+0xfa): undefined reference to `u32_cpy'
+/usr/bin/ld: (.text+0x136): undefined reference to `u32_cpy_alloc'
+/usr/bin/ld: (.text+0x1dd): undefined reference to `u32_cpy'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(decode.o): in function `idn2_to_unicode_4z4z.part.0':
+(.text+0x286): undefined reference to `u32_strlen'
+/usr/bin/ld: (.text+0x298): undefined reference to `u32_to_u8'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(decode.o): in function `idn2_to_unicode_44i':
+(.text+0x3a6): undefined reference to `u32_cpy'
+/usr/bin/ld: (.text+0x3da): undefined reference to `u32_strlen'
+/usr/bin/ld: (.text+0x43a): undefined reference to `u32_cpy'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(decode.o): in function `idn2_to_unicode_8z8z':
+(.text+0x4b0): undefined reference to `u32_strlen'
+/usr/bin/ld: (.text+0x4c2): undefined reference to `u32_to_u8'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(decode.o): in function `idn2_to_unicode_8zlz':
+(.text+0x58c): undefined reference to `u8_strconv_to_encoding'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(decode.o): in function `idn2_to_unicode_lzlz':
+(.text+0x61d): undefined reference to `u8_strconv_from_encoding'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(idna.o): in function `_idn2_u8_to_u32_nfc':
+(.text+0x36): undefined reference to `u8_to_u32'
+/usr/bin/ld: (.text+0xa6): undefined reference to `uc_combining_class'
+/usr/bin/ld: (.text+0xbf): undefined reference to `uninorm_nfc'
+/usr/bin/ld: (.text+0xcb): undefined reference to `u32_normalize'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(idna.o): in function `_idn2_label_test':
+(.text+0x459): undefined reference to `UC_CATEGORY_M'
+/usr/bin/ld: (.text+0x460): undefined reference to `UC_CATEGORY_M'
+/usr/bin/ld: (.text+0x465): undefined reference to `uc_is_general_category'
+/usr/bin/ld: (.text+0x489): undefined reference to `uninorm_nfc'
+/usr/bin/ld: (.text+0x48e): undefined reference to `u32_normalize'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(bidi.o): in function `_idn2_bidi':
+(.text+0x38): undefined reference to `uc_bidi_category'
+/usr/bin/ld: (.text+0x6d): undefined reference to `uc_bidi_category'
+/usr/bin/ld: (.text+0xaf): undefined reference to `uc_bidi_category'
+/usr/bin/ld: (.text+0x12a): undefined reference to `uc_bidi_category'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(context.o): in function `_idn2_contextj_rule':
+(.text+0x67): undefined reference to `uc_combining_class'
+/usr/bin/ld: (.text+0xa3): undefined reference to `uc_combining_class'
+/usr/bin/ld: (.text+0xce): undefined reference to `uc_joining_type'
+/usr/bin/ld: (.text+0x10b): undefined reference to `uc_joining_type'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(context.o): in function `_idn2_contexto_rule':
+(.text+0x1af): undefined reference to `uc_script'
+/usr/bin/ld: (.text+0x216): undefined reference to `uc_script'
+/usr/bin/ld: (.text+0x343): undefined reference to `uc_script'
+In function ‘senml_json_parse’,
+    inlined from ‘lwm2m_data_parse’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/data.c:856:16:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/senml_json.c:713:32: warning: ‘size’ may be used uninitialized [-Wmaybe-uninitialized]
+  713 |                 for (i = 0 ; i < size && resP == NULL; i++)
+      |                                ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/senml_json.c: In function ‘lwm2m_data_parse’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/senml_json.c:673:9: note: ‘size’ was declared here
+  673 |     int size;
+      |         ^
+/usr/bin/ld: warning: creating DT_TEXTREL in a PIE
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/test_firmware_update_object.dir/build.make:127: test_firmware_update_object] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1354: CMakeFiles/test_firmware_update_object.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+In function ‘observe_handleRequest’,
+    inlined from ‘prv_handle_observe_operation’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/management.c:298:14,
+    inlined from ‘dm_handleRequest’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/management.c:435:18,
+    inlined from ‘handle_request.constprop’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:168:22:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/observe.c:181:5: warning: ‘count’ may be used uninitialized [-Wmaybe-uninitialized]
+  181 |     switch (count)
+      |     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/observe.c: In function ‘handle_request.constprop’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/observe.c:172:14: note: ‘count’ was declared here
+  172 |     uint32_t count;
+      |              ^
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(idna.o): warning: relocation against `uninorm_nfc' in read-only section `.text'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(lookup.o): in function `idn2_lookup_u8':
+(.text+0x88): undefined reference to `u8_strlen'
+/usr/bin/ld: (.text+0x99): undefined reference to `u8_to_u32'
+/usr/bin/ld: (.text+0x496): undefined reference to `uninorm_nfc'
+/usr/bin/ld: (.text+0x4a1): undefined reference to `u32_normalize'
+/usr/bin/ld: (.text+0x830): undefined reference to `u32_to_u8'
+/usr/bin/ld: (.text+0x8c1): undefined reference to `u32_cmp'
+/usr/bin/ld: (.text+0xa5a): undefined reference to `u32_to_u8'
+/usr/bin/ld: (.text+0xb2e): undefined reference to `u32_to_u8'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(lookup.o): in function `idn2_to_ascii_4i2.part.0':
+(.text+0xce7): undefined reference to `u32_cpy'
+/usr/bin/ld: (.text+0xd01): undefined reference to `u32_to_u8'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(lookup.o): in function `idn2_lookup_ul':
+(.text+0xdbd): undefined reference to `u8_strconv_from_encoding'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(lookup.o): in function `idn2_to_ascii_4z':
+(.text+0xfb3): undefined reference to `u32_strlen'
+/usr/bin/ld: (.text+0xfc5): undefined reference to `u32_to_u8'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(decode.o): in function `idn2_to_unicode_8z4z':
+(.text+0xb6): undefined reference to `u8_to_u32'
+/usr/bin/ld: (.text+0xfa): undefined reference to `u32_cpy'
+/usr/bin/ld: (.text+0x136): undefined reference to `u32_cpy_alloc'
+/usr/bin/ld: (.text+0x1dd): undefined reference to `u32_cpy'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(decode.o): in function `idn2_to_unicode_4z4z.part.0':
+(.text+0x286): undefined reference to `u32_strlen'
+/usr/bin/ld: (.text+0x298): undefined reference to `u32_to_u8'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(decode.o): in function `idn2_to_unicode_44i':
+(.text+0x3a6): undefined reference to `u32_cpy'
+/usr/bin/ld: (.text+0x3da): undefined reference to `u32_strlen'
+/usr/bin/ld: (.text+0x43a): undefined reference to `u32_cpy'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(decode.o): in function `idn2_to_unicode_8z8z':
+(.text+0x4b0): undefined reference to `u32_strlen'
+/usr/bin/ld: (.text+0x4c2): undefined reference to `u32_to_u8'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(decode.o): in function `idn2_to_unicode_8zlz':
+(.text+0x58c): undefined reference to `u8_strconv_to_encoding'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(decode.o): in function `idn2_to_unicode_lzlz':
+(.text+0x61d): undefined reference to `u8_strconv_from_encoding'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(idna.o): in function `_idn2_u8_to_u32_nfc':
+(.text+0x36): undefined reference to `u8_to_u32'
+/usr/bin/ld: (.text+0xa6): undefined reference to `uc_combining_class'
+/usr/bin/ld: (.text+0xbf): undefined reference to `uninorm_nfc'
+/usr/bin/ld: (.text+0xcb): undefined reference to `u32_normalize'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(idna.o): in function `_idn2_label_test':
+(.text+0x459): undefined reference to `UC_CATEGORY_M'
+/usr/bin/ld: (.text+0x460): undefined reference to `UC_CATEGORY_M'
+/usr/bin/ld: (.text+0x465): undefined reference to `uc_is_general_category'
+/usr/bin/ld: (.text+0x489): undefined reference to `uninorm_nfc'
+/usr/bin/ld: (.text+0x48e): undefined reference to `u32_normalize'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(bidi.o): in function `_idn2_bidi':
+(.text+0x38): undefined reference to `uc_bidi_category'
+/usr/bin/ld: (.text+0x6d): undefined reference to `uc_bidi_category'
+/usr/bin/ld: (.text+0xaf): undefined reference to `uc_bidi_category'
+/usr/bin/ld: (.text+0x12a): undefined reference to `uc_bidi_category'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(context.o): in function `_idn2_contextj_rule':
+(.text+0x67): undefined reference to `uc_combining_class'
+/usr/bin/ld: (.text+0xa3): undefined reference to `uc_combining_class'
+/usr/bin/ld: (.text+0xce): undefined reference to `uc_joining_type'
+/usr/bin/ld: (.text+0x10b): undefined reference to `uc_joining_type'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libidn2.a(context.o): in function `_idn2_contexto_rule':
+(.text+0x1af): undefined reference to `uc_script'
+/usr/bin/ld: (.text+0x216): undefined reference to `uc_script'
+/usr/bin/ld: (.text+0x343): undefined reference to `uc_script'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-psl.o): in function `Curl_psl_destroy':
+(.text+0x31): undefined reference to `psl_free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-psl.o): in function `Curl_psl_use':
+(.text+0xc8): undefined reference to `psl_latest'
+/usr/bin/ld: (.text+0x169): undefined reference to `psl_builtin'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-cookie.o): in function `Curl_cookie_add':
+(.text+0x12e6): undefined reference to `psl_is_cookie_domain_acceptable'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_rtmp.o): in function `rtmp_disconnect':
+(.text+0x38): undefined reference to `RTMP_Close'
+/usr/bin/ld: (.text+0x40): undefined reference to `RTMP_Free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_rtmp.o): in function `rtmp_connect':
+(.text+0xef): undefined reference to `RTMP_Connect1'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_rtmp.o): in function `rtmp_send':
+(.text+0x196): undefined reference to `RTMP_Write'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_rtmp.o): in function `rtmp_recv':
+(.text+0x1f4): undefined reference to `RTMP_Read'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_rtmp.o): in function `rtmp_do':
+(.text+0x27f): undefined reference to `RTMP_ConnectStream'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_rtmp.o): in function `rtmp_setup_connection':
+(.text+0x308): undefined reference to `RTMP_Alloc'
+/usr/bin/ld: (.text+0x318): undefined reference to `RTMP_Init'
+/usr/bin/ld: (.text+0x325): undefined reference to `RTMP_SetBufferMS'
+/usr/bin/ld: (.text+0x335): undefined reference to `RTMP_SetupURL'
+/usr/bin/ld: (.text+0x374): undefined reference to `RTMP_Free'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_disconnect':
+(.text+0x7e): undefined reference to `ldap_get_option'
+/usr/bin/ld: (.text+0x96): undefined reference to `ber_sockbuf_add_io'
+/usr/bin/ld: (.text+0xa4): undefined reference to `ldap_unbind_ext'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_done':
+(.text+0x294): undefined reference to `ldap_abandon_ext'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_recv':
+(.text+0x3ea): undefined reference to `ldap_result'
+/usr/bin/ld: (.text+0x411): undefined reference to `ldap_msgtype'
+/usr/bin/ld: (.text+0x42d): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x486): undefined reference to `ldap_parse_result'
+/usr/bin/ld: (.text+0x4da): undefined reference to `ldap_memfree'
+/usr/bin/ld: (.text+0x4e6): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x51f): undefined reference to `ldap_get_dn_ber'
+/usr/bin/ld: (.text+0x52f): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x551): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x5b7): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x5cb): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x5eb): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x613): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x658): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x6b9): undefined reference to `ldap_get_attribute_ber'
+/usr/bin/ld: (.text+0x86e): undefined reference to `ber_memfree'
+/usr/bin/ld: (.text+0x88a): undefined reference to `ber_free'
+/usr/bin/ld: (.text+0x896): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x8a9): undefined reference to `ber_memfree'
+/usr/bin/ld: (.text+0x909): undefined reference to `ldap_get_attribute_ber'
+/usr/bin/ld: (.text+0x91f): undefined reference to `ber_free'
+/usr/bin/ld: (.text+0x959): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0xa3e): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0xa56): undefined reference to `ber_memfree'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_ssl_connect':
+(.text+0xafe): undefined reference to `ldap_get_option'
+/usr/bin/ld: (.text+0xb16): undefined reference to `ber_sockbuf_add_io'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_perform_mechs':
+(.text+0xb83): undefined reference to `ldap_search_ext'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_perform_bind':
+(.text+0xc73): undefined reference to `ldap_sasl_bind'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_cancel_auth':
+(.text+0xd42): undefined reference to `ldap_sasl_bind'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_connecting':
+(.text+0xe82): undefined reference to `ldap_result'
+/usr/bin/ld: (.text+0xef1): undefined reference to `ldap_parse_result'
+/usr/bin/ld: (.text+0xf5d): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0xf8f): undefined reference to `ldap_abandon_ext'
+/usr/bin/ld: (.text+0xfc6): undefined reference to `ldap_msgtype'
+/usr/bin/ld: (.text+0x10bd): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x114a): undefined reference to `ldap_msgfree'
+/usr/bin/ld: (.text+0x11c7): undefined reference to `ber_free'
+/usr/bin/ld: (.text+0x1260): undefined reference to `ldap_parse_sasl_bind_result'
+/usr/bin/ld: (.text+0x128a): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x12e3): undefined reference to `ber_bvfree'
+/usr/bin/ld: (.text+0x12f3): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x1340): undefined reference to `ldap_msgtype'
+/usr/bin/ld: (.text+0x13dd): undefined reference to `ldap_parse_sasl_bind_result'
+/usr/bin/ld: (.text+0x143d): undefined reference to `ldap_get_dn_ber'
+/usr/bin/ld: (.text+0x146e): undefined reference to `ldap_get_attribute_ber'
+/usr/bin/ld: (.text+0x14ae): undefined reference to `ldap_get_attribute_ber'
+/usr/bin/ld: (.text+0x1517): undefined reference to `ber_memfree'
+/usr/bin/ld: (.text+0x15c9): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x16e1): undefined reference to `ldap_set_option'
+/usr/bin/ld: (.text+0x16ea): undefined reference to `ldap_msgfree'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_perform_auth':
+(.text+0x17ff): undefined reference to `ldap_sasl_bind'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_do':
+(.text+0x1970): undefined reference to `ldap_url_parse'
+/usr/bin/ld: (.text+0x19e0): undefined reference to `ldap_get_option'
+/usr/bin/ld: (.text+0x19f8): undefined reference to `ber_sockbuf_add_io'
+/usr/bin/ld: (.text+0x1a25): undefined reference to `ldap_search_ext'
+/usr/bin/ld: (.text+0x1a35): undefined reference to `ldap_free_urldesc'
+/usr/bin/ld: (.text+0x1a9a): undefined reference to `ldap_err2string'
+/usr/bin/ld: (.text+0x1ad2): undefined reference to `ldap_abandon_ext'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_connect':
+(.text+0x1b5f): undefined reference to `ldap_pvt_url_scheme2proto'
+/usr/bin/ld: (.text+0x1cb7): undefined reference to `ldap_init_fd'
+/usr/bin/ld: (.text+0x1ce0): undefined reference to `ldap_set_option'
+/usr/bin/ld: (.text+0x1cf0): undefined reference to `ldap_set_option'
+/usr/bin/ld: (.text+0x1d7e): undefined reference to `ldap_start_tls'
+/usr/bin/ld: (.text+0x1deb): undefined reference to `ldap_err2string'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-openldap.o): in function `oldap_setup_connection':
+(.text+0x1ec6): undefined reference to `ldap_free_urldesc'
+/usr/bin/ld: (.text+0x1f0b): undefined reference to `ldap_url_parse'
+/usr/bin/ld: warning: creating DT_TEXTREL in a PIE
+collect2: error: ld returned 1 exit status
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:1077: examples/friendly_example_client] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1492: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+make: *** [Makefile:166: all] Error 2

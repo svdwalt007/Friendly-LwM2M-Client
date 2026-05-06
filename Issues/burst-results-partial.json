@@ -1,0 +1,217 @@
+{
+  "start_time": "2026-04-30T22:53:10.604334",
+  "end_time": "2026-04-30T22:54:07.507111",
+  "duration_s": 36.00033450126648,
+  "endpoint": "TestClient",
+  "leshan_url": "http://localhost:8080",
+  "lifetime": 60,
+  "pattern_size": 17,
+  "statistics": {
+    "total_requests": 17,
+    "successful_requests": 17,
+    "failed_requests": 0,
+    "timed_out_requests": 0,
+    "match_count": 10,
+    "mismatch_count": 7,
+    "avg_latency_s": 0.002480128232170554,
+    "max_latency_s": 0.0035305023193359375,
+    "min_latency_s": 0.0016193389892578125,
+    "avg_latency_2_05_s": 0.002480128232170554,
+    "avg_latency_4_01_s": 0.0
+  },
+  "health": {
+    "update_detected": false,
+    "update_time_s": null,
+    "stall_detected": false,
+    "health_check_duration_s": 0.0
+  },
+  "requests": [
+    {
+      "index": 0,
+      "path": "/3/0",
+      "expected_coap": "2.05",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.0016193389892578125,
+      "match": true,
+      "error": null,
+      "timestamp": 1777560790.6085143
+    },
+    {
+      "index": 1,
+      "path": "/3339/0",
+      "expected_coap": "2.05",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.002610445022583008,
+      "match": true,
+      "error": null,
+      "timestamp": 1777560792.7262728
+    },
+    {
+      "index": 2,
+      "path": "/2/10",
+      "expected_coap": "2.05",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.0026433467864990234,
+      "match": true,
+      "error": null,
+      "timestamp": 1777560794.8439174
+    },
+    {
+      "index": 3,
+      "path": "/4/0",
+      "expected_coap": "2.05",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.0023725032806396484,
+      "match": true,
+      "error": null,
+      "timestamp": 1777560796.9615808
+    },
+    {
+      "index": 4,
+      "path": "/2/2",
+      "expected_coap": "4.01",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.0023949146270751953,
+      "match": false,
+      "error": null,
+      "timestamp": 1777560799.0791965
+    },
+    {
+      "index": 5,
+      "path": "/5/0",
+      "expected_coap": "2.05",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.0023322105407714844,
+      "match": true,
+      "error": null,
+      "timestamp": 1777560801.1967938
+    },
+    {
+      "index": 6,
+      "path": "/2/3",
+      "expected_coap": "2.05",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.00243377685546875,
+      "match": true,
+      "error": null,
+      "timestamp": 1777560803.3145077
+    },
+    {
+      "index": 7,
+      "path": "/2/0",
+      "expected_coap": "4.01",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.002260923385620117,
+      "match": false,
+      "error": null,
+      "timestamp": 1777560805.4321392
+    },
+    {
+      "index": 8,
+      "path": "/2/1",
+      "expected_coap": "2.05",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.0024411678314208984,
+      "match": true,
+      "error": null,
+      "timestamp": 1777560807.5497932
+    },
+    {
+      "index": 9,
+      "path": "/1/0",
+      "expected_coap": "2.05",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.002424478530883789,
+      "match": true,
+      "error": null,
+      "timestamp": 1777560809.661585
+    },
+    {
+      "index": 10,
+      "path": "/2/8",
+      "expected_coap": "4.01",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.002432584762573242,
+      "match": false,
+      "error": null,
+      "timestamp": 1777560811.785023
+    },
+    {
+      "index": 11,
+      "path": "/2/9",
+      "expected_coap": "4.01",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.0025665760040283203,
+      "match": false,
+      "error": null,
+      "timestamp": 1777560813.9027414
+    },
+    {
+      "index": 12,
+      "path": "/2/6",
+      "expected_coap": "4.01",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.00301361083984375,
+      "match": false,
+      "error": null,
+      "timestamp": 1777560816.0203774
+    },
+    {
+      "index": 13,
+      "path": "/2/7",
+      "expected_coap": "2.05",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.002411365509033203,
+      "match": true,
+      "error": null,
+      "timestamp": 1777560818.1380239
+    },
+    {
+      "index": 14,
+      "path": "/6/0",
+      "expected_coap": "4.01",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.0035305023193359375,
+      "match": false,
+      "error": null,
+      "timestamp": 1777560820.2556992
+    },
+    {
+      "index": 15,
+      "path": "/2/4",
+      "expected_coap": "4.01",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.002311229705810547,
+      "match": false,
+      "error": null,
+      "timestamp": 1777560822.3733013
+    },
+    {
+      "index": 16,
+      "path": "/2/5",
+      "expected_coap": "2.05",
+      "actual_http": 200,
+      "actual_coap": "2.05",
+      "latency_s": 0.0023632049560546875,
+      "match": true,
+      "error": null,
+      "timestamp": 1777560824.4910142
+    }
+  ]
+}

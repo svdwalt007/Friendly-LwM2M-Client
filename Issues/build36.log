@@ -1,0 +1,8 @@
+  396 |         WPP_LOGD(TAG, "HTTP probe timeout or error");
+  523 |         WPP_LOGD(TAG, "TCP probe timeout or error");
+[ 60%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborerrorstrings.c.o
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/WppRegistry.cpp:283:24: error: ‘LAN_CONFIG_OBJECT_ID’ was not declared in this scope
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/WppRegistry.cpp:293:24: error: ‘VPN_CONFIG_OBJECT_ID’ was not declared in this scope
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:737: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/WppRegistry.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1492: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+make: *** [Makefile:166: all] Error 2

@@ -1,0 +1,162 @@
+# P0-5 Burst-Load Reproducer - Docker Compose Test Harness
+#
+# This docker-compose file sets up a complete test environment for reproducing
+# the P0-5 burst-load stall issue identified in the FT trace analysis.
+#
+# Components:
+#   - Leshan LwM2M Server: Eclipse Leshan demo server for LwM2M protocol
+#   - Client: Friendly-LwM2M-Client built from repository root
+#
+# Usage:
+#   # Start the environment
+#   docker-compose up -d
+#
+#   # Wait for registration (10-15 seconds)
+#   sleep 15
+#
+#   # Run the burst reproducer
+#   python3 burst_driver.py --endpoint TestClient --duration 36 --lt 60
+#
+#   # View logs
+#   docker-compose logs -f
+#
+#   # Stop and cleanup
+#   docker-compose down
+#
+# Reference: Issues/pcap-combo.md Section "P0-5 (NEW) - Burst-load stall"
+
+version: '3.8'
+
+services:
+  # ===========================================================================
+  # Leshan LwM2M Server
+  # ===========================================================================
+  # Eclipse Leshan is an open-source LwM2M server implementation.
+  # Provides HTTP REST API on port 8080 for management operations.
+  # CoAP protocol on UDP port 5683 for LwM2M communication.
+  leshan:
+    image: eclipselwm2m/leshan-server-demo:latest
+    container_name: leshan-server
+    ports:
+      # HTTP Web UI and REST API
+      - "8080:8080"
+      # CoAP (non-secure)
+      - "5683:5683/udp"
+      # CoAPs (DTLS secure) - optional
+      - "5684:5684/udp"
+    environment:
+      # Enable verbose logging for debugging
+      - JAVA_OPTS=-Dlogback.configurationFile=/app/logback-debug.xml
+    # Enable verbose mode for debugging stall issues
+    command: ["java", "-jar", "/app/leshan-server-demo.jar", "-loglevel", "DEBUG"]
+    healthcheck:
+      # Check if HTTP API is responding
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/api/clients"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - lwm2m-net
+    restart: unless-stopped
+
+  # ===========================================================================
+  # Friendly LwM2M Client
+  # ===========================================================================
+  # Built from the repository root Dockerfile.
+  # Connects to Leshan server via CoAP.
+  client:
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    container_name: friendly-lwm2m-client
+    depends_on:
+      leshan:
+        condition: service_healthy
+    environment:
+      # Client configuration via environment variables
+      - LWM2M_ENDPOINT=TestClient
+      - LWM2M_SERVER_URI=coap://leshan:5683
+      - LWM2M_LIFETIME=60
+      # Enable debug logging for stall analysis
+      - LWM2M_LOG_LEVEL=DEBUG
+    # Run the example client with configured parameters
+    command: >
+      ./friendly_example_client
+      -e ${LWM2M_ENDPOINT:-TestClient}
+      -s ${LWM2M_SERVER_URI:-coap://leshan:5683}
+      --lifetime ${LWM2M_LIFETIME:-60}
+    # Enable core dumps for crash analysis
+    ulimits:
+      core:
+        soft: -1
+        hard: -1
+    volumes:
+      # Mount for snapshot output
+      - ./output:/tmp/output
+      # Mount for core dumps
+      - ./coredumps:/tmp/coredumps
+    networks:
+      - lwm2m-net
+    restart: unless-stopped
+
+  # ===========================================================================
+  # Burst Driver (Optional - for fully automated testing)
+  # ===========================================================================
+  # Python-based burst load generator.
+  # Can be run as a separate service for automated CI testing.
+  burst-driver:
+    image: python:3.11-slim
+    container_name: burst-driver
+    depends_on:
+      leshan:
+        condition: service_healthy
+      client:
+        condition: service_started
+    working_dir: /app
+    volumes:
+      # Mount the burst driver script
+      - ./burst_driver.py:/app/burst_driver.py:ro
+      # Mount output directory for results
+      - ./output:/tmp
+    environment:
+      - LESHAN_URL=http://leshan:8080
+      - ENDPOINT=TestClient
+      - DURATION=36
+      - LIFETIME=60
+    # Install requests library and run burst driver
+    command: >
+      bash -c "
+        pip install --quiet requests &&
+        sleep 15 &&
+        python3 /app/burst_driver.py
+          --endpoint $${ENDPOINT}
+          --duration $${DURATION}
+          --lt $${LIFETIME}
+          --leshan-url $${LESHAN_URL}
+          --output /tmp/burst-results.json
+      "
+    networks:
+      - lwm2m-net
+    # Only run once, don't restart
+    restart: "no"
+    profiles:
+      # Only start with: docker-compose --profile auto-test up
+      - auto-test
+
+# ===========================================================================
+# Networks
+# ===========================================================================
+networks:
+  lwm2m-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+# ===========================================================================
+# Volumes (for persistent data if needed)
+# ===========================================================================
+volumes:
+  leshan-data:
+  client-output:

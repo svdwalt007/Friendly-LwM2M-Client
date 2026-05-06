@@ -1,0 +1,96 @@
+[ 11%] Built target friendly_lwm2m
+[ 13%] Built target test_delta_algorithms
+[ 15%] Built target test_blockwise_transfer
+[ 18%] Built target test_rollback_manager
+[ 20%] Built target test_firmware_update_object
+[ 25%] Built target test_dtls_providers
+[ 26%] Building CXX object CMakeFiles/test_dtls_integration.dir/test/test_dtls_integration.cpp.o
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp: In member function ‘virtual void DtlsIntegrationTest_HandshakeInitiation_Test::TestBody()’:
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_dtls_integration.cpp:169:9: warning: unused variable ‘result’ [-Wunused-variable]
+  169 |     int result = provider->connect(session);
+      |         ^~~~~~
+[ 27%] Linking CXX executable test_dtls_integration
+[ 29%] Built target test_dtls_integration
+[ 30%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/main.cpp.o
+[ 31%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/platform/connection_dtls/Connection_new.cpp.o
+[ 32%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/platform/Guard.cpp.o
+[ 34%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/platform/Platform.cpp.o
+[ 35%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/FirmwareUpdater/FirmwareUpdater.cpp.o
+[ 36%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/platform/connection_dtls/MbedTlsProvider.cpp.o
+[ 37%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/platform/connection_dtls/DtlsProviderFactory.cpp.o
+[ 38%] Linking CXX executable friendly_example_client
+lto-wrapper: warning: using serial compilation of 10 LTRANS jobs
+lto-wrapper: note: see the ‘-flto’ option documentation for more information
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c: In function ‘lwm2m_handle_packet’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:794:25: warning: ‘block2_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  794 |                         LOG_ARG("Blockwise: block2 response NUM %u (SZX %u/ SZX Max%u) MORE %u", block2_num,
+      |                         ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:788:34: note: ‘block2_size’ was declared here
+  788 |                         uint16_t block2_size;
+      |                                  ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:798:43: warning: ‘block2_more’ may be used uninitialized [-Wmaybe-uninitialized]
+  798 |                         coap_error_code = coap_block2_handler(&peerP->blockData, message->mid, message->payload, message->payload_len, block2_size, block2_num, block2_more, &complete_buffer, &complete_buffer_size);
+      |                                           ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:787:34: note: ‘block2_more’ was declared here
+  787 |                         uint8_t  block2_more;
+      |                                  ^
+In function ‘coap_block2_handler’,
+    inlined from ‘lwm2m_handle_packet’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:798:43:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/coap/block.c:345:12: warning: ‘block2_num’ may be used uninitialized [-Wmaybe-uninitialized]
+  345 |     return prv_coap_block_handler(pBlockDataHead, identifier, BLOCK_2, buffer, length, blockSize, blockNum, blockMore, outputBuffer, outputLength);
+      |            ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c: In function ‘lwm2m_handle_packet’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:786:34: note: ‘block2_num’ was declared here
+  786 |                         uint32_t block2_num;
+      |                                  ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:583:21: warning: ‘block1_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  583 |                     LOG_ARG("Blockwise: block1 request NUM %u (SZX %u/ SZX Max%u) MORE %u", block1_num, block1_size,
+      |                     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:577:30: note: ‘block1_size’ was declared here
+  577 |                     uint16_t block1_size;
+      |                              ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:583:21: warning: ‘block1_more’ may be used uninitialized [-Wmaybe-uninitialized]
+  583 |                     LOG_ARG("Blockwise: block1 request NUM %u (SZX %u/ SZX Max%u) MORE %u", block1_num, block1_size,
+      |                     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:576:30: note: ‘block1_more’ was declared here
+  576 |                     uint8_t  block1_more;
+      |                              ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:583:21: warning: ‘block1_num’ may be used uninitialized [-Wmaybe-uninitialized]
+  583 |                     LOG_ARG("Blockwise: block1 request NUM %u (SZX %u/ SZX Max%u) MORE %u", block1_num, block1_size,
+      |                     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:575:30: note: ‘block1_num’ was declared here
+  575 |                     uint32_t block1_num;
+      |                              ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/json.c: In function ‘json_parse’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/json.c:631:36: warning: ‘size’ may be used uninitialized [-Wmaybe-uninitialized]
+  631 |                     for (i = 0 ; i < size && resP == NULL; i++)
+      |                                    ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/json.c:556:13: note: ‘size’ was declared here
+  556 |         int size;
+      |             ^
+In function ‘senml_json_parse’,
+    inlined from ‘lwm2m_data_parse’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/data.c:856:16:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/senml_json.c:713:32: warning: ‘size’ may be used uninitialized [-Wmaybe-uninitialized]
+  713 |                 for (i = 0 ; i < size && resP == NULL; i++)
+      |                                ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/senml_json.c: In function ‘lwm2m_data_parse’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/senml_json.c:673:9: note: ‘size’ was declared here
+  673 |     int size;
+      |         ^
+In function ‘observe_handleRequest’,
+    inlined from ‘prv_handle_observe_operation’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/management.c:298:14,
+    inlined from ‘dm_handleRequest’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/management.c:435:18,
+    inlined from ‘handle_request.constprop’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:168:22:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/observe.c:181:5: warning: ‘count’ may be used uninitialized [-Wmaybe-uninitialized]
+  181 |     switch (count)
+      |     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/observe.c: In function ‘handle_request.constprop’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/observe.c:172:14: note: ‘count’ was declared here
+  172 |     uint32_t count;
+      |              ^
+Creating binary file
+Creating hex file
+Compiled program size
+   text	   data	    bss	    dec	    hex	filename
+7482398	3986544	  15864	11484806	 af3e86	/mnt/d/Dev/Friendly-LwM2M-Client/build/examples/friendly_example_client
+[100%] Built target friendly_example_client

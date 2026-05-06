@@ -1,0 +1,94 @@
+error: Your local changes to the following files would be overwritten by checkout:
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfigurationInfo.h:13:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+  396 |         WPP_LOGD(TAG, "HTTP probe timeout or error");
+  523 |         WPP_LOGD(TAG, "TCP probe timeout or error");
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp:26:27: error: ‘class wpp::WppRegistry’ has no member named ‘lanConfiguration’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp:30:37: error: ‘class wpp::WppRegistry’ has no member named ‘lanConfiguration’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp:36:37: error: ‘class wpp::WppRegistry’ has no member named ‘lanConfiguration’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp:42:27: error: ‘class wpp::WppRegistry’ has no member named ‘lanConfiguration’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp:64:39: error: ‘class wpp::Resource’ has no member named ‘setExecuteHandler’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp:127:50: error: cannot convert ‘wpp::LanConfiguration::resourcesCreate()::<lambda(const wpp::INT_T&)>’ to ‘const wpp::Resource::DATA_VERIFIER_T&’ {aka ‘const std::variant<std::function<bool(const long int&)>, std::function<bool(const long unsigned int&)>, std::function<bool(const double&)>, std::function<bool(const std::vector<unsigned char, std::allocator<unsigned char> >&)>, std::function<bool(const bool&)>, std::function<bool(const wpp::OBJ_LINK_T&)>, std::function<bool(const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)>, std::function<bool(const std::function<bool(wpp::Instance&, short unsigned int, const std::vector<unsigned char, std::allocator<unsigned char> >&)>&)> >&’}
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:289:25: error: ‘instId’ was not declared in this scope; did you mean ‘instIds’?
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:303: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o] Error 1
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:219: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp:28:30: error: ‘class wpp::WppRegistry’ has no member named ‘getObject’; did you mean ‘object’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp:31:55: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp:31:11: error: no declaration matches ‘wpp::Instance* wpp::RoutingTable::createInst(wpp::WppClient&, int)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp:35:53: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp:35:11: error: no declaration matches ‘wpp::Instance* wpp::RoutingTable::instance(wpp::WppClient&, int)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp:39:46: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp:39:6: error: no declaration matches ‘bool wpp::RoutingTable::remove(wpp::WppClient&, int)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp:44:44: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp:44:1: error: no declaration matches ‘wpp::RoutingTable::RoutingTable(wpp::Object&, int)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp:54:6: error: no declaration matches ‘bool wpp::RoutingTable::initResources(wpp::ItemOp*)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp:86:6: error: no declaration matches ‘bool wpp::RoutingTable::validate(wpp::ID_T, const void*, size_t)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfigurationInfo.h:13:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.h:80:52: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.h:81:50: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.h:82:43: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.h:85:38: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.h:90:10: error: ‘bool wpp::VpnConfiguration::validate(wpp::ID_T, const void*, size_t)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.h:94:10: error: ‘bool wpp::VpnConfiguration::initResources(wpp::ItemOp*)’ marked ‘override’, but does not override
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:317: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp:29:27: error: ‘class wpp::WppRegistry’ has no member named ‘vpnConfiguration’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp:32:19: error: no declaration matches ‘wpp::VpnConfiguration* wpp::VpnConfiguration::createInst(wpp::WppClient&, wpp::ID_T)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp:38:19: error: no declaration matches ‘wpp::VpnConfiguration* wpp::VpnConfiguration::instance(wpp::WppClient&, wpp::ID_T)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp:44:6: error: no declaration matches ‘bool wpp::VpnConfiguration::removeInst(wpp::WppClient&, wpp::ID_T)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp:49:1: error: no declaration matches ‘wpp::VpnConfiguration::VpnConfiguration(lwm2m_context_t&, const wpp::OBJ_LINK_T&)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp:64:6: error: no declaration matches ‘void wpp::VpnConfiguration::resourcesCreate()’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp:215:6: error: no declaration matches ‘void wpp::VpnConfiguration::resourcesInit()’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp:1257:39: error: ‘instId’ was not declared in this scope; did you mean ‘instIds’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp:1259:38: error: ‘instId’ was not declared in this scope; did you mean ‘instIds’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp:1261:41: error: ‘instId’ was not declared in this scope; did you mean ‘instIds’?
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:331: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o] Error 1
+[ 53%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborerrorstrings.c.o
+make[1]: *** [CMakeFiles/Makefile2:1226: CMakeFiles/friendly_lwm2m.dir/all] Error 2
+  798 |                         coap_error_code = coap_block2_handler(&peerP->blockData, message->mid, message->payload, message->payload_len, block2_size, block2_num, block2_more, &complete_buffer, &complete_buffer_size);
+/usr/bin/ld: (.text+0x597): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x6cc): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x7c3): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0xe66): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x1487): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x15cd): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x165f): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x16e6): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x176e): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x1cdd): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2182): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2323): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2421): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x258f): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x25d2): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2673): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x26a3): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2857): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2976): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x31d1): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x3226): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x12f): undefined reference to `ZSTD_isError'
+/usr/bin/ld: (.text+0x3d5): undefined reference to `BrotliDecoderGetErrorCode'
+/usr/bin/ld: (.text+0x367): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x8de): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0xf7d): undefined reference to `nghttp2_http2_strerror'
+(.text+0x129d): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x204e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2074): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2434): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x26d3): undefined reference to `nghttp2_session_callbacks_set_error_callback'
+/usr/bin/ld: (.text+0x2a23): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a5f): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a8b): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x391e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x1a0): undefined reference to `nghttp2_strerror'
+(.text+0x499): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x5fd): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0xd0f): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x2e62): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x3101): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x31b2): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x31d1): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_gssapi.o): in function `display_gss_error':
+collect2: error: ld returned 1 exit status
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:1069: examples/friendly_example_client] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1492: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+make: *** [Makefile:166: all] Error 2

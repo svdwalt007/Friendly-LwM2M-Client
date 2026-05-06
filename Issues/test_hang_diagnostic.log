@@ -1,0 +1,94 @@
+==================================================
+Test Hang Diagnostic Tool
+==================================================
+
+Test: test_delta_algorithms
+Build: /mnt/d/Dev/Friendly-LwM2M-Client/build
+
+Step 1: Checking test executable...
+✓ Found: /mnt/d/Dev/Friendly-LwM2M-Client/build/test_delta_algorithms
+-rwxr-xr-x 1 sean sean 4.2M Apr 30 16:16 /mnt/d/Dev/Friendly-LwM2M-Client/build/test_delta_algorithms
+
+Step 2: Checking library dependencies...
+
+No compression library dependencies found
+
+Step 3: Checking for undefined symbols...
+                 w ZSTD_trace_compress_begin
+                 w ZSTD_trace_compress_end
+                 w ZSTD_trace_decompress_begin
+                 w ZSTD_trace_decompress_end
+                 w _ITM_deregisterTMCloneTable
+                 w _ITM_registerTMCloneTable
+                 U __ctype_b_loc@GLIBC_2.3
+                 U __ctype_get_mb_cur_max@GLIBC_2.2.5
+                 U __cxa_atexit@GLIBC_2.2.5
+                 w __cxa_finalize@GLIBC_2.2.5
+                 U __duplocale@GLIBC_2.2.5
+                 U __errno_location@GLIBC_2.2.5
+                 U __fprintf_chk@GLIBC_2.3.4
+                 U __freelocale@GLIBC_2.2.5
+                 w __gmon_start__
+                 U __isoc23_strtol@GLIBC_2.38
+                 U __isoc23_strtoul@GLIBC_2.38
+                 U __isoc23_strtoull@GLIBC_2.38
+                 U __iswctype_l@GLIBC_2.2.5
+                 U __libc_single_threaded@GLIBC_2.32
+
+Step 4: Attempting to trace first few system calls...
+(This will show what the test is doing when it starts)
+
+timeout: failed to run command ‘strace’: No such file or directory
+
+Step 5: Attempting to list tests (this may hang)...
+
+Running main() from ./googletest/src/gtest_main.cc
+BSDiffTest.
+  GetAlgorithmInfo
+  CreateAndApplyDelta
+  IdenticalSourceAndTarget
+  EmptySourceReturnsError
+  EmptyTargetReturnsError
+  InvalidDeltaReturnsError
+  ValidateDelta
+  ProgressCallback
+  LargeDataHandling
+VCDiffTest.
+  GetAlgorithmInfo
+  CreateAndApplyDelta
+  ValidateMagicHeader
+  TextOptimization
+CourgetteTest.
+  GetAlgorithmInfo
+  DetectELF64Format
+  DetectELF32Format
+  DetectPEFormat
+  DetectUnknownFormat
+  IsExecutable
+  FallbackToBSDiff
+DeltaAlgorithmFactoryTest.
+  CreateBSDiff
+  CreateVCDiff
+  CreateCourgette
+  GetAvailableAlgorithms
+  RecommendAlgorithmForExecutable
+  RecommendBSDiffForBinary
+DeltaCompressionTest.
+  ZlibCompression
+  NoCompression
+  CheckAvailability
+  EstimateCompressedSize
+
+✓ Test can list its test cases (no hang in initialization)
+
+Step 6: Attempting to run first test only...
+
+Running first test: BSDiffTest.
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = *BSDiffTest.*
+[==========] Running 9 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 9 tests from BSDiffTest
+[ RUN      ] BSDiffTest.GetAlgorithmInfo
+[       OK ] BSDiffTest.GetAlgorithmInfo (0 ms)
+[ RUN      ] BSDiffTest.CreateAndApplyDelta

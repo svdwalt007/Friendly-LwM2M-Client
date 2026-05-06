@@ -1,0 +1,195 @@
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp: In member function ‘virtual lwm2m::firmware::DeltaResult lwm2m::firmware::BSDiffAlgorithm::validateDelta(const std::vector<unsigned char>&, uint64_t)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:385:54: warning: unused parameter ‘expectedSourceSize’ [-Wunused-parameter]
+  385 |                                             uint64_t expectedSourceSize) {
+      |                                             ~~~~~~~~~^~~~~~~~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp: In member function ‘virtual lwm2m::firmware::DeltaResult lwm2m::firmware::VCDiffAlgorithm::createDelta(const std::vector<unsigned char>&, const std::vector<unsigned char>&, std::vector<unsigned char>&, lwm2m::firmware::DeltaProgressCallback)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:484:14: warning: variable ‘fromSource’ set but not used [-Wunused-but-set-variable]
+  484 |         bool fromSource = false;
+      |              ^~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:479:12: warning: variable ‘lastCopyAddr’ set but not used [-Wunused-but-set-variable]
+  479 |     size_t lastCopyAddr = 0;
+      |            ^~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp: In member function ‘virtual lwm2m::firmware::DeltaResult lwm2m::firmware::VCDiffAlgorithm::applyDelta(const std::vector<unsigned char>&, const std::vector<unsigned char>&, std::vector<unsigned char>&, lwm2m::firmware::DeltaProgressCallback)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:598:13: warning: unused variable ‘hdrIndicator’ [-Wunused-variable]
+  598 |     uint8_t hdrIndicator = *ptr++;
+      |             ^~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:601:13: warning: unused variable ‘winIndicator’ [-Wunused-variable]
+  601 |     uint8_t winIndicator = *ptr++;
+      |             ^~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:602:14: warning: unused variable ‘sourceLen’ [-Wunused-variable]
+  602 |     uint64_t sourceLen = Impl::readVarInt(ptr);
+      |              ^~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:603:14: warning: unused variable ‘sourcePos’ [-Wunused-variable]
+  603 |     uint64_t sourcePos = Impl::readVarInt(ptr);
+      |              ^~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:606:14: warning: unused variable ‘deltaLen’ [-Wunused-variable]
+  606 |     uint64_t deltaLen = Impl::readVarInt(ptr);
+      |              ^~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:608:13: warning: unused variable ‘deltaIndicator’ [-Wunused-variable]
+  608 |     uint8_t deltaIndicator = *ptr++;
+      |             ^~~~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:611:14: warning: unused variable ‘addrLen’ [-Wunused-variable]
+  611 |     uint64_t addrLen = Impl::readVarInt(ptr);
+      |              ^~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp: In member function ‘virtual lwm2m::firmware::DeltaResult lwm2m::firmware::VCDiffAlgorithm::validateDelta(const std::vector<unsigned char>&, uint64_t)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:660:54: warning: unused parameter ‘expectedSourceSize’ [-Wunused-parameter]
+  660 |                                             uint64_t expectedSourceSize) {
+      |                                             ~~~~~~~~~^~~~~~~~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp: In member function ‘virtual lwm2m::firmware::DeltaResult lwm2m::firmware::CourgetteAlgorithm::applyDelta(const std::vector<unsigned char>&, const std::vector<unsigned char>&, std::vector<unsigned char>&, lwm2m::firmware::DeltaProgressCallback)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:1011:22: warning: unused variable ‘format’ [-Wunused-variable]
+ 1011 |     ExecutableFormat format = static_cast<ExecutableFormat>(delta[8]);
+      |                      ^~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp: In member function ‘virtual lwm2m::firmware::DeltaResult lwm2m::firmware::CourgetteAlgorithm::validateDelta(const std::vector<unsigned char>&, uint64_t)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp:1074:57: warning: unused parameter ‘expectedSourceSize’ [-Wunused-parameter]
+ 1074 |                                                uint64_t expectedSourceSize) {
+      |                                                ~~~~~~~~~^~~~~~~~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/transport/mqtt_transport.cpp: In member function ‘lwm2m::transport::MqttResult lwm2m::transport::MqttTransport::disconnect(bool)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/transport/mqtt_transport.cpp:123:43: warning: unused parameter ‘sendWill’ [-Wunused-parameter]
+  123 | MqttResult MqttTransport::disconnect(bool sendWill) {
+      |                                      ~~~~~^~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/transport/mqtt_transport.cpp: In member function ‘lwm2m::transport::MqttResult lwm2m::transport::MqttTransport::process(uint32_t)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/transport/mqtt_transport.cpp:151:44: warning: unused parameter ‘timeoutMs’ [-Wunused-parameter]
+  151 | MqttResult MqttTransport::process(uint32_t timeoutMs) {
+      |                                   ~~~~~~~~~^~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_grpc_client.cpp: In member function ‘bool starlink::StarlinkGrpcClient::setWiFiConfig(const starlink::WiFiConfig&, std::string&)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_grpc_client.cpp:655:58: warning: unused parameter ‘config’ [-Wunused-parameter]
+  655 | bool StarlinkGrpcClient::setWiFiConfig(const WiFiConfig& config, std::string& error_msg) {
+      |                                        ~~~~~~~~~~~~~~~~~~^~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp: In member function ‘std::vector<unsigned char> lwm2m::firmware::RollbackManager::calculateStateChecksum()’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp:822:16: warning: ‘int SHA256_Init(SHA256_CTX*)’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+  822 |     SHA256_Init(&ctx);
+      |     ~~~~~~~~~~~^~~~~~
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp:19:
+/usr/include/openssl/sha.h:73:27: note: declared here
+   73 | OSSL_DEPRECATEDIN_3_0 int SHA256_Init(SHA256_CTX *c);
+      |                           ^~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp:826:22: warning: ‘int SHA256_Update(SHA256_CTX*, const void*, size_t)’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+  826 |         SHA256_Update(&ctx, comp.checksum.data(), comp.checksum.size());
+      |         ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/openssl/sha.h:74:27: note: declared here
+   74 | OSSL_DEPRECATEDIN_3_0 int SHA256_Update(SHA256_CTX *c,
+      |                           ^~~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp:827:22: warning: ‘int SHA256_Update(SHA256_CTX*, const void*, size_t)’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+  827 |         SHA256_Update(&ctx, comp.version.data(), comp.version.size());
+      |         ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/openssl/sha.h:74:27: note: declared here
+   74 | OSSL_DEPRECATEDIN_3_0 int SHA256_Update(SHA256_CTX *c,
+      |                           ^~~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp:831:17: warning: ‘int SHA256_Final(unsigned char*, SHA256_CTX*)’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+  831 |     SHA256_Final(hash.data(), &ctx);
+      |     ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/usr/include/openssl/sha.h:76:27: note: declared here
+   76 | OSSL_DEPRECATEDIN_3_0 int SHA256_Final(unsigned char *md, SHA256_CTX *c);
+      |                           ^~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp: In function ‘std::vector<unsigned char> lwm2m::platform::openwrt::calculateFileSHA256(const std::string&, uint64_t)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp:163:16: warning: ‘int SHA256_Init(SHA256_CTX*)’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+  163 |     SHA256_Init(&ctx);
+      |     ~~~~~~~~~~~^~~~~~
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp:37:
+/usr/include/openssl/sha.h:73:27: note: declared here
+   73 | OSSL_DEPRECATEDIN_3_0 int SHA256_Init(SHA256_CTX *c);
+      |                           ^~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp:182:22: warning: ‘int SHA256_Update(SHA256_CTX*, const void*, size_t)’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+  182 |         SHA256_Update(&ctx, buffer.data(), bytesRead);
+      |         ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/openssl/sha.h:74:27: note: declared here
+   74 | OSSL_DEPRECATEDIN_3_0 int SHA256_Update(SHA256_CTX *c,
+      |                           ^~~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp:187:17: warning: ‘int SHA256_Final(unsigned char*, SHA256_CTX*)’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+  187 |     SHA256_Final(hash.data(), &ctx);
+      |     ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/usr/include/openssl/sha.h:76:27: note: declared here
+   76 | OSSL_DEPRECATEDIN_3_0 int SHA256_Final(unsigned char *md, SHA256_CTX *c);
+      |                           ^~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp: In member function ‘bool lwm2m::objects::AdvancedFirmwareUpdateObject::execute(lwm2m::objects::FirmwareResourceId, const std::string&)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp:364:64: warning: unused parameter ‘arguments’ [-Wunused-parameter]
+  364 |                                             const std::string& arguments) {
+      |                                             ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp: In member function ‘void lwm2m::objects::AdvancedFirmwareUpdateObject::downloadThread(const std::string&, bool)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp:411:58: warning: unused parameter ‘isDelta’ [-Wunused-parameter]
+  411 |                                                     bool isDelta) {
+      |                                                     ~~~~~^~~~~~~
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp:21:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp: In lambda function:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp:471:23: warning: unused parameter ‘ultotal’ [-Wunused-parameter]
+  471 |            curl_off_t ultotal, curl_off_t ulnow) -> int {
+      |            ~~~~~~~~~~~^~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp:471:43: warning: unused parameter ‘ulnow’ [-Wunused-parameter]
+  471 |            curl_off_t ultotal, curl_off_t ulnow) -> int {
+      |                                ~~~~~~~~~~~^~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp: In member function ‘bool lwm2m::objects::AdvancedFirmwareUpdateObject::receivePackageData(const std::vector<unsigned char>&, uint64_t, bool)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp:505:61: warning: unused parameter ‘isDelta’ [-Wunused-parameter]
+  505 |     const std::vector<uint8_t>& data, uint64_t offset, bool isDelta) {
+      |                                                        ~~~~~^~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp: In function ‘std::vector<unsigned char> lwm2m::platform::linux_generic::calculateFileSHA256(const std::string&, uint64_t)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:108:16: warning: ‘int SHA256_Init(SHA256_CTX*)’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+  108 |     SHA256_Init(&ctx);
+      |     ~~~~~~~~~~~^~~~~~
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:39:
+/usr/include/openssl/sha.h:73:27: note: declared here
+   73 | OSSL_DEPRECATEDIN_3_0 int SHA256_Init(SHA256_CTX *c);
+      |                           ^~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:128:26: warning: ‘int SHA256_Update(SHA256_CTX*, const void*, size_t)’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+  128 |             SHA256_Update(&ctx, buffer.data(), bytesRead);
+      |             ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/openssl/sha.h:74:27: note: declared here
+   74 | OSSL_DEPRECATEDIN_3_0 int SHA256_Update(SHA256_CTX *c,
+      |                           ^~~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:133:17: warning: ‘int SHA256_Final(unsigned char*, SHA256_CTX*)’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+  133 |     SHA256_Final(hash.data(), &ctx);
+      |     ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/usr/include/openssl/sha.h:76:27: note: declared here
+   76 | OSSL_DEPRECATEDIN_3_0 int SHA256_Final(unsigned char *md, SHA256_CTX *c);
+      |                           ^~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp: In member function ‘virtual lwm2m::platform::PlatformResult lwm2m::platform::linux_generic::LinuxFlashManager::lock(const std::string&, uint64_t, uint64_t)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:498:44: warning: unused parameter ‘device’ [-Wunused-parameter]
+  498 |     PlatformResult lock(const std::string& device, uint64_t offset, uint64_t size) override {
+      |                         ~~~~~~~~~~~~~~~~~~~^~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:498:61: warning: unused parameter ‘offset’ [-Wunused-parameter]
+  498 |     PlatformResult lock(const std::string& device, uint64_t offset, uint64_t size) override {
+      |                                                    ~~~~~~~~~^~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:498:78: warning: unused parameter ‘size’ [-Wunused-parameter]
+  498 |     PlatformResult lock(const std::string& device, uint64_t offset, uint64_t size) override {
+      |                                                                     ~~~~~~~~~^~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp: In member function ‘virtual lwm2m::platform::PlatformResult lwm2m::platform::linux_generic::LinuxFlashManager::unlock(const std::string&, uint64_t, uint64_t)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:503:46: warning: unused parameter ‘device’ [-Wunused-parameter]
+  503 |     PlatformResult unlock(const std::string& device, uint64_t offset, uint64_t size) override {
+      |                           ~~~~~~~~~~~~~~~~~~~^~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:503:63: warning: unused parameter ‘offset’ [-Wunused-parameter]
+  503 |     PlatformResult unlock(const std::string& device, uint64_t offset, uint64_t size) override {
+      |                                                      ~~~~~~~~~^~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:503:80: warning: unused parameter ‘size’ [-Wunused-parameter]
+  503 |     PlatformResult unlock(const std::string& device, uint64_t offset, uint64_t size) override {
+      |                                                                       ~~~~~~~~~^~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp: In member function ‘virtual lwm2m::platform::PlatformResult lwm2m::platform::linux_generic::LinuxBootloaderControl::setBootAttempts(lwm2m::platform::PartitionSlot, int)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:609:50: warning: unused parameter ‘slot’ [-Wunused-parameter]
+  609 |     PlatformResult setBootAttempts(PartitionSlot slot, int attempts) override {
+      |                                    ~~~~~~~~~~~~~~^~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp: In member function ‘virtual int lwm2m::platform::linux_generic::LinuxBootloaderControl::getBootAttempts(lwm2m::platform::PartitionSlot)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:613:39: warning: unused parameter ‘slot’ [-Wunused-parameter]
+  613 |     int getBootAttempts(PartitionSlot slot) override {
+      |                         ~~~~~~~~~~~~~~^~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp: At global scope:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp:151:29: warning: ‘std::vector<unsigned char> lwm2m::platform::openwrt::calculateSHA256(const std::vector<unsigned char>&)’ defined but not used [-Wunused-function]
+  151 | static std::vector<uint8_t> calculateSHA256(const std::vector<uint8_t>& data) {
+      |                             ^~~~~~~~~~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp: At global scope:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp:96:13: warning: ‘bool lwm2m::platform::linux_generic::writeFile(const std::string&, const std::string&)’ defined but not used [-Wunused-function]
+   96 | static bool writeFile(const std::string& path, const std::string& content) {
+      |             ^~~~~~~~~
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/examples/main.cpp:5:
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection.h:12:10: fatal error: tinydtls.h: No such file or directory
+   12 | #include "tinydtls.h"
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:807: examples/CMakeFiles/friendly_example_client.dir/main.cpp.o] Error 1
+make[2]: *** Waiting for unfinished jobs....
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection.cpp:1:
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection.h:12:10: fatal error: tinydtls.h: No such file or directory
+   12 | #include "tinydtls.h"
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:849: examples/CMakeFiles/friendly_example_client.dir/platform/connection_dtls/Connection.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1239: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:156: all] Error 2

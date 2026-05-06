@@ -1,0 +1,171 @@
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.h:39:52: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.h:40:50: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.h:41:43: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.h:44:34: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.h:49:10: error: ‘bool wpp::MatterBridge::validate(wpp::ID_T, const void*, size_t)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.h:53:10: error: ‘bool wpp::MatterBridge::initResources(wpp::ItemOp*)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp:29:30: error: ‘class wpp::WppRegistry’ has no member named ‘getObject’; did you mean ‘object’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp:32:55: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp:36:53: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp:40:46: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp:45:44: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp:46:30: error: no matching function for call to ‘wpp::Instance::Instance(wpp::Object&, int&)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp:69:5: error: ‘setExecute’ was not declared in this scope
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:303: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:13:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:13:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:13:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.h:71:52: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.h:72:50: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.h:73:43: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.h:76:45: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.h:81:10: error: ‘bool wpp::WifiChannelOptimization::validate(wpp::ID_T, const void*, size_t)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.h:85:10: error: ‘bool wpp::WifiChannelOptimization::initResources(wpp::ItemOp*)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.h:70:52: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.h:71:50: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.h:72:43: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.h:75:39: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.h:80:10: error: ‘bool wpp::WanFailoverPolicy::validate(wpp::ID_T, const void*, size_t)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.h:84:10: error: ‘bool wpp::WanFailoverPolicy::initResources(wpp::ItemOp*)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.h:58:52: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.h:59:50: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.h:60:43: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.h:63:42: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.h:72:10: error: ‘bool wpp::WifiClientManagement::validate(wpp::ID_T, const void*, size_t)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.h:76:10: error: ‘bool wpp::WifiClientManagement::initResources(wpp::ItemOp*)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+  445 |         WPP_LOGD(TAG, "HTTP probe timeout or error");
+  572 |         WPP_LOGD(TAG, "TCP probe timeout or error");
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:13:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp:27:30: error: ‘class wpp::WppRegistry’ has no member named ‘getObject’; did you mean ‘object’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp:30:66: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp:34:64: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp:38:57: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp:43:66: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp:44:30: error: no matching function for call to ‘wpp::Instance::Instance(wpp::Object&, int&)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp:76:5: error: ‘setExecute’ was not declared in this scope
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp:538:5: error: ‘getMultiple’ was not declared in this scope; did you mean ‘isMultiple’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp:31:30: error: ‘class wpp::WppRegistry’ has no member named ‘getObject’; did you mean ‘object’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp:34:60: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp:38:58: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp:42:51: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp:47:54: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp:48:30: error: no matching function for call to ‘wpp::Instance::Instance(wpp::Object&, int&)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp:31:30: error: ‘class wpp::WppRegistry’ has no member named ‘getObject’; did you mean ‘object’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp:34:63: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp:38:61: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp:42:54: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp:47:60: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp:52:20: error: no matching function for call to ‘wpp::Instance::Instance(wpp::Object&, int&)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp:79:5: error: ‘setExecute’ was not declared in this scope
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp:86:5: error: ‘setExecute’ was not declared in this scope
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.h:73:52: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.h:74:50: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.h:75:43: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.h:78:41: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.h:83:10: error: ‘bool wpp::MultiWanHealthCheck::validate(wpp::ID_T, const void*, size_t)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.h:87:10: error: ‘bool wpp::MultiWanHealthCheck::initResources(wpp::ItemOp*)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:247: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:289: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:39:30: error: ‘class wpp::WppRegistry’ has no member named ‘getObject’; did you mean ‘object’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:42:62: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:46:60: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:50:53: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:55:58: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:58:28: error: no matching function for call to ‘wpp::Instance::Instance(wpp::Object&, int&)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:104:5: error: ‘setExecute’ was not declared in this scope
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:338:25: error: ‘instId’ was not declared in this scope; did you mean ‘instIds’?
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:275: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o] Error 1
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:261: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.h:45:52: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.h:46:50: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.h:47:43: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.h:50:34: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.h:60:10: error: ‘bool wpp::MatterDevice::validate(wpp::ID_T, const void*, size_t)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.h:64:10: error: ‘bool wpp::MatterDevice::initResources(wpp::ItemOp*)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp:31:30: error: ‘class wpp::WppRegistry’ has no member named ‘getObject’; did you mean ‘object’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp:34:55: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp:38:53: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp:42:46: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp:47:44: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp:49:17: error: no matching function for call to ‘wpp::Instance::Instance(wpp::Object&, int&)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp:76:5: error: ‘setExecute’ was not declared in this scope
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:317: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.h:49:52: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.h:50:50: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.h:51:43: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.h:54:35: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.h:59:10: error: ‘bool wpp::ThreadNetwork::validate(wpp::ID_T, const void*, size_t)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.h:63:10: error: ‘bool wpp::ThreadNetwork::initResources(wpp::ItemOp*)’ marked ‘override’, but does not override
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp:30:30: error: ‘class wpp::WppRegistry’ has no member named ‘getObject’; did you mean ‘object’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp:33:56: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp:37:54: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp:41:47: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp:46:46: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp:47:30: error: no matching function for call to ‘wpp::Instance::Instance(wpp::Object&, int&)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp:70:5: error: ‘setExecute’ was not declared in this scope
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:331: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o] Error 1
+[ 49%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborerrorstrings.c.o
+gmake[1]: *** [CMakeFiles/Makefile2:1226: CMakeFiles/friendly_lwm2m.dir/all] Error 2
+  798 |                         coap_error_code = coap_block2_handler(&peerP->blockData, message->mid, message->payload, message->payload_len, block2_size, block2_num, block2_more, &complete_buffer, &complete_buffer_size);
+/usr/bin/ld: (.text+0x597): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x6cc): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x7c3): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0xe66): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x1487): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x15cd): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x165f): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x16e6): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x176e): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x1cdd): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2182): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2323): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2421): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x258f): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x25d2): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2673): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x26a3): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2857): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2976): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x31d1): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x3226): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x12f): undefined reference to `ZSTD_isError'
+/usr/bin/ld: (.text+0x3d5): undefined reference to `BrotliDecoderGetErrorCode'
+/usr/bin/ld: (.text+0x367): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x8de): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0xf7d): undefined reference to `nghttp2_http2_strerror'
+(.text+0x129d): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x204e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2074): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2434): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x26d3): undefined reference to `nghttp2_session_callbacks_set_error_callback'
+/usr/bin/ld: (.text+0x2a23): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a5f): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a8b): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x391e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x1a0): undefined reference to `nghttp2_strerror'
+(.text+0x499): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x5fd): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0xd0f): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x2e62): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x3101): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x31b2): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x31d1): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_gssapi.o): in function `display_gss_error':
+collect2: error: ld returned 1 exit status
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:1069: examples/friendly_example_client] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:1492: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+gmake: *** [Makefile:166: all] Error 2

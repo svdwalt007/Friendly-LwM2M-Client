@@ -1,0 +1,42 @@
+error: Your local changes to the following files would be overwritten by checkout:
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.h:102:5: error: ‘WppTaskQueue’ does not name a type
+  396 |         WPP_LOGD(TAG, "HTTP probe timeout or error");
+  523 |         WPP_LOGD(TAG, "TCP probe timeout or error");
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.h:102:5: error: ‘WppTaskQueue’ does not name a type
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:345: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o] Error 1
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:359: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.h:102:5: error: ‘WppTaskQueue’ does not name a type
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:373: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o] Error 1
+[ 51%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborerrorstrings.c.o
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.h:102:5: error: ‘WppTaskQueue’ does not name a type
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:387: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1226: CMakeFiles/friendly_lwm2m.dir/all] Error 2
+  798 |                         coap_error_code = coap_block2_handler(&peerP->blockData, message->mid, message->payload, message->payload_len, block2_size, block2_num, block2_more, &complete_buffer, &complete_buffer_size);
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libssh.a(gssapi.c.o): in function `ssh_gssapi_log_error':
+/usr/bin/ld: (.text+0x12f): undefined reference to `ZSTD_isError'
+/usr/bin/ld: (.text+0x3d5): undefined reference to `BrotliDecoderGetErrorCode'
+/usr/bin/ld: (.text+0x367): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x8de): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0xf7d): undefined reference to `nghttp2_http2_strerror'
+(.text+0x129d): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x204e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2074): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2434): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x26d3): undefined reference to `nghttp2_session_callbacks_set_error_callback'
+/usr/bin/ld: (.text+0x2a23): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a5f): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a8b): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x391e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x1a0): undefined reference to `nghttp2_strerror'
+(.text+0x499): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x5fd): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0xd0f): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x2e62): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x3101): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x31b2): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x31d1): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_gssapi.o): in function `display_gss_error':
+collect2: error: ld returned 1 exit status
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:1070: examples/friendly_example_client] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1492: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+make: *** [Makefile:166: all] Error 2

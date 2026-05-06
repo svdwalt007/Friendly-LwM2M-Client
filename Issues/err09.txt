@@ -1,0 +1,19 @@
+[ 11%] Built target friendly_lwm2m
+[ 13%] Built target test_delta_algorithms
+[ 15%] Built target test_blockwise_transfer
+[ 18%] Built target test_rollback_manager
+[ 20%] Built target test_firmware_update_object
+[ 25%] Built target test_dtls_providers
+[ 29%] Built target test_dtls_integration
+[ 30%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/main.cpp.o
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/examples/main.cpp:9:
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.h:34:3: error: conflicting declaration ‘typedef struct session_t session_t’
+   34 | } session_t;
+      |   ^~~~~~~~~
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.h:8:
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/DtlsProvider.h:26:26: note: previous declaration as ‘typedef struct session_t session_t’
+   26 | typedef struct session_t session_t;
+      |                          ^~~~~~~~~
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:807: examples/CMakeFiles/friendly_example_client.dir/main.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:1492: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+gmake: *** [Makefile:166: all] Error 2

@@ -1,0 +1,141 @@
+cmake --build build
+-- Build Environment: DEV
+-- Configuring DEV build environment
+-- ====================================================
+-- Build Environment Configuration Summary
+-- ====================================================
+-- Environment: DEV
+-- Build Type: RelWithDebInfo
+-- Build Tests: ON
+-- Build Examples: ON
+-- Coverage: OFF
+-- Sanitizers: ON
+-- Static DTLS Link: ON
+-- CXX Flags:  -fstack-protector-strong
+-- Linker Flags:
+-- ====================================================
+-- Found mbedTLS: /usr/lib/x86_64-linux-gnu/libmbedtls.so
+-- DTLS Providers enabled: 1
+-- Default DTLS Provider: mbedtls
+-- Static DTLS linking enabled
+--   Static library not found for mbedtls, using dynamic
+--   Static library not found for mbedx509, using dynamic
+--   Static library not found for mbedcrypto, using dynamic
+-- ====================================================
+-- DTLS Configuration Summary
+-- ====================================================
+-- DTLS Providers: 1
+--   - mbedTLS: ON
+--   - TinyDTLS: OFF
+--   - OpenSSL: OFF
+--   - wolfSSL: OFF
+-- Default Provider: mbedtls
+-- Static Linking: ON
+-- Libraries: /usr/lib/x86_64-linux-gnu/libmbedtls.so;/usr/lib/x86_64-linux-gnu/libmbedx509.so;/usr/lib/x86_64-linux-gnu/libmbedcrypto.so
+-- Linker Flags: -Wl,--gc-sections -Wl,--as-needed -Wl,-O1 -static-libgcc -static-libstdc++
+-- ====================================================
+-- Target 'friendly_lwm2m' linked with optimized DTLS libraries
+CMake Error at cmake/DTLSOptimization.cmake:233 (target_link_libraries):
+  The plain signature for target_link_libraries has already been used with
+  the target "test_dtls_providers".  All uses of target_link_libraries with a
+  target must be either all-keyword or all-plain.
+
+  The uses of the plain signature are here:
+
+   * CMakeLists.txt:682 (target_link_libraries)
+
+Call Stack (most recent call first):
+  CMakeLists.txt:689 (target_link_dtls_optimized)
+
+
+CMake Error at cmake/DTLSOptimization.cmake:233 (target_link_libraries):
+  The plain signature for target_link_libraries has already been used with
+  the target "test_dtls_integration".  All uses of target_link_libraries with
+  a target must be either all-keyword or all-plain.
+
+  The uses of the plain signature are here:
+
+   * CMakeLists.txt:744 (target_link_libraries)
+
+Call Stack (most recent call first):
+  CMakeLists.txt:751 (target_link_dtls_optimized)
+
+
+-- Building for 64 bit system
+-- Exceptions are not supported
+-- RTTI is not supported
+-- Enabling mbedTLS provider
+-- DTLS Provider Sources: platform/connection_dtls/MbedTlsProvider.cpp;platform/connection_dtls/DtlsProviderFactory.cpp
+-- DTLS Provider Libraries: MbedTLS::mbedtls;MbedTLS::mbedx509;MbedTLS::mbedcrypto
+-- friendly_example_client: Endiannes not set, defaulting to little endian
+-- libcoap built successfully. Library path: /mnt/d/Dev/Friendly-LwM2M-Client/examples/coap/libcoap/build
+-- Using example Firmware Updater
+--
+-- Friendly LwM2M Client Configuration:
+--   Version:          1.2.2
+--   Build type:       RelWithDebInfo
+--   C++ Standard:     17
+--
+-- Core Features:
+--   DTLS:             ON
+--   mbedTLS:          ON
+--   TinyDTLS:         OFF
+--
+-- DTLS Multi-Provider (v1.2.2):
+--   TinyDTLS Provider: OFF
+--   mbedTLS Provider:  ON (DEFAULT)
+--   OpenSSL Provider:  OFF
+--   wolfSSL Provider:  OFF
+--   Default Provider:  mbedtls
+--   Static Linking:    ON
+--   Delta FOTA:       ON
+--   BSDIFF:           ON
+--   VCDIFF:           ON
+--   Courgette:        ON
+--   Compression:      ON
+--   Rollback:         ON
+--   MQTT Transport:   ON
+--   Edge AI:          OFF
+--   TensorFlow Lite:  OFF
+--   ONNX Runtime:     OFF
+--
+-- v1.2.0 Extended Features:
+--   OpenWRT Extended: ON
+--   LUCI Module:      ON
+--   Hotplug Handlers: ON
+--   LAN Config:       OFF
+--   Routing Table:    OFF
+--   VPN Config:       OFF
+--   WAN Failover:     OFF
+--   Multi-WAN Health: OFF
+--   WiFi Client Mgmt: OFF
+--   WiFi Channel Opt: OFF
+--   Starlink:         OFF
+--   Starlink gRPC:    ON
+--
+-- Platform Integrations:
+--   prpl Integration: OFF
+--   prpl EasyMesh:    OFF
+--   prpl Ambiorix:    OFF
+--   Matter/Thread:    OFF
+--   Matter Bridge:    OFF
+--   Thread BR:        OFF
+--   Zigbee:           OFF
+--   Zigbee EZSP:      OFF
+--   Zigbee Z-Stack:   OFF
+--
+-- Build options:
+--   Tests:            ON
+--   Examples:         ON
+--   Documentation:    OFF
+--   Coverage:         OFF
+--   Sanitizers:       ON
+--
+-- Optional libraries found:
+--   BZip2:            TRUE
+--   LZMA:             TRUE
+--   Zstd:
+--   Brotli:
+--
+-- Configuring incomplete, errors occurred!
+gmake: *** [Makefile:811: cmake_check_build_system] Error 1

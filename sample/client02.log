@@ -1,0 +1,180 @@
+
+---- Creating required components ----
+Connection: socket id 3
+
+---- Creating WppClient ----
+WppClient name: svdwal888
+
+---- Initialization wpp Server ----
+
+---- Initialization wpp Security ----
+
+---- Initialization wpp Device ----
+
+---- Initialization wpp FirmwareUpdate ----
+OpenWrtFwManager: Initializing firmware update...
+OpenWrtFwUpdater: Initialized
+OpenWrtFwDownloader: Initialized
+OpenWrtFwUriDownloader: Initialized
+OpenWrtFwUriDownloader: wget available: yes
+OpenWrtFwUriDownloader: curl available: yes
+OpenWrtFwUriDownloader: coap-client available: no
+OpenWrtFwUpdater: Reset
+OpenWrtFwDownloader: Reset
+OpenWrtFwUpdater: Reset
+OpenWrtFwManager: Supported protocols: HTTP HTTPS 
+OpenWrtFwManager: Firmware update initialized successfully
+
+---- Initialization wpp ConnectivityMonitoring ----
+
+---- Initialization wpp Location ----
+
+---- Initialization wpp AudioClip ----
+
+---- Starting Connection thread ----
+
+---- iteration:0, time: 1776003984 ----
+Connection: connect to host 127.0.0.1, host len: 9, port 5683, port len: 4
+Connection: connect to uri coap://127.0.0.1:5683, uri len: 21
+Sleep time: 1
+
+---- iteration:1, time: 1776003985 ----
+Sleep time: 1
+
+---- iteration:2, time: 1776003986 ----
+Sleep time: 1
+
+---- iteration:3, time: 1776003987 ----
+Sleep time: 1
+
+---- iteration:4, time: 1776003988 ----
+Sleep time: 1
+
+---- iteration:5, time: 1776003989 ----
+Sleep time: 1
+
+---- iteration:6, time: 1776003990 ----
+Sleep time: 1
+
+---- iteration:7, time: 1776003991 ----
+Sleep time: 1
+
+---- iteration:8, time: 1776003992 ----
+Sleep time: 1
+
+---- iteration:9, time: 1776003993 ----
+Sleep time: 1
+
+---- iteration:10, time: 1776003994 ----
+Sleep time: 1
+Connection: readDataSize: 8
+Connection: conn: 0x5bdfbe8efed0
+
+---- iteration:11, time: 1776003995 ----
+Sleep time: 0
+
+---- iteration:12, time: 1776003996 ----
+wppErrorHandler(): Error: 163
+Trying to restore security and server objects
+Sleep time: 0
+
+---- iteration:13, time: 1776003997 ----
+Connection: connect to host 127.0.0.1, host len: 9, port 5683, port len: 4
+Connection: connect to uri coap://127.0.0.1:5683, uri len: 21
+Sleep time: 1
+
+---- iteration:14, time: 1776003998 ----
+Sleep time: 1
+
+---- iteration:15, time: 1776003999 ----
+Sleep time: 1
+
+---- iteration:16, time: 1776004000 ----
+Sleep time: 1
+
+---- iteration:17, time: 1776004001 ----
+Sleep time: 1
+
+---- iteration:18, time: 1776004002 ----
+Sleep time: 1
+
+---- iteration:19, time: 1776004003 ----
+Sleep time: 1
+
+---- iteration:20, time: 1776004004 ----
+Sleep time: 1
+
+---- iteration:21, time: 1776004005 ----
+Sleep time: 1
+
+---- iteration:22, time: 1776004006 ----
+Sleep time: 1
+
+---- iteration:23, time: 1776004007 ----
+Sleep time: 1
+Connection: readDataSize: 8
+Connection: conn: 0x5bdfbe8efed0
+
+---- iteration:24, time: 1776004008 ----
+Sleep time: 0
+
+---- iteration:25, time: 1776004009 ----
+wppErrorHandler(): Error: 163
+Trying to restore security and server objects
+Sleep time: 0
+
+---- iteration:26, time: 1776004010 ----
+Connection: connect to host 127.0.0.1, host len: 9, port 5683, port len: 4
+Connection: connect to uri coap://127.0.0.1:5683, uri len: 21
+Sleep time: 1
+
+---- iteration:27, time: 1776004011 ----
+Sleep time: 1
+
+---- iteration:28, time: 1776004012 ----
+Sleep time: 1
+
+---- iteration:29, time: 1776004013 ----
+Sleep time: 1
+
+---- iteration:30, time: 1776004014 ----
+Sleep time: 1
+
+---- iteration:31, time: 1776004015 ----
+Sleep time: 1
+
+---- iteration:32, time: 1776004016 ----
+Sleep time: 1
+
+---- iteration:33, time: 1776004017 ----
+Sleep time: 1
+
+---- iteration:34, time: 1776004018 ----
+Sleep time: 1
+
+---- iteration:35, time: 1776004019 ----
+Sleep time: 1
+
+---- iteration:36, time: 1776004020 ----
+Sleep time: 1
+Connection: readDataSize: 8
+Connection: conn: 0x5bdfbe8efed0
+
+---- iteration:37, time: 1776004021 ----
+Sleep time: 0
+
+---- iteration:38, time: 1776004022 ----
+wppErrorHandler(): Error: 163
+Trying to restore security and server objects
+Sleep time: 0
+
+---- iteration:39, time: 1776004023 ----
+Connection: connect to host 127.0.0.1, host len: 9, port 5683, port len: 4
+Connection: connect to uri coap://127.0.0.1:5683, uri len: 21
+Sleep time: 1
+
+---- iteration:40, time: 1776004024 ----
+Sleep time: 1
+
+---- iteration:41, time: 1776004025 ----
+Sleep time: 1

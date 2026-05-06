@@ -1,0 +1,102 @@
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:303: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+  396 |         WPP_LOGD(TAG, "HTTP probe timeout or error");
+  523 |         WPP_LOGD(TAG, "TCP probe timeout or error");
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:289: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o] Error 1
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:247: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:289:25: error: ‘instId’ was not declared in this scope; did you mean ‘instIds’?
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:275: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o] Error 1
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:261: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp:12:10: fatal error: WppTaskQueue.h: No such file or directory
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:359: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp:14:10: fatal error: zigbee_coordinator.h: No such file or directory
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:373: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.h:121:10: error: ‘shared_ptr’ in namespace ‘std’ does not name a template type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.h:124:10: error: ‘thread’ in namespace ‘std’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.h:125:10: error: ‘atomic’ in namespace ‘std’ does not name a template type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:317: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:25:12: error: ‘ObjImpl’ does not name a type; did you mean ‘ObjectImpl’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:26:12: error: ‘obj’ was not declared in this scope
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:29:60: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:29:11: error: no declaration matches ‘wpp::Instance* wpp::ZigbeeCoordinator::createInst(wpp::WppClient&, int)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:33:58: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:33:11: error: no declaration matches ‘wpp::Instance* wpp::ZigbeeCoordinator::instance(wpp::WppClient&, int)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:37:51: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:37:6: error: no declaration matches ‘bool wpp::ZigbeeCoordinator::remove(wpp::WppClient&, int)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:45:54: error: ‘INST_T’ has not been declared
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:45:1: error: no declaration matches ‘wpp::ZigbeeCoordinator::ZigbeeCoordinator(wpp::Object&, int)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:63:6: error: no declaration matches ‘bool wpp::ZigbeeCoordinator::initResources(wpp::ItemOp*)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:137:6: error: no declaration matches ‘bool wpp::ZigbeeCoordinator::validate(wpp::ID_T, const void*, size_t)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:189:15: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘coordinator_’; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:196:47: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘item’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:197:48: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘item’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:198:48: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘item’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:199:54: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘item’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:202:36: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘item’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:206:25: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘coordinator_’; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:209:14: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘item’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:212:14: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘item’
+  212 |         self.item(NETWORK_STATE_0).set((INT_T)STATE_ERROR);
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:223:15: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘coordinator_’; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:228:25: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘coordinator_’; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:231:14: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘item’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:232:14: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘item’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:243:15: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘coordinator_’; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:254:25: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘coordinator_’; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:257:14: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘item’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:268:15: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘coordinator_’; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:273:17: error: ‘class wpp::ZigbeeCoordinator’ has no member named ‘coordinator_’; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:289:30: error: ‘item’ was not declared in this scope; did you mean ‘tm’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:315:5: error: ‘coordinator_’ was not declared in this scope; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:356:13: error: ‘item’ is not captured
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:289:30: note: ‘<typeprefixerror>item’ declared here
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:379:9: error: ‘coordinator_’ was not declared in this scope; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:386:10: error: ‘coordinator_’ was not declared in this scope; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:390:34: error: ‘coordinator_’ was not declared in this scope; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:417:5: error: ‘item’ was not declared in this scope; did you mean ‘tm’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:421:10: error: ‘coordinator_’ was not declared in this scope; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:425:20: error: ‘coordinator_’ was not declared in this scope; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:426:5: error: ‘item’ was not declared in this scope; did you mean ‘tm’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:430:10: error: ‘coordinator_’ was not declared in this scope; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:434:23: error: ‘coordinator_’ was not declared in this scope; did you mean ‘CoordinatorType’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:435:5: error: ‘item’ was not declared in this scope; did you mean ‘tm’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:451:32: error: ‘item’ was not declared in this scope; did you mean ‘tm’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:485:5: error: ‘refreshRunning_’ was not declared in this scope
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:486:5: error: ‘refreshThread_’ was not declared in this scope
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:487:16: error: ‘refreshRunning_’ is not captured
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:485:5: note: ‘<typeprefixerror>refreshRunning_’ declared here
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:495:5: error: ‘refreshRunning_’ was not declared in this scope
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp:496:9: error: ‘refreshThread_’ was not declared in this scope
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:345: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o] Error 1
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:331: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o] Error 1
+[ 52%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborerrorstrings.c.o
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyConfig.h:12:39: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckConfig.h:12:41: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementConfig.h:12:42: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationConfig.h:12:45: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridgeConfig.h:10:33: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDeviceConfig.h:10:33: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetworkConfig.h:10:34: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorConfig.h:12:38: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceConfig.h:12:33: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupConfig.h:12:32: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableConfig.h:12:33: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:737: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/WppRegistry.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:1226: CMakeFiles/friendly_lwm2m.dir/all] Error 2
+gmake[1]: *** [CMakeFiles/Makefile2:1492: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+gmake: *** [Makefile:166: all] Error 2

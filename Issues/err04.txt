@@ -1,0 +1,50 @@
+[ 25%] Linking CXX executable test_dtls_providers
+/usr/bin/ld: CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.o: in function `MbedTlsProvider::recv(void*, unsigned char*, unsigned long)':
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:448:(.text._ZN15MbedTlsProvider4recvEPvPhm+0x58): undefined reference to `mbedtls_ssl_read'
+/usr/bin/ld: CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.o: in function `MbedTlsProvider::send(void*, unsigned char const*, unsigned long)':
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:429:(.text._ZN15MbedTlsProvider4sendEPvPKhm+0x58): undefined reference to `mbedtls_ssl_write'
+/usr/bin/ld: CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.o: in function `MbedTlsProvider::setPSK(void*, char const*, unsigned char const*, unsigned long)':
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:335:(.text._ZN15MbedTlsProvider6setPSKEPvPKcPKhm+0x79d): undefined reference to `mbedtls_ssl_conf_psk'
+/usr/bin/ld: CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.o: in function `MbedTlsProvider::connect(void*)':
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:520:(.text._ZN15MbedTlsProvider7connectEPv+0x40): undefined reference to `mbedtls_ssl_handshake'
+/usr/bin/ld: CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.o: in function `MbedTlsProvider::setCertificate(void*, char const*, char const*, char const*)':
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:372:(.text._ZN15MbedTlsProvider14setCertificateEPvPKcS2_S2_+0xfe): undefined reference to `mbedtls_x509_crt_init'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:374:(.text._ZN15MbedTlsProvider14setCertificateEPvPKcS2_S2_+0x130): undefined reference to `mbedtls_x509_crt_parse_file'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:383:(.text._ZN15MbedTlsProvider14setCertificateEPvPKcS2_S2_+0x1f0): undefined reference to `mbedtls_pk_init'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:385:(.text._ZN15MbedTlsProvider14setCertificateEPvPKcS2_S2_+0x224): undefined reference to `mbedtls_pk_parse_keyfile'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:393:(.text._ZN15MbedTlsProvider14setCertificateEPvPKcS2_S2_+0x28c): undefined reference to `mbedtls_ssl_conf_own_cert'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:405:(.text._ZN15MbedTlsProvider14setCertificateEPvPKcS2_S2_+0x367): undefined reference to `mbedtls_x509_crt_init'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:407:(.text._ZN15MbedTlsProvider14setCertificateEPvPKcS2_S2_+0x399): undefined reference to `mbedtls_x509_crt_parse_file'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:414:(.text._ZN15MbedTlsProvider14setCertificateEPvPKcS2_S2_+0x3ec): undefined reference to `mbedtls_ssl_conf_ca_chain'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:415:(.text._ZN15MbedTlsProvider14setCertificateEPvPKcS2_S2_+0x41f): undefined reference to `mbedtls_ssl_conf_authmode'
+/usr/bin/ld: CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.o: in function `MbedTlsProvider::MbedTlsSession::~MbedTlsSession()':
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:119:(.text._ZN15MbedTlsProvider14MbedTlsSessionD2Ev+0x52): undefined reference to `mbedtls_ssl_free'
+/usr/bin/ld: CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.o: in function `MbedTlsProvider::MbedTlsContext::~MbedTlsContext()':
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:77:(.text._ZN15MbedTlsProvider14MbedTlsContextD2Ev+0x658): undefined reference to `mbedtls_x509_crt_free'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:81:(.text._ZN15MbedTlsProvider14MbedTlsContextD2Ev+0x6e1): undefined reference to `mbedtls_pk_free'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:85:(.text._ZN15MbedTlsProvider14MbedTlsContextD2Ev+0x76a): undefined reference to `mbedtls_x509_crt_free'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:91:(.text._ZN15MbedTlsProvider14MbedTlsContextD2Ev+0x7ef): undefined reference to `mbedtls_ssl_config_free'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:97:(.text._ZN15MbedTlsProvider14MbedTlsContextD2Ev+0x878): undefined reference to `mbedtls_ctr_drbg_free'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:101:(.text._ZN15MbedTlsProvider14MbedTlsContextD2Ev+0x901): undefined reference to `mbedtls_entropy_free'
+/usr/bin/ld: CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.o: in function `MbedTlsProvider::createContext()':
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:189:(.text._ZN15MbedTlsProvider13createContextEv+0xf5): undefined reference to `mbedtls_entropy_init'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:193:(.text._ZN15MbedTlsProvider13createContextEv+0x1b2): undefined reference to `mbedtls_ctr_drbg_init'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:196:(.text._ZN15MbedTlsProvider13createContextEv+0x20d): undefined reference to `mbedtls_entropy_func'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:196:(.text._ZN15MbedTlsProvider13createContextEv+0x21f): undefined reference to `mbedtls_ctr_drbg_seed'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:209:(.text._ZN15MbedTlsProvider13createContextEv+0x2e2): undefined reference to `mbedtls_ssl_config_init'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:211:(.text._ZN15MbedTlsProvider13createContextEv+0x319): undefined reference to `mbedtls_ssl_config_defaults'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:223:(.text._ZN15MbedTlsProvider13createContextEv+0x37e): undefined reference to `mbedtls_ctr_drbg_random'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:223:(.text._ZN15MbedTlsProvider13createContextEv+0x383): undefined reference to `mbedtls_ssl_conf_rng'
+/usr/bin/ld: CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.o: in function `MbedTlsProvider::handleMessage(void*, session_t const*, unsigned char const*, unsigned long)':
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:489:(.text._ZN15MbedTlsProvider13handleMessageEPvPK9session_tPKhm+0x1c24): undefined reference to `mbedtls_ssl_handshake'
+/usr/bin/ld: CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.o: in function `MbedTlsProvider::createSession(void*, session_t const*)':
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:268:(.text._ZN15MbedTlsProvider13createSessionEPvPK9session_t+0x3be): undefined reference to `mbedtls_ssl_init'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:270:(.text._ZN15MbedTlsProvider13createSessionEPvPK9session_t+0x41a): undefined reference to `mbedtls_ssl_setup'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:279:(.text._ZN15MbedTlsProvider13createSessionEPvPK9session_t+0x46b): undefined reference to `mbedtls_ssl_set_bio'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:285:(.text._ZN15MbedTlsProvider13createSessionEPvPK9session_t+0x55e): undefined reference to `mbedtls_timing_get_delay'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:285:(.text._ZN15MbedTlsProvider13createSessionEPvPK9session_t+0x568): undefined reference to `mbedtls_timing_set_delay'
+/usr/bin/ld: /mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/MbedTlsProvider.cpp:285:(.text._ZN15MbedTlsProvider13createSessionEPvPK9session_t+0x56d): undefined reference to `mbedtls_ssl_set_timer_cb'
+collect2: error: ld returned 1 exit status
+gmake[2]: *** [CMakeFiles/test_dtls_providers.dir/build.make:136: test_dtls_providers] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:1386: CMakeFiles/test_dtls_providers.dir/all] Error 2
+gmake: *** [Makefile:166: all] Error 2

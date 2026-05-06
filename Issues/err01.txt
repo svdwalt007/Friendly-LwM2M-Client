@@ -1,0 +1,74 @@
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/instance/Instance.h:14,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.h:13,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:6:
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/resource/Resource.h:11:10: fatal error: WppLogs.h: No such file or directory
+   11 | #include "WppLogs.h"
+      |          ^~~~~~~~~~~
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/instance/Instance.h:14,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.h:13,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp:6:
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/resource/Resource.h:11:10: fatal error: WppLogs.h: No such file or directory
+   11 | #include "WppLogs.h"
+      |          ^~~~~~~~~~~
+compilation terminated.
+compilation terminated.
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:177: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:163: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o] Error 1
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/instance/Instance.h:14,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.h:13,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp:6:
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/resource/Resource.h:11:10: fatal error: WppLogs.h: No such file or directory
+   11 | #include "WppLogs.h"
+      |          ^~~~~~~~~~~
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/instance/Instance.h:14,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.h:13,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp:6:
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/resource/Resource.h:11:10: fatal error: WppLogs.h: No such file or directory
+   11 | #include "WppLogs.h"
+      |          ^~~~~~~~~~~
+compilation terminated.
+compilation terminated.
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/instance/Instance.h:14,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.h:13,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp:6:
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/resource/Resource.h:11:10: fatal error: WppLogs.h: No such file or directory
+   11 | #include "WppLogs.h"
+      |          ^~~~~~~~~~~
+compilation terminated.
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:191: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o] Error 1
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:205: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o] Error 1
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:219: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o] Error 1
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/instance/Instance.h:14,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.h:14,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp:6:
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/resource/Resource.h:11:10: fatal error: WppLogs.h: No such file or directory
+   11 | #include "WppLogs.h"
+      |          ^~~~~~~~~~~
+In file included from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/instance/Instance.h:14,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.h:14,
+                 from /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp:6:
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/resource/Resource.h:11:10: fatal error: WppLogs.h: No such file or directory
+   11 | #include "WppLogs.h"
+      |          ^~~~~~~~~~~
+compilation terminated.
+compilation terminated.
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:233: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o] Error 1
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:247: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1208: CMakeFiles/friendly_lwm2m.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+cc1: fatal error: /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/examples/shared/tinydtls/aes/rijndael_wrap.c: No such file or directory
+compilation terminated.
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:1101: examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/examples/shared/tinydtls/aes/rijndael_wrap.c.o] Error 1
+cc1: fatal error: /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/examples/shared/tinydtls/aes/rijndael.c: No such file or directory
+compilation terminated.
+make[2]: *** Waiting for unfinished jobs....
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:1087: examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/examples/shared/tinydtls/aes/rijndael.c.o] Error 1
+cc1: fatal error: /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/examples/shared/tinydtls/ccm.c: No such file or directory
+compilation terminated.
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:975: examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/examples/shared/tinydtls/ccm.c.o] Error 1
+cc1: fatal error: /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/examples/shared/tinydtls/crypto.c: No such file or directory
+compilation terminated.
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:961: examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/examples/shared/tinydtls/crypto.c.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1272: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+make: *** [Makefile:156: all] Error 2

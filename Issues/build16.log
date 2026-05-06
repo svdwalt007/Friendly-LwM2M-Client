@@ -1,0 +1,248 @@
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:303: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+  396 |         WPP_LOGD(TAG, "HTTP probe timeout or error");
+  523 |         WPP_LOGD(TAG, "TCP probe timeout or error");
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:289: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o] Error 1
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:247: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:289:25: error: ‘instId’ was not declared in this scope; did you mean ‘instIds’?
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:275: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o] Error 1
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:261: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:317: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o] Error 1
+[ 49%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborerrorstrings.c.o
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/data_model/object/ObjectImpl.h:79:9: error: there are no arguments to ‘lwm2m_update_registration’ that depend on a template parameter, so a declaration of ‘lwm2m_update_registration’ must be available [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.h:127:9: error: ‘lwm2m_client_state_t’ does not name a type; did you mean ‘lwm2m_client_t’?
+gmake[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:331: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:555: examples/CMakeFiles/friendly_example_client.dir/__/wpp/client/WppClient.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:569: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/data_model/object/Object.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:583: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/data_model/instance/Instance.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:639: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/m_1_lwm2m_server/Lwm2mServer.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:625: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/m_0_lwm2m_security/Lwm2mSecurity.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:653: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/m_3_device/Device.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:667: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/o_2_lwm2m_access_control/Lwm2mAccessControl.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:681: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/o_3339_audio_clip/AudioClip.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:13:39: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:13:41: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:13:42: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:13:45: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridgeConfig.h:10:33: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDeviceConfig.h:10:33: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetworkConfig.h:10:34: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:13:38: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:13:33: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:13:32: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:13:33: error: invalid conversion from ‘int’ to ‘wpp::OBJ_ID’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:695: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/o_4_connectivity_monitoring/ConnectivityMonitoring.cpp.o] Error 1
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:737: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/WppRegistry.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:709: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/o_5_firmware_update/FirmwareUpdate.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:723: examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/o_6_location/Location.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:751: examples/CMakeFiles/friendly_example_client.dir/__/wpp/platform/connection/WppConnection.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:807: examples/CMakeFiles/friendly_example_client.dir/main.cpp.o] Error 1
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:821: examples/CMakeFiles/friendly_example_client.dir/objects.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:835: examples/CMakeFiles/friendly_example_client.dir/ConfigLoader.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:1226: CMakeFiles/friendly_lwm2m.dir/all] Error 2
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicyInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheckInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagementInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimizationInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinatorInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDeviceInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroupInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTableInfo.h:15:14: error: ‘Lwm2mObjectMetaInfo’ does not name a type
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:849: examples/CMakeFiles/friendly_example_client.dir/platform/connection_dtls/Connection_new.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:1492: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+gmake: *** [Makefile:166: all] Error 2

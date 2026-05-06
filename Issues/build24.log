@@ -1,0 +1,64 @@
+error: Your local changes to the following files would be overwritten by checkout:
+/mnt/d/Dev/Friendly-LwM2M-Client/src/matter/matter_sdk_integration.cpp:431:35: error: ‘const struct matter::CommissioningParams’ has no member named ‘vendorId’
+/mnt/d/Dev/Friendly-LwM2M-Client/src/matter/matter_sdk_integration.cpp:432:36: error: ‘const struct matter::CommissioningParams’ has no member named ‘productId’
+/mnt/d/Dev/Friendly-LwM2M-Client/src/matter/matter_sdk_integration.cpp:665:18: error: invalid use of incomplete type ‘using std::__shared_ptr_access<matter::MatterClusterClient, __gnu_cxx::_S_atomic, false, false>::element_type = class matter::MatterClusterClient’ {aka ‘class matter::MatterClusterClient’}
+/mnt/d/Dev/Friendly-LwM2M-Client/src/matter/matter_sdk_integration.cpp:676:18: error: invalid use of incomplete type ‘using std::__shared_ptr_access<matter::MatterClusterClient, __gnu_cxx::_S_atomic, false, false>::element_type = class matter::MatterClusterClient’ {aka ‘class matter::MatterClusterClient’}
+/mnt/d/Dev/Friendly-LwM2M-Client/src/matter/matter_sdk_integration.cpp:687:18: error: invalid use of incomplete type ‘using std::__shared_ptr_access<matter::MatterClusterClient, __gnu_cxx::_S_atomic, false, false>::element_type = class matter::MatterClusterClient’ {aka ‘class matter::MatterClusterClient’}
+/usr/include/c++/13/ext/aligned_buffer.h:93:28: error: invalid application of ‘sizeof’ to incomplete type ‘matter::MatterClusterClient’
+/usr/include/c++/13/ext/aligned_buffer.h:93:28: error: invalid application of ‘sizeof’ to incomplete type ‘matter::MatterClusterClient’
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:205: CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.o] Error 1
+  396 |         WPP_LOGD(TAG, "HTTP probe timeout or error");
+  523 |         WPP_LOGD(TAG, "TCP probe timeout or error");
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp:289:25: error: ‘instId’ was not declared in this scope; did you mean ‘instIds’?
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:289: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o] Error 1
+[ 51%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborerrorstrings.c.o
+make[1]: *** [CMakeFiles/Makefile2:1226: CMakeFiles/friendly_lwm2m.dir/all] Error 2
+  798 |                         coap_error_code = coap_block2_handler(&peerP->blockData, message->mid, message->payload, message->payload_len, block2_size, block2_num, block2_more, &complete_buffer, &complete_buffer_size);
+/usr/bin/ld: (.text+0x597): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x6cc): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x7c3): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0xe66): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x1487): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x15cd): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x165f): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x16e6): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x176e): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x1cdd): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2182): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2323): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2421): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x258f): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x25d2): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2673): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x26a3): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2857): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x2976): undefined reference to `sftp_get_error'
+/usr/bin/ld: (.text+0x31d1): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x3226): undefined reference to `ssh_get_error'
+/usr/bin/ld: (.text+0x12f): undefined reference to `ZSTD_isError'
+/usr/bin/ld: (.text+0x3d5): undefined reference to `BrotliDecoderGetErrorCode'
+/usr/bin/ld: (.text+0x367): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x8de): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0xf7d): undefined reference to `nghttp2_http2_strerror'
+(.text+0x129d): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x204e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2074): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2434): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x26d3): undefined reference to `nghttp2_session_callbacks_set_error_callback'
+/usr/bin/ld: (.text+0x2a23): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a5f): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a8b): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x391e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x1a0): undefined reference to `nghttp2_strerror'
+(.text+0x499): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x5fd): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0xd0f): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x2e62): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x3101): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x31b2): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x31d1): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_gssapi.o): in function `display_gss_error':
+collect2: error: ld returned 1 exit status
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:1069: examples/friendly_example_client] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1492: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+make: *** [Makefile:166: all] Error 2

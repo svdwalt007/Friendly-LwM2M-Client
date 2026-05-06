@@ -1,0 +1,36 @@
+[ 11%] Built target friendly_lwm2m
+[ 13%] Built target test_delta_algorithms
+[ 15%] Built target test_blockwise_transfer
+[ 18%] Built target test_rollback_manager
+[ 20%] Built target test_firmware_update_object
+[ 25%] Built target test_dtls_providers
+[ 29%] Built target test_dtls_integration
+[ 30%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/platform/connection_dtls/Connection_new.cpp.o
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.cpp: In static member function ‘static int Connection::providerSendCallback(const session_t*, const uint8_t*, size_t, void*)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.cpp:133:17: error: unused variable ‘conn’ [-Werror=unused-variable]
+  133 |     Connection* conn = static_cast<Connection*>(user_data);
+      |                 ^~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.cpp: In static member function ‘static int Connection::providerRecvCallback(const session_t*, const uint8_t*, size_t, void*)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.cpp:141:17: error: unused variable ‘conn’ [-Werror=unused-variable]
+  141 |     Connection* conn = static_cast<Connection*>(user_data);
+      |                 ^~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.cpp: In static member function ‘static void Connection::providerEventCallback(const session_t*, int, void*)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.cpp:147:17: error: unused variable ‘conn’ [-Werror=unused-variable]
+  147 |     Connection* conn = static_cast<Connection*>(user_data);
+      |                 ^~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.cpp: In member function ‘virtual void* Connection::connect(wpp::Lwm2mSecurity&)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.cpp:305:23: error: aggregate ‘session_t session’ has incomplete type and cannot be defined
+  305 |             session_t session;
+      |                       ^~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.cpp: In member function ‘void Connection::loop()’:
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.cpp:447:23: error: aggregate ‘session_t session’ has incomplete type and cannot be defined
+  447 |             session_t session;
+      |                       ^~~~~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.cpp: In member function ‘bool Connection::rehandshake(dtls_connection_t*, bool)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/examples/platform/connection_dtls/Connection_new.cpp:568:15: error: aggregate ‘session_t session’ has incomplete type and cannot be defined
+  568 |     session_t session;
+      |               ^~~~~~~
+cc1plus: all warnings being treated as errors
+gmake[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:849: examples/CMakeFiles/friendly_example_client.dir/platform/connection_dtls/Connection_new.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:1492: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+gmake: *** [Makefile:166: all] Error 2

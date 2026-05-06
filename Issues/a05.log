@@ -1,0 +1,7 @@
+[  4%] Built target test_dtls_providers
+[  7%] Built target test_dtls_integration
+[ 36%] Built target friendly_lwm2m
+[ 43%] Built target test_rollback_manager
+[ 43%] Built target test_blockwise_transfer
+[ 43%] Built target test_delta_algorithms
+[ 44%] Built target test_firmware_update_object

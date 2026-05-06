@@ -1,0 +1,314 @@
+-- Build Environment: DEV
+-- Configuring DEV build environment
+-- ====================================================
+-- Build Environment Configuration Summary
+-- ====================================================
+-- Environment: DEV
+-- Build Type: RelWithDebInfo
+-- Build Tests: ON
+-- Build Examples: ON
+-- Coverage: OFF
+-- Sanitizers: ON
+-- Static DTLS Link: ON
+-- CXX Flags:  -fstack-protector-strong
+-- Linker Flags: 
+-- ====================================================
+CMake Warning at CMakeLists.txt:120 (message):
+  Sanitizers requested but disabled for RelWithDebInfo build (use Debug build
+  for sanitizers)
+
+
+-- Found mbedTLS: /usr/lib/x86_64-linux-gnu/libmbedtls.so
+-- DTLS Providers enabled: 1
+-- Default DTLS Provider: mbedtls
+-- Static DTLS linking enabled
+--   Static library not found for mbedtls, using dynamic
+--   Static library not found for mbedx509, using dynamic
+--   Static library not found for mbedcrypto, using dynamic
+-- ====================================================
+-- DTLS Configuration Summary
+-- ====================================================
+-- DTLS Providers: 1
+--   - mbedTLS: ON
+--   - TinyDTLS: OFF
+--   - OpenSSL: OFF
+--   - wolfSSL: OFF
+-- Default Provider: mbedtls
+-- Static Linking: ON
+-- Libraries: /usr/lib/x86_64-linux-gnu/libmbedtls.so;/usr/lib/x86_64-linux-gnu/libmbedx509.so;/usr/lib/x86_64-linux-gnu/libmbedcrypto.so
+-- Linker Flags: -Wl,--gc-sections -Wl,--as-needed -Wl,-O1 -static-libgcc -static-libstdc++
+-- ====================================================
+-- Found GSSAPI via pkg-config: gssapi_krb5
+-- Found nghttp2 for CURL HTTP/2: /usr/lib/x86_64-linux-gnu/libnghttp2.a
+-- Found zstd compression for CURL: /usr/lib/x86_64-linux-gnu/libzstd.a
+-- Found brotli compression for CURL: /usr/lib/x86_64-linux-gnu/libbrotlicommon.a, /usr/lib/x86_64-linux-gnu/libbrotlidec.a
+-- Found OpenSSL for HTTPS/TLS: /usr/lib/x86_64-linux-gnu/libssl.a;/usr/lib/x86_64-linux-gnu/libcrypto.a
+-- Found zstd: /usr/lib/x86_64-linux-gnu/libzstd.a
+-- Found brotli: /usr/lib/x86_64-linux-gnu/libbrotlienc.a
+-- Target 'friendly_lwm2m' linked with optimized DTLS libraries
+-- Target 'test_dtls_providers' linked with optimized DTLS libraries
+-- Target 'test_dtls_integration' linked with optimized DTLS libraries
+-- Building for 64 bit system
+-- Exceptions are not supported
+-- RTTI is not supported
+-- Found GSSAPI via pkg-config: gssapi_krb5
+-- Found libssh for CURL: /usr/lib/x86_64-linux-gnu/libssh.a
+-- Found nghttp2 for CURL: /usr/lib/x86_64-linux-gnu/libnghttp2.a
+-- Found zstd for CURL: /usr/lib/x86_64-linux-gnu/libzstd.a
+-- Found brotli for CURL: /usr/lib/x86_64-linux-gnu/libbrotlicommon.a, /usr/lib/x86_64-linux-gnu/libbrotlidec.a
+-- Enabling mbedTLS provider
+-- DTLS Provider Sources: platform/connection_dtls/MbedTlsProvider.cpp;platform/connection_dtls/DtlsProviderFactory.cpp
+-- DTLS Provider Libraries: MbedTLS::mbedtls;MbedTLS::mbedx509;MbedTLS::mbedcrypto
+-- friendly_example_client: Endiannes not set, defaulting to little endian
+-- libcoap built successfully. Library path: /mnt/d/Dev/Friendly-LwM2M-Client/examples/coap/libcoap/build
+-- Using example Firmware Updater
+-- 
+-- Friendly LwM2M Client Configuration:
+--   Version:          1.2.2
+--   Build type:       RelWithDebInfo
+--   C++ Standard:     17
+-- 
+-- Core Features:
+--   DTLS:             ON
+--   mbedTLS:          ON
+--   TinyDTLS:         OFF
+-- 
+-- DTLS Multi-Provider (v1.2.2):
+--   TinyDTLS Provider: OFF
+--   mbedTLS Provider:  ON (DEFAULT)
+--   OpenSSL Provider:  OFF
+--   wolfSSL Provider:  OFF
+--   Default Provider:  mbedtls
+--   Static Linking:    ON
+--   Delta FOTA:       ON
+--   BSDIFF:           ON
+--   VCDIFF:           ON
+--   Courgette:        ON
+--   Compression:      ON
+--   Rollback:         ON
+--   MQTT Transport:   ON
+--   Edge AI:          ON
+--   TensorFlow Lite:  ON
+--   ONNX Runtime:     ON
+-- 
+-- v1.2.0 Extended Features:
+--   OpenWRT Extended: ON
+--   LUCI Module:      ON
+--   Hotplug Handlers: ON
+--   LAN Config:       ON
+--   Routing Table:    ON
+--   VPN Config:       ON
+--   WAN Failover:     ON
+--   Multi-WAN Health: ON
+--   WiFi Client Mgmt: ON
+--   WiFi Channel Opt: ON
+--   Starlink:         ON
+--   Starlink gRPC:    ON
+-- 
+-- Platform Integrations:
+--   prpl Integration: OFF
+--   prpl EasyMesh:    OFF
+--   prpl Ambiorix:    OFF
+--   Matter/Thread:    ON
+--   Matter Bridge:    ON
+--   Thread BR:        ON
+--   Zigbee:           ON
+--   Zigbee EZSP:      ON
+--   Zigbee Z-Stack:   ON
+-- 
+-- Build options:
+--   Tests:            ON
+--   Examples:         ON
+--   Documentation:    ON
+--   Coverage:         OFF
+--   Sanitizers:       ON
+-- 
+-- Optional libraries found:
+--   BZip2:            TRUE
+--   LZMA:             TRUE
+--   Zstd:             TRUE
+--   Brotli:           TRUE
+-- 
+-- Configuring done (6.1s)
+-- Generating done (5.6s)
+-- Build files have been written to: /mnt/d/Dev/Friendly-LwM2M-Client/build
+[  6%] Built target test_dtls_integration
+[  7%] Built target test_dtls_providers
+[ 36%] Built target friendly_lwm2m
+[ 40%] Building CXX object CMakeFiles/test_rollback_manager.dir/test/test_rollback_manager.cpp.o
+[ 40%] Building CXX object CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o
+[ 40%] Building CXX object CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o
+[ 40%] Building CXX object CMakeFiles/test_firmware_update_object.dir/test/test_firmware_update_object.cpp.o
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_rollback_manager.cpp: In member function ‘virtual lwm2m::platform::PlatformResult lwm2m::firmware::test::MockPartitionManager::verifyPartition(lwm2m::platform::PartitionSlot, const std::vector<unsigned char>&)’:
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_rollback_manager.cpp:98:70: warning: unused parameter ‘slot’ [-Wunused-parameter]
+   98 |     platform::PlatformResult verifyPartition(platform::PartitionSlot slot,
+      |                                              ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+/mnt/d/Dev/Friendly-LwM2M-Client/test/test_rollback_manager.cpp:99:75: warning: unused parameter ‘expectedChecksum’ [-Wunused-parameter]
+   99 |                                               const std::vector<uint8_t>& expectedChecksum) override {
+      |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+[ 41%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/ConfigLoader.cpp.o
+[ 42%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/FirmwareUpdater/FirmwareUpdater.cpp.o
+[ 43%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/coap/block.c.o
+[ 44%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/coap/er-coap-13/er-coap-13.c.o
+[ 45%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/coap/transaction.c.o
+[ 45%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/bootstrap.c.o
+[ 46%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/discover.c.o
+[ 47%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/liblwm2m.c.o
+[ 48%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/list.c.o
+[ 49%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/management.c.o
+[ 50%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/objects.c.o
+[ 52%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/observe.c.o
+[ 52%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/objects/access_control.c.o
+[ 53%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/packet.c.o
+[ 54%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/registration.c.o
+[ 54%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/send.c.o
+[ 55%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/uri.c.o
+[ 56%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/core/utils.c.o
+[ 57%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/data/cbor.c.o
+[ 58%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/data/data.c.o
+[ 59%] Linking CXX executable test_blockwise_transfer
+[ 60%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/data/json.c.o
+[ 61%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/data/json_common.c.o
+[ 61%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/data/senml_cbor.c.o
+[ 62%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/data/senml_json.c.o
+[ 63%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/data/tlv.c.o
+[ 64%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborencoder.c.o
+[ 65%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborencoder_close_container_checked.c.o
+[ 66%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborencoder_float.c.o
+[ 67%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborerrorstrings.c.o
+[ 68%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborparser.c.o
+[ 69%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborparser_dup_string.c.o
+[ 70%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborparser_float.c.o
+[ 71%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborpretty.c.o
+[ 72%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborpretty_stdio.c.o
+[ 73%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cbortojson.c.o
+[ 74%] Linking CXX executable test_rollback_manager
+[ 74%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborvalidation.c.o
+[ 75%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/client/WppClient.cpp.o
+[ 76%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/platform/WppPlatform.cpp.o
+[ 77%] Linking CXX executable test_delta_algorithms
+[ 78%] Linking CXX executable test_firmware_update_object
+[ 79%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/platform/connection/WppConnection.cpp.o
+[ 80%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/WppRegistry.cpp.o
+[ 81%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/data_model/instance/Instance.cpp.o
+[ 82%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/data_model/object/Object.cpp.o
+[ 83%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/data_model/resource/Resource.cpp.o
+[ 84%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/data_model/resource/ResourceContainer.cpp.o
+[ 85%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/m_0_lwm2m_security/Lwm2mSecurity.cpp.o
+[ 86%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/m_1_lwm2m_server/Lwm2mServer.cpp.o
+[ 87%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/m_3_device/Device.cpp.o
+[ 88%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/o_2_lwm2m_access_control/Lwm2mAccessControl.cpp.o
+[ 89%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/o_3339_audio_clip/AudioClip.cpp.o
+[ 89%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/o_4_connectivity_monitoring/ConnectivityMonitoring.cpp.o
+[ 90%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/o_5_firmware_update/FirmwareUpdate.cpp.o
+[ 91%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/registry/objects/o_6_location/Location.cpp.o
+[ 92%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/utils/bindings/WppBindings.cpp.o
+[ 93%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/__/wpp/utils/task_queue/WppTaskQueue.cpp.o
+[ 93%] Built target test_rollback_manager
+[ 94%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/main.cpp.o
+[ 94%] Built target test_delta_algorithms
+[ 95%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/objects.cpp.o
+[ 95%] Built target test_blockwise_transfer
+[ 96%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/platform/Guard.cpp.o
+[ 97%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/platform/Platform.cpp.o
+[ 97%] Built target test_firmware_update_object
+[ 97%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/platform/connection_dtls/Connection_new.cpp.o
+[ 98%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/platform/connection_dtls/DtlsProviderFactory.cpp.o
+[ 99%] Building CXX object examples/CMakeFiles/friendly_example_client.dir/platform/connection_dtls/MbedTlsProvider.cpp.o
+[100%] Linking CXX executable friendly_example_client
+lto-wrapper: warning: using serial compilation of 7 LTRANS jobs
+lto-wrapper: note: see the ‘-flto’ option documentation for more information
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/json.c: In function ‘json_parse’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/json.c:631:36: warning: ‘size’ may be used uninitialized [-Wmaybe-uninitialized]
+  631 |                     for (i = 0 ; i < size && resP == NULL; i++)
+      |                                    ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/json.c:556:13: note: ‘size’ was declared here
+  556 |         int size;
+      |             ^
+In function ‘senml_json_parse’,
+    inlined from ‘lwm2m_data_parse’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/data.c:856:16:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/senml_json.c:713:32: warning: ‘size’ may be used uninitialized [-Wmaybe-uninitialized]
+  713 |                 for (i = 0 ; i < size && resP == NULL; i++)
+      |                                ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/senml_json.c: In function ‘lwm2m_data_parse’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/data/senml_json.c:673:9: note: ‘size’ was declared here
+  673 |     int size;
+      |         ^
+In function ‘coap_block2_handler’,
+    inlined from ‘lwm2m_handle_packet’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:798:43,
+    inlined from ‘handlePacketsInQueue’ at /mnt/d/Dev/Friendly-LwM2M-Client/wpp/platform/connection/WppConnection.cpp:69:23,
+    inlined from ‘loop’ at /mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.cpp:113:36:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/coap/block.c:345:12: warning: ‘block2_num’ may be used uninitialized [-Wmaybe-uninitialized]
+  345 |     return prv_coap_block_handler(pBlockDataHead, identifier, BLOCK_2, buffer, length, blockSize, blockNum, blockMore, outputBuffer, outputLength);
+      |            ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c: In member function ‘loop’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:786:34: note: ‘block2_num’ was declared here
+  786 |                         uint32_t block2_num;
+      |                                  ^
+In function ‘lwm2m_handle_packet’,
+    inlined from ‘handlePacketsInQueue’ at /mnt/d/Dev/Friendly-LwM2M-Client/wpp/platform/connection/WppConnection.cpp:69:23,
+    inlined from ‘loop’ at /mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.cpp:113:36:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:798:43: warning: ‘block2_more’ may be used uninitialized [-Wmaybe-uninitialized]
+  798 |                         coap_error_code = coap_block2_handler(&peerP->blockData, message->mid, message->payload, message->payload_len, block2_size, block2_num, block2_more, &complete_buffer, &complete_buffer_size);
+      |                                           ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c: In member function ‘loop’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:787:34: note: ‘block2_more’ was declared here
+  787 |                         uint8_t  block2_more;
+      |                                  ^
+In function ‘lwm2m_handle_packet’,
+    inlined from ‘handlePacketsInQueue’ at /mnt/d/Dev/Friendly-LwM2M-Client/wpp/platform/connection/WppConnection.cpp:69:23,
+    inlined from ‘loop’ at /mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.cpp:113:36:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:794:25: warning: ‘block2_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  794 |                         LOG_ARG("Blockwise: block2 response NUM %u (SZX %u/ SZX Max%u) MORE %u", block2_num,
+      |                         ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c: In member function ‘loop’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:788:34: note: ‘block2_size’ was declared here
+  788 |                         uint16_t block2_size;
+      |                                  ^
+In function ‘lwm2m_handle_packet’,
+    inlined from ‘handlePacketsInQueue’ at /mnt/d/Dev/Friendly-LwM2M-Client/wpp/platform/connection/WppConnection.cpp:69:23,
+    inlined from ‘loop’ at /mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.cpp:113:36:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:583:21: warning: ‘block1_num’ may be used uninitialized [-Wmaybe-uninitialized]
+  583 |                     LOG_ARG("Blockwise: block1 request NUM %u (SZX %u/ SZX Max%u) MORE %u", block1_num, block1_size,
+      |                     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c: In member function ‘loop’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:575:30: note: ‘block1_num’ was declared here
+  575 |                     uint32_t block1_num;
+      |                              ^
+In function ‘lwm2m_handle_packet’,
+    inlined from ‘handlePacketsInQueue’ at /mnt/d/Dev/Friendly-LwM2M-Client/wpp/platform/connection/WppConnection.cpp:69:23,
+    inlined from ‘loop’ at /mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.cpp:113:36:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:583:21: warning: ‘block1_more’ may be used uninitialized [-Wmaybe-uninitialized]
+  583 |                     LOG_ARG("Blockwise: block1 request NUM %u (SZX %u/ SZX Max%u) MORE %u", block1_num, block1_size,
+      |                     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c: In member function ‘loop’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:576:30: note: ‘block1_more’ was declared here
+  576 |                     uint8_t  block1_more;
+      |                              ^
+In function ‘lwm2m_handle_packet’,
+    inlined from ‘handlePacketsInQueue’ at /mnt/d/Dev/Friendly-LwM2M-Client/wpp/platform/connection/WppConnection.cpp:69:23,
+    inlined from ‘loop’ at /mnt/d/Dev/Friendly-LwM2M-Client/wpp/client/WppClient.cpp:113:36:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:583:21: warning: ‘block1_size’ may be used uninitialized [-Wmaybe-uninitialized]
+  583 |                     LOG_ARG("Blockwise: block1 request NUM %u (SZX %u/ SZX Max%u) MORE %u", block1_num, block1_size,
+      |                     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c: In member function ‘loop’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:577:30: note: ‘block1_size’ was declared here
+  577 |                     uint16_t block1_size;
+      |                              ^
+In function ‘observe_handleRequest’,
+    inlined from ‘prv_handle_observe_operation’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/management.c:298:14,
+    inlined from ‘dm_handleRequest’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/management.c:435:18,
+    inlined from ‘handle_request.constprop’ at /mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/packet.c:168:22:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/observe.c:181:5: warning: ‘count’ may be used uninitialized [-Wmaybe-uninitialized]
+  181 |     switch (count)
+      |     ^
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/observe.c: In function ‘handle_request.constprop’:
+/mnt/d/Dev/Friendly-LwM2M-Client/2305-Wakaama/core/observe.c:172:14: note: ‘count’ was declared here
+  172 |     uint32_t count;
+      |              ^
+Creating binary file
+Creating hex file
+Compiled program size
+   text	   data	    bss	    dec	    hex	filename
+7701414	 453496	  76328	8231238	 7d9946	/mnt/d/Dev/Friendly-LwM2M-Client/build/examples/friendly_example_client
+[100%] Built target friendly_example_client

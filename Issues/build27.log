@@ -1,0 +1,48 @@
+error: Your local changes to the following files would be overwritten by checkout:
+  396 |         WPP_LOGD(TAG, "HTTP probe timeout or error");
+  523 |         WPP_LOGD(TAG, "TCP probe timeout or error");
+[ 60%] Building C object examples/CMakeFiles/friendly_example_client.dir/__/2305-Wakaama/libs/tinycbor/src/cborerrorstrings.c.o
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp:25:10: fatal error: json/json.h: No such file or directory
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:457: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o] Error 1
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp:145:43: error: cannot convert ‘wpp::ZigbeeGroup::resourcesCreate()::<lambda(const wpp::INT_T&)>’ to ‘const wpp::Resource::DATA_VERIFIER_T&’ {aka ‘const std::variant<std::function<bool(const long int&)>, std::function<bool(const long unsigned int&)>, std::function<bool(const double&)>, std::function<bool(const std::vector<unsigned char, std::allocator<unsigned char> >&)>, std::function<bool(const bool&)>, std::function<bool(const wpp::OBJ_LINK_T&)>, std::function<bool(const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)>, std::function<bool(const std::function<bool(wpp::Instance&, short unsigned int, const std::vector<unsigned char, std::allocator<unsigned char> >&)>&)> >&’}
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp:166:48: error: cannot convert ‘wpp::ZigbeeGroup::resourcesCreate()::<lambda(const wpp::INT_T&)>’ to ‘const wpp::Resource::DATA_VERIFIER_T&’ {aka ‘const std::variant<std::function<bool(const long int&)>, std::function<bool(const long unsigned int&)>, std::function<bool(const double&)>, std::function<bool(const std::vector<unsigned char, std::allocator<unsigned char> >&)>, std::function<bool(const bool&)>, std::function<bool(const wpp::OBJ_LINK_T&)>, std::function<bool(const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)>, std::function<bool(const std::function<bool(wpp::Instance&, short unsigned int, const std::vector<unsigned char, std::allocator<unsigned char> >&)>&)> >&’}
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp:181:12: error: return-statement with a value, in function returning ‘void’ [-fpermissive]
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp:188:6: error: no declaration matches ‘bool wpp::ZigbeeGroup::validate(wpp::ID_T, const void*, size_t)’
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp:234:44: error: request for member ‘toInt’ in ‘(& self)->wpp::ZigbeeGroup::<anonymous>.wpp::Instance::<anonymous>.wpp::ResourceContainer::resource(((int)((wpp::ID_T)wpp::ZigbeeGroup::GROUP_ID_0)))’, which is of pointer type ‘wpp::Resource*’ (maybe you meant to use ‘->’ ?)
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp:237:72: error: request for member ‘toInt’ in ‘(& self)->wpp::ZigbeeGroup::<anonymous>.wpp::Instance::<anonymous>.wpp::ResourceContainer::resource(((int)((wpp::ID_T)wpp::ZigbeeGroup::GROUP_ID_0)))’, which is of pointer type ‘wpp::Resource*’ (maybe you meant to use ‘->’ ?)
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp:238:57: error: request for member ‘toString’ in ‘(& self)->wpp::ZigbeeGroup::<anonymous>.wpp::Instance::<anonymous>.wpp::ResourceContainer::resource(((int)((wpp::ID_T)wpp::ZigbeeGroup::GROUP_NAME_1)))’, which is of pointer type ‘wpp::Resource*’ (maybe you meant to use ‘->’ ?)
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp:283:72: error: request for member ‘toInt’ in ‘(& self)->wpp::ZigbeeGroup::<anonymous>.wpp::Instance::<anonymous>.wpp::ResourceContainer::resource(((int)((wpp::ID_T)wpp::ZigbeeGroup::GROUP_ID_0)))’, which is of pointer type ‘wpp::Resource*’ (maybe you meant to use ‘->’ ?)
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp:315:72: error: request for member ‘toInt’ in ‘(& self)->wpp::ZigbeeGroup::<anonymous>.wpp::Instance::<anonymous>.wpp::ResourceContainer::resource(((int)((wpp::ID_T)wpp::ZigbeeGroup::GROUP_ID_0)))’, which is of pointer type ‘wpp::Resource*’ (maybe you meant to use ‘->’ ?)
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp:345:72: error: request for member ‘toInt’ in ‘(& self)->wpp::ZigbeeGroup::<anonymous>.wpp::Instance::<anonymous>.wpp::ResourceContainer::resource(((int)((wpp::ID_T)wpp::ZigbeeGroup::GROUP_ID_0)))’, which is of pointer type ‘wpp::Resource*’ (maybe you meant to use ‘->’ ?)
+/mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp:357:57: error: request for member ‘toInt’ in ‘(& self)->wpp::ZigbeeGroup::<anonymous>.wpp::Instance::<anonymous>.wpp::ResourceContainer::resource(((int)((wpp::ID_T)wpp::ZigbeeGroup::SCENE_COUNT_4)))’, which is of pointer type ‘wpp::Resource*’ (maybe you meant to use ‘->’ ?)
+make[2]: *** [CMakeFiles/friendly_lwm2m.dir/build.make:471: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1226: CMakeFiles/friendly_lwm2m.dir/all] Error 2
+  798 |                         coap_error_code = coap_block2_handler(&peerP->blockData, message->mid, message->payload, message->payload_len, block2_size, block2_num, block2_more, &complete_buffer, &complete_buffer_size);
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libssh.a(gssapi.c.o): in function `ssh_gssapi_log_error':
+/usr/bin/ld: (.text+0x12f): undefined reference to `ZSTD_isError'
+/usr/bin/ld: (.text+0x3d5): undefined reference to `BrotliDecoderGetErrorCode'
+/usr/bin/ld: (.text+0x367): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x8de): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0xf7d): undefined reference to `nghttp2_http2_strerror'
+(.text+0x129d): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x204e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2074): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2434): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x26d3): undefined reference to `nghttp2_session_callbacks_set_error_callback'
+/usr/bin/ld: (.text+0x2a23): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a5f): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x2a8b): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x391e): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x1a0): undefined reference to `nghttp2_strerror'
+(.text+0x499): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x5fd): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0xd0f): undefined reference to `nghttp2_http2_strerror'
+/usr/bin/ld: (.text+0x2e62): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x3101): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x31b2): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: (.text+0x31d1): undefined reference to `nghttp2_strerror'
+/usr/bin/ld: /usr/lib/x86_64-linux-gnu/libcurl.a(libcurl_la-curl_gssapi.o): in function `display_gss_error':
+collect2: error: ld returned 1 exit status
+make[2]: *** [examples/CMakeFiles/friendly_example_client.dir/build.make:1070: examples/friendly_example_client] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1492: examples/CMakeFiles/friendly_example_client.dir/all] Error 2
+make: *** [Makefile:166: all] Error 2
