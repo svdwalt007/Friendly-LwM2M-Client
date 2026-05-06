@@ -28,6 +28,7 @@
 #include <cstdint>
 #include <functional>
 #include <chrono>
+#include <optional>
 
 namespace lwm2m {
 namespace platform {

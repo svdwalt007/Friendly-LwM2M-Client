@@ -847,7 +847,7 @@ std::vector<NetworkInterface> PrplSystemManager::getNetworkInterfaces() {
     }
 
     // Query TR-181 Device.IP.Interface
-    auto ipInterfaces = dataModel_->getIPInterfaces();
+    auto ipInterfaces = dataModel_->getIPInterfacesMap();
 
     for (const auto& [path, data] : ipInterfaces) {
         NetworkInterface iface;

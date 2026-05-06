@@ -18,6 +18,7 @@
 #include <memory>
 #include <map>
 #include <cstdint>
+#include <cstring>
 #include <functional>
 #include <mutex>
 #include <fstream>

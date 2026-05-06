@@ -99,6 +99,10 @@ struct CommissioningParams {
     uint32_t setupPIN;
     uint16_t discriminator;
 
+    // Device identification (optional, extracted from setup payload if not provided)
+    VendorId vendorId;
+    ProductId productId;
+
     // BLE parameters
     std::string bleDeviceName;
     uint64_t bleDeviceId;

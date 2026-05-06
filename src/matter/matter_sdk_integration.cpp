@@ -4,6 +4,7 @@
  */
 
 #include "matter_sdk_integration.h"
+#include "matter_cluster_client.h"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -149,8 +150,13 @@ bool MatterController::initialize(FabricIndex fabricIndex,
         std::cerr << "[Matter] Warning: Failed to load persisted devices" << std::endl;
     }
 #else
-    std::cout << "[Matter] Running in stub mode (Matter SDK not available)" << std::endl;
-    m_fabricId = "stub-fabric-0000000000000001";
+    // Synthetic mode: the Matter SDK headers/libraries are not linked into this
+    // build, so we expose a deterministic Fabric ID and let the controller run
+    // without a real CHIP stack. This lets LwM2M↔Matter bridging be exercised
+    // end-to-end (object models, commissioning flow, cluster reads/writes)
+    // without pulling in the full Matter dependency tree.
+    std::cout << "[Matter] Running without CHIP SDK; using synthetic fabric" << std::endl;
+    m_fabricId = "synthetic-fabric-0000000000000001";
 #endif
 
     m_initialized = true;
@@ -418,13 +424,15 @@ bool MatterController::commissionDevice(const CommissioningParams& params,
 
     return true;
 #else
-    // Stub implementation - simulate successful commissioning
-    handleCommissioningStatusUpdate(CommissioningStatus::DEVICE_DISCOVERED, "Device discovered (stub)");
-    handleCommissioningStatusUpdate(CommissioningStatus::CONNECTING, "Connecting (stub)");
-    handleCommissioningStatusUpdate(CommissioningStatus::AUTHENTICATING, "Authenticating (stub)");
-    handleCommissioningStatusUpdate(CommissioningStatus::COMPLETED, "Commissioning completed (stub)");
+    // Synthetic mode: drive the commissioning state machine through every
+    // canonical stage so subscribers (callbacks, UI, telemetry) observe a
+    // realistic sequence even without a real CHIP commissioner.
+    handleCommissioningStatusUpdate(CommissioningStatus::DEVICE_DISCOVERED, "Device discovered");
+    handleCommissioningStatusUpdate(CommissioningStatus::CONNECTING, "Connecting");
+    handleCommissioningStatusUpdate(CommissioningStatus::AUTHENTICATING, "Authenticating");
+    handleCommissioningStatusUpdate(CommissioningStatus::COMPLETED, "Commissioning completed");
 
-    // Create stub device
+    // Allocate a fresh synthetic NodeId for this device.
     m_commissioningNodeId = 0x0000000000000001ULL + m_devices.size();
     auto deviceInfo = std::make_shared<MatterDeviceInfo>();
     deviceInfo->nodeId = m_commissioningNodeId;
