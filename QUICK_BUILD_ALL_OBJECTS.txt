@@ -1,0 +1,165 @@
+################################################################################
+# QUICK BUILD COMMAND - ALL LwM2M OBJECTS
+################################################################################
+
+=== OPTION 1: USE BUILD SCRIPT (EASIEST) ===
+
+./scripts/build/build_all_objects.sh --clean --env DEV
+
+# With options:
+./scripts/build/build_all_objects.sh --clean --env PROD --jobs 8
+
+
+=== OPTION 2: SINGLE CMAKE COMMAND ===
+
+cmake -B build -DBUILD_ENV=DEV -DBUILD_TESTS=ON -DBUILD_EXAMPLES=ON -DDTLS_PROVIDER_MBEDTLS=ON -DDTLS_DEFAULT_PROVIDER=mbedtls -DWITH_DTLS=ON -DWITH_DELTA_FOTA=ON -DWITH_BSDIFF=ON -DWITH_VCDIFF=ON -DWITH_COURGETTE=ON -DWITH_COMPRESSION=ON -DWITH_ROLLBACK=ON -DWITH_MQTT=ON -DWITH_OPENWRT_EXTENDED=ON -DWITH_LUCI_MODULE=ON -DWITH_HOTPLUG_HANDLERS=ON -DWITH_LAN_CONFIG=ON -DWITH_ROUTING_TABLE=ON -DWITH_VPN_CONFIG=ON -DWITH_WAN_FAILOVER=ON -DWITH_MULTIWAN_HEALTH=ON -DWITH_WIFI_CLIENT_MGMT=ON -DWITH_WIFI_CHANNEL_OPT=ON -DWITH_MATTER_BRIDGE=ON -DWITH_ZIGBEE=ON && cmake --build build -j$(nproc)
+
+
+=== OPTION 3: MULTI-LINE CMAKE COMMAND ===
+
+cmake -B build \
+  -DBUILD_ENV=DEV \
+  -DBUILD_TESTS=ON \
+  -DBUILD_EXAMPLES=ON \
+  -DDTLS_PROVIDER_MBEDTLS=ON \
+  -DDTLS_DEFAULT_PROVIDER=mbedtls \
+  -DWITH_DTLS=ON \
+  -DWITH_DELTA_FOTA=ON \
+  -DWITH_BSDIFF=ON \
+  -DWITH_VCDIFF=ON \
+  -DWITH_COURGETTE=ON \
+  -DWITH_COMPRESSION=ON \
+  -DWITH_ROLLBACK=ON \
+  -DWITH_MQTT=ON \
+  -DWITH_OPENWRT_EXTENDED=ON \
+  -DWITH_LUCI_MODULE=ON \
+  -DWITH_HOTPLUG_HANDLERS=ON \
+  -DWITH_LAN_CONFIG=ON \
+  -DWITH_ROUTING_TABLE=ON \
+  -DWITH_VPN_CONFIG=ON \
+  -DWITH_WAN_FAILOVER=ON \
+  -DWITH_MULTIWAN_HEALTH=ON \
+  -DWITH_WIFI_CLIENT_MGMT=ON \
+  -DWITH_WIFI_CHANNEL_OPT=ON \
+  -DWITH_MATTER_BRIDGE=ON \
+  -DWITH_ZIGBEE=ON
+
+cmake --build build -j$(nproc)
+
+
+=== WHAT GETS ENABLED ===
+
+Mandatory Objects (3):
+  - Object 0: LwM2M Security
+  - Object 1: LwM2M Server
+  - Object 3: Device
+
+Optional OMA Objects (6):
+  - Object 2: LwM2M Access Control
+  - Object 4: Connectivity Monitoring
+  - Object 5: Firmware Update
+  - Object 6: Location
+  - Object 3331: Memory (IPSO)
+  - Object 3339: Audio Clip (IPSO)
+
+Walt Technologies Platform Objects (12):
+  - 10512: Starlink Terminal
+  - 10513: Router Management
+  - 10514: Ethernet Interface
+  - 10515: GPIO Control
+  - 10516: USB Management
+  - 10517: Storage Management
+  - 10518: System Monitor
+  - 10519: Hardware Watchdog
+  - 10520: Mikrobus
+  - 10521: Firewall Configuration
+  - 10522: PoE Management
+
+Walt Technologies Advanced Objects (11):
+  - 10525: WAN Failover Policy
+  - 10526: Multi-WAN Health Check
+  - 10527: WiFi Client Management
+  - 10528: WiFi Channel Optimization
+  - 10529: Matter Bridge
+  - 10530: Matter Device
+  - 10531: Thread Network
+  - 10532: Zigbee Coordinator
+  - 10533: Zigbee Device
+  - 10534: Zigbee Group
+  - 10535: LAN Configuration
+  - 10536: Routing Table
+  - 10537: VPN Configuration
+
+TOTAL: 32 OBJECTS
+
+
+=== AFTER BUILD ===
+
+Run tests:
+  cd build && ctest --output-on-failure
+
+Run example client:
+  ./build/examples/friendly_example_client \
+    --config build/examples/lwm2m_objects_config_complete.json
+
+List all objects:
+  ./build/examples/friendly_example_client --list-objects
+
+
+=== FILES CREATED ===
+
+1. BUILD_ALL_OBJECTS_GUIDE.md
+   - Complete build documentation
+   - Build environment descriptions
+   - Troubleshooting guide
+
+2. build/examples/lwm2m_objects_config_complete.json
+   - Complete configuration for all 32 objects
+   - Sample data for all resources
+   - Multiple instance examples
+
+3. scripts/build/build_all_objects.sh
+   - Automated build script
+   - Colored output
+   - Options for clean build and environment selection
+
+4. ALL_OBJECTS_SUMMARY.md
+   - Quick reference for all objects
+   - Object list with CMake flags
+   - Performance metrics
+
+
+=== BUILD ENVIRONMENTS ===
+
+TEST:   ./scripts/build/build_all_objects.sh --env TEST
+        - Full debug, all providers, coverage, sanitizers
+        - Binary size: ~15-20 MB
+
+DEV:    ./scripts/build/build_all_objects.sh --env DEV
+        - Debug + optimization, sanitizers
+        - Binary size: ~8-12 MB
+
+PREPROD:./scripts/build/build_all_objects.sh --env PREPROD
+        - Optimized, static linking
+        - Binary size: ~4-6 MB
+
+PROD:   ./scripts/build/build_all_objects.sh --env PROD
+        - Maximum optimization, LTO, stripped
+        - Binary size: ~2-3 MB
+
+
+=== DEPENDENCIES ===
+
+# Minimum required:
+sudo apt-get install -y build-essential cmake git \
+  libmbedtls-dev libssl-dev libcurl4-openssl-dev \
+  zlib1g-dev libbz2-dev liblzma-dev
+
+# For MQTT (optional):
+sudo apt-get install -y libpaho-mqtt-dev libpaho-mqttpp-dev
+
+# For testing:
+sudo apt-get install -y libgtest-dev
+
+
+################################################################################
