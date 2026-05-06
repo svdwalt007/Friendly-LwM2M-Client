@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <fcntl.h>
+#include <cstring>
+#include <cerrno>
 
 /* --------------- General DTLS handler callbacks--------------- */
 
@@ -109,14 +111,22 @@ int read_from_peer(dtls_context_t *ctx, session_t *session, uint8 *data, size_t 
 }
 
 static dtls_handler_t _dtlsClb = {
-    .write = send_to_peer,
-    .read  = read_from_peer,
-    .event = NULL,
+    send_to_peer,       // write
+    read_from_peer,     // read
+    NULL,               // event
+    NULL,               // get_user_parameters (use default parameters)
     #if DTLS_WITH_PSK
-    .get_psk_info = get_psk_info,
+    get_psk_info        // get_psk_info
+    #ifdef DTLS_ECC
+    ,NULL,              // get_ecdsa_key (not used with PSK)
+    NULL                // verify_ecdsa_key (not used with PSK)
+    #endif
     #elif DTLS_WITH_RPK
-    .get_ecdsa_key = get_ecdsa_key,
-    .verify_ecdsa_key = verify_ecdsa_key
+    NULL                // get_psk_info (not used with RPK)
+    #ifdef DTLS_ECC
+    ,get_ecdsa_key,     // get_ecdsa_key
+    verify_ecdsa_key    // verify_ecdsa_key
+    #endif
     #endif
 };
 
@@ -155,7 +165,15 @@ Connection::SESSION_T Connection::connect(Lwm2mSecurity& security) {
     hints.ai_family = _addressFamily;
     hints.ai_socktype = SOCK_DGRAM;
 
-    if (getaddrinfo(host.c_str(), port.c_str(), &hints, &servinfo) || !servinfo) return NULL;
+    int gai_result = getaddrinfo(host.c_str(), port.c_str(), &hints, &servinfo);
+    if (gai_result != 0 || !servinfo) {
+        if (gai_result != 0) {
+            cerr << "Connection: getaddrinfo failed for " << host << ":" << port << " - " << gai_strerror(gai_result) << endl;
+        } else {
+            cerr << "Connection: getaddrinfo returned NULL servinfo for " << host << ":" << port << endl;
+        }
+        return NULL;
+    }
 
     // we test the various addresses
     for(s = -1, p = servinfo; p != NULL && s == -1 ; p = p->ai_next) {
@@ -164,9 +182,14 @@ Connection::SESSION_T Connection::connect(Lwm2mSecurity& security) {
             sa = p->ai_addr;
             sl = p->ai_addrlen;
             if (-1 == ::connect(s, p->ai_addr, p->ai_addrlen)) {
+                cerr << "Connection: connect() failed for " << host << ":" << port << " - " << strerror(errno) << endl;
                 close(s);
                 s = -1;
+            } else {
+                cout << "Connection: socket connected successfully to " << host << ":" << port << endl;
             }
+        } else {
+            cerr << "Connection: socket() creation failed - " << strerror(errno) << endl;
         }
     }
 
@@ -317,9 +340,8 @@ bool Connection::openSocket() {
 Connection::dtls_connection_t * Connection::createNewConn(sockaddr * addr, size_t addrLen) {
     dtls_connection_t * conn;
 
-    conn = new dtls_connection_t;
+    conn = new dtls_connection_t();  // Value initialization instead of memset
     if (conn) {
-        memset(conn, 0, sizeof(dtls_connection_t));
         conn->sock = _connFd;
         memcpy(&(conn->addr), addr, addrLen);
         conn->addrLen = addrLen;
@@ -515,3 +537,84 @@ string Connection::uriToHost(string uri) {
 
     return uri.substr(start, end-start);
 }
+
+#if DTLS_CID
+/**
+ * Check if Connection ID (CID) is negotiated for a session.
+ */
+bool Connection::isCidNegotiated(SESSION_T session) {
+    dtls_connection_t *conn = (dtls_connection_t *)session;
+    if (!conn || !conn->dtlsContext) {
+        return false;
+    }
+
+    dtls_peer_t *peer = dtls_get_peer(conn->dtlsContext, conn->dtlsSession);
+    if (!peer) {
+        return false;
+    }
+
+    // TODO: Update to match current TinyDTLS CID API
+    // The CID implementation in TinyDTLS has changed - these fields no longer
+    // exist directly on dtls_peer_t. CID info is now in security_params.
+    // For now, return false as CID support needs API update.
+    (void)peer;  // Suppress unused variable warning
+    return false;  // Stub - needs TinyDTLS CID API update
+}
+
+/**
+ * Get the CID version being used.
+ */
+int Connection::getCidVersion(SESSION_T session) {
+    dtls_connection_t *conn = (dtls_connection_t *)session;
+    if (!conn || !conn->dtlsContext) {
+        return 0;
+    }
+
+    dtls_peer_t *peer = dtls_get_peer(conn->dtlsContext, conn->dtlsSession);
+    if (!peer) {
+        return 0;
+    }
+
+    // TODO: Update to match current TinyDTLS CID API
+    (void)peer;  // Suppress unused variable warning
+    return 0;  // Stub - needs TinyDTLS CID API update
+}
+
+/**
+ * Get our CID length for this session.
+ */
+int Connection::getOurCidLength(SESSION_T session) {
+    dtls_connection_t *conn = (dtls_connection_t *)session;
+    if (!conn || !conn->dtlsContext) {
+        return 0;
+    }
+
+    dtls_peer_t *peer = dtls_get_peer(conn->dtlsContext, conn->dtlsSession);
+    if (!peer) {
+        return 0;
+    }
+
+    // TODO: Update to match current TinyDTLS CID API
+    (void)peer;  // Suppress unused variable warning
+    return 0;  // Stub - needs TinyDTLS CID API update
+}
+
+/**
+ * Get peer's CID length for this session.
+ */
+int Connection::getPeerCidLength(SESSION_T session) {
+    dtls_connection_t *conn = (dtls_connection_t *)session;
+    if (!conn || !conn->dtlsContext) {
+        return 0;
+    }
+
+    dtls_peer_t *peer = dtls_get_peer(conn->dtlsContext, conn->dtlsSession);
+    if (!peer) {
+        return 0;
+    }
+
+    // TODO: Update to match current TinyDTLS CID API
+    (void)peer;  // Suppress unused variable warning
+    return 0;  // Stub - needs TinyDTLS CID API update
+}
+#endif /* DTLS_CID */

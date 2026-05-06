@@ -5,12 +5,18 @@
 #include "WppConnection.h"
 #include "WppRegistry.h"
 
+#ifdef DTLS_TINYDTLS
 extern "C" {
+// Suppress pedantic warnings from tinydtls headers (flexible array members)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 #include "tinydtls.h"
 #include "dtls.h"
+#pragma GCC diagnostic pop
 // min defined as macro in numeric.h that conflicts with std::min
 #undef min
 }
+#endif
 
 using namespace std;
 using namespace wpp;
@@ -52,6 +58,36 @@ public:
 	bool sendPacket(const Packet &packet) override;
 
     void loop();
+
+#if DTLS_CID
+    /**
+     * Check if Connection ID (CID) is negotiated for a session.
+     * @param session The session to check
+     * @return true if CID is negotiated, false otherwise
+     */
+    bool isCidNegotiated(SESSION_T session);
+
+    /**
+     * Get the CID version being used (1=draft/CID53, 2=RFC9146/CID54).
+     * @param session The session to query
+     * @return CID version or 0 if not negotiated
+     */
+    int getCidVersion(SESSION_T session);
+
+    /**
+     * Get our CID length for this session.
+     * @param session The session to query
+     * @return CID length in bytes (0-8)
+     */
+    int getOurCidLength(SESSION_T session);
+
+    /**
+     * Get peer's CID length for this session.
+     * @param session The session to query
+     * @return CID length in bytes (0-8)
+     */
+    int getPeerCidLength(SESSION_T session);
+#endif /* DTLS_CID */
 
 private: 
     bool openSocket();
