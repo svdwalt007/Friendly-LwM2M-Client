@@ -17,7 +17,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -flto")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -flto")
 
 # Main comiler options
-add_compile_options(    
+add_compile_options(
     -Waggregate-return
     -Wall
     -Wcast-align
@@ -31,14 +31,25 @@ add_compile_options(
     -Wno-unused-parameter
     # Too many false positives
     -Wno-uninitialized
-    # Allow usage ##__VA_ARGS__ in macros
-    -Wno-gnu-zero-variadic-macro-arguments
-    -pedantic
+    # NOTE: -pedantic is NOT used because WPP logging macros use GNU extensions (##__VA_ARGS__)
     # Turn (most) warnings into errors
     -Werror
     # Disabled because of existing, non-trivially fixable code
     -Wno-error=cast-align
 )
+
+# Compiler-specific options for WPP logging macro compatibility
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    add_compile_options(
+        # Allow usage ##__VA_ARGS__ in macros
+        -Wno-gnu-zero-variadic-macro-arguments
+    )
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    add_compile_options(
+        # Allow GNU extension in variadic macros (needed for WPP logging)
+        -Wno-variadic-macros
+    )
+endif()
 
 # Build for system type
 if (WPP_BUILD_FOR_64_BIT)
@@ -51,21 +62,21 @@ else()
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -m32")
 endif()
 
-# Exceptions comiler options
+# Exceptions comiler options (C++ only)
 if (WPP_BUILD_WITH_EXCEPTIONS)
     message(STATUS "Exceptions are supported")
-    add_compile_options(-fexceptions)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-fexceptions>)
 else()
     message(STATUS "Exceptions are not supported")
-    add_compile_options(-fno-exceptions)
-    add_compile_options(-fno-asynchronous-unwind-tables)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-fno-asynchronous-unwind-tables>)
 endif()
 
-# RTTI comiler options
+# RTTI comiler options (C++ only)
 if (WPP_BUILD_WITH_RTTI)
     message(STATUS "RTTI is supported")
-    add_compile_options(-frtti)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-frtti>)
 else()
     message(STATUS "RTTI is not supported")
-    add_compile_options(-fno-rtti)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>)
 endif()
