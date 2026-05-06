@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1600" width="1400" height="1600">
+  <defs>
+    <style>
+      .title { font: bold 28px sans-serif; fill: #1a1a1a; }
+      .subtitle { font: bold 18px sans-serif; fill: #2c3e50; }
+      .label { font: 14px sans-serif; fill: #2c3e50; }
+      .small-label { font: 12px sans-serif; fill: #555; }
+      .tech { font: italic 11px sans-serif; fill: #666; }
+
+      .layer-box { fill: #ecf0f1; stroke: #34495e; stroke-width: 2; }
+      .component-box { fill: #fff; stroke: #3498db; stroke-width: 2; rx: 5; }
+      .security-box { fill: #ffe8e8; stroke: #e74c3c; stroke-width: 2; rx: 5; }
+      .transport-box { fill: #e8f4ff; stroke: #3498db; stroke-width: 2; rx: 5; }
+      .platform-box { fill: #e8ffe8; stroke: #27ae60; stroke-width: 2; rx: 5; }
+      .external-box { fill: #fff5e8; stroke: #f39c12; stroke-width: 2; rx: 5; }
+      .core-box { fill: #f8e8ff; stroke: #9b59b6; stroke-width: 2; rx: 5; }
+
+      .arrow { stroke: #34495e; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .data-arrow { stroke: #3498db; stroke-width: 2; fill: none; marker-end: url(#arrowhead-blue); stroke-dasharray: 5,3; }
+      .secure-arrow { stroke: #e74c3c; stroke-width: 2; fill: none; marker-end: url(#arrowhead-red); }
+    </style>
+
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#34495e" />
+    </marker>
+    <marker id="arrowhead-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#3498db" />
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#e74c3c" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="700" y="40" text-anchor="middle" class="title">Friendly LwM2M Client Architecture</text>
+  <text x="700" y="65" text-anchor="middle" class="small-label">Multi-DTLS Provider | Delta FOTA | MQTT Transport | Edge AI | Platform Abstraction</text>
+
+  <!-- Layer 1: External Infrastructure -->
+  <rect x="50" y="90" width="1300" height="120" class="layer-box"/>
+  <text x="70" y="115" class="subtitle">External Infrastructure</text>
+
+  <rect x="80" y="130" width="180" height="60" class="external-box"/>
+  <text x="170" y="155" text-anchor="middle" class="label">LwM2M Server</text>
+  <text x="170" y="175" text-anchor="middle" class="small-label">CoAP/DTLS, Bootstrap</text>
+
+  <rect x="280" y="130" width="180" height="60" class="external-box"/>
+  <text x="370" y="155" text-anchor="middle" class="label">MQTT Broker</text>
+  <text x="370" y="175" text-anchor="middle" class="small-label">MQTT 3.1.1 / 5.0 + TLS</text>
+
+  <rect x="480" y="130" width="180" height="60" class="external-box"/>
+  <text x="570" y="155" text-anchor="middle" class="label">Firmware Server</text>
+  <text x="570" y="175" text-anchor="middle" class="small-label">Delta Packages</text>
+
+  <rect x="680" y="130" width="180" height="60" class="external-box"/>
+  <text x="770" y="155" text-anchor="middle" class="label">ML Model Store</text>
+  <text x="770" y="175" text-anchor="middle" class="small-label">TFLite/ONNX Models</text>
+
+  <rect x="880" y="130" width="180" height="60" class="external-box"/>
+  <text x="970" y="155" text-anchor="middle" class="label">Starlink Dish</text>
+  <text x="970" y="175" text-anchor="middle" class="small-label">gRPC API</text>
+
+  <rect x="1080" y="130" width="220" height="60" class="external-box"/>
+  <text x="1190" y="155" text-anchor="middle" class="label">Matter/Zigbee Devices</text>
+  <text x="1190" y="175" text-anchor="middle" class="small-label">Optional Bridges</text>
+
+  <!-- Layer 2: Security & Transport Layer -->
+  <rect x="50" y="230" width="1300" height="180" class="layer-box"/>
+  <text x="70" y="255" class="subtitle">Security & Transport Layer</text>
+
+  <!-- DTLS Providers -->
+  <rect x="80" y="270" width="260" height="120" class="security-box"/>
+  <text x="210" y="290" text-anchor="middle" class="label">DTLS Providers (4)</text>
+  <rect x="90" y="300" width="110" height="30" class="component-box"/>
+  <text x="145" y="320" text-anchor="middle" class="small-label">mbedTLS 3.6+</text>
+  <rect x="90" y="335" width="110" height="30" class="component-box"/>
+  <text x="145" y="355" text-anchor="middle" class="small-label">TinyDTLS 0.8.6</text>
+  <rect x="220" y="300" width="110" height="30" class="component-box"/>
+  <text x="275" y="320" text-anchor="middle" class="small-label">OpenSSL 3.x</text>
+  <rect x="220" y="335" width="110" height="30" class="component-box"/>
+  <text x="275" y="355" text-anchor="middle" class="small-label">wolfSSL 5.x</text>
+  <text x="210" y="383" text-anchor="middle" class="tech">PSK | RPK | X.509 | RFC 9146 CID</text>
+
+  <!-- Transport Options -->
+  <rect x="360" y="270" width="260" height="120" class="transport-box"/>
+  <text x="490" y="290" text-anchor="middle" class="label">Transport Layer</text>
+  <rect x="375" y="300" width="230" height="30" class="component-box"/>
+  <text x="490" y="320" text-anchor="middle" class="small-label">CoAP + Blockwise Transfer (RFC 7959)</text>
+  <rect x="375" y="335" width="230" height="30" class="component-box"/>
+  <text x="490" y="355" text-anchor="middle" class="small-label">MQTT Transport (OMA Section 8)</text>
+  <text x="490" y="383" text-anchor="middle" class="tech">Block: 16-2048B | MQTT QoS 0/1/2 | CBOR</text>
+
+  <!-- Connection Factory -->
+  <rect x="640" y="270" width="200" height="120" class="component-box"/>
+  <text x="740" y="290" text-anchor="middle" class="label">Connection Layer</text>
+  <text x="740" y="315" text-anchor="middle" class="small-label">DtlsProviderFactory</text>
+  <text x="740" y="335" text-anchor="middle" class="small-label">UDP Socket Management</text>
+  <text x="740" y="355" text-anchor="middle" class="small-label">Event Loop (100ms poll)</text>
+  <text x="740" y="383" text-anchor="middle" class="tech">Runtime provider selection</text>
+
+  <!-- Additional Transport Features -->
+  <rect x="860" y="270" width="200" height="120" class="transport-box"/>
+  <text x="960" y="290" text-anchor="middle" class="label">Advanced Features</text>
+  <text x="960" y="315" text-anchor="middle" class="small-label">Transfer Resumption</text>
+  <text x="960" y="335" text-anchor="middle" class="small-label">Auto Retry Logic</text>
+  <text x="960" y="355" text-anchor="middle" class="small-label">Exponential Backoff</text>
+  <text x="960" y="383" text-anchor="middle" class="tech">ETag | LWT | Reconnection</text>
+
+  <!-- External Libraries -->
+  <rect x="1080" y="270" width="220" height="120" class="external-box"/>
+  <text x="1190" y="290" text-anchor="middle" class="label">Dependencies</text>
+  <text x="1190" y="315" text-anchor="middle" class="small-label">libcoap-3</text>
+  <text x="1190" y="335" text-anchor="middle" class="small-label">Eclipse Paho MQTT</text>
+  <text x="1190" y="355" text-anchor="middle" class="small-label">OpenSSL / mbedTLS</text>
+  <text x="1190" y="383" text-anchor="middle" class="tech">Optional: CURL, gRPC</text>
+
+  <!-- Layer 3: Core LwM2M Engine -->
+  <rect x="50" y="430" width="1300" height="220" class="layer-box"/>
+  <text x="70" y="455" class="subtitle">Core LwM2M Engine (Wakaama 2305)</text>
+
+  <rect x="80" y="470" width="220" height="160" class="core-box"/>
+  <text x="190" y="490" text-anchor="middle" class="label">WppClient</text>
+  <text x="190" y="515" text-anchor="middle" class="small-label">Client Coordinator</text>
+  <text x="190" y="535" text-anchor="middle" class="small-label">State Machine</text>
+  <text x="190" y="555" text-anchor="middle" class="small-label">Bootstrap Handler</text>
+  <text x="190" y="575" text-anchor="middle" class="small-label">Registration Manager</text>
+  <text x="190" y="595" text-anchor="middle" class="small-label">Lifetime Maintenance</text>
+  <text x="190" y="620" text-anchor="middle" class="tech">Wakaama lwm2m_context_t</text>
+
+  <rect x="320" y="470" width="220" height="160" class="core-box"/>
+  <text x="430" y="490" text-anchor="middle" class="label">WppRegistry</text>
+  <text x="430" y="515" text-anchor="middle" class="small-label">Object Management</text>
+  <text x="430" y="535" text-anchor="middle" class="small-label">Register/Deregister</text>
+  <text x="430" y="555" text-anchor="middle" class="small-label">Object Discovery</text>
+  <text x="430" y="575" text-anchor="middle" class="small-label">Instance Lifecycle</text>
+  <text x="430" y="595" text-anchor="middle" class="small-label">Resource Accessors</text>
+  <text x="430" y="620" text-anchor="middle" class="tech">Dynamic object registry</text>
+
+  <rect x="560" y="470" width="220" height="160" class="core-box"/>
+  <text x="670" y="490" text-anchor="middle" class="label">WppTaskQueue</text>
+  <text x="670" y="515" text-anchor="middle" class="small-label">Async Task Scheduler</text>
+  <text x="670" y="535" text-anchor="middle" class="small-label">Non-blocking Ops</text>
+  <text x="670" y="555" text-anchor="middle" class="small-label">Task Queuing</text>
+  <text x="670" y="575" text-anchor="middle" class="small-label">Priority Management</text>
+  <text x="670" y="595" text-anchor="middle" class="small-label">Callback Handling</text>
+  <text x="670" y="620" text-anchor="middle" class="tech">Thread-safe queue</text>
+
+  <rect x="800" y="470" width="220" height="160" class="component-box"/>
+  <text x="910" y="490" text-anchor="middle" class="label">Protocol Handlers</text>
+  <text x="910" y="515" text-anchor="middle" class="small-label">Read/Write/Execute</text>
+  <text x="910" y="535" text-anchor="middle" class="small-label">Observe/Notify</text>
+  <text x="910" y="555" text-anchor="middle" class="small-label">Discover</text>
+  <text x="910" y="575" text-anchor="middle" class="small-label">Create/Delete</text>
+  <text x="910" y="595" text-anchor="middle" class="small-label">Composite Ops</text>
+  <text x="910" y="620" text-anchor="middle" class="tech">LwM2M 1.0/1.1/1.2 compliant</text>
+
+  <rect x="1040" y="470" width="260" height="160" class="component-box"/>
+  <text x="1170" y="490" text-anchor="middle" class="label">Encoding/Decoding</text>
+  <text x="1170" y="515" text-anchor="middle" class="small-label">TLV (Legacy)</text>
+  <text x="1170" y="535" text-anchor="middle" class="small-label">JSON</text>
+  <text x="1170" y="555" text-anchor="middle" class="small-label">CBOR (RFC 8949)</text>
+  <text x="1170" y="575" text-anchor="middle" class="small-label">SenML CBOR</text>
+  <text x="1170" y="595" text-anchor="middle" class="small-label">SenML JSON</text>
+  <text x="1170" y="620" text-anchor="middle" class="tech">tinycbor library integration</text>
+
+  <!-- Layer 4: LwM2M Objects -->
+  <rect x="50" y="670" width="1300" height="250" class="layer-box"/>
+  <text x="70" y="695" class="subtitle">LwM2M Objects (OMA + Custom)</text>
+
+  <!-- Mandatory Objects -->
+  <rect x="80" y="710" width="140" height="190" class="component-box"/>
+  <text x="150" y="728" text-anchor="middle" class="label">Mandatory</text>
+  <rect x="90" y="735" width="120" height="25" class="security-box"/>
+  <text x="150" y="751" text-anchor="middle" class="small-label">Obj 0: Security</text>
+  <rect x="90" y="765" width="120" height="25" class="component-box"/>
+  <text x="150" y="781" text-anchor="middle" class="small-label">Obj 1: Server</text>
+  <rect x="90" y="795" width="120" height="25" class="component-box"/>
+  <text x="150" y="811" text-anchor="middle" class="small-label">Obj 3: Device</text>
+  <rect x="90" y="825" width="120" height="25" class="component-box"/>
+  <text x="150" y="841" text-anchor="middle" class="small-label">Obj 2: ACL</text>
+  <rect x="90" y="855" width="120" height="25" class="component-box"/>
+  <text x="150" y="871" text-anchor="middle" class="small-label">Obj 4: ConnMon</text>
+
+  <!-- Standard OMA Objects -->
+  <rect x="240" y="710" width="180" height="190" class="component-box"/>
+  <text x="330" y="728" text-anchor="middle" class="label">OMA Standard</text>
+  <text x="330" y="750" text-anchor="middle" class="small-label">Obj 5: Firmware Update</text>
+  <text x="330" y="770" text-anchor="middle" class="small-label">Obj 6: Location</text>
+  <text x="330" y="790" text-anchor="middle" class="small-label">Obj 12: WLAN</text>
+  <text x="330" y="810" text-anchor="middle" class="small-label">Obj 13: Bearer Select</text>
+  <text x="330" y="830" text-anchor="middle" class="small-label">Obj 23: LwM2M COSE</text>
+  <text x="330" y="850" text-anchor="middle" class="small-label">Obj 24: MQTT Server</text>
+  <text x="330" y="890" text-anchor="middle" class="tech">OMNA registered</text>
+
+  <!-- Custom Advanced Objects -->
+  <rect x="440" y="710" width="240" height="190" class="component-box"/>
+  <text x="560" y="728" text-anchor="middle" class="label">Custom Advanced (v1.2.0)</text>
+  <rect x="450" y="738" width="220" height="28" class="security-box"/>
+  <text x="560" y="757" text-anchor="middle" class="small-label">Obj 33405: Adv. Firmware Update</text>
+  <text x="560" y="776" text-anchor="middle" class="small-label">Delta FOTA | A/B Rollback</text>
+  <rect x="450" y="785" width="220" height="28" class="component-box"/>
+  <text x="560" y="804" text-anchor="middle" class="small-label">Obj 33410: Edge AI Inference</text>
+  <text x="560" y="823" text-anchor="middle" class="small-label">TFLite | ONNX | NPU</text>
+  <text x="560" y="890" text-anchor="middle" class="tech">Enterprise features</text>
+
+  <!-- Optional WPP Objects -->
+  <rect x="700" y="710" width="280" height="190" class="component-box"/>
+  <text x="840" y="728" text-anchor="middle" class="label">WPP Router Objects (Optional)</text>
+  <text x="840" y="750" text-anchor="middle" class="small-label">Obj 10512-10537: Router Management</text>
+  <text x="840" y="775" text-anchor="middle" class="small-label">• WAN Failover Policy (10525)</text>
+  <text x="840" y="795" text-anchor="middle" class="small-label">• Multi-WAN Health Check (10526)</text>
+  <text x="840" y="815" text-anchor="middle" class="small-label">• WiFi Client Mgmt (10527)</text>
+  <text x="840" y="835" text-anchor="middle" class="small-label">• WiFi Channel Opt (10528)</text>
+  <text x="840" y="855" text-anchor="middle" class="small-label">• LAN Config, Routing, VPN</text>
+  <text x="840" y="890" text-anchor="middle" class="tech">Requires Wakaama submodule</text>
+
+  <!-- Integration Objects -->
+  <rect x="1000" y="710" width="300" height="190" class="external-box"/>
+  <text x="1150" y="728" text-anchor="middle" class="label">Integration Objects</text>
+  <text x="1150" y="753" text-anchor="middle" class="small-label">Starlink Data Collector</text>
+  <text x="1150" y="773" text-anchor="middle" class="small-label">• gRPC Client for Starlink API</text>
+  <text x="1150" y="793" text-anchor="middle" class="small-label">• Telemetry mapping to Obj 6</text>
+  <text x="1150" y="820" text-anchor="middle" class="small-label">Matter/Thread Bridge (Optional)</text>
+  <text x="1150" y="840" text-anchor="middle" class="small-label">Zigbee Coordinator (Optional)</text>
+  <text x="1150" y="890" text-anchor="middle" class="tech">WITH_STARLINK | WITH_MATTER</text>
+
+  <!-- Layer 5: Firmware & Platform Layer -->
+  <rect x="50" y="940" width="1300" height="220" class="layer-box"/>
+  <text x="70" y="965" class="subtitle">Firmware Update & Platform Abstraction Layer</text>
+
+  <!-- Delta Algorithms -->
+  <rect x="80" y="980" width="260" height="160" class="component-box"/>
+  <text x="210" y="1000" text-anchor="middle" class="label">Delta Algorithms</text>
+  <rect x="90" y="1010" width="220" height="28" class="component-box"/>
+  <text x="200" y="1029" text-anchor="middle" class="small-label">BSDIFF - Binary diff (general)</text>
+  <rect x="90" y="1043" width="220" height="28" class="component-box"/>
+  <text x="200" y="1062" text-anchor="middle" class="small-label">VCDIFF - RFC 3284 format</text>
+  <rect x="90" y="1076" width="220" height="28" class="component-box"/>
+  <text x="200" y="1095" text-anchor="middle" class="small-label">Courgette - ELF/PE/Mach-O optimized</text>
+  <text x="210" y="1130" text-anchor="middle" class="tech">Compression: zlib | lzma | brotli | zstd</text>
+
+  <!-- A/B Rollback -->
+  <rect x="360" y="980" width="260" height="160" class="platform-box"/>
+  <text x="490" y="1000" text-anchor="middle" class="label">Rollback Manager</text>
+  <text x="490" y="1022" text-anchor="middle" class="small-label">A/B Partition Management</text>
+  <text x="490" y="1042" text-anchor="middle" class="small-label">Snapshot Creation</text>
+  <text x="490" y="1062" text-anchor="middle" class="small-label">Atomic Slot Switching</text>
+  <text x="490" y="1082" text-anchor="middle" class="small-label">Boot Verification</text>
+  <text x="490" y="1102" text-anchor="middle" class="small-label">Automatic Rollback on Failure</text>
+  <text x="490" y="1130" text-anchor="middle" class="tech">Multi-component: kernel + rootfs</text>
+
+  <!-- Platform Abstraction -->
+  <rect x="640" y="980" width="420" height="160" class="platform-box"/>
+  <text x="850" y="1000" text-anchor="middle" class="label">Platform Abstraction (Factory Pattern)</text>
+  <rect x="650" y="1010" width="195" height="30" class="component-box"/>
+  <text x="747" y="1030" text-anchor="middle" class="small-label">IPartitionManager</text>
+  <rect x="855" y="1010" width="195" height="30" class="component-box"/>
+  <text x="952" y="1030" text-anchor="middle" class="small-label">IFlashManager</text>
+  <rect x="650" y="1045" width="195" height="30" class="component-box"/>
+  <text x="747" y="1065" text-anchor="middle" class="small-label">IBootloaderControl</text>
+  <rect x="855" y="1045" width="195" height="30" class="component-box"/>
+  <text x="952" y="1065" text-anchor="middle" class="small-label">ISystemManager</text>
+  <text x="850" y="1095" text-anchor="middle" class="small-label">Implementations:</text>
+  <text x="850" y="1113" text-anchor="middle" class="small-label">OpenWRT | Linux Generic | prpl (Ambiorix)</text>
+  <text x="850" y="1130" text-anchor="middle" class="tech">Auto-detection via PlatformFactory</text>
+
+  <!-- ML Inference -->
+  <rect x="1080" y="980" width="220" height="160" class="component-box"/>
+  <text x="1190" y="1000" text-anchor="middle" class="label">ML Inference Engine</text>
+  <text x="1190" y="1022" text-anchor="middle" class="small-label">Backends:</text>
+  <text x="1190" y="1042" text-anchor="middle" class="small-label">• TensorFlow Lite</text>
+  <text x="1190" y="1062" text-anchor="middle" class="small-label">• ONNX Runtime</text>
+  <text x="1190" y="1085" text-anchor="middle" class="small-label">Quantization:</text>
+  <text x="1190" y="1102" text-anchor="middle" class="small-label">FP32 | FP16 | INT8 | INT4</text>
+  <text x="1190" y="1130" text-anchor="middle" class="tech">CPU | GPU | NPU | TPU</text>
+
+  <!-- Layer 6: Application Layer -->
+  <rect x="50" y="1180" width="1300" height="150" class="layer-box"/>
+  <text x="70" y="1205" class="subtitle">Application Layer</text>
+
+  <rect x="80" y="1220" width="280" height="90" class="component-box"/>
+  <text x="220" y="1240" text-anchor="middle" class="label">Main Application (examples/)</text>
+  <text x="220" y="1262" text-anchor="middle" class="small-label">main.cpp - Entry point</text>
+  <text x="220" y="1282" text-anchor="middle" class="small-label">CLI Options Parser</text>
+  <text x="220" y="1302" text-anchor="middle" class="small-label">Configuration Loader (JSON)</text>
+
+  <rect x="380" y="1220" width="280" height="90" class="component-box"/>
+  <text x="520" y="1240" text-anchor="middle" class="label">Object Initialization</text>
+  <text x="520" y="1262" text-anchor="middle" class="small-label">objects.cpp - Object setup</text>
+  <text x="520" y="1282" text-anchor="middle" class="small-label">Platform-specific config</text>
+  <text x="520" y="1302" text-anchor="middle" class="small-label">Resource value initialization</text>
+
+  <rect x="680" y="1220" width="280" height="90" class="component-box"/>
+  <text x="820" y="1240" text-anchor="middle" class="label">Event Loop</text>
+  <text x="820" y="1262" text-anchor="middle" class="small-label">Socket Polling (100ms)</text>
+  <text x="820" y="1282" text-anchor="middle" class="small-label">connection.loop()</text>
+  <text x="820" y="1302" text-anchor="middle" class="small-label">WppClient.process()</text>
+
+  <rect x="980" y="1220" width="320" height="90" class="component-box"/>
+  <text x="1140" y="1240" text-anchor="middle" class="label">Configuration</text>
+  <text x="1140" y="1262" text-anchor="middle" class="small-label">lwm2m_objects_config.json</text>
+  <text x="1140" y="1282" text-anchor="middle" class="small-label">Server URI, Lifetime, Binding</text>
+  <text x="1140" y="1302" text-anchor="middle" class="small-label">Security credentials, Object params</text>
+
+  <!-- Layer 7: System/Hardware -->
+  <rect x="50" y="1350" width="1300" height="100" class="layer-box"/>
+  <text x="70" y="1375" class="subtitle">Operating System & Hardware</text>
+
+  <rect x="80" y="1390" width="200" height="40" class="platform-box"/>
+  <text x="180" y="1415" text-anchor="middle" class="label">OpenWRT / Linux</text>
+
+  <rect x="300" y="1390" width="200" height="40" class="platform-box"/>
+  <text x="400" y="1415" text-anchor="middle" class="label">MTD Flash / NVMe</text>
+
+  <rect x="520" y="1390" width="200" height="40" class="platform-box"/>
+  <text x="620" y="1415" text-anchor="middle" class="label">Network Interfaces</text>
+
+  <rect x="740" y="1390" width="200" height="40" class="platform-box"/>
+  <text x="840" y="1415" text-anchor="middle" class="label">WiFi / Ethernet / LTE</text>
+
+  <rect x="960" y="1390" width="180" height="40" class="platform-box"/>
+  <text x="1050" y="1415" text-anchor="middle" class="label">Sensors / GPIO</text>
+
+  <rect x="1160" y="1390" width="140" height="40" class="platform-box"/>
+  <text x="1230" y="1415" text-anchor="middle" class="label">Accelerators</text>
+
+  <!-- Arrows - External to Security/Transport -->
+  <path d="M 170 190 L 170 270" class="secure-arrow"/>
+  <path d="M 370 190 L 420 270" class="data-arrow"/>
+  <path d="M 570 190 L 520 270" class="data-arrow"/>
+  <path d="M 770 190 L 670 270" class="data-arrow"/>
+
+  <!-- Arrows - Security/Transport to Core -->
+  <path d="M 210 390 L 190 470" class="arrow"/>
+  <path d="M 490 390 L 430 470" class="arrow"/>
+  <path d="M 740 390 L 670 470" class="arrow"/>
+
+  <!-- Arrows - Core to Objects -->
+  <path d="M 190 630 L 150 710" class="arrow"/>
+  <path d="M 430 630 L 330 710" class="arrow"/>
+  <path d="M 670 630 L 560 710" class="arrow"/>
+  <path d="M 910 630 L 840 710" class="arrow"/>
+
+  <!-- Arrows - Objects to Firmware/Platform -->
+  <path d="M 210 900 L 210 980" class="arrow"/>
+  <path d="M 490 900 L 490 980" class="arrow"/>
+  <path d="M 840 900 L 850 980" class="arrow"/>
+  <path d="M 1150 900 L 1190 980" class="arrow"/>
+
+  <!-- Arrows - Firmware/Platform to Application -->
+  <path d="M 210 1140 L 220 1220" class="arrow"/>
+  <path d="M 490 1140 L 520 1220" class="arrow"/>
+  <path d="M 850 1140 L 820 1220" class="arrow"/>
+
+  <!-- Arrows - Application to OS/Hardware -->
+  <path d="M 220 1310 L 180 1390" class="arrow"/>
+  <path d="M 520 1310 L 400 1390" class="arrow"/>
+  <path d="M 820 1310 L 620 1390" class="arrow"/>
+  <path d="M 1140 1310 L 840 1390" class="arrow"/>
+
+  <!-- Legend -->
+  <rect x="50" y="1470" width="1300" height="110" class="layer-box"/>
+  <text x="70" y="1495" class="subtitle">Legend & Key Features</text>
+
+  <rect x="70" y="1510" width="15" height="15" class="security-box"/>
+  <text x="95" y="1522" class="small-label">Security Components</text>
+
+  <rect x="230" y="1510" width="15" height="15" class="transport-box"/>
+  <text x="255" y="1522" class="small-label">Transport Layer</text>
+
+  <rect x="390" y="1510" width="15" height="15" class="platform-box"/>
+  <text x="415" y="1522" class="small-label">Platform Specific</text>
+
+  <rect x="550" y="1510" width="15" height="15" class="external-box"/>
+  <text x="575" y="1522" class="small-label">External Systems</text>
+
+  <rect x="710" y="1510" width="15" height="15" class="core-box"/>
+  <text x="735" y="1522" class="small-label">Core Engine</text>
+
+  <line x1="870" y1="1517" x2="920" y2="1517" class="arrow"/>
+  <text x="930" y="1522" class="small-label">Data Flow</text>
+
+  <line x1="1050" y1="1517" x2="1100" y2="1517" class="secure-arrow"/>
+  <text x="1110" y="1522" class="small-label">Secure Channel</text>
+
+  <line x1="1230" y1="1517" x2="1280" y2="1517" class="data-arrow"/>
+  <text x="1290" y="1522" class="small-label">Optional Flow</text>
+
+  <!-- Key Features Summary -->
+  <text x="70" y="1550" class="small-label">✓ Multi-DTLS: 4 providers (TinyDTLS 50KB | mbedTLS 200KB | OpenSSL 500KB | wolfSSL 250KB)</text>
+  <text x="720" y="1550" class="small-label">✓ Delta FOTA: BSDIFF | VCDIFF | Courgette with A/B rollback</text>
+
+  <text x="70" y="1568" class="small-label">✓ Transport: CoAP/UDP + Blockwise | MQTT 3.1.1/5.0 with QoS 0/1/2</text>
+  <text x="720" y="1568" class="small-label">✓ Edge AI: TensorFlow Lite + ONNX with NPU/TPU support</text>
+</svg>

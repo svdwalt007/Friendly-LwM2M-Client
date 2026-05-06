@@ -38,6 +38,15 @@ Friendly LwM2M Client is an open-source Lightweight machine-to-machine (LwM2M) c
 
 ## What's New in v1.2.2
 
+- **Multi-DTLS Provider Support ⭐** - Choose between TinyDTLS, mbedTLS (default), OpenSSL, or wolfSSL
+  - Factory pattern for runtime provider selection
+  - mbedTLS 3.6+ as production-ready default
+  - Full PSK, RPK, and Certificate authentication support
+  - RFC 9146 Connection ID (CID) support across all providers
+  - DTLS 1.3 support with OpenSSL and wolfSSL
+  - Static and dynamic linking options
+- **Renamed Example Client** - `WppExample` → `friendly_example_client` for better clarity
+- **Enhanced Version Information** - Startup banner shows client, LwM2M, CoAP, and DTLS versions
 - **MQTT Transport Binding** - Full OMA LwM2M v1.2.2 Section 8 compliance with MQTT 3.1.1/5.0, CBOR encoding
 - **Edge AI Inference** - On-device ML inference with TensorFlow Lite and ONNX Runtime backends
 - **Delta Firmware Updates** - Efficient FOTA with BSDIFF, VCDIFF, and Courgette algorithms
@@ -47,13 +56,83 @@ Friendly LwM2M Client is an open-source Lightweight machine-to-machine (LwM2M) c
   - MQTT Server Object (ID: 24) - MQTT broker configuration
   - Edge AI Inference Object (ID: 33410) - ML model management and inference
 
+## Multi-DTLS Provider Support ⭐ NEW in v1.2.2
+
+The Friendly LwM2M Client now supports **multiple DTLS providers**, allowing you to choose the best DTLS implementation for your deployment:
+
+| Provider | Version | Best For | Binary Size |
+|----------|---------|----------|-------------|
+| **mbedTLS** ⭐ | 3.6+ | Production deployments (DEFAULT) | ~200KB |
+| **TinyDTLS** | 0.8.6 | Constrained devices | ~50KB |
+| **OpenSSL** | 3.x | Desktop/server environments | ~500KB |
+| **wolfSSL** | 5.x | Performance-critical applications | ~250KB |
+
+### Quick Start
+
+**List available DTLS providers:**
+```bash
+./friendly_example_client --list-dtls-providers
+```
+
+**Select DTLS provider:**
+```bash
+# Use default (mbedTLS - recommended)
+./friendly_example_client -h coaps://server:5684
+
+# Explicit provider selection
+./friendly_example_client --dtls-provider=mbedtls -h coaps://server:5684
+./friendly_example_client --dtls-provider=tinydtls -h coaps://server:5684
+./friendly_example_client --dtls-provider=openssl -h coaps://server:5684
+```
+
+### Build Configuration
+
+**Enable specific providers:**
+```bash
+cmake \
+  -DDTLS_PROVIDER_TINYDTLS=ON \
+  -DDTLS_PROVIDER_MBEDTLS=ON \
+  -DDTLS_PROVIDER_OPENSSL=OFF \
+  -DDTLS_PROVIDER_WOLFSSL=OFF \
+  -DDTLS_DEFAULT_PROVIDER=mbedtls \
+  ..
+make
+```
+
+### Feature Comparison
+
+| Feature | TinyDTLS | mbedTLS | OpenSSL | wolfSSL |
+|---------|----------|---------|---------|---------|\n| DTLS 1.2 | ✅ | ✅ | ✅ | ✅ |
+| DTLS 1.3 | ❌ | 🚧 | ✅ | ✅ |
+| PSK Auth | ✅ | ✅ | ✅ | ✅ |
+| Certificate Auth | ❌ | ✅ | ✅ | ✅ |
+| RFC 9146 CID | ✅ | ✅ | ⚠️ | ✅ |
+
+### Documentation
+
+- **[DTLS Provider Selection Guide](DTLS_PROVIDER_SELECTION_GUIDE.md)** - Detailed comparison and recommendations
+- **[Migration Guide](MIGRATION_GUIDE_MULTI_DTLS.md)** - Step-by-step migration from v1.2.1
+- **[Implementation Plan](DTLS_MULTI_PROVIDER_IMPLEMENTATION_PLAN.md)** - Technical architecture
+- **[Quick Reference](DTLS_QUICK_REFERENCE.md)** - Developer cheat sheet
+
+### Key Benefits
+
+✅ **Choice** - Select the best DTLS library for your use case
+✅ **Production-Ready** - mbedTLS provides production-grade security
+✅ **Certificate Support** - X.509 certificates with mbedTLS/OpenSSL/wolfSSL
+✅ **DTLS 1.3** - Latest protocol version with OpenSSL/wolfSSL
+✅ **Backward Compatible** - TinyDTLS remains fully supported
+✅ **Runtime Selection** - Switch providers via command-line option
+
 ## Documentation
 
 ### Getting Started Guides
-- **[Quick Start Guide](QUICK_START.md)** - Get up and running in 5 minutes
-- **[Getting Started](GETTING_STARTED.md)** - Comprehensive introduction and tutorials
-- **[Build Examples](BUILD_EXAMPLES.md)** - Detailed build configurations and examples
-- **[Installation Script](scripts/install-ubuntu-prerequisites.sh)** - Automated Ubuntu setup
+- **[Quick Start Guide](docs/QUICK_START.md)** - Get up and running in 5 minutes
+- **[Getting Started](docs/GETTING_STARTED.md)** - Comprehensive introduction and tutorials
+- **[Minimal Libcurl Build Guide](docs/MINIMAL_CURL_BUILD.md)** ⭐ **IMPORTANT** - Build custom libcurl (reduces dependencies by 71%)
+- **[Minimal Libcurl Integration](docs/MINIMAL_CURL_INTEGRATION.md)** - Integration status and verification
+- **[Build Examples](docs/BUILD_EXAMPLES.md)** - Detailed build configurations and examples
+- **[Installation Script](scripts/install_curl_dependencies.sh)** - Install minimal dependencies
 
 ### Online Documentation
 [Friendly LWM2M Client](https://friendly-technologies.github.io/Friendly-LwM2M-Client/)
@@ -64,22 +143,36 @@ Friendly LwM2M Client is an open-source Lightweight machine-to-machine (LwM2M) c
 - [Code Documentation](https://friendly-technologies.github.io/Friendly-LwM2M-Client/code_tag.html)
 
 ### Feature Documentation
-- [WLAN Connectivity (ID 12)](docs/WLAN_CONNECTIVITY.md) - WiFi interface management
-- [Bearer Selection (ID 13)](docs/BEARER_SELECTION.md) - Network bearer selection
-- [OpenWRT Integration Guide](docs/OPENWRT_INTEGRATION.md)
-- [Implementation Guide](docs/IMPLEMENTATION_GUIDE.md)
-- [Wakaama Submodule Setup](WAKAAMA_SUBMODULE_SETUP.md) - Optional WPP objects configuration
+
+**DTLS Multi-Provider Support** ⭐ NEW in v1.2.2:
+- **[DTLS Provider Selection Guide](docs/DTLS_PROVIDER_SELECTION_GUIDE.md)** - Choose the right DTLS provider
+- **[DTLS Migration Guide](docs/MIGRATION_GUIDE_MULTI_DTLS.md)** - Upgrade from v1.2.1 to v1.2.2
+- **[DTLS Quick Reference](docs/DTLS_QUICK_REFERENCE.md)** - Developer cheat sheet
+- **[DTLS Implementation Plan](docs/DTLS_MULTI_PROVIDER_IMPLEMENTATION_PLAN.md)** - Technical architecture
+
+**Build System & Dependencies**:
+- **[Database References Removed](docs/DATABASE_REFERENCES_REMOVED.md)** - PostgreSQL/MySQL/SQLite removal summary
+- **[GSSAPI Linking Guide](docs/GSSAPI_LINKING_GUIDE.md)** - Kerberos/GSSAPI configuration
+- **[Wakaama Submodule Setup](docs/WAKAAMA_SUBMODULE_SETUP.md)** - Optional WPP objects
+
+**LwM2M Objects & Features**:
+- **[WLAN Connectivity (ID 12)](docs/WLAN_CONNECTIVITY.md)** - WiFi interface management
+- **[Bearer Selection (ID 13)](docs/BEARER_SELECTION.md)** - Network bearer selection
+- **[OpenWRT Integration Guide](docs/OPENWRT_INTEGRATION.md)** - Deploy on OpenWrt routers
+- **[Implementation Guide](docs/IMPLEMENTATION_GUIDE.md)** - Feature implementation status
 
 ## Features
 
 - Lightweight and efficient implementation
 - Full LwM2M v1.2.2 specification compliance
+- **Multi-DTLS Provider Support** ⭐ NEW - TinyDTLS, mbedTLS, OpenSSL, wolfSSL
 - MQTT Transport Binding (OMA Section 8) with CBOR encoding
 - Edge AI Inference with TensorFlow Lite and ONNX Runtime
 - Delta Firmware Updates (BSDIFF, VCDIFF, Courgette)
 - A/B Partition with automatic rollback
 - Flexible configuration options
-- Secure communication using DTLS and TLS
+- Secure communication using DTLS 1.2/1.3 and TLS
+- RFC 9146 Connection ID (CID) support
 - Resource management and reporting
 - Cross-platform support (Linux, OpenWRT, Raspberry Pi, prplOS)
 
@@ -168,10 +261,22 @@ Before proceeding with the description, it should also be noted that this guide 
 
 ### Prerequisites
 
-- OS Ubuntu 22.04
-- [CMake](https://cmake.org/) version 3.10 or higher
-- [OpenSSL](https://www.openssl.org/) for DTLS support
-- C/C++ compiler (clang-14, clang++-14)
+- **OS**: Ubuntu 22.04 (or compatible Linux distribution)
+- **CMake**: version 3.10 or higher
+- **Compiler**: clang-14/clang++-14 or gcc-11/g++-11
+- **OpenSSL**: 3.x for DTLS support
+- **libcurl**: Custom minimal build (see [Minimal Libcurl Build Guide](docs/MINIMAL_CURL_BUILD.md))
+  - **Why custom libcurl?** The system libcurl has 28+ dependencies (databases, LDAP, SSH, etc.) that aren't needed for IoT firmware updates. Our minimal build reduces this to ~8 libraries (71% fewer dependencies).
+  - **Quick install**: See [docs/MINIMAL_CURL_BUILD.md](docs/MINIMAL_CURL_BUILD.md) for step-by-step instructions
+
+**Dependency Installation**:
+```bash
+# Install minimal dependencies for custom libcurl
+./scripts/install_curl_dependencies.sh
+
+# Or manually install:
+sudo apt-get install libssl-dev zlib1g-dev libbrotli-dev libnghttp2-dev libzstd-dev libkrb5-dev
+```
 
 ### Setup build environment
 
@@ -205,13 +310,13 @@ After successfully completing these steps, we will have a fully configured envir
 
 3. Building:
     ```sh
-    cmake --build . --config MinSizeRel --target WppExample -j 14 --
+    cmake --build . --config MinSizeRel --target friendly_example_client -j $(nproc) --
     ```
 
 4. Running:
     ```sh
     cd examples
-    ./WppExample
+    ./friendly_example_client
     ```
 
     For advanced configuration, see [Command-Line Options](#command-line-options) below.

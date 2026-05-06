@@ -1,6 +1,6 @@
 # Friendly LwM2M Client Documentation
 
-**Version:** 1.2.0
+**Version:** 1.2.2
 **Last Updated:** April 2026
 **LwM2M Specification:** OMA LwM2M v1.2.2
 
@@ -20,10 +20,13 @@
 ### Core Documentation
 
 #### Getting Started & Building
-- **[Quick Start Guide](../QUICK_START.md)** - 5-minute setup with automated installation script
-- **[Getting Started](../GETTING_STARTED.md)** - Complete tutorial with code examples
-- **[Build Examples](../BUILD_EXAMPLES.md)** - Build configurations for all platforms
-- **[Installation Script](../scripts/install-ubuntu-prerequisites.sh)** - Automated Ubuntu dependency installation
+- **[Quick Start Guide](QUICK_START.md)** - 5-minute setup with automated installation script
+- **[Getting Started](GETTING_STARTED.md)** - Complete tutorial with code examples
+- **[Minimal Libcurl Build](MINIMAL_CURL_BUILD.md)** ⭐ **REQUIRED** - Build custom libcurl (reduces dependencies by 71%)
+- **[Minimal Libcurl Integration](MINIMAL_CURL_INTEGRATION.md)** - Integration status and verification
+- **[Database References Removed](DATABASE_REFERENCES_REMOVED.md)** - PostgreSQL/MySQL/SQLite removal summary
+- **[Build Examples](BUILD_EXAMPLES.md)** - Build configurations for all platforms
+- **[Installation Script](../scripts/install_curl_dependencies.sh)** - Install minimal dependencies (6 packages vs 30+)
 
 #### Reference & Configuration
 - **[API Reference](API_REFERENCE.md)** - Complete API documentation
@@ -48,14 +51,24 @@
 - **[Raspberry Pi ARM64 Porting](RPI4_ARM64_PORTING_GUIDE.md)** - RPi4 deployment guide
 - **[prplOS Porting Guide](PRPLOS_PORTING_GUIDE.md)** - prplOS platform integration
 
+### DTLS Multi-Provider Support ⭐ NEW in v1.2.2
+
+- **[DTLS Provider Selection Guide](DTLS_PROVIDER_SELECTION_GUIDE.md)** - Choose between TinyDTLS, mbedTLS, OpenSSL, wolfSSL
+- **[DTLS Migration Guide](MIGRATION_GUIDE_MULTI_DTLS.md)** - Upgrade from v1.2.1 to v1.2.2
+- **[DTLS Quick Reference](DTLS_QUICK_REFERENCE.md)** - Developer cheat sheet
+- **[DTLS Implementation Plan](DTLS_MULTI_PROVIDER_IMPLEMENTATION_PLAN.md)** - Technical architecture
+- **[DTLS Multi-Provider Status](DTLS_MULTI_PROVIDER_STATUS.md)** - Implementation status
+
 ### Advanced Topics
 
 - **[OMA LwM2M Compatibility Analysis](OMA_LWM2M_COMPATIBILITY_ANALYSIS.md)** - Standards compliance details
-- **[Wakaama Submodule Setup](../WAKAAMA_SUBMODULE_SETUP.md)** - Optional WPP objects configuration
+- **[GSSAPI Linking Guide](GSSAPI_LINKING_GUIDE.md)** - Kerberos/GSSAPI configuration
+- **[Wakaama Submodule Setup](WAKAAMA_SUBMODULE_SETUP.md)** - Optional WPP objects configuration
+- **[Submodule Fix Guide](SUBMODULE_FIX_GUIDE.md)** - Troubleshooting git submodules
 
 ---
 
-## 🚀 Key Features (v1.2.0)
+## 🚀 Key Features (v1.2.2)
 
 ### Object ID Mapping
 
