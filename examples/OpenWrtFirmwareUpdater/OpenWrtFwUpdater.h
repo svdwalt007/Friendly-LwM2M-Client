@@ -10,6 +10,7 @@
 #define OPENWRT_FW_UPDATER_H_
 
 #include "WppClient.h"
+#include "FwUpdater.h"
 #include <string>
 #include <mutex>
 #include <thread>

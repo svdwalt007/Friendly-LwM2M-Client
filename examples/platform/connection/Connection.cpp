@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <fcntl.h>
+#include <cstring>
+#include <cerrno>
 
 Connection::Connection(string port, int addressFamily): _port(port), _addressFamily(addressFamily) {
     _connFd = -1;
@@ -32,7 +34,15 @@ Connection::SESSION_T Connection::connect(Lwm2mSecurity& security) {
     hints.ai_family = _addressFamily;
     hints.ai_socktype = SOCK_DGRAM;
 
-    if (getaddrinfo(host.c_str(), port.c_str(), &hints, &servinfo) || servinfo == NULL) return NULL;
+    int gai_result = getaddrinfo(host.c_str(), port.c_str(), &hints, &servinfo);
+    if (gai_result != 0 || servinfo == NULL) {
+        if (gai_result != 0) {
+            cerr << "Connection: getaddrinfo failed for " << host << ":" << port << " - " << gai_strerror(gai_result) << endl;
+        } else {
+            cerr << "Connection: getaddrinfo returned NULL servinfo for " << host << ":" << port << endl;
+        }
+        return NULL;
+    }
 
     // we test the various addresses
     for(s = -1, p = servinfo; p != NULL && s == -1 ; p = p->ai_next) {
@@ -41,14 +51,20 @@ Connection::SESSION_T Connection::connect(Lwm2mSecurity& security) {
             sa = p->ai_addr;
             sl = p->ai_addrlen;
             if (-1 == ::connect(s, p->ai_addr, p->ai_addrlen)) {
+                cerr << "Connection: connect() failed for " << host << ":" << port << " - " << strerror(errno) << endl;
                 close(s);
                 s = -1;
             }
+        } else {
+            cerr << "Connection: socket() failed - " << strerror(errno) << endl;
         }
     }
     if (s >= 0) {
+        cout << "Connection: successfully connected to " << host << ":" << port << endl;
         connP = createNewConn(sa, sl);
         close(s);
+    } else {
+        cerr << "Connection: failed to establish connection to " << host << ":" << port << endl;
     }
     if (NULL != servinfo) {
         freeaddrinfo(servinfo);

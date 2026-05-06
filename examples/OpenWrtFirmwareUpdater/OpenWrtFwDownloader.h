@@ -10,6 +10,7 @@
 #define OPENWRT_FW_DOWNLOADER_H_
 
 #include "WppClient.h"
+#include "FwInternalDl.h"
 #include "OpenWrtFwUpdater.h"
 #include <string>
 #include <fstream>

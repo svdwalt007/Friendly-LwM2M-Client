@@ -8,6 +8,7 @@
 #include <getopt.h>
 #include <cstring>
 #include <netinet/in.h>
+#include "version_info.h"
 
 /**
  * Security mode enumeration for LwM2M connections
@@ -46,6 +47,21 @@ struct CliOptions {
     // CoAP configuration
     int block_size;                 // CoAP block size (16-1024, power of 2)
 
+    // Device configuration
+    std::string serial_number;      // Device serial number (Object 3, Resource 2)
+
+#if DTLS_CID
+    // DTLS Connection ID (CID) configuration
+    bool enable_cid;                // Enable CID support
+    int cid_length;                 // CID length to request (1-8 bytes)
+    bool prefer_cid53;              // Prefer draft CID53 over RFC9146 CID54
+#endif
+
+    // DTLS Provider selection
+    std::string dtls_provider;      // DTLS provider selection (tinydtls|openssl|mbedtls|wolfssl|auto)
+    bool list_dtls_providers;       // List available DTLS providers and exit
+    bool show_version;              // Show version information and exit
+
     // Application behavior
     int verbosity;                  // Log verbosity level (0-3)
     bool quiet;                     // Suppress non-error output
@@ -69,6 +85,15 @@ struct CliOptions {
         , key_file("")
         , ca_file("")
         , block_size(1024)
+        , serial_number("OPENWRT-ONE-001")
+#if DTLS_CID
+        , enable_cid(true)
+        , cid_length(8)
+        , prefer_cid53(false)
+#endif
+        , dtls_provider("auto")
+        , list_dtls_providers(false)
+        , show_version(false)
         , verbosity(0)
         , quiet(false)
         , daemonize(false)
@@ -161,7 +186,7 @@ inline bool validateUriSecurity(const std::string& uri, SecurityMode mode) {
  */
 inline void printUsage(const char* program_name) {
     std::cout << "Usage: " << program_name << " [OPTIONS]\n\n"
-              << "Friendly LwM2M Client - Enhanced IoT device management client\n\n"
+              << "Friendly LwM2M Client v" FRIENDLY_CLIENT_VERSION " - Enhanced IoT device management\n\n"
               << "Core Options:\n"
               << "  -n, --name=NAME              Endpoint name (default: walttech888)\n"
               << "  -u, --uri=URI                Server URI (default: coap://demo-iot.friendly-tech.com:5680)\n"
@@ -182,6 +207,23 @@ inline void printUsage(const char* program_name) {
               << "      --ca=FILE                CA certificate file path\n\n"
               << "CoAP Options:\n"
               << "      --block-size=SIZE        Block size in bytes (16-1024, power of 2, default: 1024)\n\n"
+              << "Device Options:\n"
+              << "  -x, --serial=NUMBER          Device serial number (default: OPENWRT-ONE-001)\n\n"
+#if DTLS_CID
+              << "DTLS Connection ID Options:\n"
+              << "      --enable-cid             Enable CID support (default: true)\n"
+              << "      --disable-cid            Disable CID support\n"
+              << "      --cid-length=LENGTH      CID length in bytes 1-8 (default: 8)\n"
+              << "      --prefer-cid53           Prefer draft CID53 over RFC9146 CID54\n\n"
+#endif
+              << "DTLS Provider Options:\n"
+              << "      --dtls-provider=NAME     Select DTLS provider:\n"
+              << "                                 auto      - Auto-detect (default)\n"
+              << "                                 tinydtls  - TinyDTLS 0.8.6 (embedded)\n"
+              << "                                 mbedtls   - mbedTLS 3.6+ (recommended)\n"
+              << "                                 openssl   - OpenSSL 3.x\n"
+              << "                                 wolfssl   - wolfSSL 5.x\n"
+              << "      --list-dtls-providers    List available DTLS providers\n\n"
               << "Application Options:\n"
               << "  -v, --verbose                Increase verbosity (can be used multiple times)\n"
               << "  -q, --quiet                  Suppress non-error output\n"
@@ -203,12 +245,51 @@ inline void printUsage(const char* program_name) {
 
 /**
  * Print version information
+ * Requires version_info.h to be included
  */
 inline void printVersion() {
+#ifdef FRIENDLY_CLIENT_VERSION
+    std::cout << version::getDetailedVersion();
+#else
     std::cout << "Friendly LwM2M Client v1.2.2\n"
               << "Enhanced LwM2M Client with OpenWRT integration\n"
-              << "Copyright (c) 2024 Walt Technologies\n"
-              << "Built with C++17, supports LwM2M 1.1 specification\n";
+              << "Copyright (c) 2024-2026 Walt Technologies\n"
+              << "Built with C++17, supports LwM2M 1.0/1.1 specification\n";
+#endif
+}
+
+/**
+ * List available DTLS providers
+ */
+inline void listDtlsProviders() {
+    std::cout << "Available DTLS Providers:\n\n";
+
+#ifdef WITH_TINYDTLS_PROVIDER
+    std::cout << "  * tinydtls  - TinyDTLS 0.8.6 (Embedded)\n"
+              << "                Lightweight DTLS 1.2, RFC 9146 CID support\n"
+              << "                Best for: Constrained devices, minimal footprint\n\n";
+#endif
+
+#ifdef WITH_MBEDTLS_PROVIDER
+    std::cout << "  * mbedtls   - mbedTLS 3.6+ (Recommended Default)\n"
+              << "                Production-grade DTLS 1.2, CID support\n"
+              << "                Best for: General use, embedded systems\n\n";
+#endif
+
+#ifdef WITH_OPENSSL_PROVIDER
+    std::cout << "  * openssl   - OpenSSL 3.x\n"
+              << "                Industry standard, DTLS 1.2/1.3, full cipher suites\n"
+              << "                Best for: Maximum compatibility, server deployments\n\n";
+#endif
+
+#ifdef WITH_WOLFSSL_PROVIDER
+    std::cout << "  * wolfssl   - wolfSSL 5.x\n"
+              << "                Performance-focused DTLS 1.2/1.3\n"
+              << "                Best for: High-performance requirements\n\n";
+#endif
+
+    std::cout << "Usage: --dtls-provider=<name>  (default: auto)\n";
+    std::cout << "       --dtls-provider=auto will select the best available provider\n";
 }
 
 /**
@@ -238,6 +319,15 @@ inline bool parseCliOptions(int argc, char* argv[], CliOptions& options) {
         {"key",          required_argument, 0, 131},
         {"ca",           required_argument, 0, 132},
         {"block-size",   required_argument, 0, 133},
+        {"serial",       required_argument, 0, 'x'},
+#if DTLS_CID
+        {"enable-cid",   no_argument,       0, 134},
+        {"disable-cid",  no_argument,       0, 135},
+        {"cid-length",   required_argument, 0, 136},
+        {"prefer-cid53", no_argument,       0, 137},
+#endif
+        {"dtls-provider",      required_argument, 0, 138},
+        {"list-dtls-providers", no_argument,      0, 139},
         {"verbose",      no_argument,       0, 'v'},
         {"quiet",        no_argument,       0, 'q'},
         {"daemon",       no_argument,       0, 'd'},
@@ -251,7 +341,7 @@ inline bool parseCliOptions(int argc, char* argv[], CliOptions& options) {
     int c;
 
     // Parse options
-    while ((c = getopt_long(argc, argv, "n:u:p:l:46bBs:i:k:vqdc:hV", long_options, &option_index)) != -1) {
+    while ((c = getopt_long(argc, argv, "n:u:p:l:46bBs:i:k:x:vqdc:hV", long_options, &option_index)) != -1) {
         switch (c) {
             case 'n':
                 options.endpoint_name = optarg;
@@ -343,6 +433,49 @@ inline bool parseCliOptions(int argc, char* argv[], CliOptions& options) {
                 }
                 break;
 
+            case 'x':
+                options.serial_number = optarg;
+                break;
+
+#if DTLS_CID
+            case 134: // --enable-cid
+                options.enable_cid = true;
+                break;
+
+            case 135: // --disable-cid
+                options.enable_cid = false;
+                break;
+
+            case 136: // --cid-length
+                options.cid_length = std::atoi(optarg);
+                if (options.cid_length < 1 || options.cid_length > 8) {
+                    std::cerr << "Error: CID length must be between 1 and 8 bytes" << std::endl;
+                    return false;
+                }
+                break;
+
+            case 137: // --prefer-cid53
+                options.prefer_cid53 = true;
+                break;
+#endif
+
+            case 138: // --dtls-provider
+                options.dtls_provider = optarg;
+                // Validate provider name
+                if (options.dtls_provider != "auto" &&
+                    options.dtls_provider != "tinydtls" &&
+                    options.dtls_provider != "mbedtls" &&
+                    options.dtls_provider != "openssl" &&
+                    options.dtls_provider != "wolfssl") {
+                    std::cerr << "Error: Invalid DTLS provider. Must be: auto|tinydtls|mbedtls|openssl|wolfssl" << std::endl;
+                    return false;
+                }
+                break;
+
+            case 139: // --list-dtls-providers
+                listDtlsProviders();
+                return false;
+
             case 'v':
                 options.verbosity++;
                 break;
@@ -364,6 +497,7 @@ inline bool parseCliOptions(int argc, char* argv[], CliOptions& options) {
                 return false;
 
             case 'V':
+                options.show_version = true;
                 printVersion();
                 return false;
 
@@ -431,10 +565,21 @@ inline bool parseCliOptions(int argc, char* argv[], CliOptions& options) {
             case SecurityMode::PSK:  std::cout << "psk\n"; break;
             case SecurityMode::RPK:  std::cout << "rpk\n"; break;
             case SecurityMode::CERT: std::cout << "cert\n"; break;
+            default: std::cout << "unknown\n"; break;
         }
 
         std::cout << "  Block Size:     " << options.block_size << " bytes\n"
-                  << "  Verbosity:      " << options.verbosity << "\n"
+                  << "  Serial Number:  " << options.serial_number << "\n";
+
+#if DTLS_CID
+        std::cout << "  CID Enabled:    " << (options.enable_cid ? "yes" : "no") << "\n";
+        if (options.enable_cid) {
+            std::cout << "  CID Length:     " << options.cid_length << " bytes\n"
+                      << "  CID Version:    " << (options.prefer_cid53 ? "draft (CID53)" : "RFC 9146 (CID54)") << "\n";
+        }
+#endif
+
+        std::cout << "  Verbosity:      " << options.verbosity << "\n"
                   << std::endl;
     }
 

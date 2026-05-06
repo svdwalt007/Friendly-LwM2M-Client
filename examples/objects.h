@@ -3,9 +3,13 @@
 
 #include "WppClient.h"
 #if OBJ_O_5_FIRMWARE_UPDATE
+#ifdef USE_OPENWRT_FW_UPDATER
+#include "OpenWrtFwInit.h"
+#else
 #include "FwUriDownloader.h"
 #include "FwAutoDownloader.h"
 #include "FirmwareUpdater.h"
+#endif
 #endif
 
 using namespace wpp;
@@ -20,7 +24,7 @@ void serverInit(WppClient &client, const CliOptions& options);
 
 void securityInit(WppClient &client, const CliOptions& options);
 
-void deviceInit(WppClient &client);
+void deviceInit(WppClient &client, const CliOptions& options);
 
 #ifdef OBJ_O_5_FIRMWARE_UPDATE
 void fwUpdaterInit(WppClient &client);
@@ -93,6 +97,58 @@ void firewallConfigInit(WppClient &client);
 
 #ifdef OBJ_W_10522_POE_MANAGEMENT
 void poeManagementInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10525_WAN_FAILOVER_POLICY
+void wanFailoverPolicyInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10526_MULTIWAN_HEALTH_CHECK
+void multiwanHealthCheckInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10527_WIFI_CLIENT_MANAGEMENT
+void wifiClientManagementInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10528_WIFI_CHANNEL_OPTIMIZATION
+void wifiChannelOptimizationInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10529_MATTER_BRIDGE
+void matterBridgeInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10530_MATTER_DEVICE
+void matterDeviceInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10531_THREAD_NETWORK
+void threadNetworkInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10532_ZIGBEE_COORDINATOR
+void zigbeeCoordinatorInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10533_ZIGBEE_DEVICE
+void zigbeeDeviceInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10534_ZIGBEE_GROUP
+void zigbeeGroupInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10535_LAN_CONFIGURATION
+void lanConfigurationInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10536_ROUTING_TABLE
+void routingTableInit(WppClient &client);
+#endif
+
+#ifdef OBJ_W_10537_VPN_CONFIGURATION
+void vpnConfigurationInit(WppClient &client);
 #endif
 
 /* ------------- Helpful methods ------------- */

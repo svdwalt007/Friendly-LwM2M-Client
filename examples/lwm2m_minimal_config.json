@@ -1,0 +1,209 @@
+{
+  "lwm2m_objects": {
+    "comment": "Minimal LwM2M Configuration for Current Build",
+    "note": "This configuration matches your current CMake build settings",
+
+    "0": {
+      "name": "LwM2M Security (Mandatory)",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "coap://dem-iot.friendly-tech.com:5683",
+          "1": false,
+          "2": 0,
+          "3": "",
+          "4": "",
+          "5": "",
+          "10": 1,
+          "11": 0,
+          "12": 0
+        }
+      }]
+    },
+
+    "1": {
+      "name": "LwM2M Server (Mandatory)",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": 123,
+          "1": 86400,
+          "2": 300,
+          "3": 6000,
+          "5": 600,
+          "6": true,
+          "7": "U",
+          "8": 0
+        }
+      }]
+    },
+
+    "2": {
+      "name": "LwM2M Access Control (Mandatory)",
+      "comment": "ACL configuration - grants full access to server ID 123",
+      "instances": [
+        {
+          "id": 0,
+          "comment": "ACL for Security Object /0/0",
+          "resources": {
+            "0": 0,
+            "1": 0,
+            "2": 31,
+            "3": 123
+          }
+        },
+        {
+          "id": 1,
+          "comment": "ACL for Server Object /1/0",
+          "resources": {
+            "0": 1,
+            "1": 0,
+            "2": 31,
+            "3": 123
+          }
+        },
+        {
+          "id": 2,
+          "comment": "ACL for ACL Object /2/0 (self)",
+          "resources": {
+            "0": 2,
+            "1": 0,
+            "2": 31,
+            "3": 123
+          }
+        },
+        {
+          "id": 3,
+          "comment": "ACL for Device Object /3/0",
+          "resources": {
+            "0": 3,
+            "1": 0,
+            "2": 31,
+            "3": 123
+          }
+        },
+        {
+          "id": 4,
+          "comment": "ACL for Connectivity Monitoring /4/0",
+          "resources": {
+            "0": 4,
+            "1": 0,
+            "2": 31,
+            "3": 123
+          }
+        },
+        {
+          "id": 5,
+          "comment": "ACL for Firmware Update /5/0",
+          "resources": {
+            "0": 5,
+            "1": 0,
+            "2": 31,
+            "3": 123
+          }
+        },
+        {
+          "id": 6,
+          "comment": "ACL for Location Object /6/0",
+          "resources": {
+            "0": 6,
+            "1": 0,
+            "2": 31,
+            "3": 123
+          }
+        },
+        {
+          "id": 7,
+          "comment": "ACL for Audio Clip /3339/0",
+          "resources": {
+            "0": 3339,
+            "1": 0,
+            "2": 31,
+            "3": 123
+          }
+        }
+      ]
+    },
+
+    "3": {
+      "name": "Device (Mandatory)",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "Friendly Technologies",
+          "1": "LwM2M Client v1.2.2",
+          "2": "svdwat007-777",
+          "3": "1.2.2",
+          "6": 1,
+          "7": 5000,
+          "8": 2500,
+          "9": 100,
+          "10": 0,
+          "11": 0,
+          "13": 0,
+          "14": "+00:00",
+          "15": "UTC",
+          "16": "U",
+          "17": "Router",
+          "18": "1.0.0",
+          "19": "1.0.0",
+          "20": 0,
+          "21": 0
+        }
+      }]
+    },
+
+    "4": {
+      "name": "Connectivity Monitoring",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": 0,
+          "1": 0,
+          "2": -70,
+          "3": 0,
+          "4": ["192.168.1.100"],
+          "5": [""],
+          "6": ["8.8.8.8", "8.8.4.4"],
+          "7": [""],
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 0
+        }
+      }]
+    },
+
+    "5": {
+      "name": "Firmware Update",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "",
+          "1": "",
+          "3": 0,
+          "5": 0,
+          "6": false,
+          "7": 0,
+          "8": false,
+          "9": 1
+        }
+      }]
+    },
+
+    "6": {
+      "name": "Location",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "0.0",
+          "1": "0.0",
+          "2": "0.0",
+          "3": "0.0",
+          "5": 0,
+          "6": 1
+        }
+      }]
+    }
+  }
+}

@@ -1,0 +1,505 @@
+{
+  "lwm2m_objects": {
+    "comment": "LwM2M Object Configuration - Comprehensive Sample",
+    "note": "This file demonstrates all available objects (10512-10537)",
+
+    "0": {
+      "name": "LwM2M Security (Mandatory)",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "coap://leshan.eclipseprojects.io:5683",
+          "1": false,
+          "2": 0,
+          "10": 1,
+          "11": 0
+        }
+      }]
+    },
+
+    "1": {
+      "name": "LwM2M Server (Mandatory)",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": 1,
+          "1": 86400,
+          "6": true,
+          "7": "U"
+        }
+      }]
+    },
+
+    "3": {
+      "name": "Device (Mandatory)",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "Walt Technologies",
+          "1": "Friendly Router Model X1",
+          "2": "SN-FRIENDLY-2024-001",
+          "3": "1.2.0"
+        }
+      }]
+    },
+
+    "10512": {
+      "name": "Starlink Terminal",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "STARLINK-TERM-001",
+          "1": "1.0.42",
+          "2": "192.168.100.1",
+          "3": 150.5,
+          "4": -45,
+          "5": true
+        }
+      }]
+    },
+
+    "10513": {
+      "name": "Router Management",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "Walt-Router-X1",
+          "1": "1.2.0",
+          "12": "192.168.1.1",
+          "13": "255.255.255.0"
+        }
+      }]
+    },
+
+    "10514": {
+      "name": "Ethernet Interface (Multiple Instances)",
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "eth0",
+            "1": true,
+            "2": "00:11:22:33:44:55",
+            "3": "192.168.1.100",
+            "6": 1000
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": "eth1",
+            "1": true,
+            "2": "00:11:22:33:44:66",
+            "3": "192.168.2.1",
+            "6": 1000
+          }
+        }
+      ]
+    },
+
+    "10515": {
+      "name": "GPIO Control (Multiple Instances)",
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 17,
+            "1": "LED_STATUS",
+            "2": "output",
+            "3": true
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": 18,
+            "1": "BUTTON_RESET",
+            "2": "input",
+            "4": true
+          }
+        }
+      ]
+    },
+
+    "10516": {
+      "name": "USB Management",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": 1,
+          "1": "USB Storage",
+          "2": "2.0",
+          "5": true
+        }
+      }]
+    },
+
+    "10517": {
+      "name": "Storage Management",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "/dev/mmcblk0p1",
+          "1": "eMMC",
+          "2": 32000000000,
+          "5": true,
+          "6": "/"
+        }
+      }]
+    },
+
+    "10518": {
+      "name": "System Monitor",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": 35.5,
+          "2": 85,
+          "3": 2048,
+          "8": 4
+        }
+      }]
+    },
+
+    "10519": {
+      "name": "Hardware Watchdog",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": true,
+          "1": 30,
+          "5": true
+        }
+      }]
+    },
+
+    "10520": {
+      "name": "Mikrobus",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": 1,
+          "1": "Socket 1",
+          "2": true,
+          "3": "TEMP_SENSOR"
+        }
+      }]
+    },
+
+    "10521": {
+      "name": "Firewall Configuration",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": true,
+          "1": "ACCEPT",
+          "2": "DROP",
+          "5": true
+        }
+      }]
+    },
+
+    "10522": {
+      "name": "PoE Management (Multiple Instances)",
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 1,
+            "1": "PoE Port 1",
+            "2": true,
+            "3": "802.3at",
+            "6": 12.5
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": 2,
+            "1": "PoE Port 2",
+            "2": false,
+            "3": "802.3af"
+          }
+        }
+      ]
+    },
+
+    "10525": {
+      "name": "WAN Failover Policy",
+      "note": "Enable with: cmake -DWITH_WAN_FAILOVER=ON",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "Primary_Failover_Policy",
+          "1": "wan0",
+          "2": "wan1",
+          "3": "wan2",
+          "4": 0,
+          "5": 70,
+          "6": 20,
+          "7": 10,
+          "8": 3,
+          "9": 1,
+          "10": 300,
+          "11": "wan0",
+          "12": 1,
+          "14": 5,
+          "15": true
+        }
+      }]
+    },
+
+    "10526": {
+      "name": "Multi-WAN Health Check",
+      "note": "Enable with: cmake -DWITH_MULTIWAN_HEALTH=ON",
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "wan0",
+            "1": 0,
+            "2": "8.8.8.8",
+            "4": 30,
+            "5": 1000,
+            "6": 3,
+            "7": 2,
+            "8": 1,
+            "10": true,
+            "11": 15.5,
+            "15": 0.5
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": "wan1",
+            "1": 0,
+            "2": "1.1.1.1",
+            "4": 30,
+            "8": 1,
+            "10": true
+          }
+        }
+      ]
+    },
+
+    "10527": {
+      "name": "WiFi Client Management",
+      "note": "Enable with: cmake -DWITH_WIFI_CLIENT_MGMT=ON",
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "AA:BB:CC:DD:EE:01",
+            "1": "192.168.1.101",
+            "2": "laptop-work",
+            "3": "wlan0",
+            "4": -65,
+            "7": 866,
+            "8": 866,
+            "11": 3600,
+            "12": "802.11ac",
+            "13": "5GHz",
+            "15": "allowed"
+          }
+        }
+      ]
+    },
+
+    "10528": {
+      "name": "WiFi Channel Optimization",
+      "note": "Enable with: cmake -DWITH_WIFI_CHANNEL_OPT=ON",
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "radio0",
+            "1": 36,
+            "2": 80,
+            "3": true,
+            "4": 3600,
+            "5": 15,
+            "6": 35,
+            "8": 25
+          }
+        }
+      ]
+    },
+
+    "10529": {
+      "name": "Matter Bridge",
+      "note": "Enable with: cmake -DWITH_MATTER_BRIDGE=ON",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "Active",
+          "1": 12,
+          "2": "MyMatterNetwork",
+          "3": true,
+          "4": "0x1234567890ABCDEF",
+          "5": 65521,
+          "6": 32768
+        }
+      }]
+    },
+
+    "10530": {
+      "name": "Matter Device",
+      "note": "Enable with: cmake -DWITH_MATTER_BRIDGE=ON",
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "0x0011223344556677",
+            "1": 65521,
+            "2": 32768,
+            "3": 256,
+            "4": "On/Off Light",
+            "6": true,
+            "7": "1.0.5",
+            "9": "Smart Bulb Pro"
+          }
+        }
+      ]
+    },
+
+    "10531": {
+      "name": "Thread Network",
+      "note": "Enable with: cmake -DWITH_MATTER_BRIDGE=ON",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "HomeThreadNetwork",
+          "1": 4660,
+          "2": 15,
+          "3": "1122334455667788",
+          "6": 1,
+          "8": 8
+        }
+      }]
+    },
+
+    "10532": {
+      "name": "Zigbee Coordinator",
+      "note": "Enable with: cmake -DWITH_ZIGBEE=ON",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": 1,
+          "1": 6754,
+          "2": "00124B001F2A3B4C",
+          "3": 15,
+          "5": false,
+          "6": 25,
+          "7": "00124B001F2A3B4C",
+          "12": "/dev/ttyUSB0",
+          "13": 115200
+        }
+      }]
+    },
+
+    "10533": {
+      "name": "Zigbee Device",
+      "note": "Enable with: cmake -DWITH_ZIGBEE=ON",
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "00124B0022334455",
+            "1": 15432,
+            "2": 1,
+            "3": "Philips",
+            "4": "Hue White A19",
+            "5": "1.50.2",
+            "12": true,
+            "13": true
+          }
+        }
+      ]
+    },
+
+    "10534": {
+      "name": "Zigbee Group",
+      "note": "Enable with: cmake -DWITH_ZIGBEE=ON",
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 100,
+            "1": "Living Room Lights",
+            "3": 5,
+            "4": 2
+          }
+        }
+      ]
+    },
+
+    "10535": {
+      "name": "LAN Configuration",
+      "note": "Enable with: cmake -DWITH_LAN_CONFIG=ON",
+      "instances": [{
+        "id": 0,
+        "resources": {
+          "0": "192.168.1.1",
+          "1": "255.255.255.0",
+          "2": true,
+          "3": "192.168.1.100",
+          "4": "192.168.1.200",
+          "5": 86400,
+          "6": "8.8.8.8",
+          "8": "local.lan"
+        }
+      }]
+    },
+
+    "10536": {
+      "name": "Routing Table",
+      "note": "Enable with: cmake -DWITH_ROUTING_TABLE=ON",
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "0.0.0.0",
+            "1": "0.0.0.0",
+            "2": "192.168.1.1",
+            "3": "eth0",
+            "4": 0,
+            "5": 3
+          }
+        }
+      ]
+    },
+
+    "10537": {
+      "name": "VPN Configuration",
+      "note": "Enable with: cmake -DWITH_VPN_CONFIG=ON",
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "Corporate_VPN",
+            "1": 0,
+            "2": "vpn.company.com",
+            "3": 1194,
+            "4": "10.8.0.2",
+            "5": "10.0.0.0/24",
+            "6": 2,
+            "7": "vpnuser",
+            "13": 1
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": "HomeOffice_VPN",
+            "1": 1,
+            "2": "192.168.100.1",
+            "3": 51820,
+            "13": 1,
+            "20": true
+          }
+        }
+      ]
+    }
+  }
+}

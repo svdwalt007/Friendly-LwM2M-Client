@@ -11,47 +11,58 @@ project(OpenWrtFirmwareUpdater)
 set(SOURCES
     OpenWrtFwUpdater.cpp
     OpenWrtFwDownloader.cpp
+    OpenWrtFwUriDownloader.cpp
     OpenWrtFwInit.cpp
 )
-
-# Conditionally add URI downloader if RES_5_8 is enabled
-if(RES_5_8)
-    list(APPEND SOURCES OpenWrtFwUriDownloader.cpp)
-endif()
 
 # Create static library
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
 # Include directories
+# Note: CMAKE_SOURCE_DIR points to examples/, so we need to go up one level with ..
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/wpp
-    ${CMAKE_SOURCE_DIR}/wpp/client
-    ${CMAKE_SOURCE_DIR}/wpp/registry
-    ${CMAKE_SOURCE_DIR}/wpp/registry/data_model
-    ${CMAKE_SOURCE_DIR}/wpp/registry/data_model/object
-    ${CMAKE_SOURCE_DIR}/wpp/registry/data_model/instance
-    ${CMAKE_SOURCE_DIR}/wpp/registry/data_model/resource
-    ${CMAKE_SOURCE_DIR}/wpp/registry/data_model/types
-    ${CMAKE_SOURCE_DIR}/wpp/registry/objects/o_5_firmware_update
-    ${CMAKE_SOURCE_DIR}/wpp/registry/objects/o_5_firmware_update/interfaces
-    ${CMAKE_SOURCE_DIR}/wpp/registry/objects/m_0_lwm2m_security
-    ${CMAKE_SOURCE_DIR}/wpp/registry/objects/m_3_device
-    ${CMAKE_SOURCE_DIR}/wpp/utils
-    ${CMAKE_SOURCE_DIR}/wpp/utils/task_queue
-    ${CMAKE_SOURCE_DIR}/wpp/platform
+    ${CMAKE_SOURCE_DIR}/../wpp
+    ${CMAKE_SOURCE_DIR}/../wpp/client
+    ${CMAKE_SOURCE_DIR}/../wpp/registry
+    ${CMAKE_SOURCE_DIR}/../wpp/registry/data_model
+    ${CMAKE_SOURCE_DIR}/../wpp/registry/data_model/object
+    ${CMAKE_SOURCE_DIR}/../wpp/registry/data_model/object/observer
+    ${CMAKE_SOURCE_DIR}/../wpp/registry/data_model/instance
+    ${CMAKE_SOURCE_DIR}/../wpp/registry/data_model/instance/observer
+    ${CMAKE_SOURCE_DIR}/../wpp/registry/data_model/resource
+    ${CMAKE_SOURCE_DIR}/../wpp/registry/data_model/types
+    ${CMAKE_SOURCE_DIR}/../wpp/registry/objects
+    ${CMAKE_SOURCE_DIR}/../wpp/registry/objects/o_5_firmware_update
+    ${CMAKE_SOURCE_DIR}/../wpp/registry/objects/o_5_firmware_update/interfaces
+    ${CMAKE_SOURCE_DIR}/../wpp/registry/objects/m_0_lwm2m_security
+    ${CMAKE_SOURCE_DIR}/../wpp/registry/objects/m_3_device
+    ${CMAKE_SOURCE_DIR}/../wpp/utils
+    ${CMAKE_SOURCE_DIR}/../wpp/utils/bindings
+    ${CMAKE_SOURCE_DIR}/../wpp/utils/task_queue
+    ${CMAKE_SOURCE_DIR}/../wpp/platform
+    ${CMAKE_SOURCE_DIR}/../wpp/platform/connection
+    ${CMAKE_SOURCE_DIR}/../2305-Wakaama/include
 )
 
 # Link with pthread for thread support
 target_link_libraries(${PROJECT_NAME} PUBLIC pthread)
 
+# Add WPP definitions (includes LWM2M_CLIENT_MODE and other necessary defines)
+target_compile_definitions(${PROJECT_NAME} PUBLIC ${WPP_DEFINITIONS})
+
 # Compiler options
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+
+# Enable exceptions for this library
+target_compile_options(${PROJECT_NAME} PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:-fexceptions>
+)
 
 # Set position independent code for static library
 set_target_properties(${PROJECT_NAME} PROPERTIES
     POSITION_INDEPENDENT_CODE ON
-    CXX_STANDARD 14
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
 
@@ -64,15 +75,9 @@ install(TARGETS ${PROJECT_NAME}
 install(FILES
     OpenWrtFwUpdater.h
     OpenWrtFwDownloader.h
+    OpenWrtFwUriDownloader.h
     OpenWrtFwInit.h
     DESTINATION include/OpenWrtFirmwareUpdater
 )
-
-if(RES_5_8)
-    install(FILES
-        OpenWrtFwUriDownloader.h
-        DESTINATION include/OpenWrtFirmwareUpdater
-    )
-endif()
 
 message(STATUS "OpenWrtFirmwareUpdater library configured")

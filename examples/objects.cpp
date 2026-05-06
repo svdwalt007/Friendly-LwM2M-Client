@@ -101,13 +101,18 @@ void securityInit(WppClient &client, const CliOptions& options) {
             // The cert_file, key_file, and ca_file paths are available in options
             cerr << "Warning: Certificate mode not fully implemented yet" << endl;
             break;
+
+        default:
+            cerr << "Error: Unknown security mode, falling back to NONE" << endl;
+            security->set<INT_T>(Lwm2mSecurity::SECURITY_MODE_2, LWM2M_SECURITY_MODE_NONE);
+            break;
     }
 
     security->set<STRING_T>(Lwm2mSecurity::LWM2M_SERVER_URI_0, url);
     security->set<INT_T>(Lwm2mSecurity::SHORT_SERVER_ID_10, TEST_SERVER_SHORT_ID);
 }
 
-void deviceInit(WppClient &client) {
+void deviceInit(WppClient &client, const CliOptions& options) {
     client.registry().registerObj(Device::object(client));
 	wpp::Instance *device = Device::createInst(client);
 
@@ -120,7 +125,8 @@ void deviceInit(WppClient &client) {
     device->set<STRING_T>(Device::SUPPORTED_BINDING_AND_MODES_16, WPP_BINDING_UDP);
     device->set<STRING_T>(Device::MANUFACTURER_0, "OpenWrt/Walt Technologies");
     device->set<STRING_T>(Device::MODEL_NUMBER_1, "OpenWRT One Router");
-    device->set<STRING_T>(Device::SERIAL_NUMBER_2, "OPENWRT-ONE-001");
+    // CLI: Use serial number from command-line options
+    device->set<STRING_T>(Device::SERIAL_NUMBER_2, options.serial_number);
 
     #if OBJ_O_2_LWM2M_ACCESS_CONTROL
 	Lwm2mAccessControl::create(Device::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
@@ -132,16 +138,12 @@ void deviceInit(WppClient &client) {
 // For OpenWRT devices with sysupgrade support, you can use the OpenWRT firmware updater:
 // To enable: cmake -DUSE_OPENWRT_FW_UPDATER=ON
 //
-// #ifdef USE_OPENWRT_FW_UPDATER
-// #include "OpenWrtFwInit.h"
-// static OpenWrtFwManager fwManager;
-// void fwUpdaterInit(WppClient &client) {
-//     initOpenWrtFirmwareUpdate(client, fwManager);
-// }
-// #else
-// ... use example firmware updater (below)
-// #endif
-
+#ifdef USE_OPENWRT_FW_UPDATER
+void fwUpdaterInit(WppClient &client) {
+    static OpenWrtFwManager fwManager;
+    initOpenWrtFirmwareUpdate(client, fwManager);
+}
+#else
 void fwUpdaterInit(WppClient &client) {
     #if RES_5_8
     static FwUriDownloader fwUriDownloader;
@@ -163,6 +165,7 @@ void fwUpdaterInit(WppClient &client) {
 	Lwm2mAccessControl::create(*FirmwareUpdate::instance(client), TEST_SERVER_SHORT_ID);
 	#endif
 }
+#endif
 #endif
 
 #ifdef OBJ_O_2_LWM2M_ACCESS_CONTROL
@@ -192,10 +195,11 @@ void connMonitoringInit(WppClient &client) {
 #ifdef OBJ_O_6_LOCATION
 void locationInit(WppClient &client) {
     client.registry().registerObj(Location::object(client));
-    Location::createInst(client);
+    Instance *location = Location::createInst(client);
 
     #if OBJ_O_2_LWM2M_ACCESS_CONTROL
 	Lwm2mAccessControl::create(Location::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+	Lwm2mAccessControl::create(*location, TEST_SERVER_SHORT_ID);
 	#endif
 }
 #endif
@@ -467,6 +471,206 @@ void poeManagementInit(WppClient &client) {
     #if OBJ_O_2_LWM2M_ACCESS_CONTROL
     Lwm2mAccessControl::create(PoeManagement::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
     Lwm2mAccessControl::create(poe, TEST_SERVER_SHORT_ID);
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_10525_WAN_FAILOVER_POLICY
+void wanFailoverPolicyInit(WppClient &client) {
+    cout << "DEBUG: Starting WanFailoverPolicy init..." << endl;
+
+    cout << "DEBUG: About to call WanFailoverPolicy::object()..." << endl;
+    Object& obj = WanFailoverPolicy::object(client);
+    cout << "DEBUG: WanFailoverPolicy::object() returned successfully" << endl;
+
+    cout << "DEBUG: About to register object..." << endl;
+    client.registry().registerObj(obj);
+    cout << "DEBUG: Object registered successfully" << endl;
+
+    cout << "DEBUG: About to call createInst()..." << endl;
+    Instance *inst = WanFailoverPolicy::createInst(client);
+    cout << "DEBUG: createInst() returned: " << (inst ? "NON-NULL" : "NULL") << endl;
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        cout << "DEBUG: Creating object-level AC..." << endl;
+        Lwm2mAccessControl::create(WanFailoverPolicy::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        cout << "DEBUG: Creating instance-level AC..." << endl;
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+        cout << "DEBUG: AC creation complete" << endl;
+    } else {
+        cout << "DEBUG: Skipping AC creation (inst is NULL)" << endl;
+    }
+    #endif
+
+    cout << "DEBUG: WanFailoverPolicy init complete" << endl;
+}
+#endif
+
+#ifdef OBJ_W_10526_MULTIWAN_HEALTH_CHECK
+void multiwanHealthCheckInit(WppClient &client) {
+    client.registry().registerObj(MultiWanHealthCheck::object(client));
+    Instance *inst = MultiWanHealthCheck::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        Lwm2mAccessControl::create(MultiWanHealthCheck::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+    }
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_10527_WIFI_CLIENT_MANAGEMENT
+void wifiClientManagementInit(WppClient &client) {
+    client.registry().registerObj(WifiClientManagement::object(client));
+    Instance *inst = WifiClientManagement::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        Lwm2mAccessControl::create(WifiClientManagement::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+    }
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_10528_WIFI_CHANNEL_OPTIMIZATION
+void wifiChannelOptimizationInit(WppClient &client) {
+    client.registry().registerObj(WifiChannelOptimization::object(client));
+    Instance *inst = WifiChannelOptimization::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        Lwm2mAccessControl::create(WifiChannelOptimization::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+    }
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_10529_MATTER_BRIDGE
+void matterBridgeInit(WppClient &client) {
+    client.registry().registerObj(MatterBridge::object(client));
+    Instance *inst = MatterBridge::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        Lwm2mAccessControl::create(MatterBridge::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+    }
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_10530_MATTER_DEVICE
+void matterDeviceInit(WppClient &client) {
+    client.registry().registerObj(MatterDevice::object(client));
+    Instance *inst = MatterDevice::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        Lwm2mAccessControl::create(MatterDevice::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+    }
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_10531_THREAD_NETWORK
+void threadNetworkInit(WppClient &client) {
+    client.registry().registerObj(ThreadNetwork::object(client));
+    Instance *inst = ThreadNetwork::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        Lwm2mAccessControl::create(ThreadNetwork::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+    }
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_10532_ZIGBEE_COORDINATOR
+void zigbeeCoordinatorInit(WppClient &client) {
+    client.registry().registerObj(ZigbeeCoordinator::object(client));
+    Instance *inst = ZigbeeCoordinator::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        Lwm2mAccessControl::create(ZigbeeCoordinator::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+    }
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_10533_ZIGBEE_DEVICE
+void zigbeeDeviceInit(WppClient &client) {
+    client.registry().registerObj(ZigbeeDevice::object(client));
+    Instance *inst = ZigbeeDevice::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        Lwm2mAccessControl::create(ZigbeeDevice::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+    }
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_10534_ZIGBEE_GROUP
+void zigbeeGroupInit(WppClient &client) {
+    client.registry().registerObj(ZigbeeGroup::object(client));
+    Instance *inst = ZigbeeGroup::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        Lwm2mAccessControl::create(ZigbeeGroup::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+    }
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_10535_LAN_CONFIGURATION
+void lanConfigurationInit(WppClient &client) {
+    client.registry().registerObj(LanConfiguration::object(client));
+    Instance *inst = LanConfiguration::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        Lwm2mAccessControl::create(LanConfiguration::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+    }
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_10536_ROUTING_TABLE
+void routingTableInit(WppClient &client) {
+    client.registry().registerObj(RoutingTable::object(client));
+    Instance *inst = RoutingTable::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        Lwm2mAccessControl::create(RoutingTable::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+    }
+    #endif
+}
+#endif
+
+#ifdef OBJ_W_10537_VPN_CONFIGURATION
+void vpnConfigurationInit(WppClient &client) {
+    client.registry().registerObj(VpnConfiguration::object(client));
+    Instance *inst = VpnConfiguration::createInst(client);
+
+    #if OBJ_O_2_LWM2M_ACCESS_CONTROL
+    if (inst) {
+        Lwm2mAccessControl::create(VpnConfiguration::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
+        Lwm2mAccessControl::create(*inst, TEST_SERVER_SHORT_ID);
+    }
     #endif
 }
 #endif

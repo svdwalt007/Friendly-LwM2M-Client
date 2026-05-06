@@ -1,0 +1,1464 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LwM2M Walt Technologies Complete Object Configuration",
+  "description": "Complete configuration for Walt Technologies LwM2M Client with all mandatory, optional, IPSO, and Walt-specific objects (10512-10537)",
+  "version": "1.2.2",
+  "lwm2m_objects": {
+    "0": {
+      "name": "LwM2M Security",
+      "mandatory": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "coaps://demo-iot.friendly-tech.com:5684",
+            "1": true,
+            "2": 0,
+            "3": "client_public_key_or_identity",
+            "4": "client_private_key_or_psk",
+            "5": "server_public_key",
+            "10": 1,
+            "11": 0,
+            "12": 1,
+            "13": [
+              "coaps://backup.server.com:5684"
+            ]
+          }
+        }
+      ]
+    },
+    "1": {
+      "name": "LwM2M Server",
+      "mandatory": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 1,
+            "1": 86400,
+            "2": 300,
+            "3": 6000,
+            "5": 86400,
+            "6": true,
+            "7": "UQ",
+            "8": 1,
+            "9": 300,
+            "10": 60,
+            "11": 0,
+            "13": 1682000000,
+            "14": "sms://+1234567890",
+            "15": "U",
+            "16": true,
+            "17": "lwm2m+json",
+            "18": 1,
+            "19": 1,
+            "20": 0,
+            "21": 0,
+            "22": 0,
+            "23": false,
+            "24": false
+          }
+        }
+      ]
+    },
+    "2": {
+      "name": "Access Control",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 3,
+            "1": 0,
+            "2": 1,
+            "3": 31
+          }
+        }
+      ]
+    },
+    "3": {
+      "name": "Device",
+      "mandatory": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "Walt Technologies",
+            "1": "Friendly Router Model X1-Pro",
+            "2": "SN-FRIENDLY-2024-001",
+            "3": "1.2.2",
+            "6": 1,
+            "7": 3800,
+            "8": 125,
+            "9": 100,
+            "10": 524288,
+            "11": {
+              "0": 0,
+              "1": 5
+            },
+            "13": 1682000000,
+            "14": "+00:00",
+            "15": "UTC",
+            "16": "UQ",
+            "17": "Router",
+            "18": "1.2.2",
+            "19": "2.1.1",
+            "20": 1,
+            "21": 262144,
+            "22": "ext_connector_1"
+          }
+        }
+      ]
+    },
+    "4": {
+      "name": "Connectivity Monitoring",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 0,
+            "1": 0,
+            "2": -85,
+            "3": 15,
+            "4": [
+              "192.168.1.100",
+              "fe80::1"
+            ],
+            "5": [
+              "192.168.1.1"
+            ],
+            "6": [
+              "wlan0",
+              "eth0"
+            ],
+            "7": [
+              "00:11:22:33:44:55"
+            ],
+            "8": [
+              "192.168.1.0/24"
+            ],
+            "9": [
+              "8.8.8.8",
+              "8.8.4.4"
+            ],
+            "10": 1500,
+            "11": 12345678,
+            "12": 1,
+            "13": "IPv4"
+          }
+        }
+      ]
+    },
+    "5": {
+      "name": "Firmware Update",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "",
+            "1": "https://firmware.walt.tech/router/latest.bin",
+            "2": "",
+            "3": 0,
+            "5": 0,
+            "6": 1,
+            "7": "1.2.2",
+            "8": 1,
+            "9": 0,
+            "10": 0,
+            "11": [
+              0,
+              1,
+              2
+            ],
+            "12": "",
+            "13": "",
+            "14": "sha256:abc123..."
+          }
+        }
+      ]
+    },
+    "6": {
+      "name": "Location",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "37.7749",
+            "1": "-122.4194",
+            "2": "15.5",
+            "3": "10.0",
+            "4": "0x0102030405060708",
+            "5": 1682000000,
+            "6": "5.0"
+          }
+        }
+      ]
+    },
+    "7": {
+      "name": "Connectivity Statistics",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 125000000,
+            "1": 85000000,
+            "2": 250000000,
+            "3": 1682000000,
+            "4": "192.168.1.1",
+            "5": 3600,
+            "6": 150,
+            "7": 25
+          }
+        }
+      ]
+    },
+    "12": {
+      "name": "WLAN Connectivity",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "MyNetwork-5GHz",
+            "1": 1,
+            "2": 0,
+            "3": 6,
+            "4": "00:11:22:33:44:55",
+            "5": -65,
+            "6": 2,
+            "7": 36,
+            "8": 3,
+            "9": "WPA2-PSK",
+            "10": 4
+          }
+        }
+      ]
+    },
+    "13": {
+      "name": "Bearer Selection",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 0,
+            "1": 1,
+            "2": 0,
+            "3": 1,
+            "4": [
+              "LTE",
+              "WiFi",
+              "Ethernet"
+            ],
+            "5": "LTE"
+          }
+        }
+      ]
+    },
+    "3303": {
+      "name": "Temperature (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5601": -10.0,
+            "5602": 85.0,
+            "5603": -20.0,
+            "5604": 100.0,
+            "5700": 35.5,
+            "5701": "Cel"
+          }
+        }
+      ]
+    },
+    "3305": {
+      "name": "Power Measurement (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5800": 25.5,
+            "5801": "W",
+            "5802": 0.0,
+            "5803": 45.0,
+            "5804": 125.5,
+            "5805": 1682000000,
+            "5806": 3600,
+            "5822": "3-phase 230V"
+          }
+        }
+      ]
+    },
+    "3312": {
+      "name": "Power Control (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5850": true,
+            "5851": 75,
+            "5852": "00:05:00",
+            "5853": "Main Power"
+          }
+        }
+      ]
+    },
+    "3313": {
+      "name": "Accelerometer (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5702": 0.15,
+            "5703": 0.05,
+            "5704": 9.81,
+            "5603": -20.0,
+            "5604": 20.0,
+            "5701": "m/s2"
+          }
+        }
+      ]
+    },
+    "3314": {
+      "name": "Magnetometer (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5702": 0.025,
+            "5703": -0.015,
+            "5704": 0.042,
+            "5701": "T",
+            "5603": -0.1,
+            "5604": 0.1
+          }
+        }
+      ]
+    },
+    "3315": {
+      "name": "Barometer (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5700": 1013.25,
+            "5701": "hPa",
+            "5601": 950.0,
+            "5602": 1050.0
+          }
+        }
+      ]
+    },
+    "3323": {
+      "name": "Pressure (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5700": 101.325,
+            "5701": "kPa",
+            "5601": 0.0,
+            "5602": 200.0
+          }
+        }
+      ]
+    },
+    "3324": {
+      "name": "Humidity (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5700": 65.5,
+            "5701": "%",
+            "5601": 0.0,
+            "5602": 100.0
+          }
+        }
+      ]
+    },
+    "3325": {
+      "name": "Voltage (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5700": 12.5,
+            "5701": "V",
+            "5601": 10.0,
+            "5602": 15.0,
+            "5603": 8.0,
+            "5604": 16.0
+          }
+        }
+      ]
+    },
+    "3326": {
+      "name": "Current (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5700": 2.5,
+            "5701": "A",
+            "5601": 0.0,
+            "5602": 10.0
+          }
+        }
+      ]
+    },
+    "3327": {
+      "name": "Frequency (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5700": 50.0,
+            "5701": "Hz",
+            "5601": 45.0,
+            "5602": 55.0
+          }
+        }
+      ]
+    },
+    "3336": {
+      "name": "Positioner (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5536": 45.5,
+            "5537": 0.0,
+            "5538": 100.0,
+            "5750": "Servo 1",
+            "5523": 5.0
+          }
+        }
+      ]
+    },
+    "3338": {
+      "name": "Buzzer (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5850": false,
+            "5525": 0,
+            "5548": 1000,
+            "5750": "Alarm Buzzer"
+          }
+        }
+      ]
+    },
+    "3339": {
+      "name": "Audio Clip (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5522": "startup_sound.wav",
+            "5523": 15.5,
+            "5524": "audio/wav",
+            "5527": 0,
+            "5750": "Startup Sound",
+            "5821": 100
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "5522": "alert_critical.mp3",
+            "5523": 5.2,
+            "5524": "audio/mpeg",
+            "5527": 0,
+            "5750": "Critical Alert",
+            "5821": 255
+          }
+        }
+      ]
+    },
+    "3340": {
+      "name": "Timer (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5850": false,
+            "5521": 300,
+            "5523": 150,
+            "5526": "PT5M",
+            "5750": "Reboot Timer"
+          }
+        }
+      ]
+    },
+    "3341": {
+      "name": "Addressable Text Display (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5527": "System Online",
+            "5528": 0,
+            "5529": 0,
+            "5530": 16,
+            "5531": 2,
+            "5545": "16x2",
+            "5750": "LCD Display"
+          }
+        }
+      ]
+    },
+    "3342": {
+      "name": "On/Off Switch (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5850": true,
+            "5852": "00:00:00",
+            "5854": 0,
+            "5750": "Power Switch"
+          }
+        }
+      ]
+    },
+    "3345": {
+      "name": "Multiple Axis Joystick (IPSO)",
+      "mandatory": false,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "5702": 0.0,
+            "5703": 0.0,
+            "5704": 0.0,
+            "5750": "Control Joystick"
+          }
+        }
+      ]
+    },
+    "10512": {
+      "name": "Starlink Terminal",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "STARLINK-TERM-001",
+            "1": "1.0.42",
+            "2": "192.168.100.1",
+            "3": 150.5,
+            "4": -45,
+            "5": true,
+            "6": 85.7,
+            "7": 15.3,
+            "8": 125000000,
+            "9": 25000000,
+            "10": 25,
+            "11": 1.5,
+            "12": 0.8,
+            "13": 45.5,
+            "14": -122.3,
+            "15": true,
+            "16": "obstructed",
+            "17": 45.2,
+            "18": 38.5,
+            "19": "Connected"
+          }
+        }
+      ]
+    },
+    "10513": {
+      "name": "Router Management",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "Walt-Router-X1",
+            "1": "1.2.2",
+            "2": "FW-1.2.2-20240430",
+            "3": 3600,
+            "4": true,
+            "5": 1682000000,
+            "6": 95,
+            "7": 45.5,
+            "8": 524288,
+            "9": 262144,
+            "10": 2.5,
+            "11": 1.8,
+            "12": "192.168.1.1",
+            "13": "255.255.255.0",
+            "14": "8.8.8.8",
+            "15": "auto",
+            "16": true,
+            "17": "NAT",
+            "18": 256
+          }
+        }
+      ]
+    },
+    "10514": {
+      "name": "Ethernet Interface",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "eth0",
+            "1": true,
+            "2": "00:11:22:33:44:55",
+            "3": "192.168.1.100",
+            "4": "255.255.255.0",
+            "5": "192.168.1.1",
+            "6": 1000,
+            "7": true,
+            "8": 125000000,
+            "9": 125000000,
+            "10": 0,
+            "11": 0,
+            "12": 1500,
+            "13": "auto",
+            "14": "full",
+            "15": 0
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": "eth1",
+            "1": true,
+            "2": "00:11:22:33:44:66",
+            "3": "192.168.2.1",
+            "4": "255.255.255.0",
+            "5": "",
+            "6": 1000,
+            "7": true,
+            "8": 50000000,
+            "9": 50000000,
+            "10": 0,
+            "11": 0,
+            "12": 1500,
+            "13": "auto",
+            "14": "full",
+            "15": 0
+          }
+        }
+      ]
+    },
+    "10515": {
+      "name": "GPIO Control",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 17,
+            "1": "LED_STATUS",
+            "2": "output",
+            "3": true,
+            "4": false,
+            "5": 0,
+            "6": "Status LED control",
+            "7": "push-pull"
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": 18,
+            "1": "BUTTON_RESET",
+            "2": "input",
+            "3": false,
+            "4": true,
+            "5": 0,
+            "6": "Reset button input",
+            "7": "pull-up"
+          }
+        }
+      ]
+    },
+    "10516": {
+      "name": "USB Management",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 1,
+            "1": "USB Storage",
+            "2": "2.0",
+            "3": "0x1234",
+            "4": "0x5678",
+            "5": true,
+            "6": 480,
+            "7": 500,
+            "8": "/dev/sda1",
+            "9": "mass_storage",
+            "10": "Kingston",
+            "11": "64GB Flash"
+          }
+        }
+      ]
+    },
+    "10517": {
+      "name": "Storage Management",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "/dev/mmcblk0p1",
+            "1": "eMMC",
+            "2": 32000000000,
+            "3": 28000000000,
+            "4": 4000000000,
+            "5": true,
+            "6": "/",
+            "7": "ext4",
+            "8": 85,
+            "9": 15000,
+            "10": 12000,
+            "11": true,
+            "12": "rw,relatime"
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": "/dev/sda1",
+            "1": "USB",
+            "2": 64000000000,
+            "3": 32000000000,
+            "4": 32000000000,
+            "5": true,
+            "6": "/mnt/usb",
+            "7": "ntfs",
+            "8": 50,
+            "9": 8000,
+            "10": 4000,
+            "11": true,
+            "12": "rw,nosuid"
+          }
+        }
+      ]
+    },
+    "10518": {
+      "name": "System Monitor",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 35.5,
+            "1": 45,
+            "2": 85,
+            "3": 2048,
+            "4": 1536,
+            "5": 512,
+            "6": 98.5,
+            "7": 3600,
+            "8": 4,
+            "9": 25.5,
+            "10": 1.2,
+            "11": 15,
+            "12": "1.2.2",
+            "13": 50,
+            "14": "Linux 5.15.0",
+            "15": "armv8"
+          }
+        }
+      ]
+    },
+    "10519": {
+      "name": "Hardware Watchdog",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": true,
+            "1": 30,
+            "2": 0,
+            "3": 1682000000,
+            "4": 0,
+            "5": true,
+            "6": 60,
+            "7": "/dev/watchdog",
+            "8": "hardware"
+          }
+        }
+      ]
+    },
+    "10520": {
+      "name": "Mikrobus",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 1,
+            "1": "Socket 1",
+            "2": true,
+            "3": "TEMP_SENSOR",
+            "4": "1.0",
+            "5": "i2c",
+            "6": "0x48",
+            "7": true,
+            "8": "MCP9808",
+            "9": 3.3
+          }
+        }
+      ]
+    },
+    "10521": {
+      "name": "Firewall Configuration",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": true,
+            "1": "ACCEPT",
+            "2": "DROP",
+            "3": "DROP",
+            "4": "REJECT",
+            "5": true,
+            "6": 100,
+            "7": 50,
+            "8": true,
+            "9": 10000,
+            "10": 300
+          }
+        }
+      ]
+    },
+    "10522": {
+      "name": "PoE Management",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 1,
+            "1": "PoE Port 1",
+            "2": true,
+            "3": "802.3at",
+            "4": 15.4,
+            "5": 25.5,
+            "6": 12.5,
+            "7": 48.0,
+            "8": 0.26,
+            "9": 2,
+            "10": true,
+            "11": "Class 4",
+            "12": 95
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": 2,
+            "1": "PoE Port 2",
+            "2": false,
+            "3": "802.3af",
+            "4": 15.4,
+            "5": 0,
+            "6": 0,
+            "7": 0,
+            "8": 0,
+            "9": 0,
+            "10": false,
+            "11": "Disabled",
+            "12": 0
+          }
+        }
+      ]
+    },
+    "10525": {
+      "name": "WAN Failover Policy",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "Primary_Failover_Policy",
+            "1": "wan0",
+            "2": "wan1",
+            "3": "wan2",
+            "4": 0,
+            "5": 70,
+            "6": 20,
+            "7": 10,
+            "8": 3,
+            "9": 1,
+            "10": 300,
+            "11": "wan0",
+            "12": 1,
+            "13": 1682000000,
+            "14": 5,
+            "15": true,
+            "16": "health_check",
+            "17": 60,
+            "18": true
+          }
+        }
+      ]
+    },
+    "10526": {
+      "name": "Multi-WAN Health Check",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "wan0",
+            "1": 0,
+            "2": "8.8.8.8",
+            "3": 0,
+            "4": 30,
+            "5": 1000,
+            "6": 3,
+            "7": 2,
+            "8": 1,
+            "9": 1682000000,
+            "10": true,
+            "11": 15.5,
+            "12": 10.2,
+            "13": 25.8,
+            "14": 2.3,
+            "15": 0.5,
+            "16": 0,
+            "17": 15,
+            "18": 1500,
+            "19": 5,
+            "20": "icmp",
+            "21": 32
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": "wan1",
+            "1": 0,
+            "2": "1.1.1.1",
+            "3": 0,
+            "4": 30,
+            "5": 1000,
+            "6": 3,
+            "7": 2,
+            "8": 1,
+            "9": 1682000000,
+            "10": true,
+            "11": 12.3,
+            "12": 8.5,
+            "13": 18.7,
+            "14": 1.8,
+            "15": 0.2,
+            "16": 0,
+            "17": 20,
+            "18": 2000,
+            "19": 3,
+            "20": "icmp",
+            "21": 32
+          }
+        }
+      ]
+    },
+    "10527": {
+      "name": "WiFi Client Management",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "AA:BB:CC:DD:EE:01",
+            "1": "192.168.1.101",
+            "2": "laptop-work",
+            "3": "wlan0",
+            "4": -65,
+            "5": -95,
+            "6": 30,
+            "7": 866,
+            "8": 866,
+            "9": 15000000,
+            "10": 8000000,
+            "11": 3600,
+            "12": "802.11ac",
+            "13": "5GHz",
+            "14": 80,
+            "15": "allowed",
+            "16": 5,
+            "17": false,
+            "18": 30,
+            "19": "Intel AX210",
+            "20": 2
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": "AA:BB:CC:DD:EE:02",
+            "1": "192.168.1.102",
+            "2": "phone-android",
+            "3": "wlan0",
+            "4": -72,
+            "5": -95,
+            "6": 23,
+            "7": 433,
+            "8": 433,
+            "9": 5000000,
+            "10": 3000000,
+            "11": 1800,
+            "12": "802.11n",
+            "13": "2.4GHz",
+            "14": 20,
+            "15": "allowed",
+            "16": 3,
+            "17": false,
+            "18": 15,
+            "19": "Qualcomm",
+            "20": 1
+          }
+        }
+      ]
+    },
+    "10528": {
+      "name": "WiFi Channel Optimization",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "radio0",
+            "1": 36,
+            "2": 80,
+            "3": true,
+            "4": 3600,
+            "5": 15,
+            "6": 35,
+            "7": -92,
+            "8": 25,
+            "9": true,
+            "10": "Available",
+            "11": false,
+            "12": 6,
+            "13": 36,
+            "14": 0,
+            "15": "5GHz",
+            "16": 1682000000,
+            "17": 1682000000,
+            "18": 27
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": "radio1",
+            "1": 6,
+            "2": 20,
+            "3": true,
+            "4": 3600,
+            "5": 25,
+            "6": 60,
+            "7": -88,
+            "8": 45,
+            "9": false,
+            "10": "N/A",
+            "11": false,
+            "12": 1,
+            "13": 44,
+            "14": 0,
+            "15": "2.4GHz",
+            "16": 1682000000,
+            "17": 1682000000,
+            "18": 20
+          }
+        }
+      ]
+    },
+    "10529": {
+      "name": "Matter Bridge",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "Active",
+            "1": 12,
+            "2": "MyMatterNetwork",
+            "3": true,
+            "4": "0x1234567890ABCDEF",
+            "5": 65521,
+            "6": 32768,
+            "7": "1.1.0",
+            "8": 5540,
+            "9": true
+          }
+        }
+      ]
+    },
+    "10530": {
+      "name": "Matter Device",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "0x0011223344556677",
+            "1": 65521,
+            "2": 32768,
+            "3": 256,
+            "4": "On/Off Light",
+            "5": "Philips",
+            "6": true,
+            "7": "1.0.5",
+            "8": "SN-MATTER-001",
+            "9": "Smart Bulb Pro",
+            "10": 1682000000,
+            "11": "192.168.1.150",
+            "12": -55,
+            "13": 100,
+            "14": 255
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": "0x8877665544332211",
+            "1": 65521,
+            "2": 32769,
+            "3": 770,
+            "4": "Temperature Sensor",
+            "5": "IKEA",
+            "6": true,
+            "7": "2.1.0",
+            "8": "SN-MATTER-002",
+            "9": "TempSense Ultra",
+            "10": 1682000000,
+            "11": "192.168.1.151",
+            "12": -62,
+            "13": 80,
+            "14": 0
+          }
+        }
+      ]
+    },
+    "10531": {
+      "name": "Thread Network",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "HomeThreadNetwork",
+            "1": 4660,
+            "2": 15,
+            "3": "1122334455667788",
+            "4": "00112233445566778899AABBCCDDEEFF",
+            "5": 1682000000,
+            "6": 1,
+            "7": "0xFE80::1",
+            "8": 8,
+            "9": "Leader",
+            "10": true
+          }
+        }
+      ]
+    },
+    "10532": {
+      "name": "Zigbee Coordinator",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 1,
+            "1": 6754,
+            "2": "00124B001F2A3B4C",
+            "3": 15,
+            "4": "0x1234567890ABCDEF",
+            "5": false,
+            "6": 25,
+            "7": "00124B001F2A3B4C",
+            "8": 1,
+            "9": "1.2.3",
+            "10": 20,
+            "11": 5,
+            "12": "/dev/ttyUSB0",
+            "13": 115200,
+            "14": 40,
+            "15": 26,
+            "16": "ConBee II",
+            "17": "dresden elektronik"
+          }
+        }
+      ]
+    },
+    "10533": {
+      "name": "Zigbee Device",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "00124B0022334455",
+            "1": 15432,
+            "2": 1,
+            "3": "Philips",
+            "4": "Hue White A19",
+            "5": "1.50.2",
+            "6": 1,
+            "7": 255,
+            "8": -65,
+            "9": 1682000000,
+            "10": 100,
+            "11": 254,
+            "12": true,
+            "13": true,
+            "14": 260,
+            "15": 256,
+            "16": "Router"
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": "00124B0066778899",
+            "1": 25123,
+            "2": 2,
+            "3": "IKEA",
+            "4": "TRADFRI Motion Sensor",
+            "5": "2.3.75",
+            "6": 3,
+            "7": 200,
+            "8": -72,
+            "9": 1682000000,
+            "10": 75,
+            "11": 254,
+            "12": true,
+            "13": true,
+            "14": 260,
+            "15": 1030,
+            "16": "End Device"
+          }
+        }
+      ]
+    },
+    "10534": {
+      "name": "Zigbee Group",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": 100,
+            "1": "Living Room Lights",
+            "2": [
+              "00124B0022334455",
+              "00124B0022334456",
+              "00124B0022334457"
+            ],
+            "3": 5,
+            "4": 2,
+            "5": 1,
+            "6": 100
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": 101,
+            "1": "Bedroom Lights",
+            "2": [
+              "00124B0066778899",
+              "00124B006677889A"
+            ],
+            "3": 3,
+            "4": 1,
+            "5": 0,
+            "6": 50
+          }
+        }
+      ]
+    },
+    "10535": {
+      "name": "LAN Configuration",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "192.168.1.1",
+            "1": "255.255.255.0",
+            "2": true,
+            "3": "192.168.1.100",
+            "4": "192.168.1.200",
+            "5": 86400,
+            "6": "8.8.8.8",
+            "7": "8.8.4.4",
+            "8": "local.lan",
+            "9": "Walt-Router-X1",
+            "10": "00:11:22:33:44:55",
+            "11": 253,
+            "12": 1,
+            "13": "192.168.1.0/24"
+          }
+        }
+      ]
+    },
+    "10536": {
+      "name": "Routing Table",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "0.0.0.0",
+            "1": "0.0.0.0",
+            "2": "192.168.1.1",
+            "3": "eth0",
+            "4": 0,
+            "5": 3,
+            "6": 1,
+            "7": 254,
+            "8": 0,
+            "9": 1500,
+            "10": "kernel",
+            "11": 100
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": "10.0.0.0",
+            "1": "255.0.0.0",
+            "2": "192.168.1.254",
+            "3": "eth0",
+            "4": 10,
+            "5": 2,
+            "6": 1,
+            "7": 254,
+            "8": 253,
+            "9": 1500,
+            "10": "static",
+            "11": 50
+          }
+        },
+        {
+          "id": 2,
+          "resources": {
+            "0": "192.168.100.0",
+            "1": "255.255.255.0",
+            "2": "10.8.0.1",
+            "3": "tun0",
+            "4": 0,
+            "5": 1,
+            "6": 1,
+            "7": 64,
+            "8": 0,
+            "9": 1500,
+            "10": "vpn",
+            "11": 200
+          }
+        }
+      ]
+    },
+    "10537": {
+      "name": "VPN Configuration",
+      "walt_object": true,
+      "instances": [
+        {
+          "id": 0,
+          "resources": {
+            "0": "Corporate_VPN",
+            "1": 0,
+            "2": "vpn.company.com",
+            "3": 1194,
+            "4": "10.8.0.2",
+            "5": "10.0.0.0/24",
+            "6": 2,
+            "7": "vpnuser",
+            "8": "********",
+            "9": "/etc/openvpn/ca.crt",
+            "10": "/etc/openvpn/client.crt",
+            "11": "/etc/openvpn/client.key",
+            "12": "AES-256-CBC",
+            "13": 1,
+            "14": 125000000,
+            "15": 85000000,
+            "16": 7200,
+            "17": "8.8.8.8",
+            "18": 60,
+            "19": 30,
+            "20": false,
+            "21": true,
+            "22": "tun0"
+          }
+        },
+        {
+          "id": 1,
+          "resources": {
+            "0": "HomeOffice_VPN",
+            "1": 1,
+            "2": "192.168.100.1",
+            "3": 51820,
+            "4": "10.9.0.2",
+            "5": "192.168.50.0/24",
+            "6": 0,
+            "7": "",
+            "8": "",
+            "9": "",
+            "10": "",
+            "11": "wg_public_key_base64==",
+            "12": "ChaCha20-Poly1305",
+            "13": 1,
+            "14": 50000000,
+            "15": 30000000,
+            "16": 3600,
+            "17": "1.1.1.1",
+            "18": 25,
+            "19": 15,
+            "20": true,
+            "21": false,
+            "22": "wg0"
+          }
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "total_objects": 54,
+    "mandatory_objects": 3,
+    "optional_objects": 7,
+    "ipso_objects": 18,
+    "walt_objects": 26,
+    "walt_object_range": "10512-10537",
+    "total_instances": 75,
+    "configuration_version": "1.0",
+    "last_updated": "2026-04-30",
+    "description": "Complete Walt Technologies LwM2M object configuration including all mandatory (Security, Server, Device), optional (Firmware, Location, Connectivity), IPSO sensors/actuators, and Walt-specific objects for router management, smart home integration, and network monitoring."
+  }
+}
