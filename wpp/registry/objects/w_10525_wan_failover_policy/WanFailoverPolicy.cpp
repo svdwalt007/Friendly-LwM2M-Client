@@ -7,7 +7,6 @@
 #include "WppClient.h"
 #include "WppRegistry.h"
 #include "WppLogs.h"
-#include "Lwm2mObjectBase.h"
 
 #ifdef OBJ_W_10525_WAN_FAILOVER_POLICY
 
@@ -28,59 +27,204 @@
 using namespace wpp;
 
 /* Static object methods */
-Object& WanFailoverPolicy::object(WppClient& client) {
-    return client.registry().getObject(WAN_FAILOVER_POLICY_OBJECT_ID);
+Object& WanFailoverPolicy::object(WppClient& ctx) {
+    return ctx.registry().wanFailoverPolicy();
 }
 
-Instance* WanFailoverPolicy::createInst(WppClient& client, INST_T instId) {
-    return object(client).createInstance(instId);
+WanFailoverPolicy* WanFailoverPolicy::createInst(WppClient& ctx, ID_T instId) {
+    Instance *inst = ctx.registry().wanFailoverPolicy().createInstance(instId);
+    if (!inst) return NULL;
+    return static_cast<WanFailoverPolicy*>(inst);
 }
 
-Instance* WanFailoverPolicy::instance(WppClient& client, INST_T instId) {
-    return object(client).instance(instId);
+WanFailoverPolicy* WanFailoverPolicy::instance(WppClient& ctx, ID_T instId) {
+    Instance *inst = ctx.registry().wanFailoverPolicy().instance(instId);
+    if (!inst) return NULL;
+    return static_cast<WanFailoverPolicy*>(inst);
 }
 
-bool WanFailoverPolicy::remove(WppClient& client, INST_T instId) {
-    return object(client).remove(instId);
+bool WanFailoverPolicy::removeInst(WppClient& ctx, ID_T instId) {
+    return ctx.registry().wanFailoverPolicy().remove(instId);
 }
 
 /* Instance lifecycle */
-WanFailoverPolicy::WanFailoverPolicy(Object& object, INST_T instId)
-    : Instance(object, instId) {
-    WPP_LOGD(TAG, "WanFailoverPolicy instance %d created", instId);
+WanFailoverPolicy::WanFailoverPolicy(lwm2m_context_t& context, const OBJ_LINK_T& id)
+    : Instance(context, id) {
+
+    resourcesCreate();
+    resourcesInit();
+
+    WPP_LOGD(TAG, "WanFailoverPolicy instance created");
 }
 
 WanFailoverPolicy::~WanFailoverPolicy() {
-    WPP_LOGD(TAG, "WanFailoverPolicy instance %d destroyed", instId());
+    WPP_LOGD(TAG, "WanFailoverPolicy instance destroyed");
 }
 
-/* Initialize resources */
-bool WanFailoverPolicy::initResources(ItemOp *itemOp) {
-    WPP_LOGD(TAG, "Initializing WanFailoverPolicy resources for instance %d", instId());
+void WanFailoverPolicy::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
+    operationNotify(*this, resLink, type);
+}
+
+void WanFailoverPolicy::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
+    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
+}
+
+void WanFailoverPolicy::resourcesCreate() {
+    std::vector<Resource> resources = {
+        {POLICY_NAME_0,            ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
+        {PRIMARY_WAN_1,            ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
+        {SECONDARY_WAN_2,          ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
+        {TERTIARY_WAN_3,           ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
+        {MODE_4,                   ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
+        {PRIMARY_WEIGHT_5,         ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {SECONDARY_WEIGHT_6,       ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {TERTIARY_WEIGHT_7,        ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {FAILOVER_THRESHOLD_8,     ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {FAILBACK_MODE_9,          ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {FAILBACK_DELAY_10,        ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {CURRENT_ACTIVE_WAN_11,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
+        {POLICY_STATE_12,          ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
+        {LAST_FAILOVER_TIME_13,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::TIME},
+        {FAILOVER_COUNT_14,        ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {STICKY_CONNECTIONS_15,    ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
+        {INTERFACE_RULES_16,       ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::MULTIPLE, IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
+        {APPLY_POLICY_17,          ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+        {FORCE_FAILOVER_18,        ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+        {FORCE_FAILBACK_19,        ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+        {RESET_COUNTERS_20,        ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+    };
+    setupResources(std::move(resources));
+
+    // Set up data validation for resources
+    resource(PRIMARY_WAN_1)->setDataVerifier([this](const STRING_T& ifname) {
+        if (ifname.empty()) return true;
+        if (!isValidInterface(ifname)) {
+            WPP_LOGE(TAG, "Invalid primary interface name: %s", ifname.c_str());
+            return false;
+        }
+        return true;
+    });
+
+    resource(SECONDARY_WAN_2)->setDataVerifier([this](const STRING_T& ifname) {
+        if (ifname.empty()) return true;
+        if (!isValidInterface(ifname)) {
+            WPP_LOGE(TAG, "Invalid secondary interface name: %s", ifname.c_str());
+            return false;
+        }
+        return true;
+    });
+
+    resource(TERTIARY_WAN_3)->setDataVerifier([this](const STRING_T& ifname) {
+        if (ifname.empty()) return true;
+        if (!isValidInterface(ifname)) {
+            WPP_LOGE(TAG, "Invalid tertiary interface name: %s", ifname.c_str());
+            return false;
+        }
+        return true;
+    });
+
+    resource(MODE_4)->setDataVerifier((VERIFY_INT_T)[](const INT_T& mode) {
+        if (mode < MODE_FAILOVER || mode > MODE_ROUNDROBIN) {
+            WPP_LOGE(TAG, "Invalid failover mode: %lld (must be 0-2)", mode);
+            return false;
+        }
+        return true;
+    });
+
+    resource(PRIMARY_WEIGHT_5)->setDataVerifier((VERIFY_INT_T)[](const INT_T& weight) {
+        if (weight < 1 || weight > 100) {
+            WPP_LOGE(TAG, "Invalid primary weight: %lld (must be 1-100)", weight);
+            return false;
+        }
+        return true;
+    });
+
+    resource(SECONDARY_WEIGHT_6)->setDataVerifier((VERIFY_INT_T)[](const INT_T& weight) {
+        if (weight < 1 || weight > 100) {
+            WPP_LOGE(TAG, "Invalid secondary weight: %lld (must be 1-100)", weight);
+            return false;
+        }
+        return true;
+    });
+
+    resource(TERTIARY_WEIGHT_7)->setDataVerifier((VERIFY_INT_T)[](const INT_T& weight) {
+        if (weight < 1 || weight > 100) {
+            WPP_LOGE(TAG, "Invalid tertiary weight: %lld (must be 1-100)", weight);
+            return false;
+        }
+        return true;
+    });
+
+    resource(FAILOVER_THRESHOLD_8)->setDataVerifier((VERIFY_INT_T)[](const INT_T& threshold) {
+        if (threshold < 1 || threshold > 20) {
+            WPP_LOGE(TAG, "Invalid failover threshold: %lld (must be 1-20)", threshold);
+            return false;
+        }
+        return true;
+    });
+
+    resource(FAILBACK_MODE_9)->setDataVerifier((VERIFY_INT_T)[](const INT_T& mode) {
+        if (mode < FAILBACK_IMMEDIATE || mode > FAILBACK_MANUAL) {
+            WPP_LOGE(TAG, "Invalid failback mode: %lld (must be 0-2)", mode);
+            return false;
+        }
+        return true;
+    });
+
+    resource(FAILBACK_DELAY_10)->setDataVerifier((VERIFY_INT_T)[](const INT_T& delay) {
+        if (delay < 0 || delay > 3600) {
+            WPP_LOGE(TAG, "Invalid failback delay: %lld (must be 0-3600 seconds)", delay);
+            return false;
+        }
+        return true;
+    });
+
+    resource(INTERFACE_RULES_16)->setDataVerifier([](const STRING_T& rule) {
+        // Format: interface:protocol:port
+        size_t colon1 = rule.find(':');
+        size_t colon2 = rule.find(':', colon1 + 1);
+        if (colon1 == std::string::npos || colon2 == std::string::npos) {
+            WPP_LOGE(TAG, "Invalid interface rule format (expected interface:protocol:port): %s", rule.c_str());
+            return false;
+        }
+        return true;
+    });
+}
+
+void WanFailoverPolicy::resourcesInit() {
+    WPP_LOGD(TAG, "Initializing WanFailoverPolicy resources");
 
     // Default failover policy values
-    set<STRING_T>(POLICY_NAME_0, "default_policy");
-    set<STRING_T>(PRIMARY_WAN_1, "wan");
-    set<STRING_T>(SECONDARY_WAN_2, "wan2");
-    set<STRING_T>(TERTIARY_WAN_3, "");
-    set<INT_T>(MODE_4, MODE_FAILOVER);
-    set<INT_T>(PRIMARY_WEIGHT_5, 50);
-    set<INT_T>(SECONDARY_WEIGHT_6, 30);
-    set<INT_T>(TERTIARY_WEIGHT_7, 20);
-    set<INT_T>(FAILOVER_THRESHOLD_8, 3);  // 3 missed pings
-    set<INT_T>(FAILBACK_MODE_9, FAILBACK_DELAYED);
-    set<INT_T>(FAILBACK_DELAY_10, 60);  // 60 seconds
-    set<STRING_T>(CURRENT_ACTIVE_WAN_11, "");
-    set<INT_T>(POLICY_STATE_12, STATE_INACTIVE);
-    set<TIME_T>(LAST_FAILOVER_TIME_13, 0);
-    set<INT_T>(FAILOVER_COUNT_14, 0);
-    set<BOOL_T>(STICKY_CONNECTIONS_15, true);
+    resource(POLICY_NAME_0)->set<STRING_T>("default_policy");
+    resource(PRIMARY_WAN_1)->set<STRING_T>("wan");
+    resource(SECONDARY_WAN_2)->set<STRING_T>("wan2");
+    resource(TERTIARY_WAN_3)->set<STRING_T>("");
+    resource(MODE_4)->set<INT_T>(MODE_FAILOVER);
+    resource(PRIMARY_WEIGHT_5)->set<INT_T>(50);
+    resource(SECONDARY_WEIGHT_6)->set<INT_T>(30);
+    resource(TERTIARY_WEIGHT_7)->set<INT_T>(20);
+    resource(FAILOVER_THRESHOLD_8)->set<INT_T>(3);  // 3 missed pings
+    resource(FAILBACK_MODE_9)->set<INT_T>(FAILBACK_DELAYED);
+    resource(FAILBACK_DELAY_10)->set<INT_T>(60);  // 60 seconds
+    resource(CURRENT_ACTIVE_WAN_11)->set<STRING_T>("");
+    resource(POLICY_STATE_12)->set<INT_T>(STATE_INACTIVE);
+    resource(LAST_FAILOVER_TIME_13)->set<TIME_T>(0);
+    resource(FAILOVER_COUNT_14)->set<INT_T>(0);
+    resource(STICKY_CONNECTIONS_15)->set<BOOL_T>(true);
 
     // Set execute handlers
-    setExecute(APPLY_POLICY_17, applyPolicy);
-    setExecute(FORCE_FAILOVER_18, forceFailover);
-    setExecute(FORCE_FAILBACK_19, forceFailback);
-    setExecute(RESET_COUNTERS_20, resetCounters);
+    resource(APPLY_POLICY_17)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+        return WanFailoverPolicy::applyPolicy(inst, resId, data);
+    });
+    resource(FORCE_FAILOVER_18)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+        return WanFailoverPolicy::forceFailover(inst, resId, data);
+    });
+    resource(FORCE_FAILBACK_19)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+        return WanFailoverPolicy::forceFailback(inst, resId, data);
+    });
+    resource(RESET_COUNTERS_20)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+        return WanFailoverPolicy::resetCounters(inst, resId, data);
+    });
 
 #ifdef OPENWRT_BUILD
     // Load existing configuration from mwan3 if available
@@ -88,79 +232,8 @@ bool WanFailoverPolicy::initResources(ItemOp *itemOp) {
     // Update interface status
     updateInterfaceStatus();
 #endif
-
-    return true;
 }
 
-/* Validation */
-bool WanFailoverPolicy::validate(ID_T resId, const void *data, size_t size) {
-    switch (resId) {
-        case PRIMARY_WAN_1:
-        case SECONDARY_WAN_2:
-        case TERTIARY_WAN_3: {
-            const STRING_T& ifname = *(const STRING_T*)data;
-            if (!ifname.empty() && !isValidInterface(ifname)) {
-                WPP_LOGE(TAG, "Invalid interface name: %s", ifname.c_str());
-                return false;
-            }
-            break;
-        }
-        case MODE_4: {
-            INT_T mode = *(const INT_T*)data;
-            if (mode < MODE_FAILOVER || mode > MODE_ROUNDROBIN) {
-                WPP_LOGE(TAG, "Invalid failover mode: %lld", mode);
-                return false;
-            }
-            break;
-        }
-        case PRIMARY_WEIGHT_5:
-        case SECONDARY_WEIGHT_6:
-        case TERTIARY_WEIGHT_7: {
-            INT_T weight = *(const INT_T*)data;
-            if (weight < 1 || weight > 100) {
-                WPP_LOGE(TAG, "Invalid weight: %lld (must be 1-100)", weight);
-                return false;
-            }
-            break;
-        }
-        case FAILOVER_THRESHOLD_8: {
-            INT_T threshold = *(const INT_T*)data;
-            if (threshold < 1 || threshold > 20) {
-                WPP_LOGE(TAG, "Invalid failover threshold: %lld (must be 1-20)", threshold);
-                return false;
-            }
-            break;
-        }
-        case FAILBACK_MODE_9: {
-            INT_T mode = *(const INT_T*)data;
-            if (mode < FAILBACK_IMMEDIATE || mode > FAILBACK_MANUAL) {
-                WPP_LOGE(TAG, "Invalid failback mode: %lld", mode);
-                return false;
-            }
-            break;
-        }
-        case FAILBACK_DELAY_10: {
-            INT_T delay = *(const INT_T*)data;
-            if (delay < 0 || delay > 3600) {
-                WPP_LOGE(TAG, "Invalid failback delay: %lld (must be 0-3600 seconds)", delay);
-                return false;
-            }
-            break;
-        }
-        case INTERFACE_RULES_16: {
-            const STRING_T& rule = *(const STRING_T*)data;
-            // Format: interface:protocol:port
-            size_t colon1 = rule.find(':');
-            size_t colon2 = rule.find(':', colon1 + 1);
-            if (colon1 == std::string::npos || colon2 == std::string::npos) {
-                WPP_LOGE(TAG, "Invalid interface rule format (expected interface:protocol:port): %s", rule.c_str());
-                return false;
-            }
-            break;
-        }
-    }
-    return true;
-}
 
 /* Execute handler: Apply Policy */
 bool WanFailoverPolicy::applyPolicy(Instance& inst, ID_T resId, const OPAQUE_T& data) {
@@ -169,51 +242,51 @@ bool WanFailoverPolicy::applyPolicy(Instance& inst, ID_T resId, const OPAQUE_T& 
     WPP_LOGI(TAG, "Applying WAN failover policy for instance %d", policy.instId());
 
     // Set state to inactive during configuration
-    policy.set<INT_T>(POLICY_STATE_12, STATE_INACTIVE);
+    policy.resource(POLICY_STATE_12)->set<INT_T>(STATE_INACTIVE);
 
 #ifdef OPENWRT_BUILD
     // Verify interfaces exist
-    std::string primaryWan = policy.get<STRING_T>(PRIMARY_WAN_1);
-    std::string secondaryWan = policy.get<STRING_T>(SECONDARY_WAN_2);
+    std::string primaryWan = policy.resource(PRIMARY_WAN_1)->get<STRING_T>();
+    std::string secondaryWan = policy.resource(SECONDARY_WAN_2)->get<STRING_T>();
 
     if (!policy.isValidInterface(primaryWan)) {
         WPP_LOGE(TAG, "Primary WAN interface %s does not exist", primaryWan.c_str());
-        policy.set<INT_T>(POLICY_STATE_12, STATE_ERROR);
+        policy.resource(POLICY_STATE_12)->set<INT_T>(STATE_ERROR);
         return false;
     }
 
     if (!secondaryWan.empty() && !policy.isValidInterface(secondaryWan)) {
         WPP_LOGE(TAG, "Secondary WAN interface %s does not exist", secondaryWan.c_str());
-        policy.set<INT_T>(POLICY_STATE_12, STATE_ERROR);
+        policy.resource(POLICY_STATE_12)->set<INT_T>(STATE_ERROR);
         return false;
     }
 
     // Save to mwan3 configuration
     if (!policy.saveToMwan3()) {
         WPP_LOGE(TAG, "Failed to save WAN failover policy to mwan3");
-        policy.set<INT_T>(POLICY_STATE_12, STATE_ERROR);
+        policy.resource(POLICY_STATE_12)->set<INT_T>( STATE_ERROR);
         return false;
     }
 
     // Setup health checks for interfaces
     if (!policy.setupHealthChecks()) {
         WPP_LOGE(TAG, "Failed to setup health checks");
-        policy.set<INT_T>(POLICY_STATE_12, STATE_ERROR);
+        policy.resource(POLICY_STATE_12)->set<INT_T>( STATE_ERROR);
         return false;
     }
 
     // Configure policy-based routing
     if (!policy.configurePolicyRouting()) {
         WPP_LOGE(TAG, "Failed to configure policy routing");
-        policy.set<INT_T>(POLICY_STATE_12, STATE_ERROR);
+        policy.resource(POLICY_STATE_12)->set<INT_T>( STATE_ERROR);
         return false;
     }
 
     // Apply load balancing weights if in load balance mode
-    if (policy.get<INT_T>(MODE_4) == MODE_LOADBALANCE) {
+    if (policy.resource(MODE_4)->get<INT_T>() == MODE_LOADBALANCE) {
         if (!policy.applyLoadBalancingWeights()) {
             WPP_LOGE(TAG, "Failed to apply load balancing weights");
-            policy.set<INT_T>(POLICY_STATE_12, STATE_ERROR);
+            policy.resource(POLICY_STATE_12)->set<INT_T>( STATE_ERROR);
             return false;
         }
     }
@@ -221,7 +294,7 @@ bool WanFailoverPolicy::applyPolicy(Instance& inst, ID_T resId, const OPAQUE_T& 
     // Apply mwan3 configuration
     if (!policy.applyMwan3Config()) {
         WPP_LOGE(TAG, "Failed to apply mwan3 configuration");
-        policy.set<INT_T>(POLICY_STATE_12, STATE_ERROR);
+        policy.resource(POLICY_STATE_12)->set<INT_T>( STATE_ERROR);
         return false;
     }
 
@@ -229,13 +302,13 @@ bool WanFailoverPolicy::applyPolicy(Instance& inst, ID_T resId, const OPAQUE_T& 
     policy.updateInterfaceStatus();
 
     // Set state to active
-    policy.set<INT_T>(POLICY_STATE_12, STATE_ACTIVE);
+    policy.resource(POLICY_STATE_12)->set<INT_T>( STATE_ACTIVE);
     WPP_LOGI(TAG, "WAN failover policy applied successfully");
 
     return true;
 #else
     WPP_LOGW(TAG, "OpenWRT build not enabled, cannot apply WAN failover policy");
-    policy.set<INT_T>(POLICY_STATE_12, STATE_ERROR);
+    policy.resource(POLICY_STATE_12)->set<INT_T>( STATE_ERROR);
     return false;
 #endif
 }
@@ -247,10 +320,10 @@ bool WanFailoverPolicy::forceFailover(Instance& inst, ID_T resId, const OPAQUE_T
     WPP_LOGI(TAG, "Forcing failover for instance %d", policy.instId());
 
 #ifdef OPENWRT_BUILD
-    std::string currentWan = policy.get<STRING_T>(CURRENT_ACTIVE_WAN_11);
-    std::string primaryWan = policy.get<STRING_T>(PRIMARY_WAN_1);
-    std::string secondaryWan = policy.get<STRING_T>(SECONDARY_WAN_2);
-    std::string tertiaryWan = policy.get<STRING_T>(TERTIARY_WAN_3);
+    std::string currentWan = policy.resource(CURRENT_ACTIVE_WAN_11)->get<STRING_T>();
+    std::string primaryWan = policy.resource(PRIMARY_WAN_1)->get<STRING_T>();
+    std::string secondaryWan = policy.resource(SECONDARY_WAN_2)->get<STRING_T>();
+    std::string tertiaryWan = policy.resource(TERTIARY_WAN_3)->get<STRING_T>();
 
     // Determine next interface in failover order
     std::string nextWan;
@@ -304,8 +377,8 @@ bool WanFailoverPolicy::resetCounters(Instance& inst, ID_T resId, const OPAQUE_T
 
     WPP_LOGI(TAG, "Resetting counters for instance %d", policy.instId());
 
-    policy.set<INT_T>(FAILOVER_COUNT_14, 0);
-    policy.set<TIME_T>(LAST_FAILOVER_TIME_13, 0);
+    policy.resource(FAILOVER_COUNT_14)->set<INT_T>( 0);
+    policy.resource(LAST_FAILOVER_TIME_13)->set<TIME_T>( 0);
 
     WPP_LOGI(TAG, "Counters reset successfully");
     return true;
@@ -337,9 +410,9 @@ bool WanFailoverPolicy::loadFromMwan3() {
                     member = member.substr(0, pos);
                 }
 
-                if (idx == 0) set<STRING_T>(PRIMARY_WAN_1, member);
-                else if (idx == 1) set<STRING_T>(SECONDARY_WAN_2, member);
-                else if (idx == 2) set<STRING_T>(TERTIARY_WAN_3, member);
+                if (idx == 0) resource(PRIMARY_WAN_1)->set<STRING_T>( member);
+                else if (idx == 1) resource(SECONDARY_WAN_2)->set<STRING_T>( member);
+                else if (idx == 2) resource(TERTIARY_WAN_3)->set<STRING_T>( member);
                 idx++;
             }
         }
@@ -362,11 +435,11 @@ bool WanFailoverPolicy::saveToMwan3() {
     WPP_LOGD(TAG, "Saving WAN failover policy to mwan3");
 
     std::string policyName = getMwan3PolicyName();
-    std::string primaryWan = get<STRING_T>(PRIMARY_WAN_1);
-    std::string secondaryWan = get<STRING_T>(SECONDARY_WAN_2);
-    std::string tertiaryWan = get<STRING_T>(TERTIARY_WAN_3);
-    INT_T mode = get<INT_T>(MODE_4);
-    INT_T threshold = get<INT_T>(FAILOVER_THRESHOLD_8);
+    std::string primaryWan = resource(PRIMARY_WAN_1)->get<STRING_T>();
+    std::string secondaryWan = resource(SECONDARY_WAN_2)->get<STRING_T>();
+    std::string tertiaryWan = resource(TERTIARY_WAN_3)->get<STRING_T>();
+    INT_T mode = resource(MODE_4)->get<INT_T>();
+    INT_T threshold = resource(FAILOVER_THRESHOLD_8)->get<INT_T>();
 
     std::stringstream cmd;
 
@@ -401,9 +474,9 @@ bool WanFailoverPolicy::saveToMwan3() {
         // Set weight based on mode and interface
         int weight = 1;
         if (mode == MODE_LOADBALANCE) {
-            if (ifname == primaryWan) weight = get<INT_T>(PRIMARY_WEIGHT_5);
-            else if (ifname == secondaryWan) weight = get<INT_T>(SECONDARY_WEIGHT_6);
-            else if (ifname == tertiaryWan) weight = get<INT_T>(TERTIARY_WEIGHT_7);
+            if (ifname == primaryWan) weight = resource(PRIMARY_WEIGHT_5)->get<INT_T>();
+            else if (ifname == secondaryWan) weight = resource(SECONDARY_WEIGHT_6)->get<INT_T>();
+            else if (ifname == tertiaryWan) weight = resource(TERTIARY_WEIGHT_7)->get<INT_T>();
         }
 
         cmd.str("");
@@ -443,37 +516,45 @@ bool WanFailoverPolicy::saveToMwan3() {
 
     cmd.str("");
     cmd << "uci set mwan3.rule_" << policyName << ".sticky='"
-        << (get<BOOL_T>(STICKY_CONNECTIONS_15) ? "1" : "0") << "'";
+        << (resource(STICKY_CONNECTIONS_15)->get<BOOL_T>() ? "1" : "0") << "'";
     system(cmd.str().c_str());
 
     // Apply interface rules if any
-    std::vector<STRING_T> rules;
-    if (getMultiple(INTERFACE_RULES_16, rules)) {
-        for (size_t i = 0; i < rules.size(); i++) {
-            const auto& rule = rules[i];
-            // Format: interface:protocol:port
-            size_t colon1 = rule.find(':');
-            size_t colon2 = rule.find(':', colon1 + 1);
+    Resource* rulesRes = resource(INTERFACE_RULES_16);
+    if (rulesRes && rulesRes->isMultiple()) {
+        std::vector<ID_T> ruleInstIds = rulesRes->instIds();
 
-            if (colon1 != std::string::npos && colon2 != std::string::npos) {
-                std::string proto = rule.substr(colon1 + 1, colon2 - colon1 - 1);
-                std::string port = rule.substr(colon2 + 1);
+        for (size_t i = 0; i < ruleInstIds.size(); i++) {
+            ID_T instId = ruleInstIds[i];
 
-                cmd.str("");
-                cmd << "uci set mwan3.rule_" << policyName << "_" << i << "=rule";
-                system(cmd.str().c_str());
+            // Get the rule value for this instance
+            if (rulesRes->isExist(instId)) {
+                STRING_T rule = rulesRes->get<STRING_T>(instId);
 
-                cmd.str("");
-                cmd << "uci set mwan3.rule_" << policyName << "_" << i << ".proto='" << proto << "'";
-                system(cmd.str().c_str());
+                // Format: interface:protocol:port
+                size_t colon1 = rule.find(':');
+                size_t colon2 = rule.find(':', colon1 + 1);
 
-                cmd.str("");
-                cmd << "uci set mwan3.rule_" << policyName << "_" << i << ".dest_port='" << port << "'";
-                system(cmd.str().c_str());
+                if (colon1 != std::string::npos && colon2 != std::string::npos) {
+                    std::string proto = rule.substr(colon1 + 1, colon2 - colon1 - 1);
+                    std::string port = rule.substr(colon2 + 1);
 
-                cmd.str("");
-                cmd << "uci set mwan3.rule_" << policyName << "_" << i << ".policy='policy_" << policyName << "'";
-                system(cmd.str().c_str());
+                    cmd.str("");
+                    cmd << "uci set mwan3.rule_" << policyName << "_" << i << "=rule";
+                    system(cmd.str().c_str());
+
+                    cmd.str("");
+                    cmd << "uci set mwan3.rule_" << policyName << "_" << i << ".proto='" << proto << "'";
+                    system(cmd.str().c_str());
+
+                    cmd.str("");
+                    cmd << "uci set mwan3.rule_" << policyName << "_" << i << ".dest_port='" << port << "'";
+                    system(cmd.str().c_str());
+
+                    cmd.str("");
+                    cmd << "uci set mwan3.rule_" << policyName << "_" << i << ".policy='policy_" << policyName << "'";
+                    system(cmd.str().c_str());
+                }
             }
         }
     }
@@ -533,14 +614,14 @@ bool WanFailoverPolicy::triggerFailover(const std::string& fromInterface, const 
     WPP_LOGI(TAG, "Triggering failover from %s to %s", fromInterface.c_str(), toInterface.c_str());
 
     // Update current active WAN
-    set<STRING_T>(CURRENT_ACTIVE_WAN_11, toInterface);
+    resource(CURRENT_ACTIVE_WAN_11)->set<STRING_T>( toInterface);
 
     // Update failover time
-    set<TIME_T>(LAST_FAILOVER_TIME_13, time(nullptr));
+    resource(LAST_FAILOVER_TIME_13)->set<TIME_T>( time(nullptr));
 
     // Increment failover count
-    INT_T count = get<INT_T>(FAILOVER_COUNT_14);
-    set<INT_T>(FAILOVER_COUNT_14, count + 1);
+    INT_T count = resource(FAILOVER_COUNT_14)->get<INT_T>();
+    resource(FAILOVER_COUNT_14)->set<INT_T>( count + 1);
 
     // Use mwan3 to switch to backup interface
     std::stringstream cmd;
@@ -556,7 +637,7 @@ bool WanFailoverPolicy::triggerFailover(const std::string& fromInterface, const 
 /* Trigger failback */
 bool WanFailoverPolicy::triggerFailback() {
 #ifdef OPENWRT_BUILD
-    std::string primaryWan = get<STRING_T>(PRIMARY_WAN_1);
+    std::string primaryWan = resource(PRIMARY_WAN_1)->get<STRING_T>();
 
     WPP_LOGI(TAG, "Triggering failback to primary WAN: %s", primaryWan.c_str());
 
@@ -566,7 +647,7 @@ bool WanFailoverPolicy::triggerFailback() {
         return false;
     }
 
-    return triggerFailover(get<STRING_T>(CURRENT_ACTIVE_WAN_11), primaryWan);
+    return triggerFailover(resource(CURRENT_ACTIVE_WAN_11)->get<STRING_T>(), primaryWan);
 #else
     return false;
 #endif
@@ -576,16 +657,16 @@ bool WanFailoverPolicy::triggerFailback() {
 void WanFailoverPolicy::updateInterfaceStatus() {
 #ifdef OPENWRT_BUILD
     std::string activeWan = getActiveInterface();
-    set<STRING_T>(CURRENT_ACTIVE_WAN_11, activeWan);
+    resource(CURRENT_ACTIVE_WAN_11)->set<STRING_T>( activeWan);
 #endif
 }
 
 /* Get active interface */
 std::string WanFailoverPolicy::getActiveInterface() {
 #ifdef OPENWRT_BUILD
-    std::string primaryWan = get<STRING_T>(PRIMARY_WAN_1);
-    std::string secondaryWan = get<STRING_T>(SECONDARY_WAN_2);
-    std::string tertiaryWan = get<STRING_T>(TERTIARY_WAN_3);
+    std::string primaryWan = resource(PRIMARY_WAN_1)->get<STRING_T>();
+    std::string secondaryWan = resource(SECONDARY_WAN_2)->get<STRING_T>();
+    std::string tertiaryWan = resource(TERTIARY_WAN_3)->get<STRING_T>();
 
     // Check interfaces in priority order
     if (checkInterfaceStatus(primaryWan)) {
@@ -619,11 +700,11 @@ bool WanFailoverPolicy::configurePolicyRouting() {
     std::stringstream cmd;
 
     // Create routing tables for each interface
-    std::vector<std::string> interfaces = {get<STRING_T>(PRIMARY_WAN_1)};
-    if (!get<STRING_T>(SECONDARY_WAN_2).empty())
-        interfaces.push_back(get<STRING_T>(SECONDARY_WAN_2));
-    if (!get<STRING_T>(TERTIARY_WAN_3).empty())
-        interfaces.push_back(get<STRING_T>(TERTIARY_WAN_3));
+    std::vector<std::string> interfaces = {resource(PRIMARY_WAN_1)->get<STRING_T>()};
+    if (!resource(SECONDARY_WAN_2)->get<STRING_T>().empty())
+        interfaces.push_back(resource(SECONDARY_WAN_2)->get<STRING_T>());
+    if (!resource(TERTIARY_WAN_3)->get<STRING_T>().empty())
+        interfaces.push_back(resource(TERTIARY_WAN_3)->get<STRING_T>());
 
     int tableId = 100;
     for (const auto& ifname : interfaces) {
@@ -651,13 +732,13 @@ bool WanFailoverPolicy::setupHealthChecks() {
 #ifdef OPENWRT_BUILD
     WPP_LOGD(TAG, "Setting up health checks");
 
-    std::vector<std::string> interfaces = {get<STRING_T>(PRIMARY_WAN_1)};
-    if (!get<STRING_T>(SECONDARY_WAN_2).empty())
-        interfaces.push_back(get<STRING_T>(SECONDARY_WAN_2));
-    if (!get<STRING_T>(TERTIARY_WAN_3).empty())
-        interfaces.push_back(get<STRING_T>(TERTIARY_WAN_3));
+    std::vector<std::string> interfaces = {resource(PRIMARY_WAN_1)->get<STRING_T>()};
+    if (!resource(SECONDARY_WAN_2)->get<STRING_T>().empty())
+        interfaces.push_back(resource(SECONDARY_WAN_2)->get<STRING_T>());
+    if (!resource(TERTIARY_WAN_3)->get<STRING_T>().empty())
+        interfaces.push_back(resource(TERTIARY_WAN_3)->get<STRING_T>());
 
-    INT_T threshold = get<INT_T>(FAILOVER_THRESHOLD_8);
+    INT_T threshold = resource(FAILOVER_THRESHOLD_8)->get<INT_T>();
 
     std::stringstream cmd;
     for (const auto& ifname : interfaces) {
@@ -723,14 +804,14 @@ bool WanFailoverPolicy::applyLoadBalancingWeights() {
 
 /* Calculate total weight */
 int WanFailoverPolicy::calculateTotalWeight() {
-    int total = get<INT_T>(PRIMARY_WEIGHT_5);
+    int total = resource(PRIMARY_WEIGHT_5)->get<INT_T>();
 
-    if (!get<STRING_T>(SECONDARY_WAN_2).empty()) {
-        total += get<INT_T>(SECONDARY_WEIGHT_6);
+    if (!resource(SECONDARY_WAN_2)->get<STRING_T>().empty()) {
+        total += resource(SECONDARY_WEIGHT_6)->get<INT_T>();
     }
 
-    if (!get<STRING_T>(TERTIARY_WAN_3).empty()) {
-        total += get<INT_T>(TERTIARY_WEIGHT_7);
+    if (!resource(TERTIARY_WAN_3)->get<STRING_T>().empty()) {
+        total += resource(TERTIARY_WEIGHT_7)->get<INT_T>();
     }
 
     return total;
@@ -738,7 +819,7 @@ int WanFailoverPolicy::calculateTotalWeight() {
 
 /* Get mwan3 policy name */
 std::string WanFailoverPolicy::getMwan3PolicyName() {
-    std::string policyName = get<STRING_T>(POLICY_NAME_0);
+    std::string policyName = resource(POLICY_NAME_0)->get<STRING_T>();
     // Replace spaces and special characters with underscores
     std::replace(policyName.begin(), policyName.end(), ' ', '_');
     return policyName;

@@ -6,7 +6,7 @@
 #ifndef WPP_POE_MANAGEMENT_INFO_H
 #define WPP_POE_MANAGEMENT_INFO_H
 
-#include "Lwm2mObjectBase.h"
+#include "ObjectInfo.h"
 
 #ifdef OBJ_W_10522_POE_MANAGEMENT
 

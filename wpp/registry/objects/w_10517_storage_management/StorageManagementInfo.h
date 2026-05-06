@@ -6,7 +6,7 @@
 #ifndef WPP_STORAGE_MANAGEMENT_INFO_H
 #define WPP_STORAGE_MANAGEMENT_INFO_H
 
-#include "Lwm2mObjectBase.h"
+#include "ObjectInfo.h"
 
 #ifdef OBJ_W_10517_STORAGE_MANAGEMENT
 

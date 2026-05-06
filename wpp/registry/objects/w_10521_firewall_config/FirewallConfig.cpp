@@ -7,7 +7,6 @@
 #include "WppClient.h"
 #include "WppRegistry.h"
 #include "WppLogs.h"
-#include "Lwm2mObjectBase.h"
 
 #ifdef OBJ_W_10521_FIREWALL_CONFIG
 

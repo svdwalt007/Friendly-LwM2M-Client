@@ -7,7 +7,7 @@
 #define WPP_W_10529_MATTER_BRIDGE_CONFIG_H
 
 // Object ID for Matter Bridge
-#define MATTER_BRIDGE_OBJECT_ID 34615
+#define MATTER_BRIDGE_OBJECT_ID (wpp::OBJ_ID)10529
 
 // Resource definitions are in MatterBridge.h
 

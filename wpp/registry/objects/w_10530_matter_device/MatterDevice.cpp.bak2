@@ -28,28 +28,24 @@ using namespace wpp;
 
 /* Static object methods */
 Object& MatterDevice::object(WppClient& ctx) {
-    return ctx.registry().matterDevice();
+    return client.registry().getObject(MATTER_DEVICE_OBJECT_ID);
 }
 
-MatterDevice* MatterDevice::createInst(WppClient& ctx, ID_T instId) {
-    Instance *inst = ctx.registry().matterDevice().createInstance(instId);
-    if (!inst) return NULL;
-    return static_cast<MatterDevice*>(inst);
+Instance* MatterDevice::createInst(WppClient& ctx, ID_T instId) {
+    return object(client).createInstance(instId);
 }
 
-MatterDevice* MatterDevice::instance(WppClient& ctx, ID_T instId) {
-    Instance *inst = ctx.registry().matterDevice().instance(instId);
-    if (!inst) return NULL;
-    return static_cast<MatterDevice*>(inst);
+Instance* MatterDevice::instance(WppClient& ctx, ID_T instId) {
+    return object(client).instance(instId);
 }
 
 bool MatterDevice::removeInst(WppClient& ctx, ID_T instId) {
-    return ctx.registry().matterDevice().remove(instId);
+    return object(client).remove(instId);
 }
 
 /* Instance lifecycle */
-MatterDevice::MatterDevice(lwm2m_context_t& context, const OBJ_LINK_T& id)
-    : Instance(context, id)
+MatterDevice::MatterDevice(Object& object, ID_T instId)
+    : Instance(object, instId)
     , m_nodeId(0) {
     WPP_LOGD(TAG, "MatterDevice instance %d created", instId);
 }
@@ -58,42 +54,11 @@ MatterDevice::~MatterDevice() {
     WPP_LOGD(TAG, "MatterDevice instance %d destroyed", instId());
 }
 
-void MatterDevice::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
-    operationNotify(*this, resLink, type);
-}
-
-void MatterDevice::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
-    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
-}
-
 /* Initialize resources */
-void MatterDevice::resourcesCreate() {
-    std::vector<Resource> resources = {
-        {NODE_ID_0,          ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
-        {VENDOR_ID_1,        ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
-        {PRODUCT_ID_2,       ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
-        {DEVICE_TYPE_3,      ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
-        {DEVICE_TYPE_NAME_4, ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
-        {ENDPOINTS_5,        ItemOp(ItemOp::READ), IS_SINGLE::MULTIPLE, IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {REACHABLE_6,        ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
-        {FIRMWARE_VERSION_7, ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
-        {SERIAL_NUMBER_8,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
-        {PRODUCT_NAME_9,     ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
-        {LAST_SEEN_10,       ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::TIME},
-        {IP_ADDRESS_11,      ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
-        {RSSI_12,            ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {INTERACT_13,        ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::EXECUTE},
-        {READ_ATTRIBUTE_14,  ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::EXECUTE},
-        {WRITE_ATTRIBUTE_15, ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::EXECUTE},
-        {SEND_COMMAND_16,    ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::EXECUTE},
-    };
-    setupResources(std::move(resources));
-}
+bool MatterDevice::initResources(ItemOp *itemOp) {
+    WPP_LOGD(TAG, "Initializing MatterDevice resources for instance %d", instId());
 
-/* Initialize resource values */
-void MatterDevice::resourcesInit() {
-    WPP_LOGD(TAG, "Initializing MatterDevice resource values");
-
+    // Initialize default values
     resource(NODE_ID_0)->set<STRING_T>("0000000000000000");
     resource(VENDOR_ID_1)->set<INT_T>(0);
     resource(PRODUCT_ID_2)->set<INT_T>(0);
@@ -108,22 +73,19 @@ void MatterDevice::resourcesInit() {
     resource(RSSI_12)->set<INT_T>(0);
 
     // Set execute handlers
-    resource(INTERACT_13)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return MatterDevice::interact(inst, resId, data);
-    });
-    resource(READ_ATTRIBUTE_14)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return MatterDevice::readAttribute(inst, resId, data);
-    });
-    resource(WRITE_ATTRIBUTE_15)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return MatterDevice::writeAttribute(inst, resId, data);
-    });
-    resource(SEND_COMMAND_16)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return MatterDevice::sendCommand(inst, resId, data);
-    });
+    setExecute(INTERACT_13, interact);
+    setExecute(READ_ATTRIBUTE_14, readAttribute);
+    setExecute(WRITE_ATTRIBUTE_15, writeAttribute);
+    setExecute(SEND_COMMAND_16, sendCommand);
+
+    return true;
 }
 
-
-
+/* Validation */
+bool MatterDevice::validate(ID_T resId, const void *data, size_t size) {
+    // All resources are read-only or execute-only
+    return true;
+}
 
 /* Device management */
 void MatterDevice::setNodeId(uint64_t nodeId) {
@@ -132,7 +94,7 @@ void MatterDevice::setNodeId(uint64_t nodeId) {
     // Convert to hex string
     char buf[32];
     snprintf(buf, sizeof(buf), "%016llx", nodeId);
-    resource(NODE_ID_0)->set<STRING_T>( buf);
+    set<STRING_T>(NODE_ID_0, buf);
 
     // Query device information
     queryDeviceInformation();
@@ -318,21 +280,21 @@ bool MatterDevice::queryDeviceInformation() {
     }
 
     // Update resources
-    resource(VENDOR_ID_1)->set<INT_T>( deviceInfo->vendorId);
-    resource(PRODUCT_ID_2)->set<INT_T>( deviceInfo->productId);
-    resource(DEVICE_TYPE_3)->set<INT_T>( deviceInfo->deviceType);
-    resource(DEVICE_TYPE_NAME_4)->set<STRING_T>( matter::getDeviceTypeName(deviceInfo->deviceType));
-    resource(REACHABLE_6)->set<BOOL_T>( deviceInfo->reachable);
-    resource(FIRMWARE_VERSION_7)->set<STRING_T>( deviceInfo->firmwareVersion);
-    resource(SERIAL_NUMBER_8)->set<STRING_T>( deviceInfo->serialNumber);
-    resource(LAST_SEEN_10)->set<TIME_T>( deviceInfo->lastSeen);
-    resource(IP_ADDRESS_11)->set<STRING_T>( deviceInfo->ipAddress);
-    resource(RSSI_12)->set<INT_T>( deviceInfo->rssi);
+    set<INT_T>(VENDOR_ID_1, deviceInfo->vendorId);
+    set<INT_T>(PRODUCT_ID_2, deviceInfo->productId);
+    set<INT_T>(DEVICE_TYPE_3, deviceInfo->deviceType);
+    set<STRING_T>(DEVICE_TYPE_NAME_4, matter::getDeviceTypeName(deviceInfo->deviceType));
+    set<BOOL_T>(REACHABLE_6, deviceInfo->reachable);
+    set<STRING_T>(FIRMWARE_VERSION_7, deviceInfo->firmwareVersion);
+    set<STRING_T>(SERIAL_NUMBER_8, deviceInfo->serialNumber);
+    set<TIME_T>(LAST_SEEN_10, deviceInfo->lastSeen);
+    set<STRING_T>(IP_ADDRESS_11, deviceInfo->ipAddress);
+    set<INT_T>(RSSI_12, deviceInfo->rssi);
 
     // Update endpoints
     if (!deviceInfo->endpoints.empty()) {
         for (size_t i = 0; i < deviceInfo->endpoints.size(); i++) {
-            resource(ENDPOINTS_5)->set<INT_T>( deviceInfo->endpoints[i], i);
+            set<INT_T>(ENDPOINTS_5, deviceInfo->endpoints[i], i);
         }
     }
 
@@ -341,15 +303,15 @@ bool MatterDevice::queryDeviceInformation() {
     if (client) {
         std::string productName;
         if (client->basicGetProductName(productName)) {
-            resource(PRODUCT_NAME_9)->set<STRING_T>( productName);
+            set<STRING_T>(PRODUCT_NAME_9, productName);
         }
     }
 
     return true;
 #else
     // Stub implementation
-    resource(VENDOR_ID_1)->set<INT_T>( 0xFFF1);
-    resource(PRODUCT_ID_2)->set<INT_T>( 0x8000);
+    set<INT_T>(VENDOR_ID_1, 0xFFF1);
+    set<INT_T>(PRODUCT_ID_2, 0x8000);
     resource(DEVICE_TYPE_3)->set<INT_T>(256); // Light bulb
     resource(DEVICE_TYPE_NAME_4)->set<STRING_T>("On/Off Light");
     resource(REACHABLE_6)->set<BOOL_T>(true);

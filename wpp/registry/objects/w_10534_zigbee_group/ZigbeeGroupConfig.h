@@ -8,6 +8,9 @@
 
 #ifdef OBJ_W_10534_ZIGBEE_GROUP
 
+// Object ID
+#define ZIGBEE_GROUP_OBJECT_ID (wpp::OBJ_ID)10534
+
 // Resource enable/disable flags
 // All resources are enabled by default
 

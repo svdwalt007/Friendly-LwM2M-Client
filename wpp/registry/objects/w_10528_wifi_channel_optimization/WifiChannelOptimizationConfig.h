@@ -8,6 +8,9 @@
 
 #ifdef OBJ_W_10528_WIFI_CHANNEL_OPTIMIZATION
 
+// Object ID
+#define WIFI_CHANNEL_OPTIMIZATION_OBJECT_ID (wpp::OBJ_ID)10528
+
 // Resource enable/disable flags
 // All resources are enabled by default
 

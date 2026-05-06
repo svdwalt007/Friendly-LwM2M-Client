@@ -41,14 +41,14 @@ public:
     };
 
     /* Static object methods */
-    static Object& object(WppClient& client);
-    static Instance* createInst(WppClient& client, INST_T instId = ID_T_MAX_VAL);
-    static Instance* instance(WppClient& client, INST_T instId);
-    static bool remove(WppClient& client, INST_T instId);
+    static Object& object(WppClient& ctx);
+    static MatterDevice* createInst(WppClient& ctx, ID_T instId = ID_T_MAX_VAL);
+    static MatterDevice* instance(WppClient& ctx, ID_T instId = ID_T_MAX_VAL);
+    static bool removeInst(WppClient& ctx, ID_T instId);
 
     /* Instance lifecycle */
-    MatterDevice(Object& object, INST_T instId);
-    ~MatterDevice() override;
+    MatterDevice(lwm2m_context_t& context, const OBJ_LINK_T& id);
+    ~MatterDevice();
 
     /* Device management */
     void setNodeId(uint64_t nodeId);
@@ -56,12 +56,17 @@ public:
     void updateDeviceInfo();
 
 protected:
+    void serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) override;
+    void userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) override;
+
     /* ObjSubject override method */
-    bool validate(ID_T resId, const void *data, size_t size) override;
 
 private:
     /* Private methods */
-    bool initResources(ItemOp *) override;
+    void resourcesCreate();
+    void resourcesInit();
+
+    /* Private methods */
 
     /* Execute handlers */
     static bool interact(Instance& inst, ID_T resId, const OPAQUE_T& data);

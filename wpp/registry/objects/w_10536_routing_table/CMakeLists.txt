@@ -1,4 +1,4 @@
-wpp_check_definition("OBJ_W_34622_ROUTING_TABLE" is_defined)
+wpp_check_definition("OBJ_W_10536_ROUTING_TABLE" is_defined)
 if(is_defined)
     set(WPP_SOURCES ${WPP_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/RoutingTable.cpp)
     set(WPP_SOURCES ${WPP_SOURCES} PARENT_SCOPE)

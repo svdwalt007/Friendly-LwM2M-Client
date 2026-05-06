@@ -27,28 +27,24 @@ using namespace wpp;
 
 /* Static object methods */
 Object& ThreadNetwork::object(WppClient& ctx) {
-    return ctx.registry().threadNetwork();
+    return client.registry().getObject(THREAD_NETWORK_OBJECT_ID);
 }
 
-ThreadNetwork* ThreadNetwork::createInst(WppClient& ctx, ID_T instId) {
-    Instance *inst = ctx.registry().threadNetwork().createInstance(instId);
-    if (!inst) return NULL;
-    return static_cast<ThreadNetwork*>(inst);
+Instance* ThreadNetwork::createInst(WppClient& ctx, ID_T instId) {
+    return object(client).createInstance(instId);
 }
 
-ThreadNetwork* ThreadNetwork::instance(WppClient& ctx, ID_T instId) {
-    Instance *inst = ctx.registry().threadNetwork().instance(instId);
-    if (!inst) return NULL;
-    return static_cast<ThreadNetwork*>(inst);
+Instance* ThreadNetwork::instance(WppClient& ctx, ID_T instId) {
+    return object(client).instance(instId);
 }
 
 bool ThreadNetwork::removeInst(WppClient& ctx, ID_T instId) {
-    return ctx.registry().threadNetwork().remove(instId);
+    return object(client).remove(instId);
 }
 
 /* Instance lifecycle */
-ThreadNetwork::ThreadNetwork(lwm2m_context_t& context, const OBJ_LINK_T& id)
-    : Instance(context, id) {
+ThreadNetwork::ThreadNetwork(Object& object, ID_T instId)
+    : Instance(object, instId) {
     WPP_LOGD(TAG, "ThreadNetwork instance %d created", instId);
 }
 
@@ -56,60 +52,93 @@ ThreadNetwork::~ThreadNetwork() {
     WPP_LOGD(TAG, "ThreadNetwork instance %d destroyed", instId());
 }
 
-void ThreadNetwork::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
-    operationNotify(*this, resLink, type);
-}
-
-void ThreadNetwork::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
-    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
-}
-
 /* Initialize resources */
-void ThreadNetwork::resourcesCreate() {
-    std::vector<Resource> resources = {
-        {NETWORK_NAME_0,        ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE, IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
-        {PAN_ID_1,              ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE, IS_MANDATORY::MANDATORY, TYPE_ID::INT},
-        {CHANNEL_2,             ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE, IS_MANDATORY::MANDATORY, TYPE_ID::INT},
-        {EXTENDED_PAN_ID_3,     ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE, IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
-        {NETWORK_KEY_4,         ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE, IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
-        {ACTIVE_TIMESTAMP_5,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::TIME},
-        {BORDER_ROUTER_STATE_6, ItemOp(ItemOp::READ), IS_SINGLE::SINGLE, IS_MANDATORY::MANDATORY, TYPE_ID::INT},
-        {OPERATIONAL_DATASET_7, ItemOp(ItemOp::READ), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::OPAQUE},
-        {DEVICES_COUNT_8,       ItemOp(ItemOp::READ), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::INT},
-        {CREATE_NETWORK_9,      ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::EXECUTE},
-        {START_BORDER_ROUTER_10, ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::EXECUTE},
-        {STOP_BORDER_ROUTER_11, ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::EXECUTE},
-    };
-    setupResources(std::move(resources));
-}
+bool ThreadNetwork::initResources(ItemOp *itemOp) {
+    WPP_LOGD(TAG, "Initializing ThreadNetwork resources for instance %d", instId());
 
-/* Initialize resource values */
-void ThreadNetwork::resourcesInit() {
-    WPP_LOGD(TAG, "Initializing ThreadNetwork resource values");
-
+    // Initialize default values
     resource(NETWORK_NAME_0)->set<STRING_T>(DEFAULT_THREAD_NETWORK_NAME);
     resource(PAN_ID_1)->set<INT_T>(DEFAULT_THREAD_PAN_ID);
     resource(CHANNEL_2)->set<INT_T>(DEFAULT_THREAD_CHANNEL);
-    resource(EXTENDED_PAN_ID_3)->set<STRING_T>( generateRandomExtendedPanId());
-    resource(NETWORK_KEY_4)->set<STRING_T>( generateRandomKey());
+    set<STRING_T>(EXTENDED_PAN_ID_3, generateRandomExtendedPanId());
+    set<STRING_T>(NETWORK_KEY_4, generateRandomKey());
     resource(ACTIVE_TIMESTAMP_5)->set<TIME_T>(0);
     resource(BORDER_ROUTER_STATE_6)->set<INT_T>(STATE_DISABLED);
     resource(DEVICES_COUNT_8)->set<INT_T>(0);
 
     // Set execute handlers
-    resource(CREATE_NETWORK_9)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return ThreadNetwork::createNetwork(inst, resId, data);
-    });
-    resource(START_BORDER_ROUTER_10)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return ThreadNetwork::startBorderRouter(inst, resId, data);
-    });
-    resource(STOP_BORDER_ROUTER_11)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return ThreadNetwork::stopBorderRouter(inst, resId, data);
-    });
+    setExecute(CREATE_NETWORK_9, createNetwork);
+    setExecute(START_BORDER_ROUTER_10, startBorderRouter);
+    setExecute(STOP_BORDER_ROUTER_11, stopBorderRouter);
+
+    return true;
 }
 
-
-
+/* Validation */
+bool ThreadNetwork::validate(ID_T resId, const void *data, size_t size) {
+    switch (resId) {
+        case NETWORK_NAME_0: {
+            const STRING_T& name = *(const STRING_T*)data;
+            if (name.empty() || name.length() > 16) {
+                WPP_LOGE(TAG, "Invalid network name length (max 16 characters)");
+                return false;
+            }
+            break;
+        }
+        case PAN_ID_1: {
+            INT_T panId = *(const INT_T*)data;
+            if (panId < 0 || panId > 0xFFFF) {
+                WPP_LOGE(TAG, "Invalid PAN ID: %lld", panId);
+                return false;
+            }
+            break;
+        }
+        case CHANNEL_2: {
+            INT_T channel = *(const INT_T*)data;
+            if (channel < THREAD_CHANNEL_MIN || channel > THREAD_CHANNEL_MAX) {
+                WPP_LOGE(TAG, "Invalid Thread channel: %lld (must be %d-%d)",
+                        channel, THREAD_CHANNEL_MIN, THREAD_CHANNEL_MAX);
+                return false;
+            }
+            break;
+        }
+        case EXTENDED_PAN_ID_3: {
+            const STRING_T& xpanid = *(const STRING_T*)data;
+            if (xpanid.length() != THREAD_EXTENDED_PAN_ID_LENGTH) {
+                WPP_LOGE(TAG, "Invalid Extended PAN ID length (must be %d hex chars)",
+                        THREAD_EXTENDED_PAN_ID_LENGTH);
+                return false;
+            }
+            // Validate hex string
+            for (char c : xpanid) {
+                if (!isxdigit(c)) {
+                    WPP_LOGE(TAG, "Invalid Extended PAN ID (must be hex)");
+                    return false;
+                }
+            }
+            break;
+        }
+        case NETWORK_KEY_4: {
+            const STRING_T& key = *(const STRING_T*)data;
+            if (key.length() != THREAD_NETWORK_KEY_LENGTH) {
+                WPP_LOGE(TAG, "Invalid Network Key length (must be %d hex chars)",
+                        THREAD_NETWORK_KEY_LENGTH);
+                return false;
+            }
+            // Validate hex string
+            for (char c : key) {
+                if (!isxdigit(c)) {
+                    WPP_LOGE(TAG, "Invalid Network Key (must be hex)");
+                    return false;
+                }
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    return true;
+}
 
 /* Execute handlers */
 bool ThreadNetwork::createNetwork(Instance& inst, ID_T resId, const OPAQUE_T& data) {
@@ -126,7 +155,7 @@ bool ThreadNetwork::createNetwork(Instance& inst, ID_T resId, const OPAQUE_T& da
         return false;
     }
 
-    network.resource(ACTIVE_TIMESTAMP_5)->set<TIME_T>( time(nullptr));
+    network.set<TIME_T>(ACTIVE_TIMESTAMP_5, time(nullptr));
     network.updateOperationalDataset();
 
     WPP_LOGD(TAG, "Thread network created successfully");
@@ -251,11 +280,11 @@ void ThreadNetwork::updateOperationalDataset() {
 
     // Store as opaque data
     OPAQUE_T opaqueData(dataset.begin(), dataset.end());
-    resource(OPERATIONAL_DATASET_7)->set<OPAQUE_T>( opaqueData);
+    set<OPAQUE_T>(OPERATIONAL_DATASET_7, opaqueData);
 }
 
 void ThreadNetwork::updateBorderRouterState(BorderRouterState state) {
-    resource(BORDER_ROUTER_STATE_6)->set<INT_T>( static_cast<INT_T>(state));
+    set<INT_T>(BORDER_ROUTER_STATE_6, static_cast<INT_T>(state));
 
     const char* stateStr = "Unknown";
     switch (state) {

@@ -6,7 +6,7 @@
 #ifndef WPP_GPIO_CONTROL_INFO_H
 #define WPP_GPIO_CONTROL_INFO_H
 
-#include "Lwm2mObjectBase.h"
+#include "ObjectInfo.h"
 
 #ifdef OBJ_W_10515_GPIO_CONTROL
 

@@ -5,17 +5,33 @@
 
 #ifndef WPP_MULTIWAN_HEALTH_CHECK_INFO_H
 #define WPP_MULTIWAN_HEALTH_CHECK_INFO_H
+#include "ObjectInfo.h"
+
 
 #ifdef OBJ_W_10526_MULTIWAN_HEALTH_CHECK
 
-#define MULTIWAN_HEALTH_CHECK_OBJECT_ID 10526
+namespace wpp {
 
-static const Lwm2mObjectMetaInfo MULTIWAN_HEALTH_CHECK_META_INFO = {
-    .uri = "urn:waltech:lwm2m:10526",
-    .id = MULTIWAN_HEALTH_CHECK_OBJECT_ID,
-    .version = {1, 0},
-    .multi = true  // Multiple instances - one per WAN interface
+inline const ObjectInfo MULTIWAN_HEALTH_CHECK_OBJ_INFO = {
+    /* Name */
+    "Multi-WAN Health Check",
+    /* Object ID */
+    static_cast<OBJ_ID>(10526),
+    /* URN */
+    "urn:waltech:lwm2m:10526",
+    /* Object version */
+    {1, 0},
+    /* LwM2M version */
+    {1, 1},
+    /* Is single */
+    IS_SINGLE::MULTIPLE,
+    /* Is mandatory */
+    IS_MANDATORY::OPTIONAL,
+    /* Object supported operations */
+    ItemOp(ItemOp::READ | ItemOp::WRITE | ItemOp::DISCOVER | ItemOp::EXECUTE)
 };
+
+} /* namespace wpp */
 
 #endif // OBJ_W_10526_MULTIWAN_HEALTH_CHECK
 #endif // WPP_MULTIWAN_HEALTH_CHECK_INFO_H

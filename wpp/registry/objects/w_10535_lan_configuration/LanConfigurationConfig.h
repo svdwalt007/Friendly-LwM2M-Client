@@ -8,6 +8,10 @@
 
 #ifdef OBJ_W_10535_LAN_CONFIGURATION
 
+#include "WppTypes.h"
+
+#define LAN_CONFIG_OBJECT_ID (wpp::OBJ_ID)10535
+
 // Resource enable/disable flags
 // All resources are enabled by default
 

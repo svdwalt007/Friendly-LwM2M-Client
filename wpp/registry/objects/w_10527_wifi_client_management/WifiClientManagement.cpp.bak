@@ -28,141 +28,95 @@ using namespace wpp;
 
 /* Static object methods */
 Object& WifiClientManagement::object(WppClient& ctx) {
-    return ctx.registry().wifiClientManagement();
+    return client.registry().getObject(WIFI_CLIENT_MANAGEMENT_OBJECT_ID);
 }
 
-WifiClientManagement* WifiClientManagement::createInst(WppClient& ctx, ID_T instId) {
-    Instance *inst = ctx.registry().wifiClientManagement().createInstance(instId);
-    if (!inst) return NULL;
-    return static_cast<WifiClientManagement*>(inst);
+Instance* WifiClientManagement::createInst(WppClient& ctx, ID_T instId) {
+    return object(client).createInstance(instId);
 }
 
-WifiClientManagement* WifiClientManagement::instance(WppClient& ctx, ID_T instId) {
-    Instance *inst = ctx.registry().wifiClientManagement().instance(instId);
-    if (!inst) return NULL;
-    return static_cast<WifiClientManagement*>(inst);
+Instance* WifiClientManagement::instance(WppClient& ctx, ID_T instId) {
+    return object(client).instance(instId);
 }
 
 bool WifiClientManagement::removeInst(WppClient& ctx, ID_T instId) {
-    return ctx.registry().wifiClientManagement().remove(instId);
+    return object(client).remove(instId);
 }
 
 /* Instance lifecycle */
-WifiClientManagement::WifiClientManagement(lwm2m_context_t& context, const OBJ_LINK_T& id)
-    : Instance(context, id),
+WifiClientManagement::WifiClientManagement(Object& object, ID_T instId)
+    : Instance(object, instId),
       connectionStartTime(time(nullptr)),
       lastActivityTime(time(nullptr)),
       lastTxBytes(0),
       lastRxBytes(0) {
-
-    resourcesCreate();
-    resourcesInit();
-
-    WPP_LOGD(TAG, "WifiClientManagement instance created");
+    WPP_LOGD(TAG, "WifiClientManagement instance %d created", instId);
 }
 
 WifiClientManagement::~WifiClientManagement() {
-    WPP_LOGD(TAG, "WifiClientManagement instance destroyed");
+    WPP_LOGD(TAG, "WifiClientManagement instance %d destroyed", instId());
 }
 
-void WifiClientManagement::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
-    operationNotify(*this, resLink, type);
-}
-
-void WifiClientManagement::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
-    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
-}
-
-/* Create resource metadata */
-void WifiClientManagement::resourcesCreate() {
-    std::vector<Resource> resources = {
-        {MAC_ADDRESS_0,        ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
-        {IP_ADDRESS_1,         ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
-        {HOSTNAME_2,           ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
-        {INTERFACE_3,          ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
-        {SIGNAL_STRENGTH_4,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
-        {NOISE_LEVEL_5,        ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {SNR_6,                ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {TX_RATE_7,            ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {RX_RATE_8,            ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {TX_BYTES_9,           ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {RX_BYTES_10,          ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {CONNECTED_TIME_11,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {CAPABILITY_12,        ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
-        {BAND_13,              ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
-        {BANDWIDTH_14,         ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {ACL_STATE_15,         ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
-        {QOS_PRIORITY_16,      ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {ISOLATED_17,          ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
-        {LAST_ACTIVITY_18,     ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {DISCONNECT_CLIENT_19, ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
-        {ADD_TO_BLACKLIST_20,  ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
-        {ADD_TO_WHITELIST_21,  ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
-        {STEER_TO_BAND_22,     ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
-    };
-    setupResources(std::move(resources));
-
-    // Set data validators
-    resource(ACL_STATE_15)->setDataVerifier([](const STRING_T& state) {
-        if (state != "none" && state != "allowed" && state != "denied") {
-            WPP_LOGE(TAG, "Invalid ACL state: %s", state.c_str());
-            return false;
-        }
-        return true;
-    });
-
-    resource(QOS_PRIORITY_16)->setDataVerifier((VERIFY_INT_T)[](const INT_T& priority) {
-        if (priority < 0 || priority > 7) {
-            WPP_LOGE(TAG, "Invalid QoS priority: %lld (must be 0-7)", priority);
-            return false;
-        }
-        return true;
-    });
-}
-
-/* Initialize resource values */
-void WifiClientManagement::resourcesInit() {
-    WPP_LOGD(TAG, "Initializing WifiClientManagement resource values");
+/* Initialize resources */
+bool WifiClientManagement::initResources(ItemOp *itemOp) {
+    WPP_LOGD(TAG, "Initializing WifiClientManagement resources for instance %d", instId());
 
     // Initialize default values
-    resource(MAC_ADDRESS_0)->set<STRING_T>(macAddress);
-    resource(IP_ADDRESS_1)->set<STRING_T>("");
-    resource(HOSTNAME_2)->set<STRING_T>("");
-    resource(INTERFACE_3)->set<STRING_T>(interface);
-    resource(SIGNAL_STRENGTH_4)->set<INT_T>(-100);
-    resource(NOISE_LEVEL_5)->set<INT_T>(-100);
-    resource(SNR_6)->set<INT_T>(0);
-    resource(TX_RATE_7)->set<INT_T>(0);
-    resource(RX_RATE_8)->set<INT_T>(0);
-    resource(TX_BYTES_9)->set<INT_T>(0);
-    resource(RX_BYTES_10)->set<INT_T>(0);
-    resource(CONNECTED_TIME_11)->set<INT_T>(0);
-    resource(CAPABILITY_12)->set<STRING_T>("unknown");
-    resource(BAND_13)->set<STRING_T>("unknown");
-    resource(BANDWIDTH_14)->set<INT_T>(20);
-    resource(ACL_STATE_15)->set<STRING_T>("none");
-    resource(QOS_PRIORITY_16)->set<INT_T>(0);
-    resource(ISOLATED_17)->set<BOOL_T>(false);
-    resource(LAST_ACTIVITY_18)->set<INT_T>(0);
+    set<STRING_T>(MAC_ADDRESS_0, macAddress);
+    set<STRING_T>(IP_ADDRESS_1, "");
+    set<STRING_T>(HOSTNAME_2, "");
+    set<STRING_T>(INTERFACE_3, interface);
+    set<INT_T>(SIGNAL_STRENGTH_4, -100);
+    set<INT_T>(NOISE_LEVEL_5, -100);
+    set<INT_T>(SNR_6, 0);
+    set<INT_T>(TX_RATE_7, 0);
+    set<INT_T>(RX_RATE_8, 0);
+    set<INT_T>(TX_BYTES_9, 0);
+    set<INT_T>(RX_BYTES_10, 0);
+    set<INT_T>(CONNECTED_TIME_11, 0);
+    set<STRING_T>(CAPABILITY_12, "unknown");
+    set<STRING_T>(BAND_13, "unknown");
+    set<INT_T>(BANDWIDTH_14, 20);
+    set<STRING_T>(ACL_STATE_15, "none");
+    set<INT_T>(QOS_PRIORITY_16, 0);
+    set<BOOL_T>(ISOLATED_17, false);
+    set<INT_T>(LAST_ACTIVITY_18, 0);
 
     // Set execute handlers
-    resource(DISCONNECT_CLIENT_19)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return WifiClientManagement::disconnectClient(inst, resId, data);
-    });
-    resource(ADD_TO_BLACKLIST_20)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return WifiClientManagement::addToBlacklist(inst, resId, data);
-    });
-    resource(ADD_TO_WHITELIST_21)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return WifiClientManagement::addToWhitelist(inst, resId, data);
-    });
-    resource(STEER_TO_BAND_22)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return WifiClientManagement::steerToBand(inst, resId, data);
-    });
+    setExecute(DISCONNECT_CLIENT_19, disconnectClient);
+    setExecute(ADD_TO_BLACKLIST_20, addToBlacklist);
+    setExecute(ADD_TO_WHITELIST_21, addToWhitelist);
+    setExecute(STEER_TO_BAND_22, steerToBand);
 
 #ifdef OPENWRT_BUILD
     // Load client information from system
     updateClientStats();
 #endif
+
+    return true;
+}
+
+/* Validation */
+bool WifiClientManagement::validate(ID_T resId, const void *data, size_t size) {
+    switch (resId) {
+        case ACL_STATE_15: {
+            const STRING_T& state = *(const STRING_T*)data;
+            if (state != "none" && state != "allowed" && state != "denied") {
+                WPP_LOGE(TAG, "Invalid ACL state: %s", state.c_str());
+                return false;
+            }
+            break;
+        }
+        case QOS_PRIORITY_16: {
+            INT_T priority = *(const INT_T*)data;
+            if (priority < 0 || priority > 7) {
+                WPP_LOGE(TAG, "Invalid QoS priority: %lld (must be 0-7)", priority);
+                return false;
+            }
+            break;
+        }
+    }
+    return true;
 }
 
 /* Update client statistics */
@@ -173,12 +127,12 @@ void WifiClientManagement::updateClientStats() {
     // Update IP and hostname
     std::string ip = getClientIPFromMAC(macAddress);
     if (!ip.empty()) {
-        resource(IP_ADDRESS_1)->set<STRING_T>( ip);
+        set<STRING_T>(IP_ADDRESS_1, ip);
     }
 
     std::string hostname = getClientHostnameFromMAC(macAddress);
     if (!hostname.empty()) {
-        resource(HOSTNAME_2)->set<STRING_T>( hostname);
+        set<STRING_T>(HOSTNAME_2, hostname);
     }
 
     // Get detailed stats from hostapd
@@ -196,11 +150,11 @@ void WifiClientManagement::updateClientStats() {
     // Update connected time
     time_t currentTime = time(nullptr);
     int connectedSeconds = currentTime - connectionStartTime;
-    resource(CONNECTED_TIME_11)->set<INT_T>( connectedSeconds);
+    set<INT_T>(CONNECTED_TIME_11, connectedSeconds);
 
     // Update last activity time
     int inactiveSeconds = currentTime - lastActivityTime;
-    resource(LAST_ACTIVITY_18)->set<INT_T>( inactiveSeconds);
+    set<INT_T>(LAST_ACTIVITY_18, inactiveSeconds);
 #endif
 }
 
@@ -243,18 +197,18 @@ bool WifiClientManagement::getClientInfoFromHostapd() {
     if (staInfo.count("signal")) {
         try {
             int rssi = std::stoi(staInfo["signal"]);
-            resource(SIGNAL_STRENGTH_4)->set<INT_T>( rssi);
+            set<INT_T>(SIGNAL_STRENGTH_4, rssi);
         } catch (...) {}
     }
 
     // Parse capabilities
     if (staInfo.count("flags")) {
         std::string capability = parseCapabilityString(staInfo["flags"]);
-        resource(CAPABILITY_12)->set<STRING_T>( capability);
+        set<STRING_T>(CAPABILITY_12, capability);
 
         // Parse bandwidth from flags
         int bandwidth = getBandwidthFromFlags(staInfo["flags"]);
-        resource(BANDWIDTH_14)->set<INT_T>( bandwidth);
+        set<INT_T>(BANDWIDTH_14, bandwidth);
     }
 
     // Parse connection time (connected_time in seconds)
@@ -262,7 +216,7 @@ bool WifiClientManagement::getClientInfoFromHostapd() {
         try {
             int connTime = std::stoi(staInfo["connected_time"]);
             connectionStartTime = time(nullptr) - connTime;
-            resource(CONNECTED_TIME_11)->set<INT_T>( connTime);
+            set<INT_T>(CONNECTED_TIME_11, connTime);
         } catch (...) {}
     }
 
@@ -271,7 +225,7 @@ bool WifiClientManagement::getClientInfoFromHostapd() {
         try {
             int inactiveMsec = std::stoi(staInfo["inactive_msec"]);
             int inactiveSec = inactiveMsec / 1000;
-            resource(LAST_ACTIVITY_18)->set<INT_T>( inactiveSec);
+            set<INT_T>(LAST_ACTIVITY_18, inactiveSec);
             lastActivityTime = time(nullptr) - inactiveSec;
         } catch (...) {}
     }
@@ -283,7 +237,7 @@ bool WifiClientManagement::getClientInfoFromHostapd() {
         if (ratePos != std::string::npos) {
             try {
                 int rate = std::stoi(rxRateInfo.substr(ratePos + 5));
-                resource(RX_RATE_8)->set<INT_T>( rate / 10); // Convert to Mbps
+                set<INT_T>(RX_RATE_8, rate / 10); // Convert to Mbps
             } catch (...) {}
         }
     }
@@ -294,7 +248,7 @@ bool WifiClientManagement::getClientInfoFromHostapd() {
         if (ratePos != std::string::npos) {
             try {
                 int rate = std::stoi(txRateInfo.substr(ratePos + 5));
-                resource(TX_RATE_7)->set<INT_T>( rate / 10); // Convert to Mbps
+                set<INT_T>(TX_RATE_7, rate / 10); // Convert to Mbps
             } catch (...) {}
         }
     }
@@ -303,7 +257,7 @@ bool WifiClientManagement::getClientInfoFromHostapd() {
     if (staInfo.count("rx_bytes")) {
         try {
             uint64_t rxBytes = std::stoull(staInfo["rx_bytes"]);
-            resource(RX_BYTES_10)->set<INT_T>( rxBytes);
+            set<INT_T>(RX_BYTES_10, rxBytes);
             lastRxBytes = rxBytes;
         } catch (...) {}
     }
@@ -311,7 +265,7 @@ bool WifiClientManagement::getClientInfoFromHostapd() {
     if (staInfo.count("tx_bytes")) {
         try {
             uint64_t txBytes = std::stoull(staInfo["tx_bytes"]);
-            resource(TX_BYTES_9)->set<INT_T>( txBytes);
+            set<INT_T>(TX_BYTES_9, txBytes);
             lastTxBytes = txBytes;
         } catch (...) {}
     }
@@ -344,7 +298,7 @@ bool WifiClientManagement::getClientInfoFromIwinfo() {
             std::smatch match;
             if (std::regex_search(line, match, signalRegex)) {
                 int rssi = std::stoi(match[1].str());
-                resource(SIGNAL_STRENGTH_4)->set<INT_T>( rssi);
+                set<INT_T>(SIGNAL_STRENGTH_4, rssi);
             }
         }
 
@@ -356,8 +310,8 @@ bool WifiClientManagement::getClientInfoFromIwinfo() {
                 int rssiAvg = std::stoi(match[1].str());
                 // Estimate noise (typical WiFi noise floor)
                 int noise = -95;
-                resource(NOISE_LEVEL_5)->set<INT_T>( noise);
-                resource(SNR_6)->set<INT_T>( rssiAvg - noise);
+                set<INT_T>(NOISE_LEVEL_5, noise);
+                set<INT_T>(SNR_6, rssiAvg - noise);
             }
         }
 
@@ -367,7 +321,7 @@ bool WifiClientManagement::getClientInfoFromIwinfo() {
             std::smatch match;
             if (std::regex_search(line, match, rateRegex)) {
                 float rate = std::stof(match[1].str());
-                resource(TX_RATE_7)->set<INT_T>( static_cast<int>(rate));
+                set<INT_T>(TX_RATE_7, static_cast<int>(rate));
             }
         }
 
@@ -377,7 +331,7 @@ bool WifiClientManagement::getClientInfoFromIwinfo() {
             std::smatch match;
             if (std::regex_search(line, match, rateRegex)) {
                 float rate = std::stof(match[1].str());
-                resource(RX_RATE_8)->set<INT_T>( static_cast<int>(rate));
+                set<INT_T>(RX_RATE_8, static_cast<int>(rate));
             }
         }
 
@@ -387,7 +341,7 @@ bool WifiClientManagement::getClientInfoFromIwinfo() {
             std::smatch match;
             if (std::regex_search(line, match, bytesRegex)) {
                 uint64_t rxBytes = std::stoull(match[1].str());
-                resource(RX_BYTES_10)->set<INT_T>( rxBytes);
+                set<INT_T>(RX_BYTES_10, rxBytes);
             }
         }
 
@@ -396,7 +350,7 @@ bool WifiClientManagement::getClientInfoFromIwinfo() {
             std::smatch match;
             if (std::regex_search(line, match, bytesRegex)) {
                 uint64_t txBytes = std::stoull(match[1].str());
-                resource(TX_BYTES_9)->set<INT_T>( txBytes);
+                set<INT_T>(TX_BYTES_9, txBytes);
             }
         }
     }
@@ -414,7 +368,7 @@ bool WifiClientManagement::getClientInfoFromIwinfo() {
             if (std::regex_search(line, match, freqRegex)) {
                 int freq = std::stoi(match[1].str());
                 std::string band = determineBand(freq);
-                resource(BAND_13)->set<STRING_T>( band);
+                set<STRING_T>(BAND_13, band);
             }
         }
         pclose(pipe);
@@ -468,8 +422,8 @@ bool WifiClientManagement::getClientBandwidthStats() {
     // This is a simplified implementation
 
     // Update bandwidth counters if we have new data
-    uint64_t currentTxBytes = resource(TX_BYTES_9)->get<INT_T>();
-    uint64_t currentRxBytes = resource(RX_BYTES_10)->get<INT_T>();
+    uint64_t currentTxBytes = get<INT_T>(TX_BYTES_9);
+    uint64_t currentRxBytes = get<INT_T>(RX_BYTES_10);
 
     if (currentTxBytes > lastTxBytes) {
         lastTxBytes = currentTxBytes;
@@ -597,7 +551,7 @@ bool WifiClientManagement::addToBlacklist(Instance& inst, ID_T resId, const OPAQ
 
     int result = system(cmd.str().c_str());
     if (result == 0) {
-        client.resource(ACL_STATE_15)->set<STRING_T>("denied");
+        client.set<STRING_T>(ACL_STATE_15, "denied");
 
         // Also disconnect the client
         cmd.str("");
@@ -631,7 +585,7 @@ bool WifiClientManagement::addToWhitelist(Instance& inst, ID_T resId, const OPAQ
 
     int result = system(cmd.str().c_str());
     if (result == 0) {
-        client.resource(ACL_STATE_15)->set<STRING_T>("allowed");
+        client.set<STRING_T>(ACL_STATE_15, "allowed");
 
         // Remove from deny list if present
         cmd.str("");

@@ -16,6 +16,9 @@
 #include "ZigbeeCoordinatorInfo.h"
 #include "Instance.h"
 #include "InstSubject.h"
+#include <memory>
+#include <thread>
+#include <atomic>
 
 // Forward declarations for Zigbee coordinator
 namespace zigbee {
@@ -73,22 +76,23 @@ public:
     };
 
     /* Static object methods */
-    static Object& object(WppClient& client);
-    static Instance* createInst(WppClient& client, INST_T instId = 0);
-    static Instance* instance(WppClient& client, INST_T instId);
-    static bool remove(WppClient& client, INST_T instId);
+    static Object& object(WppClient& ctx);
+    static ZigbeeCoordinator* createInst(WppClient& ctx, ID_T instId = 0);
+    static ZigbeeCoordinator* instance(WppClient& ctx, ID_T instId = ID_T_MAX_VAL);
+    static bool removeInst(WppClient& ctx, ID_T instId);
 
     /* Instance lifecycle */
-    ZigbeeCoordinator(Object& object, INST_T instId);
-    ~ZigbeeCoordinator() override;
+    ZigbeeCoordinator(lwm2m_context_t& context, const OBJ_LINK_T& id);
+    ~ZigbeeCoordinator();
 
 protected:
-    /* ObjSubject override method */
-    bool validate(ID_T resId, const void *data, size_t size) override;
+    void serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) override;
+    void userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) override;
 
 private:
     /* Private methods */
-    bool initResources(ItemOp *) override;
+    void resourcesCreate();
+    void resourcesInit();
 
     /* Execute handlers */
     static bool formNetwork(Instance& inst, ID_T resId, const OPAQUE_T& data);

@@ -66,22 +66,24 @@ public:
     };
 
     /* Static object methods */
-    static Object& object(WppClient& client);
-    static Instance* createInst(WppClient& client, INST_T instId = ID_T_MAX_VAL);
-    static Instance* instance(WppClient& client, INST_T instId);
-    static bool remove(WppClient& client, INST_T instId);
+    static Object& object(WppClient& ctx);
+    static WanFailoverPolicy* createInst(WppClient& ctx, ID_T instId = ID_T_MAX_VAL);
+    static WanFailoverPolicy* instance(WppClient& ctx, ID_T instId = ID_T_MAX_VAL);
+    static bool removeInst(WppClient& ctx, ID_T instId);
 
     /* Instance lifecycle */
-    WanFailoverPolicy(Object& object, INST_T instId);
-    ~WanFailoverPolicy() override;
+    WanFailoverPolicy(lwm2m_context_t& context, const OBJ_LINK_T& id);
+    ~WanFailoverPolicy();
 
 protected:
-    /* ObjSubject override method */
-    bool validate(ID_T resId, const void *data, size_t size) override;
+    /* Instance implementation part */
+    void serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) override;
+    void userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) override;
 
 private:
     /* Private methods */
-    bool initResources(ItemOp *) override;
+    void resourcesCreate();
+    void resourcesInit();
 
     /* Execute handlers */
     static bool applyPolicy(Instance& inst, ID_T resId, const OPAQUE_T& data);

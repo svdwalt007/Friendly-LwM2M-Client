@@ -8,6 +8,9 @@
 
 #ifdef OBJ_W_10526_MULTIWAN_HEALTH_CHECK
 
+// Object ID
+#define MULTIWAN_HEALTH_CHECK_OBJECT_ID (wpp::OBJ_ID)10526
+
 // Resource enable/disable flags
 // All resources are enabled by default
 

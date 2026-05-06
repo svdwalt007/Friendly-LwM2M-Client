@@ -7,7 +7,6 @@
 #include "WppClient.h"
 #include "WppRegistry.h"
 #include "WppLogs.h"
-#include "Lwm2mObjectBase.h"
 
 #ifdef OBJ_W_10526_MULTIWAN_HEALTH_CHECK
 
@@ -36,28 +35,32 @@
 using namespace wpp;
 
 /* Static object methods */
-Object& MultiWanHealthCheck::object(WppClient& client) {
-    return client.registry().getObject(MULTIWAN_HEALTH_CHECK_OBJECT_ID);
+Object& MultiWanHealthCheck::object(WppClient& ctx) {
+    return ctx.registry().multiWanHealthCheck();
 }
 
-Instance* MultiWanHealthCheck::createInst(WppClient& client, INST_T instId) {
-    return object(client).createInstance(instId);
+MultiWanHealthCheck* MultiWanHealthCheck::createInst(WppClient& ctx, ID_T instId) {
+    Instance *inst = ctx.registry().multiWanHealthCheck().createInstance(instId);
+    if (!inst) return NULL;
+    return static_cast<MultiWanHealthCheck*>(inst);
 }
 
-Instance* MultiWanHealthCheck::instance(WppClient& client, INST_T instId) {
-    return object(client).instance(instId);
+MultiWanHealthCheck* MultiWanHealthCheck::instance(WppClient& ctx, ID_T instId) {
+    Instance *inst = ctx.registry().multiWanHealthCheck().instance(instId);
+    if (!inst) return NULL;
+    return static_cast<MultiWanHealthCheck*>(inst);
 }
 
-bool MultiWanHealthCheck::remove(WppClient& client, INST_T instId) {
-    return object(client).remove(instId);
+bool MultiWanHealthCheck::removeInst(WppClient& ctx, ID_T instId) {
+    return ctx.registry().multiWanHealthCheck().remove(instId);
 }
 
 /* Instance lifecycle */
-MultiWanHealthCheck::MultiWanHealthCheck(Object& object, INST_T instId)
-    : Instance(object, instId),
+MultiWanHealthCheck::MultiWanHealthCheck(lwm2m_context_t& context, const OBJ_LINK_T& id)
+    : Instance(context, id),
       m_running(false),
       m_probingActive(false) {
-    WPP_LOGD(TAG, "MultiWanHealthCheck instance %d created", instId);
+    WPP_LOGD(TAG, "MultiWanHealthCheck instance %d created", instId());
 }
 
 MultiWanHealthCheck::~MultiWanHealthCheck() {
@@ -73,39 +76,55 @@ MultiWanHealthCheck::~MultiWanHealthCheck() {
     }
 }
 
+void MultiWanHealthCheck::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
+    operationNotify(*this, resLink, type);
+}
+
+void MultiWanHealthCheck::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
+    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
+}
+
 /* Initialize resources */
-bool MultiWanHealthCheck::initResources(ItemOp *itemOp) {
+void MultiWanHealthCheck::resourcesInit() {
     WPP_LOGD(TAG, "Initializing MultiWanHealthCheck resources for instance %d", instId());
 
     // Default configuration values
-    set<STRING_T>(INTERFACE_NAME_0, "wan");
-    set<INT_T>(PROBE_TYPE_1, PROBE_ICMP);
-    set<STRING_T>(TARGET_HOST_2, "8.8.8.8");
-    set<INT_T>(TARGET_PORT_3, 80);
-    set<INT_T>(PROBE_INTERVAL_4, 10);      // 10 seconds
-    set<INT_T>(PROBE_TIMEOUT_5, 2000);     // 2000 ms (2 seconds)
-    set<INT_T>(FAILURE_THRESHOLD_6, 3);    // 3 consecutive failures
-    set<INT_T>(RECOVERY_THRESHOLD_7, 3);   // 3 consecutive successes
+    resource(INTERFACE_NAME_0)->set<STRING_T>( "wan");
+    resource(PROBE_TYPE_1)->set<INT_T>( PROBE_ICMP);
+    resource(TARGET_HOST_2)->set<STRING_T>( "8.8.8.8");
+    resource(TARGET_PORT_3)->set<INT_T>( 80);
+    resource(PROBE_INTERVAL_4)->set<INT_T>( 10);      // 10 seconds
+    resource(PROBE_TIMEOUT_5)->set<INT_T>( 2000);     // 2000 ms (2 seconds)
+    resource(FAILURE_THRESHOLD_6)->set<INT_T>( 3);    // 3 consecutive failures
+    resource(RECOVERY_THRESHOLD_7)->set<INT_T>( 3);   // 3 consecutive successes
 
     // Initialize read-only status resources
-    set<INT_T>(CURRENT_STATE_8, STATE_HEALTHY);
-    set<TIME_T>(LAST_PROBE_TIME_9, 0);
-    set<BOOL_T>(LAST_PROBE_RESULT_10, true);
-    set<FLOAT_T>(AVERAGE_LATENCY_11, 0.0);
-    set<FLOAT_T>(MIN_LATENCY_12, 0.0);
-    set<FLOAT_T>(MAX_LATENCY_13, 0.0);
-    set<FLOAT_T>(JITTER_14, 0.0);
-    set<FLOAT_T>(PACKET_LOSS_15, 0.0);
-    set<INT_T>(CONSECUTIVE_FAILURES_16, 0);
-    set<INT_T>(CONSECUTIVE_SUCCESSES_17, 0);
-    set<INT_T>(TOTAL_PROBES_18, 0);
-    set<INT_T>(FAILED_PROBES_19, 0);
+    resource(CURRENT_STATE_8)->set<INT_T>( STATE_HEALTHY);
+    resource(LAST_PROBE_TIME_9)->set<TIME_T>( 0);
+    resource(LAST_PROBE_RESULT_10)->set<BOOL_T>( true);
+    resource(AVERAGE_LATENCY_11)->set<FLOAT_T>( 0.0);
+    resource(MIN_LATENCY_12)->set<FLOAT_T>( 0.0);
+    resource(MAX_LATENCY_13)->set<FLOAT_T>( 0.0);
+    resource(JITTER_14)->set<FLOAT_T>( 0.0);
+    resource(PACKET_LOSS_15)->set<FLOAT_T>( 0.0);
+    resource(CONSECUTIVE_FAILURES_16)->set<INT_T>( 0);
+    resource(CONSECUTIVE_SUCCESSES_17)->set<INT_T>( 0);
+    resource(TOTAL_PROBES_18)->set<INT_T>( 0);
+    resource(FAILED_PROBES_19)->set<INT_T>( 0);
 
     // Set execute handlers
-    setExecute(START_PROBING_20, startProbing);
-    setExecute(STOP_PROBING_21, stopProbing);
-    setExecute(FORCE_CHECK_22, forceCheck);
-    setExecute(RESET_STATS_23, resetStats);
+    resource(START_PROBING_20)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+        return MultiWanHealthCheck::startProbing(inst, resId, data);
+    });
+    resource(STOP_PROBING_21)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+        return MultiWanHealthCheck::stopProbing(inst, resId, data);
+    });
+    resource(FORCE_CHECK_22)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+        return MultiWanHealthCheck::forceCheck(inst, resId, data);
+    });
+    resource(RESET_STATS_23)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
+        return MultiWanHealthCheck::resetStats(inst, resId, data);
+    });
 
 #ifdef OPENWRT_BUILD
     // Load existing configuration from mwan3 if available
@@ -115,70 +134,9 @@ bool MultiWanHealthCheck::initResources(ItemOp *itemOp) {
     // Start worker thread
     m_running = true;
     m_workerThread = std::thread(&MultiWanHealthCheck::probeWorker, this);
-
-    return true;
 }
 
 /* Validation */
-bool MultiWanHealthCheck::validate(ID_T resId, const void *data, size_t size) {
-    switch (resId) {
-        case PROBE_TYPE_1: {
-            INT_T probeType = *(const INT_T*)data;
-            if (probeType < PROBE_ICMP || probeType > PROBE_TCP) {
-                WPP_LOGE(TAG, "Invalid probe type: %lld (must be 0-3)", probeType);
-                return false;
-            }
-            break;
-        }
-        case TARGET_HOST_2: {
-            const STRING_T& host = *(const STRING_T*)data;
-            if (host.empty()) {
-                WPP_LOGE(TAG, "Target host cannot be empty");
-                return false;
-            }
-            // Basic validation - allow IP addresses or hostnames
-            if (!isValidHostname(host)) {
-                WPP_LOGE(TAG, "Invalid target host: %s", host.c_str());
-                return false;
-            }
-            break;
-        }
-        case TARGET_PORT_3: {
-            INT_T port = *(const INT_T*)data;
-            if (port < 1 || port > 65535) {
-                WPP_LOGE(TAG, "Invalid port: %lld (must be 1-65535)", port);
-                return false;
-            }
-            break;
-        }
-        case PROBE_INTERVAL_4: {
-            INT_T interval = *(const INT_T*)data;
-            if (interval < 1 || interval > 3600) {
-                WPP_LOGE(TAG, "Invalid probe interval: %lld (must be 1-3600 seconds)", interval);
-                return false;
-            }
-            break;
-        }
-        case PROBE_TIMEOUT_5: {
-            INT_T timeout = *(const INT_T*)data;
-            if (timeout < 100 || timeout > 30000) {
-                WPP_LOGE(TAG, "Invalid probe timeout: %lld (must be 100-30000 ms)", timeout);
-                return false;
-            }
-            break;
-        }
-        case FAILURE_THRESHOLD_6:
-        case RECOVERY_THRESHOLD_7: {
-            INT_T threshold = *(const INT_T*)data;
-            if (threshold < 1 || threshold > 100) {
-                WPP_LOGE(TAG, "Invalid threshold: %lld (must be 1-100)", threshold);
-                return false;
-            }
-            break;
-        }
-    }
-    return true;
-}
 
 /* Execute handler: Start Probing */
 bool MultiWanHealthCheck::startProbing(Instance& inst, ID_T resId, const OPAQUE_T& data) {
@@ -249,7 +207,7 @@ void MultiWanHealthCheck::probeWorker() {
         }
 
         // Wait for next interval
-        INT_T interval = get<INT_T>(PROBE_INTERVAL_4);
+        INT_T interval = resource(PROBE_INTERVAL_4)->get<INT_T>();
         lock.lock();
         m_cv.wait_for(lock, std::chrono::seconds(interval),
                       [this]() { return !m_probingActive || !m_running; });
@@ -260,16 +218,16 @@ void MultiWanHealthCheck::probeWorker() {
 
 /* Execute probe based on configured type */
 bool MultiWanHealthCheck::executeProbe() {
-    INT_T probeType = get<INT_T>(PROBE_TYPE_1);
-    STRING_T targetHost = get<STRING_T>(TARGET_HOST_2);
-    INT_T targetPort = get<INT_T>(TARGET_PORT_3);
-    INT_T timeout = get<INT_T>(PROBE_TIMEOUT_5);
+    INT_T probeType = resource(PROBE_TYPE_1)->get<INT_T>();
+    STRING_T targetHost = resource(TARGET_HOST_2)->get<STRING_T>();
+    INT_T targetPort = resource(TARGET_PORT_3)->get<INT_T>();
+    INT_T timeout = resource(PROBE_TIMEOUT_5)->get<INT_T>();
 
     double latency_ms = 0.0;
     bool success = false;
 
     // Update probe time
-    set<TIME_T>(LAST_PROBE_TIME_9, time(nullptr));
+    resource(LAST_PROBE_TIME_9)->set<TIME_T>( time(nullptr));
 
     switch (probeType) {
         case PROBE_ICMP:
@@ -290,7 +248,7 @@ bool MultiWanHealthCheck::executeProbe() {
     }
 
     // Update result
-    set<BOOL_T>(LAST_PROBE_RESULT_10, success);
+    resource(LAST_PROBE_RESULT_10)->set<BOOL_T>( success);
 
     // Update statistics and health state
     updateStatistics(success, latency_ms);
@@ -336,7 +294,7 @@ bool MultiWanHealthCheck::probeICMP(const std::string& host, int timeout_ms, dou
     icmp_hdr.icmp_type = ICMP_ECHO;
     icmp_hdr.icmp_code = 0;
     icmp_hdr.icmp_id = getpid() & 0xFFFF;
-    icmp_hdr.icmp_seq = instId() & 0xFFFF;
+    icmp_hdr.icmp_seq = getInstanceID() & 0xFFFF;
 
     // Calculate checksum
     icmp_hdr.icmp_cksum = 0;
@@ -597,40 +555,40 @@ void MultiWanHealthCheck::updateStatistics(bool success, double latency_ms) {
     std::lock_guard<std::mutex> lock(m_mutex);
 
     // Update total probes
-    INT_T totalProbes = get<INT_T>(TOTAL_PROBES_18) + 1;
-    set<INT_T>(TOTAL_PROBES_18, totalProbes);
+    INT_T totalProbes = resource(TOTAL_PROBES_18)->get<INT_T>() + 1;
+    resource(TOTAL_PROBES_18)->set<INT_T>( totalProbes);
 
     if (!success) {
         // Update failed probes
-        INT_T failedProbes = get<INT_T>(FAILED_PROBES_19) + 1;
-        set<INT_T>(FAILED_PROBES_19, failedProbes);
+        INT_T failedProbes = resource(FAILED_PROBES_19)->get<INT_T>() + 1;
+        resource(FAILED_PROBES_19)->set<INT_T>( failedProbes);
 
         // Update packet loss percentage
         double packetLoss = (static_cast<double>(failedProbes) / totalProbes) * 100.0;
-        set<FLOAT_T>(PACKET_LOSS_15, packetLoss);
+        resource(PACKET_LOSS_15)->set<FLOAT_T>( packetLoss);
 
         return;
     }
 
     // Update latency statistics (only for successful probes)
-    FLOAT_T currentAvg = get<FLOAT_T>(AVERAGE_LATENCY_11);
-    FLOAT_T minLatency = get<FLOAT_T>(MIN_LATENCY_12);
-    FLOAT_T maxLatency = get<FLOAT_T>(MAX_LATENCY_13);
+    FLOAT_T currentAvg = resource(AVERAGE_LATENCY_11)->get<FLOAT_T>();
+    FLOAT_T minLatency = resource(MIN_LATENCY_12)->get<FLOAT_T>();
+    FLOAT_T maxLatency = resource(MAX_LATENCY_13)->get<FLOAT_T>();
 
     // Update average using exponential moving average
     if (currentAvg == 0.0) {
-        set<FLOAT_T>(AVERAGE_LATENCY_11, latency_ms);
+        resource(AVERAGE_LATENCY_11)->set<FLOAT_T>( latency_ms);
     } else {
         double newAvg = (EMA_ALPHA * latency_ms) + ((1.0 - EMA_ALPHA) * currentAvg);
-        set<FLOAT_T>(AVERAGE_LATENCY_11, newAvg);
+        resource(AVERAGE_LATENCY_11)->set<FLOAT_T>( newAvg);
     }
 
     // Update min/max
     if (minLatency == 0.0 || latency_ms < minLatency) {
-        set<FLOAT_T>(MIN_LATENCY_12, latency_ms);
+        resource(MIN_LATENCY_12)->set<FLOAT_T>( latency_ms);
     }
     if (latency_ms > maxLatency) {
-        set<FLOAT_T>(MAX_LATENCY_13, latency_ms);
+        resource(MAX_LATENCY_13)->set<FLOAT_T>( latency_ms);
     }
 
     // Add to latency history for jitter calculation
@@ -649,35 +607,35 @@ void MultiWanHealthCheck::updateStatistics(bool success, double latency_ms) {
     calculateJitter();
 
     // Update packet loss percentage
-    INT_T failedProbes = get<INT_T>(FAILED_PROBES_19);
+    INT_T failedProbes = resource(FAILED_PROBES_19)->get<INT_T>();
     double packetLoss = (static_cast<double>(failedProbes) / totalProbes) * 100.0;
-    set<FLOAT_T>(PACKET_LOSS_15, packetLoss);
+    resource(PACKET_LOSS_15)->set<FLOAT_T>( packetLoss);
 }
 
 /* Update health state based on probe result */
 void MultiWanHealthCheck::updateHealthState(bool probeSuccess) {
-    INT_T consecutiveFailures = get<INT_T>(CONSECUTIVE_FAILURES_16);
-    INT_T consecutiveSuccesses = get<INT_T>(CONSECUTIVE_SUCCESSES_17);
-    INT_T failureThreshold = get<INT_T>(FAILURE_THRESHOLD_6);
-    INT_T recoveryThreshold = get<INT_T>(RECOVERY_THRESHOLD_7);
-    INT_T currentState = get<INT_T>(CURRENT_STATE_8);
+    INT_T consecutiveFailures = resource(CONSECUTIVE_FAILURES_16)->get<INT_T>();
+    INT_T consecutiveSuccesses = resource(CONSECUTIVE_SUCCESSES_17)->get<INT_T>();
+    INT_T failureThreshold = resource(FAILURE_THRESHOLD_6)->get<INT_T>();
+    INT_T recoveryThreshold = resource(RECOVERY_THRESHOLD_7)->get<INT_T>();
+    INT_T currentState = resource(CURRENT_STATE_8)->get<INT_T>();
 
     if (probeSuccess) {
         // Reset consecutive failures
         consecutiveFailures = 0;
         consecutiveSuccesses++;
 
-        set<INT_T>(CONSECUTIVE_FAILURES_16, consecutiveFailures);
-        set<INT_T>(CONSECUTIVE_SUCCESSES_17, consecutiveSuccesses);
+        resource(CONSECUTIVE_FAILURES_16)->set<INT_T>( consecutiveFailures);
+        resource(CONSECUTIVE_SUCCESSES_17)->set<INT_T>( consecutiveSuccesses);
 
         // Check for recovery
         if (currentState != STATE_HEALTHY && consecutiveSuccesses >= recoveryThreshold) {
             WPP_LOGI(TAG, "Interface %d transitioning to HEALTHY state", instId());
-            set<INT_T>(CURRENT_STATE_8, STATE_HEALTHY);
+            resource(CURRENT_STATE_8)->set<INT_T>( STATE_HEALTHY);
 
 #ifdef OPENWRT_BUILD
             // Notify mwan3 track system
-            STRING_T ifname = get<STRING_T>(INTERFACE_NAME_0);
+            STRING_T ifname = resource(INTERFACE_NAME_0)->get<STRING_T>();
             std::stringstream cmd;
             cmd << "mwan3 track " << ifname << " up";
             system(cmd.str().c_str());
@@ -688,24 +646,24 @@ void MultiWanHealthCheck::updateHealthState(bool probeSuccess) {
         consecutiveSuccesses = 0;
         consecutiveFailures++;
 
-        set<INT_T>(CONSECUTIVE_FAILURES_16, consecutiveFailures);
-        set<INT_T>(CONSECUTIVE_SUCCESSES_17, consecutiveSuccesses);
+        resource(CONSECUTIVE_FAILURES_16)->set<INT_T>( consecutiveFailures);
+        resource(CONSECUTIVE_SUCCESSES_17)->set<INT_T>( consecutiveSuccesses);
 
         // Check for degradation
         if (currentState == STATE_HEALTHY && consecutiveFailures >= failureThreshold / 2) {
             WPP_LOGW(TAG, "Interface %d transitioning to DEGRADED state", instId());
-            set<INT_T>(CURRENT_STATE_8, STATE_DEGRADED);
+            resource(CURRENT_STATE_8)->set<INT_T>( STATE_DEGRADED);
         }
 
         // Check for failure
         if (consecutiveFailures >= failureThreshold) {
             if (currentState != STATE_UNHEALTHY) {
                 WPP_LOGE(TAG, "Interface %d transitioning to UNHEALTHY state", instId());
-                set<INT_T>(CURRENT_STATE_8, STATE_UNHEALTHY);
+                resource(CURRENT_STATE_8)->set<INT_T>( STATE_UNHEALTHY);
 
 #ifdef OPENWRT_BUILD
                 // Notify mwan3 track system
-                STRING_T ifname = get<STRING_T>(INTERFACE_NAME_0);
+                STRING_T ifname = resource(INTERFACE_NAME_0)->get<STRING_T>();
                 std::stringstream cmd;
                 cmd << "mwan3 track " << ifname << " down";
                 system(cmd.str().c_str());
@@ -719,15 +677,15 @@ void MultiWanHealthCheck::updateHealthState(bool probeSuccess) {
 void MultiWanHealthCheck::resetStatistics() {
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    set<FLOAT_T>(AVERAGE_LATENCY_11, 0.0);
-    set<FLOAT_T>(MIN_LATENCY_12, 0.0);
-    set<FLOAT_T>(MAX_LATENCY_13, 0.0);
-    set<FLOAT_T>(JITTER_14, 0.0);
-    set<FLOAT_T>(PACKET_LOSS_15, 0.0);
-    set<INT_T>(CONSECUTIVE_FAILURES_16, 0);
-    set<INT_T>(CONSECUTIVE_SUCCESSES_17, 0);
-    set<INT_T>(TOTAL_PROBES_18, 0);
-    set<INT_T>(FAILED_PROBES_19, 0);
+    resource(AVERAGE_LATENCY_11)->set<FLOAT_T>( 0.0);
+    resource(MIN_LATENCY_12)->set<FLOAT_T>( 0.0);
+    resource(MAX_LATENCY_13)->set<FLOAT_T>( 0.0);
+    resource(JITTER_14)->set<FLOAT_T>( 0.0);
+    resource(PACKET_LOSS_15)->set<FLOAT_T>( 0.0);
+    resource(CONSECUTIVE_FAILURES_16)->set<INT_T>( 0);
+    resource(CONSECUTIVE_SUCCESSES_17)->set<INT_T>( 0);
+    resource(TOTAL_PROBES_18)->set<INT_T>( 0);
+    resource(FAILED_PROBES_19)->set<INT_T>( 0);
 
     m_latencyHistory.clear();
 
@@ -748,7 +706,7 @@ void MultiWanHealthCheck::calculateJitter() {
     }
 
     double jitter = sumDiff / (m_latencyHistory.size() - 1);
-    set<FLOAT_T>(JITTER_14, jitter);
+    resource(JITTER_14)->set<FLOAT_T>( jitter);
 }
 
 /* Load configuration from mwan3 track */
@@ -756,7 +714,7 @@ bool MultiWanHealthCheck::loadFromMwan3() {
 #ifdef OPENWRT_BUILD
     WPP_LOGD(TAG, "Loading health check configuration from mwan3");
 
-    STRING_T ifname = get<STRING_T>(INTERFACE_NAME_0);
+    STRING_T ifname = resource(INTERFACE_NAME_0)->get<STRING_T>();
 
     // Read track IP
     std::stringstream cmd;
@@ -766,7 +724,7 @@ bool MultiWanHealthCheck::loadFromMwan3() {
         char buffer[256];
         if (fgets(buffer, sizeof(buffer), pipe)) {
             buffer[strcspn(buffer, "\n")] = 0;
-            set<STRING_T>(TARGET_HOST_2, buffer);
+            resource(TARGET_HOST_2)->set<STRING_T>( buffer);
         }
         pclose(pipe);
     }
@@ -781,9 +739,9 @@ bool MultiWanHealthCheck::loadFromMwan3() {
             buffer[strcspn(buffer, "\n")] = 0;
             std::string method(buffer);
             if (method == "ping") {
-                set<INT_T>(PROBE_TYPE_1, PROBE_ICMP);
+                resource(PROBE_TYPE_1)->set<INT_T>( PROBE_ICMP);
             } else if (method == "httping") {
-                set<INT_T>(PROBE_TYPE_1, PROBE_HTTP);
+                resource(PROBE_TYPE_1)->set<INT_T>( PROBE_HTTP);
             }
         }
         pclose(pipe);
@@ -797,7 +755,7 @@ bool MultiWanHealthCheck::loadFromMwan3() {
         char buffer[16];
         if (fgets(buffer, sizeof(buffer), pipe)) {
             int reliability = atoi(buffer);
-            set<INT_T>(FAILURE_THRESHOLD_6, reliability);
+            resource(FAILURE_THRESHOLD_6)->set<INT_T>( reliability);
         }
         pclose(pipe);
     }
@@ -810,7 +768,7 @@ bool MultiWanHealthCheck::loadFromMwan3() {
         char buffer[16];
         if (fgets(buffer, sizeof(buffer), pipe)) {
             int count = atoi(buffer);
-            set<INT_T>(RECOVERY_THRESHOLD_7, count);
+            resource(RECOVERY_THRESHOLD_7)->set<INT_T>( count);
         }
         pclose(pipe);
     }
@@ -823,7 +781,7 @@ bool MultiWanHealthCheck::loadFromMwan3() {
         char buffer[16];
         if (fgets(buffer, sizeof(buffer), pipe)) {
             int timeout_sec = atoi(buffer);
-            set<INT_T>(PROBE_TIMEOUT_5, timeout_sec * 1000);  // Convert to ms
+            resource(PROBE_TIMEOUT_5)->set<INT_T>( timeout_sec * 1000);  // Convert to ms
         }
         pclose(pipe);
     }
@@ -836,7 +794,7 @@ bool MultiWanHealthCheck::loadFromMwan3() {
         char buffer[16];
         if (fgets(buffer, sizeof(buffer), pipe)) {
             int interval = atoi(buffer);
-            set<INT_T>(PROBE_INTERVAL_4, interval);
+            resource(PROBE_INTERVAL_4)->set<INT_T>( interval);
         }
         pclose(pipe);
     }
@@ -853,18 +811,18 @@ bool MultiWanHealthCheck::saveToMwan3() {
 #ifdef OPENWRT_BUILD
     WPP_LOGD(TAG, "Saving health check configuration to mwan3");
 
-    STRING_T ifname = get<STRING_T>(INTERFACE_NAME_0);
+    STRING_T ifname = resource(INTERFACE_NAME_0)->get<STRING_T>();
     std::stringstream cmd;
 
     // Set track IP
     cmd.str("");
     cmd << "uci set mwan3." << ifname << "_track.track_ip='"
-        << get<STRING_T>(TARGET_HOST_2) << "'";
+        << resource(TARGET_HOST_2)->get<STRING_T>() << "'";
     system(cmd.str().c_str());
 
     // Set track method
     cmd.str("");
-    INT_T probeType = get<INT_T>(PROBE_TYPE_1);
+    INT_T probeType = resource(PROBE_TYPE_1)->get<INT_T>();
     std::string method = (probeType == PROBE_ICMP) ? "ping" : "httping";
     cmd << "uci set mwan3." << ifname << "_track.track_method='" << method << "'";
     system(cmd.str().c_str());
@@ -872,18 +830,18 @@ bool MultiWanHealthCheck::saveToMwan3() {
     // Set reliability
     cmd.str("");
     cmd << "uci set mwan3." << ifname << "_track.reliability='"
-        << get<INT_T>(FAILURE_THRESHOLD_6) << "'";
+        << resource(FAILURE_THRESHOLD_6)->get<INT_T>() << "'";
     system(cmd.str().c_str());
 
     // Set count
     cmd.str("");
     cmd << "uci set mwan3." << ifname << "_track.count='"
-        << get<INT_T>(RECOVERY_THRESHOLD_7) << "'";
+        << resource(RECOVERY_THRESHOLD_7)->get<INT_T>() << "'";
     system(cmd.str().c_str());
 
     // Set timeout (convert from ms to seconds)
     cmd.str("");
-    INT_T timeout_ms = get<INT_T>(PROBE_TIMEOUT_5);
+    INT_T timeout_ms = resource(PROBE_TIMEOUT_5)->get<INT_T>();
     cmd << "uci set mwan3." << ifname << "_track.timeout='"
         << (timeout_ms / 1000) << "'";
     system(cmd.str().c_str());
@@ -891,7 +849,7 @@ bool MultiWanHealthCheck::saveToMwan3() {
     // Set interval
     cmd.str("");
     cmd << "uci set mwan3." << ifname << "_track.interval='"
-        << get<INT_T>(PROBE_INTERVAL_4) << "'";
+        << resource(PROBE_INTERVAL_4)->get<INT_T>() << "'";
     system(cmd.str().c_str());
 
     // Commit changes
@@ -910,7 +868,7 @@ bool MultiWanHealthCheck::saveToMwan3() {
 /* Get interface device name */
 std::string MultiWanHealthCheck::getInterfaceDevice() {
 #ifdef OPENWRT_BUILD
-    STRING_T ifname = get<STRING_T>(INTERFACE_NAME_0);
+    STRING_T ifname = resource(INTERFACE_NAME_0)->get<STRING_T>();
     std::stringstream cmd;
     cmd << "uci get network." << ifname << ".device 2>/dev/null";
 

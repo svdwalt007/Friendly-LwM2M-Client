@@ -8,6 +8,10 @@
 
 #ifdef OBJ_W_10537_VPN_CONFIGURATION
 
+#include "WppTypes.h"
+
+#define VPN_CONFIG_OBJECT_ID (wpp::OBJ_ID)10537
+
 // Resource enable/disable flags
 // All resources are enabled by default
 

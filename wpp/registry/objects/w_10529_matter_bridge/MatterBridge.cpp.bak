@@ -26,28 +26,24 @@ using namespace wpp;
 
 /* Static object methods */
 Object& MatterBridge::object(WppClient& ctx) {
-    return ctx.registry().matterBridge();
+    return client.registry().getObject(MATTER_BRIDGE_OBJECT_ID);
 }
 
-MatterBridge* MatterBridge::createInst(WppClient& ctx, ID_T instId) {
-    Instance *inst = ctx.registry().matterBridge().createInstance(instId);
-    if (!inst) return NULL;
-    return static_cast<MatterBridge*>(inst);
+Instance* MatterBridge::createInst(WppClient& ctx, ID_T instId) {
+    return object(client).createInstance(instId);
 }
 
-MatterBridge* MatterBridge::instance(WppClient& ctx, ID_T instId) {
-    Instance *inst = ctx.registry().matterBridge().instance(instId);
-    if (!inst) return NULL;
-    return static_cast<MatterBridge*>(inst);
+Instance* MatterBridge::instance(WppClient& ctx, ID_T instId) {
+    return object(client).instance(instId);
 }
 
 bool MatterBridge::removeInst(WppClient& ctx, ID_T instId) {
-    return ctx.registry().matterBridge().remove(instId);
+    return object(client).remove(instId);
 }
 
 /* Instance lifecycle */
-MatterBridge::MatterBridge(lwm2m_context_t& context, const OBJ_LINK_T& id)
-    : Instance(context, id) {
+MatterBridge::MatterBridge(Object& object, ID_T instId)
+    : Instance(object, instId) {
     WPP_LOGD(TAG, "MatterBridge instance %d created", instId);
 }
 
@@ -56,67 +52,67 @@ MatterBridge::~MatterBridge() {
     shutdownMatterController();
 }
 
-void MatterBridge::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
-    operationNotify(*this, resLink, type);
-}
-
-void MatterBridge::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
-    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
-}
-
 /* Initialize resources */
-void MatterBridge::resourcesCreate() {
-    std::vector<Resource> resources = {
-        {CONTROLLER_STATUS_0,          ItemOp(ItemOp::READ), IS_SINGLE::SINGLE, IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
-        {COMMISSIONED_DEVICES_COUNT_1, ItemOp(ItemOp::READ), IS_SINGLE::SINGLE, IS_MANDATORY::MANDATORY, TYPE_ID::INT},
-        {THREAD_NETWORK_SSID_2,        ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::STRING},
-        {THREAD_ENABLED_3,             ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::BOOL},
-        {FABRIC_ID_4,                  ItemOp(ItemOp::READ), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::STRING},
-        {VENDOR_ID_5,                  ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::INT},
-        {PRODUCT_ID_6,                 ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::INT},
-        {COMMISSION_DEVICE_7,          ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::EXECUTE},
-        {REMOVE_DEVICE_8,              ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::EXECUTE},
-        {DISCOVER_DEVICES_9,           ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::EXECUTE},
-        {ENABLE_THREAD_BR_10,          ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE, IS_MANDATORY::OPTIONAL, TYPE_ID::EXECUTE},
-    };
-    setupResources(std::move(resources));
-}
+bool MatterBridge::initResources(ItemOp *itemOp) {
+    WPP_LOGD(TAG, "Initializing MatterBridge resources for instance %d", instId());
 
-/* Initialize resource values */
-void MatterBridge::resourcesInit() {
-    WPP_LOGD(TAG, "Initializing MatterBridge resource values");
-
-    resource(CONTROLLER_STATUS_0)->set<STRING_T>("Inactive");
-    resource(COMMISSIONED_DEVICES_COUNT_1)->set<INT_T>(0);
-    resource(THREAD_NETWORK_SSID_2)->set<STRING_T>("");
-    resource(THREAD_ENABLED_3)->set<BOOL_T>(false);
-    resource(FABRIC_ID_4)->set<STRING_T>("");
-    resource(VENDOR_ID_5)->set<INT_T>(DEFAULT_VENDOR_ID);
-    resource(PRODUCT_ID_6)->set<INT_T>(DEFAULT_PRODUCT_ID);
+    // Initialize default values
+    set<STRING_T>(CONTROLLER_STATUS_0, "Inactive");
+    set<INT_T>(COMMISSIONED_DEVICES_COUNT_1, 0);
+    set<STRING_T>(THREAD_NETWORK_SSID_2, "");
+    set<BOOL_T>(THREAD_ENABLED_3, false);
+    set<STRING_T>(FABRIC_ID_4, "");
+    set<INT_T>(VENDOR_ID_5, DEFAULT_VENDOR_ID);
+    set<INT_T>(PRODUCT_ID_6, DEFAULT_PRODUCT_ID);
 
     // Set execute handlers
-    resource(COMMISSION_DEVICE_7)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return MatterBridge::commissionDevice(inst, resId, data);
-    });
-    resource(REMOVE_DEVICE_8)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return MatterBridge::removeDevice(inst, resId, data);
-    });
-    resource(DISCOVER_DEVICES_9)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return MatterBridge::discoverDevices(inst, resId, data);
-    });
-    resource(ENABLE_THREAD_BR_10)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return MatterBridge::enableThreadBR(inst, resId, data);
-    });
+    setExecute(COMMISSION_DEVICE_7, commissionDevice);
+    setExecute(REMOVE_DEVICE_8, removeDevice);
+    setExecute(DISCOVER_DEVICES_9, discoverDevices);
+    setExecute(ENABLE_THREAD_BR_10, enableThreadBR);
 
     // Initialize Matter controller
     if (!initializeMatterController()) {
         WPP_LOGE(TAG, "Failed to initialize Matter controller");
-        resource(CONTROLLER_STATUS_0)->set<STRING_T>("Error: Initialization failed");
+        set<STRING_T>(CONTROLLER_STATUS_0, "Error: Initialization failed");
+        return false;
     }
+
+    return true;
 }
 
-
-
+/* Validation */
+bool MatterBridge::validate(ID_T resId, const void *data, size_t size) {
+    switch (resId) {
+        case THREAD_NETWORK_SSID_2: {
+            const STRING_T& ssid = *(const STRING_T*)data;
+            if (ssid.length() > 16) {
+                WPP_LOGE(TAG, "Thread network name too long (max 16 characters)");
+                return false;
+            }
+            break;
+        }
+        case VENDOR_ID_5: {
+            INT_T vendorId = *(const INT_T*)data;
+            if (vendorId < 0 || vendorId > 0xFFFF) {
+                WPP_LOGE(TAG, "Invalid vendor ID: %lld", vendorId);
+                return false;
+            }
+            break;
+        }
+        case PRODUCT_ID_6: {
+            INT_T productId = *(const INT_T*)data;
+            if (productId < 0 || productId > 0xFFFF) {
+                WPP_LOGE(TAG, "Invalid product ID: %lld", productId);
+                return false;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    return true;
+}
 
 /* Execute handlers */
 bool MatterBridge::commissionDevice(Instance& inst, ID_T resId, const OPAQUE_T& data) {
@@ -145,7 +141,7 @@ bool MatterBridge::commissionDevice(Instance& inst, ID_T resId, const OPAQUE_T& 
     // Set commissioning callback
     auto statusCallback = [&bridge](matter::CommissioningStatus status, const std::string& message) {
         WPP_LOGD(TAG, "Commissioning status: %s", message.c_str());
-        bridge.resource(CONTROLLER_STATUS_0)->set<STRING_T>( message);
+        bridge.set<STRING_T>(CONTROLLER_STATUS_0, message);
 
         if (status == matter::CommissioningStatus::COMPLETED) {
             bridge.updateDeviceCount();
@@ -158,13 +154,13 @@ bool MatterBridge::commissionDevice(Instance& inst, ID_T resId, const OPAQUE_T& 
         return false;
     }
 
-    bridge.resource(CONTROLLER_STATUS_0)->set<STRING_T>("Commissioning in progress");
+    bridge.set<STRING_T>(CONTROLLER_STATUS_0, "Commissioning in progress");
 #else
     // Stub implementation
     WPP_LOGD(TAG, "Matter SDK not available - stub commissioning");
-    bridge.resource(CONTROLLER_STATUS_0)->set<STRING_T>("Device commissioned (stub)");
-    INT_T count = bridge.resource(COMMISSIONED_DEVICES_COUNT_1)->get<INT_T>();
-    bridge.resource(COMMISSIONED_DEVICES_COUNT_1)->set<INT_T>( count + 1);
+    bridge.set<STRING_T>(CONTROLLER_STATUS_0, "Device commissioned (stub)");
+    INT_T count = bridge.get<INT_T>(COMMISSIONED_DEVICES_COUNT_1);
+    bridge.set<INT_T>(COMMISSIONED_DEVICES_COUNT_1, count + 1);
 #endif
 
     return true;
@@ -195,15 +191,15 @@ bool MatterBridge::removeDevice(Instance& inst, ID_T resId, const OPAQUE_T& data
     }
 
     bridge.updateDeviceCount();
-    bridge.resource(CONTROLLER_STATUS_0)->set<STRING_T>("Device removed");
+    bridge.set<STRING_T>(CONTROLLER_STATUS_0, "Device removed");
 #else
     // Stub implementation
     WPP_LOGD(TAG, "Matter SDK not available - stub remove");
-    INT_T count = bridge.resource(COMMISSIONED_DEVICES_COUNT_1)->get<INT_T>();
+    INT_T count = bridge.get<INT_T>(COMMISSIONED_DEVICES_COUNT_1);
     if (count > 0) {
-        bridge.resource(COMMISSIONED_DEVICES_COUNT_1)->set<INT_T>( count - 1);
+        bridge.set<INT_T>(COMMISSIONED_DEVICES_COUNT_1, count - 1);
     }
-    bridge.resource(CONTROLLER_STATUS_0)->set<STRING_T>("Device removed (stub)");
+    bridge.set<STRING_T>(CONTROLLER_STATUS_0, "Device removed (stub)");
 #endif
 
     return true;
@@ -227,11 +223,11 @@ bool MatterBridge::discoverDevices(Instance& inst, ID_T resId, const OPAQUE_T& d
         return false;
     }
 
-    bridge.resource(CONTROLLER_STATUS_0)->set<STRING_T>("Discovery started");
+    bridge.set<STRING_T>(CONTROLLER_STATUS_0, "Discovery started");
 #else
     // Stub implementation
     WPP_LOGD(TAG, "Matter SDK not available - stub discovery");
-    bridge.resource(CONTROLLER_STATUS_0)->set<STRING_T>("Discovery started (stub)");
+    bridge.set<STRING_T>(CONTROLLER_STATUS_0, "Discovery started (stub)");
 #endif
 
     return true;
@@ -246,8 +242,8 @@ bool MatterBridge::enableThreadBR(Instance& inst, ID_T resId, const OPAQUE_T& da
         return false;
     }
 
-    bridge.resource(THREAD_ENABLED_3)->set<BOOL_T>(true);
-    bridge.resource(CONTROLLER_STATUS_0)->set<STRING_T>("Thread Border Router enabled");
+    bridge.set<BOOL_T>(THREAD_ENABLED_3, true);
+    bridge.set<STRING_T>(CONTROLLER_STATUS_0, "Thread Border Router enabled");
 
     return true;
 }
@@ -259,8 +255,8 @@ bool MatterBridge::initializeMatterController() {
 #ifdef WITH_MATTER_SDK
     auto& controller = matter::MatterController::getInstance();
 
-    INT_T vendorId = resource(VENDOR_ID_5)->get<INT_T>();
-    INT_T productId = resource(PRODUCT_ID_6)->get<INT_T>();
+    INT_T vendorId = get<INT_T>(VENDOR_ID_5);
+    INT_T productId = get<INT_T>(PRODUCT_ID_6);
 
     if (!controller.initialize(1, "/var/lib/matter",
                               static_cast<uint16_t>(vendorId),
@@ -277,17 +273,17 @@ bool MatterBridge::initializeMatterController() {
 
     controller.setErrorCallback([this](int errorCode, const std::string& errorMessage) {
         WPP_LOGE(TAG, "Matter error %d: %s", errorCode, errorMessage.c_str());
-        resource(CONTROLLER_STATUS_0)->set<STRING_T>( "Error: " + errorMessage);
+        set<STRING_T>(CONTROLLER_STATUS_0, "Error: " + errorMessage);
     });
 
-    resource(FABRIC_ID_4)->set<STRING_T>( controller.getFabricId());
-    resource(CONTROLLER_STATUS_0)->set<STRING_T>("Active");
+    set<STRING_T>(FABRIC_ID_4, controller.getFabricId());
+    set<STRING_T>(CONTROLLER_STATUS_0, "Active");
     updateDeviceCount();
 #else
     // Stub implementation
     WPP_LOGD(TAG, "Matter SDK not available - using stub");
-    resource(FABRIC_ID_4)->set<STRING_T>("stub-fabric-0000000000000001");
-    resource(CONTROLLER_STATUS_0)->set<STRING_T>("Active (stub mode)");
+    set<STRING_T>(FABRIC_ID_4, "stub-fabric-0000000000000001");
+    set<STRING_T>(CONTROLLER_STATUS_0, "Active (stub mode)");
 #endif
 
     return true;
@@ -303,14 +299,14 @@ void MatterBridge::shutdownMatterController() {
 void MatterBridge::updateControllerStatus() {
 #ifdef WITH_MATTER_SDK
     auto& controller = matter::MatterController::getInstance();
-    resource(CONTROLLER_STATUS_0)->set<STRING_T>( controller.getControllerStatus());
+    set<STRING_T>(CONTROLLER_STATUS_0, controller.getControllerStatus());
 #endif
 }
 
 void MatterBridge::updateDeviceCount() {
 #ifdef WITH_MATTER_SDK
     auto& controller = matter::MatterController::getInstance();
-    resource(COMMISSIONED_DEVICES_COUNT_1)->set<INT_T>( controller.getCommissionedDeviceCount());
+    set<INT_T>(COMMISSIONED_DEVICES_COUNT_1, controller.getCommissionedDeviceCount());
 #endif
 }
 
@@ -329,10 +325,10 @@ bool MatterBridge::setupThreadBorderRouter() {
 #ifdef WITH_MATTER_SDK
     auto& controller = matter::MatterController::getInstance();
 
-    STRING_T networkName = resource(THREAD_NETWORK_SSID_2)->get<STRING_T>();
+    STRING_T networkName = get<STRING_T>(THREAD_NETWORK_SSID_2);
     if (networkName.empty()) {
         networkName = "matter-thread-network";
-        resource(THREAD_NETWORK_SSID_2)->set<STRING_T>( networkName);
+        set<STRING_T>(THREAD_NETWORK_SSID_2, networkName);
     }
 
     // Generate Thread network credentials

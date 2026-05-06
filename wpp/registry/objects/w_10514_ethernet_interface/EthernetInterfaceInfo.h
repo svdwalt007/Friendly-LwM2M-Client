@@ -6,7 +6,7 @@
 #ifndef WPP_ETHERNET_INTERFACE_INFO_H
 #define WPP_ETHERNET_INTERFACE_INFO_H
 
-#include "Lwm2mObjectBase.h"
+#include "ObjectInfo.h"
 
 #ifdef OBJ_W_10514_ETHERNET_INTERFACE
 

@@ -6,14 +6,13 @@
  */
 
 #include "ZigbeeDevice.h"
-#include "Lwm2mObjectBase.h"
 #include "WppRegistry.h"
 #include "WppClient.h"
 #include "WppTypes.h"
-#include "WppTaskQueue.h"
+#include "task_queue/WppTaskQueue.h"
 
 // Include zigbee coordinator integration
-#include "zigbee_coordinator.h"
+#include "../../src/zigbee/zigbee_coordinator.h"
 
 #include <iostream>
 #include <sstream>
@@ -23,7 +22,7 @@
 #include <ctime>
 #include <cstring>
 #include <dirent.h>
-#include <json/json.h>
+#include <unistd.h>
 
 namespace wpp {
 
@@ -60,61 +59,11 @@ static std::string execCommand(const std::string& cmd) {
 }
 
 // Helper to read zigbee2mqtt device from JSON bridge state
+// TODO: Implement without JSON dependency (use coordinator's device cache)
 static bool readZigbee2mqttDevice(uint64_t ieeeAddress, std::string& manufacturer,
                                    std::string& model, std::string& fwVersion,
                                    uint8_t& lqi, int8_t& rssi, bool& online) {
-    // Try to read from zigbee2mqtt bridge state file
-    std::string stateFile = "/var/lib/zigbee2mqtt/state.json";
-    std::ifstream file(stateFile);
-    if (!file.is_open()) {
-        stateFile = "/opt/zigbee2mqtt/data/state.json";
-        file.open(stateFile);
-    }
-    if (!file.is_open()) {
-        return false;
-    }
-
-    try {
-        Json::Value root;
-        Json::CharReaderBuilder builder;
-        std::string errors;
-        if (!Json::parseFromStream(builder, file, &root, &errors)) {
-            return false;
-        }
-
-        // IEEE address as hex string
-        std::stringstream ss;
-        ss << "0x" << std::hex << std::setfill('0') << std::setw(16) << ieeeAddress;
-        std::string ieeeStr = ss.str();
-
-        // Search for device in devices array
-        if (root.isMember("devices") && root["devices"].isArray()) {
-            for (const auto& device : root["devices"]) {
-                if (device.isMember("ieee_address") && device["ieee_address"].asString() == ieeeStr) {
-                    if (device.isMember("manufacturer")) {
-                        manufacturer = device["manufacturer"].asString();
-                    }
-                    if (device.isMember("model")) {
-                        model = device["model"].asString();
-                    }
-                    if (device.isMember("software_build_id")) {
-                        fwVersion = device["software_build_id"].asString();
-                    }
-                    if (device.isMember("link_quality")) {
-                        lqi = device["link_quality"].asUInt();
-                    }
-                    if (device.isMember("last_seen")) {
-                        // Calculate online status based on last seen
-                        online = true;
-                    }
-                    return true;
-                }
-            }
-        }
-    } catch (...) {
-        return false;
-    }
-
+    // Stub implementation - should query coordinator's device cache
     return false;
 }
 
@@ -161,39 +110,46 @@ static std::string findCoordinatorPort() {
 // Static Object Methods
 // ==============================================================================
 
-Object& ZigbeeDevice::object(WppClient& client) {
-    static ObjImpl<ZigbeeDevice> obj(client, ZIGBEE_DEVICE_OBJECT_ID);
-    return obj;
+Object& ZigbeeDevice::object(WppClient& ctx) {
+    return ctx.registry().zigbeeDevice();
 }
 
-Instance* ZigbeeDevice::createInst(WppClient& client, INST_T instId) {
-    return static_cast<ObjImpl<ZigbeeDevice>&>(object(client)).createInst(instId);
+ZigbeeDevice* ZigbeeDevice::createInst(WppClient& ctx, ID_T instId) {
+    Instance *inst = ctx.registry().zigbeeDevice().createInstance(instId);
+    if (!inst) return NULL;
+    return static_cast<ZigbeeDevice*>(inst);
 }
 
-Instance* ZigbeeDevice::instance(WppClient& client, INST_T instId) {
-    return object(client).instance(instId);
+ZigbeeDevice* ZigbeeDevice::instance(WppClient& ctx, ID_T instId) {
+    Instance *inst = ctx.registry().zigbeeDevice().instance(instId);
+    if (!inst) return NULL;
+    return static_cast<ZigbeeDevice*>(inst);
 }
 
-bool ZigbeeDevice::remove(WppClient& client, INST_T instId) {
-    return object(client).remove(instId);
+bool ZigbeeDevice::removeInst(WppClient& ctx, ID_T instId) {
+    return ctx.registry().zigbeeDevice().remove(instId);
 }
 
 // ==============================================================================
 // Constructor / Destructor
 // ==============================================================================
 
-ZigbeeDevice::ZigbeeDevice(Object& object, INST_T instId)
-    : Instance(object, instId),
+ZigbeeDevice::ZigbeeDevice(lwm2m_context_t& context, const OBJ_LINK_T& id)
+    : Instance(context, id),
       ieeeAddress_(0),
-      _updateTaskId(nullptr) {
-    std::cout << "[ZigbeeDevice] Instance created: " << instId << std::endl;
+      _updateTaskId(0) {
+
+    resourcesCreate();
+    resourcesInit();
+
+    std::cout << "[ZigbeeDevice] Instance created" << std::endl;
 }
 
 ZigbeeDevice::~ZigbeeDevice() {
     // Cancel periodic update task
     if (_updateTaskId) {
-        WppTaskQueue::instance().cancel(_updateTaskId);
-        _updateTaskId = nullptr;
+        WppTaskQueue::requestToRemoveTask(_updateTaskId);
+        _updateTaskId = 0;
     }
     std::cout << "[ZigbeeDevice] Instance destroyed" << std::endl;
 }
@@ -202,80 +158,104 @@ ZigbeeDevice::~ZigbeeDevice() {
 // Resource Initialization
 // ==============================================================================
 
-bool ZigbeeDevice::initResources(ItemOp *) {
+void ZigbeeDevice::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
+    operationNotify(*this, resLink, type);
+}
+
+void ZigbeeDevice::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
+    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
+}
+
+void ZigbeeDevice::resourcesCreate() {
+    std::vector<Resource> resources = {
+        {IEEE_ADDRESS_0,      ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
+        {NETWORK_ADDRESS_1,   ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
+        {DEVICE_TYPE_2,       ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
+        {MANUFACTURER_3,      ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
+        {MODEL_4,             ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
+        {FIRMWARE_VERSION_5,  ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
+        {POWER_SOURCE_6,      ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {LQI_7,               ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {RSSI_8,              ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {LAST_SEEN_9,         ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::TIME},
+        {ENDPOINTS_10,        ItemOp(ItemOp::READ), IS_SINGLE::MULTIPLE, IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {CLUSTERS_11,         ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
+        {INTERVIEWED_12,      ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
+        {ONLINE_13,           ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::BOOL},
+        {PROFILE_ID_14,       ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {DEVICE_ID_15,        ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {REMOVE_16,           ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+        {INTERVIEW_17,        ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+        {PING_18,             ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+        {READ_ATTRIBUTE_19,   ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+        {WRITE_ATTRIBUTE_20,  ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+    };
+    setupResources(std::move(resources));
+
+    // Set up execute handlers
+    resource(REMOVE_16)->set<EXECUTE_T>(&ZigbeeDevice::removeDevice);
+    resource(INTERVIEW_17)->set<EXECUTE_T>(&ZigbeeDevice::interviewDevice);
+    resource(PING_18)->set<EXECUTE_T>(&ZigbeeDevice::pingDevice);
+    resource(READ_ATTRIBUTE_19)->set<EXECUTE_T>(&ZigbeeDevice::readAttribute);
+    resource(WRITE_ATTRIBUTE_20)->set<EXECUTE_T>(&ZigbeeDevice::writeAttribute);
+}
+
+void ZigbeeDevice::resourcesInit() {
     std::cout << "[ZigbeeDevice] Initializing resources" << std::endl;
 
     // IEEE Address (R, String)
-    item(IEEE_ADDRESS_0).set("0000000000000000");
+    resource(IEEE_ADDRESS_0)->set<STRING_T>("0000000000000000");
 
     // Network Address (R, Integer)
-    item(NETWORK_ADDRESS_1).set((INT_T)0xFFFF);
+    resource(NETWORK_ADDRESS_1)->set<INT_T>((INT_T)0xFFFF);
 
     // Device Type (R, Integer)
-    item(DEVICE_TYPE_2).set((INT_T)TYPE_UNKNOWN);
+    resource(DEVICE_TYPE_2)->set<INT_T>((INT_T)TYPE_UNKNOWN);
 
     // Manufacturer (R, String)
-    item(MANUFACTURER_3).set("Unknown");
+    resource(MANUFACTURER_3)->set<STRING_T>("Unknown");
 
     // Model (R, String)
-    item(MODEL_4).set("Unknown");
+    resource(MODEL_4)->set<STRING_T>("Unknown");
 
     // Firmware Version (R, String)
-    item(FIRMWARE_VERSION_5).set("Unknown");
+    resource(FIRMWARE_VERSION_5)->set<STRING_T>("Unknown");
 
     // Power Source (R, Integer)
-    item(POWER_SOURCE_6).set((INT_T)POWER_UNKNOWN);
+    resource(POWER_SOURCE_6)->set<INT_T>((INT_T)POWER_UNKNOWN);
 
     // LQI (R, Integer)
-    item(LQI_7).set((INT_T)0);
+    resource(LQI_7)->set<INT_T>((INT_T)0);
 
     // RSSI (R, Integer)
-    item(RSSI_8).set((INT_T)-100);
+    resource(RSSI_8)->set<INT_T>((INT_T)-100);
 
     // Last Seen (R, Time)
-    item(LAST_SEEN_9).set((TIME_T)0);
+    resource(LAST_SEEN_9)->set<TIME_T>((TIME_T)0);
 
     // Endpoints (R, Multiple, Integer)
     // Will be populated dynamically
 
     // Clusters (R, String)
-    item(CLUSTERS_11).set("[]");
+    resource(CLUSTERS_11)->set<STRING_T>("[]");
 
     // Interviewed (R, Boolean)
-    item(INTERVIEWED_12).set(false);
+    resource(INTERVIEWED_12)->set<BOOL_T>(false);
 
     // Online (R, Boolean)
-    item(ONLINE_13).set(false);
+    resource(ONLINE_13)->set<BOOL_T>(false);
 
     // Profile ID (R, Integer)
-    item(PROFILE_ID_14).set((INT_T)0x0104);  // Home Automation profile
+    resource(PROFILE_ID_14)->set<INT_T>((INT_T)0x0104);  // Home Automation profile
 
     // Device ID (R, Integer)
-    item(DEVICE_ID_15).set((INT_T)0x0000);
-
-    // Execute Resources
-    item(REMOVE_16).setExecute(&ZigbeeDevice::removeDevice);
-    item(INTERVIEW_17).setExecute(&ZigbeeDevice::interviewDevice);
-    item(PING_18).setExecute(&ZigbeeDevice::pingDevice);
-    item(READ_ATTRIBUTE_19).setExecute(&ZigbeeDevice::readAttribute);
-    item(WRITE_ATTRIBUTE_20).setExecute(&ZigbeeDevice::writeAttribute);
+    resource(DEVICE_ID_15)->set<INT_T>((INT_T)0x0000);
 
     // Schedule periodic update task (every 60 seconds for device status)
-    _updateTaskId = WppTaskQueue::instance().addTask(60000, [this]() {
+    _updateTaskId = WppTaskQueue::addTask(60, [this](WppClient& client, void* ctx) {
         updateFromZigbeeDevice();
         return true;  // Keep task running
     });
-
-    return true;
-}
-
-// ==============================================================================
-// Validation
-// ==============================================================================
-
-bool ZigbeeDevice::validate(ID_T resId, const void *data, size_t size) {
-    // All resources are read-only or execute, no validation needed
-    return true;
 }
 
 // ==============================================================================
@@ -331,13 +311,13 @@ bool ZigbeeDevice::interviewDevice(Instance& inst, ID_T resId, const OPAQUE_T& d
             // Update resources from coordinator data
             const zigbee::ZigbeeDeviceInfo* devInfo = coordinator->getDevice(self.ieeeAddress_);
             if (devInfo) {
-                self.item(MANUFACTURER_3).set(devInfo->manufacturer);
-                self.item(MODEL_4).set(devInfo->model);
-                self.item(FIRMWARE_VERSION_5).set(devInfo->firmwareVersion);
-                self.item(LQI_7).set((INT_T)devInfo->lqi);
-                self.item(RSSI_8).set((INT_T)devInfo->rssi);
-                self.item(INTERVIEWED_12).set(devInfo->interviewed);
-                self.item(LAST_SEEN_9).set((TIME_T)(devInfo->lastSeen / 1000));
+                self.resource(MANUFACTURER_3)->set(devInfo->manufacturer);
+                self.resource(MODEL_4)->set(devInfo->model);
+                self.resource(FIRMWARE_VERSION_5)->set(devInfo->firmwareVersion);
+                self.resource(LQI_7)->set<INT_T>((INT_T)devInfo->lqi);
+                self.resource(RSSI_8)->set<INT_T>((INT_T)devInfo->rssi);
+                self.resource(INTERVIEWED_12)->set(devInfo->interviewed);
+                self.resource(LAST_SEEN_9)->set<TIME_T>((TIME_T)(devInfo->lastSeen / 1000));
             }
             return true;
         }
@@ -375,8 +355,8 @@ bool ZigbeeDevice::pingDevice(Instance& inst, ID_T resId, const OPAQUE_T& data) 
         // Send identify cluster command (brief flash)
         std::vector<uint8_t> payload = {0x03, 0x00};  // Identify for 3 seconds
         if (coordinator->sendZclCommand(self.ieeeAddress_, 1, 0x0003, 0x00, payload)) {
-            self.item(ONLINE_13).set(true);
-            self.item(LAST_SEEN_9).set((TIME_T)time(nullptr));
+            self.resource(ONLINE_13)->set<BOOL_T>(true);
+            self.resource(LAST_SEEN_9)->set<TIME_T>((TIME_T)time(nullptr));
             std::cout << "[ZigbeeDevice] Ping successful" << std::endl;
             return true;
         }
@@ -396,9 +376,9 @@ bool ZigbeeDevice::pingDevice(Instance& inst, ID_T resId, const OPAQUE_T& data) 
     int result = system(cmd.c_str());
 
     bool online = (result == 0);
-    self.item(ONLINE_13).set(online);
+    self.resource(ONLINE_13)->set(online);
     if (online) {
-        self.item(LAST_SEEN_9).set((TIME_T)time(nullptr));
+        self.resource(LAST_SEEN_9)->set<TIME_T>((TIME_T)time(nullptr));
     }
 
     return online;
@@ -490,7 +470,7 @@ void ZigbeeDevice::setIeeeAddress(uint64_t ieeeAddress) {
     // Convert to hex string
     std::stringstream ss;
     ss << std::hex << std::setfill('0') << std::setw(16) << ieeeAddress;
-    item(IEEE_ADDRESS_0).set(ss.str());
+    resource(IEEE_ADDRESS_0)->set<STRING_T>(ss.str());
 
     // Update device information
     updateFromZigbeeDevice();
@@ -513,16 +493,16 @@ void ZigbeeDevice::updateFromZigbeeDevice() {
     if (coordinator && coordinator->isReady()) {
         const zigbee::ZigbeeDeviceInfo* devInfo = coordinator->getDevice(ieeeAddress_);
         if (devInfo) {
-            item(NETWORK_ADDRESS_1).set((INT_T)devInfo->networkAddress);
-            item(DEVICE_TYPE_2).set((INT_T)static_cast<uint8_t>(devInfo->deviceType));
-            item(MANUFACTURER_3).set(devInfo->manufacturer);
-            item(MODEL_4).set(devInfo->model);
-            item(FIRMWARE_VERSION_5).set(devInfo->firmwareVersion);
-            item(POWER_SOURCE_6).set((INT_T)devInfo->powerSource);
-            item(LQI_7).set((INT_T)devInfo->lqi);
-            item(RSSI_8).set((INT_T)devInfo->rssi);
-            item(LAST_SEEN_9).set((TIME_T)(devInfo->lastSeen / 1000));
-            item(INTERVIEWED_12).set(devInfo->interviewed);
+            resource(NETWORK_ADDRESS_1)->set<INT_T>((INT_T)devInfo->networkAddress);
+            resource(DEVICE_TYPE_2)->set<INT_T>((INT_T)static_cast<uint8_t>(devInfo->deviceType));
+            resource(MANUFACTURER_3)->set<STRING_T>(devInfo->manufacturer);
+            resource(MODEL_4)->set<STRING_T>(devInfo->model);
+            resource(FIRMWARE_VERSION_5)->set<STRING_T>(devInfo->firmwareVersion);
+            resource(POWER_SOURCE_6)->set<INT_T>((INT_T)devInfo->powerSource);
+            resource(LQI_7)->set<INT_T>((INT_T)devInfo->lqi);
+            resource(RSSI_8)->set<INT_T>((INT_T)devInfo->rssi);
+            resource(LAST_SEEN_9)->set<TIME_T>((TIME_T)(devInfo->lastSeen / 1000));
+            resource(INTERVIEWED_12)->set<BOOL_T>(devInfo->interviewed);
 
             // Build endpoints JSON
             std::stringstream epJson;
@@ -536,7 +516,7 @@ void ZigbeeDevice::updateFromZigbeeDevice() {
 
             // Update online status
             bool online = isDeviceOnline();
-            item(ONLINE_13).set(online);
+            resource(ONLINE_13)->set<BOOL_T>(online);
             return;
         }
     }
@@ -548,25 +528,25 @@ void ZigbeeDevice::updateFromZigbeeDevice() {
     bool online = false;
 
     if (readZigbee2mqttDevice(ieeeAddress_, manufacturer, model, fwVersion, lqi, rssi, online)) {
-        if (!manufacturer.empty()) item(MANUFACTURER_3).set(manufacturer);
-        if (!model.empty()) item(MODEL_4).set(model);
-        if (!fwVersion.empty()) item(FIRMWARE_VERSION_5).set(fwVersion);
-        item(LQI_7).set((INT_T)lqi);
-        item(RSSI_8).set((INT_T)rssi);
-        item(ONLINE_13).set(online);
+        if (!manufacturer.empty()) resource(MANUFACTURER_3)->set<STRING_T>(manufacturer);
+        if (!model.empty()) resource(MODEL_4)->set<STRING_T>(model);
+        if (!fwVersion.empty()) resource(FIRMWARE_VERSION_5)->set<STRING_T>(fwVersion);
+        resource(LQI_7)->set<INT_T>((INT_T)lqi);
+        resource(RSSI_8)->set<INT_T>((INT_T)rssi);
+        resource(ONLINE_13)->set<BOOL_T>(online);
 
         if (online) {
-            item(LAST_SEEN_9).set((TIME_T)time(nullptr));
+            resource(LAST_SEEN_9)->set<TIME_T>((TIME_T)time(nullptr));
         }
     }
 
     // Update online status
-    item(ONLINE_13).set(isDeviceOnline());
+    resource(ONLINE_13)->set<BOOL_T>(isDeviceOnline());
 }
 
 bool ZigbeeDevice::isDeviceOnline() {
     // Check if device has been seen recently (within last 5 minutes)
-    TIME_T lastSeen = item(LAST_SEEN_9).toTime();
+    TIME_T lastSeen = resource(LAST_SEEN_9)->get<TIME_T>();
     TIME_T now = time(nullptr);
 
     return (lastSeen > 0 && (now - lastSeen) < 300);  // 5 minutes

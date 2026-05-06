@@ -6,7 +6,7 @@
 #ifndef WPP_ROUTER_MANAGEMENT_INFO_H
 #define WPP_ROUTER_MANAGEMENT_INFO_H
 
-#include "Lwm2mObjectBase.h"
+#include "ObjectInfo.h"
 
 #ifdef OBJ_W_10513_ROUTER_MANAGEMENT
 

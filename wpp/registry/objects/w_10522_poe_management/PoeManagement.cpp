@@ -8,7 +8,6 @@
 #include "WppRegistry.h"
 #include "WppLogs.h"
 #include "WppTaskQueue.h"
-#include "Lwm2mObjectBase.h"
 
 #ifdef OBJ_W_10522_POE_MANAGEMENT
 

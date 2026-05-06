@@ -12,6 +12,7 @@
 #include "ZigbeeDeviceInfo.h"
 #include "Instance.h"
 #include "InstSubject.h"
+#include "task_queue/WppTaskQueue.h"
 
 namespace wpp {
 
@@ -62,26 +63,27 @@ public:
     };
 
     /* Static object methods */
-    static Object& object(WppClient& client);
-    static Instance* createInst(WppClient& client, INST_T instId = ID_T_MAX_VAL);
-    static Instance* instance(WppClient& client, INST_T instId);
-    static bool remove(WppClient& client, INST_T instId);
+    static Object& object(WppClient& ctx);
+    static ZigbeeDevice* createInst(WppClient& ctx, ID_T instId = ID_T_MAX_VAL);
+    static ZigbeeDevice* instance(WppClient& ctx, ID_T instId = ID_T_MAX_VAL);
+    static bool removeInst(WppClient& ctx, ID_T instId);
 
     /* Instance lifecycle */
-    ZigbeeDevice(Object& object, INST_T instId);
-    ~ZigbeeDevice() override;
+    ZigbeeDevice(lwm2m_context_t& context, const OBJ_LINK_T& id);
+    ~ZigbeeDevice();
 
     /* Set device IEEE address (used for linking to physical device) */
     void setIeeeAddress(uint64_t ieeeAddress);
     uint64_t getIeeeAddress() const;
 
 protected:
-    /* ObjSubject override method */
-    bool validate(ID_T resId, const void *data, size_t size) override;
+    void serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) override;
+    void userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) override;
 
 private:
     /* Private methods */
-    bool initResources(ItemOp *) override;
+    void resourcesCreate();
+    void resourcesInit();
 
     /* Execute handlers */
     static bool removeDevice(Instance& inst, ID_T resId, const OPAQUE_T& data);
@@ -98,7 +100,7 @@ private:
     uint64_t ieeeAddress_;
 
     /* Task ID for periodic updates */
-    void* _updateTaskId;
+    WppTaskQueue::task_id_t _updateTaskId;
 
 public:
     /* Static coordinator management */

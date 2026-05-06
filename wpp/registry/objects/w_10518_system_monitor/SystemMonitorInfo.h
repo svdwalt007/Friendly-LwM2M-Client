@@ -6,7 +6,7 @@
 #ifndef WPP_SYSTEM_MONITOR_INFO_H
 #define WPP_SYSTEM_MONITOR_INFO_H
 
-#include "Lwm2mObjectBase.h"
+#include "ObjectInfo.h"
 
 #ifdef OBJ_W_10518_SYSTEM_MONITOR
 

@@ -56,16 +56,8 @@ VpnConfiguration::VpnConfiguration(lwm2m_context_t& context, const OBJ_LINK_T& i
 }
 
 VpnConfiguration::~VpnConfiguration() {
-    WPP_LOGD(TAG, "VpnConfiguration instance %d destroyed", getInstanceID());
+    WPP_LOGD(TAG, "VpnConfiguration instance %d destroyed", instId());
     stopMonitoring();
-}
-
-void VpnConfiguration::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
-    operationNotify(*this, resLink, type);
-}
-
-void VpnConfiguration::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
-    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
 }
 
 /* Create resource metadata */
@@ -74,13 +66,13 @@ void VpnConfiguration::resourcesCreate() {
     // This is called from constructor
 
     // Set execute handlers
-    resource(CONNECT_22)->set<EXECUTE_T>(executeConnect);
-    resource(DISCONNECT_23)->set<EXECUTE_T>(executeDisconnect);
-    resource(RESTART_24)->set<EXECUTE_T>(executeRestart);
-    resource(REGENERATE_KEYS_25)->set<EXECUTE_T>(executeRegenerateKeys);
+    resource(CONNECT_22)->setExecuteHandler(executeConnect);
+    resource(DISCONNECT_23)->setExecuteHandler(executeDisconnect);
+    resource(RESTART_24)->setExecuteHandler(executeRestart);
+    resource(REGENERATE_KEYS_25)->setExecuteHandler(executeRegenerateKeys);
 
     // Set data validators
-    resource(SERVER_ADDRESS_2)->setDataVerifier((VERIFY_STRING_T)[](const STRING_T& addr) {
+    resource(SERVER_ADDRESS_2)->setDataVerifier([](const STRING_T& addr) {
         if (addr.empty()) {
             WPP_LOGE(TAG, "Server address cannot be empty");
             return false;
@@ -107,7 +99,7 @@ void VpnConfiguration::resourcesCreate() {
         return true;
     });
 
-    resource(SERVER_PORT_3)->setDataVerifier((VERIFY_INT_T)[](const INT_T& port) {
+    resource(SERVER_PORT_3)->setDataVerifier([](const INT_T& port) {
         if (port < 1 || port > 65535) {
             WPP_LOGE(TAG, "Invalid port number: %lld (must be 1-65535)", port);
             return false;
@@ -115,7 +107,7 @@ void VpnConfiguration::resourcesCreate() {
         return true;
     });
 
-    resource(REMOTE_NETWORK_5)->setDataVerifier((VERIFY_STRING_T)[](const STRING_T& network) {
+    resource(REMOTE_NETWORK_5)->setDataVerifier([](const STRING_T& network) {
         if (network.empty()) return true;
 
         // Validate CIDR notation
@@ -160,7 +152,7 @@ void VpnConfiguration::resourcesCreate() {
         return true;
     });
 
-    resource(PROTOCOL_TYPE_1)->setDataVerifier((VERIFY_INT_T)[](const INT_T& protocol) {
+    resource(PROTOCOL_TYPE_1)->setDataVerifier([](const INT_T& protocol) {
         if (protocol < PROTOCOL_OPENVPN || protocol > PROTOCOL_IPSEC) {
             WPP_LOGE(TAG, "Invalid protocol type: %lld", protocol);
             return false;
@@ -168,7 +160,7 @@ void VpnConfiguration::resourcesCreate() {
         return true;
     });
 
-    resource(AUTHENTICATION_TYPE_6)->setDataVerifier((VERIFY_INT_T)[](const INT_T& authType) {
+    resource(AUTHENTICATION_TYPE_6)->setDataVerifier([](const INT_T& authType) {
         if (authType < AUTH_PASSWORD || authType > AUTH_PUBKEY) {
             WPP_LOGE(TAG, "Invalid authentication type: %lld", authType);
             return false;
@@ -176,7 +168,7 @@ void VpnConfiguration::resourcesCreate() {
         return true;
     });
 
-    resource(CERTIFICATE_9)->setDataVerifier((VERIFY_STRING_T)[](const STRING_T& cert) {
+    resource(CERTIFICATE_9)->setDataVerifier([](const STRING_T& cert) {
         if (cert.empty()) return true;
 
         // Check for PEM format markers
@@ -188,7 +180,7 @@ void VpnConfiguration::resourcesCreate() {
         return true;
     });
 
-    resource(PRIVATE_KEY_10)->setDataVerifier((VERIFY_STRING_T)[](const STRING_T& key) {
+    resource(PRIVATE_KEY_10)->setDataVerifier([](const STRING_T& key) {
         if (key.empty()) return true;
 
         // Check for PEM format markers
@@ -202,7 +194,7 @@ void VpnConfiguration::resourcesCreate() {
         return true;
     });
 
-    resource(KEEPALIVE_INTERVAL_18)->setDataVerifier((VERIFY_INT_T)[](const INT_T& interval) {
+    resource(KEEPALIVE_INTERVAL_18)->setDataVerifier([](const INT_T& interval) {
         if (interval < 1 || interval > 300) {
             WPP_LOGE(TAG, "Invalid keepalive interval: %lld (must be 1-300 seconds)", interval);
             return false;
@@ -210,7 +202,7 @@ void VpnConfiguration::resourcesCreate() {
         return true;
     });
 
-    resource(RECONNECT_DELAY_19)->setDataVerifier((VERIFY_INT_T)[](const INT_T& delay) {
+    resource(RECONNECT_DELAY_19)->setDataVerifier([](const INT_T& delay) {
         if (delay < 5 || delay > 600) {
             WPP_LOGE(TAG, "Invalid reconnect delay: %lld (must be 5-600 seconds)", delay);
             return false;
@@ -224,7 +216,7 @@ void VpnConfiguration::resourcesInit() {
     WPP_LOGD(TAG, "Initializing VpnConfiguration resource values");
 
     // Default VPN configuration values
-    resource(VPN_NAME_0)->set<STRING_T>("vpn_" + std::to_string(getInstanceID()));
+    resource(VPN_NAME_0)->set<STRING_T>("vpn_" + std::to_string(instId()));
     resource(PROTOCOL_TYPE_1)->set<INT_T>(PROTOCOL_OPENVPN);
     resource(SERVER_ADDRESS_2)->set<STRING_T>("");
     resource(SERVER_PORT_3)->set<INT_T>(1194);  // Default OpenVPN port
@@ -274,13 +266,13 @@ bool VpnConfiguration::executeConnect(Instance& inst, ID_T resId, const OPAQUE_T
 #ifdef OPENWRT_BUILD
     // Save configuration to UCI
     if (!vpn.saveToUCI()) {
-        vpn.resource(LAST_ERROR_17)->set<STRING_T>("Failed to save configuration");
-        vpn.resource(CONNECTION_STATE_13)->set<INT_T>(STATE_ERROR);
+        vpn.set<STRING_T>(LAST_ERROR_17, "Failed to save configuration");
+        vpn.set<INT_T>(CONNECTION_STATE_13, STATE_ERROR);
         return false;
     }
 
     // Connect based on protocol type
-    INT_T protocol = vpn.resource(PROTOCOL_TYPE_1)->get<INT_T>();
+    INT_T protocol = vpn.get<INT_T>(PROTOCOL_TYPE_1);
     bool success = false;
 
     switch (protocol) {
@@ -294,34 +286,34 @@ bool VpnConfiguration::executeConnect(Instance& inst, ID_T resId, const OPAQUE_T
             success = vpn.connectIPsec();
             break;
         default:
-            vpn.resource(LAST_ERROR_17)->set<STRING_T>("Unknown protocol type");
-            vpn.resource(CONNECTION_STATE_13)->set<INT_T>(STATE_ERROR);
+            vpn.set<STRING_T>(LAST_ERROR_17, "Unknown protocol type");
+            vpn.set<INT_T>(CONNECTION_STATE_13, STATE_ERROR);
             return false;
     }
 
     if (success) {
         vpn.connectionStartTime = time(nullptr);
-        vpn.resource(CONNECTION_STATE_13)->set<INT_T>(STATE_CONNECTED);
+        vpn.set<INT_T>(CONNECTION_STATE_13, STATE_CONNECTED);
         vpn.startMonitoring();
 
         // Setup additional features
-        if (vpn.resource(KILL_SWITCH_21)->get<BOOL_T>()) {
+        if (vpn.get<BOOL_T>(KILL_SWITCH_21)) {
             vpn.setupKillSwitch();
         }
-        if (vpn.resource(SPLIT_TUNNEL_20)->get<BOOL_T>()) {
+        if (vpn.get<BOOL_T>(SPLIT_TUNNEL_20)) {
             vpn.setupSplitTunnel();
         }
 
         WPP_LOGI(TAG, "VPN connected successfully");
     } else {
-        vpn.resource(CONNECTION_STATE_13)->set<INT_T>(STATE_ERROR);
+        vpn.set<INT_T>(CONNECTION_STATE_13, STATE_ERROR);
         WPP_LOGE(TAG, "VPN connection failed");
     }
 
     return success;
 #else
-    vpn.resource(LAST_ERROR_17)->set<STRING_T>("OpenWRT build not enabled");
-    vpn.resource(CONNECTION_STATE_13)->set<INT_T>(STATE_ERROR);
+    vpn.set<STRING_T>(LAST_ERROR_17, "OpenWRT build not enabled");
+    vpn.set<INT_T>(CONNECTION_STATE_13, STATE_ERROR);
     return false;
 #endif
 }
@@ -329,26 +321,26 @@ bool VpnConfiguration::executeConnect(Instance& inst, ID_T resId, const OPAQUE_T
 /* Execute handler: Disconnect */
 bool VpnConfiguration::executeDisconnect(Instance& inst, ID_T resId, const OPAQUE_T& data) {
     VpnConfiguration& vpn = static_cast<VpnConfiguration&>(inst);
-    WPP_LOGI(TAG, "Disconnecting VPN instance %d", vpn.getInstanceID());
+    WPP_LOGI(TAG, "Disconnecting VPN instance %d", vpn.instId());
 
     // Check if already disconnected
-    INT_T currentState = vpn.resource(CONNECTION_STATE_13)->get<INT_T>();
+    INT_T currentState = vpn.get<INT_T>(CONNECTION_STATE_13);
     if (currentState == STATE_DISCONNECTED) {
         WPP_LOGW(TAG, "VPN already disconnected");
         return true;
     }
 
-    vpn.resource(CONNECTION_STATE_13)->set<INT_T>(STATE_DISCONNECTING);
+    vpn.set<INT_T>(CONNECTION_STATE_13, STATE_DISCONNECTING);
     vpn.stopMonitoring();
 
 #ifdef OPENWRT_BUILD
     // Remove kill switch first
-    if (vpn.resource(KILL_SWITCH_21)->get<BOOL_T>()) {
+    if (vpn.get<BOOL_T>(KILL_SWITCH_21)) {
         vpn.removeKillSwitch();
     }
 
     // Disconnect based on protocol type
-    INT_T protocol = vpn.resource(PROTOCOL_TYPE_1)->get<INT_T>();
+    INT_T protocol = vpn.get<INT_T>(PROTOCOL_TYPE_1);
     bool success = false;
 
     switch (protocol) {
@@ -365,14 +357,14 @@ bool VpnConfiguration::executeDisconnect(Instance& inst, ID_T resId, const OPAQU
             success = false;
     }
 
-    vpn.resource(CONNECTION_STATE_13)->set<INT_T>(STATE_DISCONNECTED);
-    vpn.resource(UPTIME_16)->set<INT_T>(0);
+    vpn.set<INT_T>(CONNECTION_STATE_13, STATE_DISCONNECTED);
+    vpn.set<INT_T>(UPTIME_16, 0);
     vpn.connectionStartTime = 0;
 
     WPP_LOGI(TAG, "VPN disconnected");
     return success;
 #else
-    vpn.resource(CONNECTION_STATE_13)->set<INT_T>(STATE_DISCONNECTED);
+    vpn.set<INT_T>(CONNECTION_STATE_13, STATE_DISCONNECTED);
     return false;
 #endif
 }
@@ -380,7 +372,7 @@ bool VpnConfiguration::executeDisconnect(Instance& inst, ID_T resId, const OPAQU
 /* Execute handler: Restart */
 bool VpnConfiguration::executeRestart(Instance& inst, ID_T resId, const OPAQUE_T& data) {
     VpnConfiguration& vpn = static_cast<VpnConfiguration&>(inst);
-    WPP_LOGI(TAG, "Restarting VPN instance %d", vpn.getInstanceID());
+    WPP_LOGI(TAG, "Restarting VPN instance %d", vpn.instId());
 
     // Disconnect first
     executeDisconnect(inst, resId, data);
@@ -395,9 +387,9 @@ bool VpnConfiguration::executeRestart(Instance& inst, ID_T resId, const OPAQUE_T
 /* Execute handler: Regenerate Keys */
 bool VpnConfiguration::executeRegenerateKeys(Instance& inst, ID_T resId, const OPAQUE_T& data) {
     VpnConfiguration& vpn = static_cast<VpnConfiguration&>(inst);
-    WPP_LOGI(TAG, "Regenerating keys for VPN instance %d", vpn.getInstanceID());
+    WPP_LOGI(TAG, "Regenerating keys for VPN instance %d", vpn.instId());
 
-    INT_T protocol = vpn.resource(PROTOCOL_TYPE_1)->get<INT_T>();
+    INT_T protocol = vpn.get<INT_T>(PROTOCOL_TYPE_1);
 
     if (protocol == PROTOCOL_WIREGUARD) {
 #ifdef OPENWRT_BUILD
@@ -420,7 +412,7 @@ bool VpnConfiguration::loadFromUCI() {
 #ifdef OPENWRT_BUILD
     WPP_LOGD(TAG, "Loading VPN configuration from UCI");
 
-    std::string vpnName = resource(VPN_NAME_0)->get<STRING_T>();
+    std::string vpnName = get<STRING_T>(VPN_NAME_0);
     std::stringstream cmd;
     FILE* pipe;
     char buffer[1024];
@@ -433,9 +425,9 @@ bool VpnConfiguration::loadFromUCI() {
         if (fgets(buffer, sizeof(buffer), pipe)) {
             buffer[strcspn(buffer, "\n")] = 0;
             std::string protocol(buffer);
-            if (protocol == "openvpn") resource(PROTOCOL_TYPE_1)->set<INT_T>(PROTOCOL_OPENVPN);
-            else if (protocol == "wireguard") resource(PROTOCOL_TYPE_1)->set<INT_T>(PROTOCOL_WIREGUARD);
-            else if (protocol == "ipsec") resource(PROTOCOL_TYPE_1)->set<INT_T>(PROTOCOL_IPSEC);
+            if (protocol == "openvpn") set<INT_T>(PROTOCOL_TYPE_1, PROTOCOL_OPENVPN);
+            else if (protocol == "wireguard") set<INT_T>(PROTOCOL_TYPE_1, PROTOCOL_WIREGUARD);
+            else if (protocol == "ipsec") set<INT_T>(PROTOCOL_TYPE_1, PROTOCOL_IPSEC);
         }
         pclose(pipe);
     }
@@ -447,7 +439,7 @@ bool VpnConfiguration::loadFromUCI() {
     if (pipe) {
         if (fgets(buffer, sizeof(buffer), pipe)) {
             buffer[strcspn(buffer, "\n")] = 0;
-            resource(SERVER_ADDRESS_2)->set<STRING_T>(buffer);
+            set<STRING_T>(SERVER_ADDRESS_2, buffer);
         }
         pclose(pipe);
     }
@@ -459,7 +451,7 @@ bool VpnConfiguration::loadFromUCI() {
     if (pipe) {
         if (fgets(buffer, sizeof(buffer), pipe)) {
             buffer[strcspn(buffer, "\n")] = 0;
-            resource(SERVER_PORT_3)->set<INT_T>(atoi(buffer));
+            set<INT_T>(SERVER_PORT_3, atoi(buffer));
         }
         pclose(pipe);
     }
@@ -471,7 +463,7 @@ bool VpnConfiguration::loadFromUCI() {
     if (pipe) {
         if (fgets(buffer, sizeof(buffer), pipe)) {
             buffer[strcspn(buffer, "\n")] = 0;
-            resource(USERNAME_7)->set<STRING_T>(buffer);
+            set<STRING_T>(USERNAME_7, buffer);
         }
         pclose(pipe);
     }
@@ -483,7 +475,7 @@ bool VpnConfiguration::loadFromUCI() {
     if (pipe) {
         if (fgets(buffer, sizeof(buffer), pipe)) {
             buffer[strcspn(buffer, "\n")] = 0;
-            resource(REMOTE_NETWORK_5)->set<STRING_T>(buffer);
+            set<STRING_T>(REMOTE_NETWORK_5, buffer);
         }
         pclose(pipe);
     }
@@ -495,7 +487,7 @@ bool VpnConfiguration::loadFromUCI() {
     if (pipe) {
         if (fgets(buffer, sizeof(buffer), pipe)) {
             buffer[strcspn(buffer, "\n")] = 0;
-            resource(KEEPALIVE_INTERVAL_18)->set<INT_T>(atoi(buffer));
+            set<INT_T>(KEEPALIVE_INTERVAL_18, atoi(buffer));
         }
         pclose(pipe);
     }
@@ -506,7 +498,7 @@ bool VpnConfiguration::loadFromUCI() {
     pipe = popen(cmd.str().c_str(), "r");
     if (pipe) {
         if (fgets(buffer, sizeof(buffer), pipe)) {
-            resource(SPLIT_TUNNEL_20)->set<BOOL_T>((buffer[0] == '1'));
+            set<BOOL_T>(SPLIT_TUNNEL_20, (buffer[0] == '1'));
         }
         pclose(pipe);
     }
@@ -517,7 +509,7 @@ bool VpnConfiguration::loadFromUCI() {
     pipe = popen(cmd.str().c_str(), "r");
     if (pipe) {
         if (fgets(buffer, sizeof(buffer), pipe)) {
-            resource(KILL_SWITCH_21)->set<BOOL_T>((buffer[0] == '1'));
+            set<BOOL_T>(KILL_SWITCH_21, (buffer[0] == '1'));
         }
         pclose(pipe);
     }
@@ -534,7 +526,7 @@ bool VpnConfiguration::saveToUCI() {
 #ifdef OPENWRT_BUILD
     WPP_LOGD(TAG, "Saving VPN configuration to UCI");
 
-    std::string vpnName = resource(VPN_NAME_0)->get<STRING_T>();
+    std::string vpnName = get<STRING_T>(VPN_NAME_0);
     std::stringstream cmd;
 
     // Create VPN section if it doesn't exist
@@ -544,7 +536,7 @@ bool VpnConfiguration::saveToUCI() {
 
     // Set protocol
     cmd.str("");
-    INT_T protocol = resource(PROTOCOL_TYPE_1)->get<INT_T>();
+    INT_T protocol = get<INT_T>(PROTOCOL_TYPE_1);
     const char* protocolStr = "openvpn";
     if (protocol == PROTOCOL_WIREGUARD) protocolStr = "wireguard";
     else if (protocol == PROTOCOL_IPSEC) protocolStr = "ipsec";
@@ -553,21 +545,21 @@ bool VpnConfiguration::saveToUCI() {
 
     // Set server address
     cmd.str("");
-    cmd << "uci set vpn." << vpnName << ".server='" << resource(SERVER_ADDRESS_2)->get<STRING_T>() << "'";
+    cmd << "uci set vpn." << vpnName << ".server='" << get<STRING_T>(SERVER_ADDRESS_2) << "'";
     system(cmd.str().c_str());
 
     // Set server port
     cmd.str("");
-    cmd << "uci set vpn." << vpnName << ".port='" << resource(SERVER_PORT_3)->get<INT_T>() << "'";
+    cmd << "uci set vpn." << vpnName << ".port='" << get<INT_T>(SERVER_PORT_3) << "'";
     system(cmd.str().c_str());
 
     // Set username
     cmd.str("");
-    cmd << "uci set vpn." << vpnName << ".username='" << resource(USERNAME_7)->get<STRING_T>() << "'";
+    cmd << "uci set vpn." << vpnName << ".username='" << get<STRING_T>(USERNAME_7) << "'";
     system(cmd.str().c_str());
 
     // Set password (if not empty)
-    STRING_T password = resource(PASSWORD_8)->get<STRING_T>();
+    STRING_T password = get<STRING_T>(PASSWORD_8);
     if (!password.empty()) {
         cmd.str("");
         cmd << "uci set vpn." << vpnName << ".password='" << password << "'";
@@ -576,27 +568,27 @@ bool VpnConfiguration::saveToUCI() {
 
     // Set remote network
     cmd.str("");
-    cmd << "uci set vpn." << vpnName << ".remote_network='" << resource(REMOTE_NETWORK_5)->get<STRING_T>() << "'";
+    cmd << "uci set vpn." << vpnName << ".remote_network='" << get<STRING_T>(REMOTE_NETWORK_5) << "'";
     system(cmd.str().c_str());
 
     // Set keepalive interval
     cmd.str("");
-    cmd << "uci set vpn." << vpnName << ".keepalive='" << resource(KEEPALIVE_INTERVAL_18)->get<INT_T>() << "'";
+    cmd << "uci set vpn." << vpnName << ".keepalive='" << get<INT_T>(KEEPALIVE_INTERVAL_18) << "'";
     system(cmd.str().c_str());
 
     // Set reconnect delay
     cmd.str("");
-    cmd << "uci set vpn." << vpnName << ".reconnect_delay='" << resource(RECONNECT_DELAY_19)->get<INT_T>() << "'";
+    cmd << "uci set vpn." << vpnName << ".reconnect_delay='" << get<INT_T>(RECONNECT_DELAY_19) << "'";
     system(cmd.str().c_str());
 
     // Set split tunnel
     cmd.str("");
-    cmd << "uci set vpn." << vpnName << ".split_tunnel='" << (resource(SPLIT_TUNNEL_20)->get<BOOL_T>() ? "1" : "0") << "'";
+    cmd << "uci set vpn." << vpnName << ".split_tunnel='" << (get<BOOL_T>(SPLIT_TUNNEL_20) ? "1" : "0") << "'";
     system(cmd.str().c_str());
 
     // Set kill switch
     cmd.str("");
-    cmd << "uci set vpn." << vpnName << ".kill_switch='" << (resource(KILL_SWITCH_21)->get<BOOL_T>() ? "1" : "0") << "'";
+    cmd << "uci set vpn." << vpnName << ".kill_switch='" << (get<BOOL_T>(KILL_SWITCH_21) ? "1" : "0") << "'";
     system(cmd.str().c_str());
 
     // Commit changes
@@ -639,10 +631,10 @@ bool VpnConfiguration::connectOpenVPN() {
         // Wait for connection to establish
         sleep(3);
         updateConnectionStatus();
-        return (resource(CONNECTION_STATE_13)->get<INT_T>() == STATE_CONNECTED);
+        return (get<INT_T>(CONNECTION_STATE_13) == STATE_CONNECTED);
     }
 
-    resource(LAST_ERROR_17)->set<STRING_T>("Failed to start OpenVPN");
+    set<STRING_T>(LAST_ERROR_17, "Failed to start OpenVPN");
     return false;
 #else
     return false;
@@ -670,10 +662,10 @@ bool VpnConfiguration::connectWireGuard() {
 
         sleep(2);
         updateConnectionStatus();
-        return (resource(CONNECTION_STATE_13)->get<INT_T>() == STATE_CONNECTED);
+        return (get<INT_T>(CONNECTION_STATE_13) == STATE_CONNECTED);
     }
 
-    resource(LAST_ERROR_17)->set<STRING_T>("Failed to start WireGuard");
+    set<STRING_T>(LAST_ERROR_17, "Failed to start WireGuard");
     return false;
 #else
     return false;
@@ -685,7 +677,7 @@ bool VpnConfiguration::connectIPsec() {
 #ifdef OPENWRT_BUILD
     WPP_LOGI(TAG, "Connecting IPsec");
 
-    std::string vpnName = resource(VPN_NAME_0)->get<STRING_T>();
+    std::string vpnName = get<STRING_T>(VPN_NAME_0);
     std::stringstream cmd;
 
     // Start strongSwan
@@ -700,10 +692,10 @@ bool VpnConfiguration::connectIPsec() {
     if (result == 0) {
         sleep(3);
         updateConnectionStatus();
-        return (resource(CONNECTION_STATE_13)->get<INT_T>() == STATE_CONNECTED);
+        return (get<INT_T>(CONNECTION_STATE_13) == STATE_CONNECTED);
     }
 
-    resource(LAST_ERROR_17)->set<STRING_T>("Failed to start IPsec");
+    set<STRING_T>(LAST_ERROR_17, "Failed to start IPsec");
     return false;
 #else
     return false;
@@ -751,7 +743,7 @@ bool VpnConfiguration::disconnectIPsec() {
 #ifdef OPENWRT_BUILD
     WPP_LOGI(TAG, "Disconnecting IPsec");
 
-    std::string vpnName = resource(VPN_NAME_0)->get<STRING_T>();
+    std::string vpnName = get<STRING_T>(VPN_NAME_0);
     std::stringstream cmd;
 
     cmd.str("");
@@ -769,7 +761,7 @@ bool VpnConfiguration::generateOpenVPNConfig() {
 #ifdef OPENWRT_BUILD
     WPP_LOGD(TAG, "Generating OpenVPN configuration");
 
-    std::string vpnName = resource(VPN_NAME_0)->get<STRING_T>();
+    std::string vpnName = get<STRING_T>(VPN_NAME_0);
     std::string configPath = "/etc/openvpn/" + vpnName + ".conf";
 
     std::ofstream configFile(configPath);
@@ -782,14 +774,14 @@ bool VpnConfiguration::generateOpenVPNConfig() {
     configFile << "client\n";
     configFile << "dev tun\n";
     configFile << "proto udp\n";
-    configFile << "remote " << resource(SERVER_ADDRESS_2)->get<STRING_T>() << " " << resource(SERVER_PORT_3)->get<INT_T>() << "\n";
+    configFile << "remote " << get<STRING_T>(SERVER_ADDRESS_2) << " " << get<INT_T>(SERVER_PORT_3) << "\n";
     configFile << "resolv-retry infinite\n";
     configFile << "nobind\n";
     configFile << "persist-key\n";
     configFile << "persist-tun\n";
 
     // Authentication
-    INT_T authType = resource(AUTHENTICATION_TYPE_6)->get<INT_T>();
+    INT_T authType = get<INT_T>(AUTHENTICATION_TYPE_6);
     if (authType == AUTH_PASSWORD) {
         configFile << "auth-user-pass /etc/openvpn/" << vpnName << ".auth\n";
 
@@ -797,8 +789,8 @@ bool VpnConfiguration::generateOpenVPNConfig() {
         std::string authPath = "/etc/openvpn/" + vpnName + ".auth";
         std::ofstream authFile(authPath);
         if (authFile.is_open()) {
-            authFile << resource(USERNAME_7)->get<STRING_T>() << "\n";
-            authFile << resource(PASSWORD_8)->get<STRING_T>() << "\n";
+            authFile << get<STRING_T>(USERNAME_7) << "\n";
+            authFile << get<STRING_T>(PASSWORD_8) << "\n";
             authFile.close();
             chmod(authPath.c_str(), 0600);
         }
@@ -809,13 +801,13 @@ bool VpnConfiguration::generateOpenVPNConfig() {
 
         std::ofstream certFile(certPath);
         if (certFile.is_open()) {
-            certFile << resource(CERTIFICATE_9)->get<STRING_T>();
+            certFile << get<STRING_T>(CERTIFICATE_9);
             certFile.close();
         }
 
         std::ofstream keyFile(keyPath);
         if (keyFile.is_open()) {
-            keyFile << resource(PRIVATE_KEY_10)->get<STRING_T>();
+            keyFile << get<STRING_T>(PRIVATE_KEY_10);
             keyFile.close();
             chmod(keyPath.c_str(), 0600);
         }
@@ -828,7 +820,7 @@ bool VpnConfiguration::generateOpenVPNConfig() {
     configFile << "comp-lzo\n";
 
     // Keepalive
-    INT_T keepalive = resource(KEEPALIVE_INTERVAL_18)->get<INT_T>();
+    INT_T keepalive = get<INT_T>(KEEPALIVE_INTERVAL_18);
     configFile << "keepalive " << keepalive << " " << (keepalive * 3) << "\n";
 
     // Cipher
@@ -840,7 +832,7 @@ bool VpnConfiguration::generateOpenVPNConfig() {
     configFile << "status /var/log/openvpn-" << vpnName << "-status.log\n";
 
     // Route options
-    if (!resource(SPLIT_TUNNEL_20)->get<BOOL_T>()) {
+    if (!get<BOOL_T>(SPLIT_TUNNEL_20)) {
         configFile << "redirect-gateway def1\n";
     }
 
@@ -859,7 +851,7 @@ bool VpnConfiguration::generateWireGuardConfig() {
 #ifdef OPENWRT_BUILD
     WPP_LOGD(TAG, "Generating WireGuard configuration");
 
-    std::string vpnName = resource(VPN_NAME_0)->get<STRING_T>();
+    std::string vpnName = get<STRING_T>(VPN_NAME_0);
     std::string ifname = getInterfaceName();
 
     // Configure network interface via UCI
@@ -875,10 +867,10 @@ bool VpnConfiguration::generateWireGuardConfig() {
     system(cmd.str().c_str());
 
     // Set private key
-    STRING_T privateKey = resource(PRIVATE_KEY_10)->get<STRING_T>();
+    STRING_T privateKey = get<STRING_T>(PRIVATE_KEY_10);
     if (privateKey.empty()) {
         generateWireGuardKeys();
-        privateKey = resource(PRIVATE_KEY_10)->get<STRING_T>();
+        privateKey = get<STRING_T>(PRIVATE_KEY_10);
     }
 
     cmd.str("");
@@ -896,19 +888,19 @@ bool VpnConfiguration::generateWireGuardConfig() {
     system(cmd.str().c_str());
 
     cmd.str("");
-    cmd << "uci set network.@wireguard_" << ifname << "[-1].public_key='" << resource(PUBLIC_KEY_11)->get<STRING_T>() << "'";
+    cmd << "uci set network.@wireguard_" << ifname << "[-1].public_key='" << get<STRING_T>(PUBLIC_KEY_11) << "'";
     system(cmd.str().c_str());
 
     cmd.str("");
-    cmd << "uci set network.@wireguard_" << ifname << "[-1].endpoint_host='" << resource(SERVER_ADDRESS_2)->get<STRING_T>() << "'";
+    cmd << "uci set network.@wireguard_" << ifname << "[-1].endpoint_host='" << get<STRING_T>(SERVER_ADDRESS_2) << "'";
     system(cmd.str().c_str());
 
     cmd.str("");
-    cmd << "uci set network.@wireguard_" << ifname << "[-1].endpoint_port='" << resource(SERVER_PORT_3)->get<INT_T>() << "'";
+    cmd << "uci set network.@wireguard_" << ifname << "[-1].endpoint_port='" << get<INT_T>(SERVER_PORT_3) << "'";
     system(cmd.str().c_str());
 
     // Allowed IPs
-    STRING_T remoteNetwork = resource(REMOTE_NETWORK_5)->get<STRING_T>();
+    STRING_T remoteNetwork = get<STRING_T>(REMOTE_NETWORK_5);
     if (remoteNetwork.empty()) {
         remoteNetwork = "0.0.0.0/0, ::/0";  // Route all traffic
     }
@@ -919,11 +911,11 @@ bool VpnConfiguration::generateWireGuardConfig() {
 
     // Persistent keepalive
     cmd.str("");
-    cmd << "uci set network.@wireguard_" << ifname << "[-1].persistent_keepalive='" << resource(KEEPALIVE_INTERVAL_18)->get<INT_T>() << "'";
+    cmd << "uci set network.@wireguard_" << ifname << "[-1].persistent_keepalive='" << get<INT_T>(KEEPALIVE_INTERVAL_18) << "'";
     system(cmd.str().c_str());
 
     // Pre-shared key (if available)
-    STRING_T psk = resource(PRE_SHARED_KEY_12)->get<STRING_T>();
+    STRING_T psk = get<STRING_T>(PRE_SHARED_KEY_12);
     if (!psk.empty()) {
         cmd.str("");
         cmd << "uci set network.@wireguard_" << ifname << "[-1].preshared_key='" << psk << "'";
@@ -944,7 +936,7 @@ bool VpnConfiguration::generateIPsecConfig() {
 #ifdef OPENWRT_BUILD
     WPP_LOGD(TAG, "Generating IPsec configuration");
 
-    std::string vpnName = resource(VPN_NAME_0)->get<STRING_T>();
+    std::string vpnName = get<STRING_T>(VPN_NAME_0);
 
     // Write ipsec.conf
     std::ofstream ipsecConf("/etc/ipsec.conf", std::ios::app);
@@ -956,28 +948,28 @@ bool VpnConfiguration::generateIPsecConfig() {
         ipsecConf << "    left=%defaultroute\n";
         ipsecConf << "    leftauth=eap-mschapv2\n";
         ipsecConf << "    leftsourceip=%config\n";
-        ipsecConf << "    right=" << resource(SERVER_ADDRESS_2)->get<STRING_T>() << "\n";
+        ipsecConf << "    right=" << get<STRING_T>(SERVER_ADDRESS_2) << "\n";
         ipsecConf << "    rightauth=pubkey\n";
         ipsecConf << "    rightid=%any\n";
 
-        STRING_T remoteNetwork = resource(REMOTE_NETWORK_5)->get<STRING_T>();
+        STRING_T remoteNetwork = get<STRING_T>(REMOTE_NETWORK_5);
         if (!remoteNetwork.empty()) {
             ipsecConf << "    rightsubnet=" << remoteNetwork << "\n";
         } else {
             ipsecConf << "    rightsubnet=0.0.0.0/0\n";
         }
 
-        ipsecConf << "    eap_identity=" << resource(USERNAME_7)->get<STRING_T>() << "\n";
+        ipsecConf << "    eap_identity=" << get<STRING_T>(USERNAME_7) << "\n";
         ipsecConf << "    dpdaction=restart\n";
-        ipsecConf << "    dpddelay=" << resource(KEEPALIVE_INTERVAL_18)->get<INT_T>() << "s\n";
+        ipsecConf << "    dpddelay=" << get<INT_T>(KEEPALIVE_INTERVAL_18) << "s\n";
         ipsecConf.close();
     }
 
     // Write ipsec.secrets
     std::ofstream ipsecSecrets("/etc/ipsec.secrets", std::ios::app);
     if (ipsecSecrets.is_open()) {
-        ipsecSecrets << "\n" << resource(USERNAME_7)->get<STRING_T>()
-                    << " : EAP \"" << resource(PASSWORD_8)->get<STRING_T>() << "\"\n";
+        ipsecSecrets << "\n" << get<STRING_T>(USERNAME_7)
+                    << " : EAP \"" << get<STRING_T>(PASSWORD_8) << "\"\n";
         ipsecSecrets.close();
         chmod("/etc/ipsec.secrets", 0600);
     }
@@ -1002,7 +994,7 @@ bool VpnConfiguration::generateWireGuardKeys() {
     if (pipe) {
         if (fgets(buffer, sizeof(buffer), pipe)) {
             buffer[strcspn(buffer, "\n")] = 0;
-            resource(PRIVATE_KEY_10)->set<STRING_T>(buffer);
+            set<STRING_T>(PRIVATE_KEY_10, buffer);
 
             // Generate public key from private key
             std::string privKey(buffer);
@@ -1013,7 +1005,7 @@ bool VpnConfiguration::generateWireGuardKeys() {
             pipe = popen(cmd.str().c_str(), "r");
             if (pipe && fgets(buffer, sizeof(buffer), pipe)) {
                 buffer[strcspn(buffer, "\n")] = 0;
-                resource(PUBLIC_KEY_11)->set<STRING_T>(buffer);
+                set<STRING_T>(PUBLIC_KEY_11, buffer);
                 pclose(pipe);
                 return true;
             }
@@ -1091,7 +1083,7 @@ bool VpnConfiguration::setupSplitTunnel() {
     WPP_LOGI(TAG, "Setting up split tunnel");
 
     std::string ifname = getInterfaceName();
-    STRING_T remoteNetwork = resource(REMOTE_NETWORK_5)->get<STRING_T>();
+    STRING_T remoteNetwork = get<STRING_T>(REMOTE_NETWORK_5);
 
     if (!remoteNetwork.empty()) {
         std::stringstream cmd;
@@ -1113,7 +1105,7 @@ bool VpnConfiguration::setupRouting() {
     std::string ifname = getInterfaceName();
     std::stringstream cmd;
 
-    if (!resource(SPLIT_TUNNEL_20)->get<BOOL_T>()) {
+    if (!get<BOOL_T>(SPLIT_TUNNEL_20)) {
         // Route all traffic through VPN
         cmd.str("");
         cmd << "ip route add default dev " << ifname;
@@ -1153,7 +1145,7 @@ bool VpnConfiguration::setupDNS() {
 /* Update connection status */
 bool VpnConfiguration::updateConnectionStatus() {
 #ifdef OPENWRT_BUILD
-    INT_T protocol = resource(PROTOCOL_TYPE_1)->get<INT_T>();
+    INT_T protocol = get<INT_T>(PROTOCOL_TYPE_1);
     std::string ifname = getInterfaceName();
     bool isConnected = false;
 
@@ -1172,7 +1164,7 @@ bool VpnConfiguration::updateConnectionStatus() {
             char buffer[256];
             if (fgets(buffer, sizeof(buffer), pipe)) {
                 buffer[strcspn(buffer, "\n")] = 0;
-                resource(LOCAL_ADDRESS_4)->set<STRING_T>(buffer);
+                set<STRING_T>(LOCAL_ADDRESS_4, buffer);
             }
             pclose(pipe);
         }
@@ -1180,14 +1172,14 @@ bool VpnConfiguration::updateConnectionStatus() {
 
     // Update state
     if (isConnected) {
-        resource(CONNECTION_STATE_13)->set<INT_T>(STATE_CONNECTED);
+        set<INT_T>(CONNECTION_STATE_13, STATE_CONNECTED);
         if (connectionStartTime > 0) {
-            resource(UPTIME_16)->set<INT_T>(time(nullptr) - connectionStartTime);
+            set<INT_T>(UPTIME_16, time(nullptr) - connectionStartTime);
         }
     } else {
-        INT_T currentState = resource(CONNECTION_STATE_13)->get<INT_T>();
+        INT_T currentState = get<INT_T>(CONNECTION_STATE_13);
         if (currentState == STATE_CONNECTED || currentState == STATE_CONNECTING) {
-            resource(CONNECTION_STATE_13)->set<INT_T>(STATE_DISCONNECTED);
+            set<INT_T>(CONNECTION_STATE_13, STATE_DISCONNECTED);
         }
     }
 
@@ -1204,7 +1196,7 @@ bool VpnConfiguration::updateConnectionStatus() {
 bool VpnConfiguration::updateTrafficStats() {
 #ifdef OPENWRT_BUILD
     std::string ifname = getInterfaceName();
-    INT_T protocol = resource(PROTOCOL_TYPE_1)->get<INT_T>();
+    INT_T protocol = get<INT_T>(PROTOCOL_TYPE_1);
 
     if (protocol == PROTOCOL_WIREGUARD) {
         // Get WireGuard statistics
@@ -1218,10 +1210,10 @@ bool VpnConfiguration::updateTrafficStats() {
                 char* token = strtok(buffer, "\t");
                 if (token) token = strtok(NULL, "\t");  // rx_bytes
                 if (token) {
-                    resource(BYTES_RECEIVED_15)->set<INT_T>(atoll(token));
+                    set<INT_T>(BYTES_RECEIVED_15, atoll(token));
                     token = strtok(NULL, "\t");  // tx_bytes
                     if (token) {
-                        resource(BYTES_SENT_14)->set<INT_T>(atoll(token));
+                        set<INT_T>(BYTES_SENT_14, atoll(token));
                     }
                 }
             }
@@ -1237,7 +1229,7 @@ bool VpnConfiguration::updateTrafficStats() {
         if (rxFile.is_open()) {
             INT_T rxBytes;
             rxFile >> rxBytes;
-            resource(BYTES_RECEIVED_15)->set<INT_T>(rxBytes);
+            set<INT_T>(BYTES_RECEIVED_15, rxBytes);
             rxFile.close();
         }
 
@@ -1245,7 +1237,7 @@ bool VpnConfiguration::updateTrafficStats() {
         if (txFile.is_open()) {
             INT_T txBytes;
             txFile >> txBytes;
-            resource(BYTES_SENT_14)->set<INT_T>(txBytes);
+            set<INT_T>(BYTES_SENT_14, txBytes);
             txFile.close();
         }
     }
@@ -1258,15 +1250,15 @@ bool VpnConfiguration::updateTrafficStats() {
 
 /* Get interface name */
 std::string VpnConfiguration::getInterfaceName() {
-    std::string vpnName = resource(VPN_NAME_0)->get<STRING_T>();
-    INT_T protocol = resource(PROTOCOL_TYPE_1)->get<INT_T>();
+    std::string vpnName = get<STRING_T>(VPN_NAME_0);
+    INT_T protocol = get<INT_T>(PROTOCOL_TYPE_1);
 
     if (protocol == PROTOCOL_OPENVPN) {
-        return "tun" + std::to_string(getInstanceID());
+        return "tun" + std::to_string(instId());
     } else if (protocol == PROTOCOL_WIREGUARD) {
-        return "wg" + std::to_string(getInstanceID());
+        return "wg" + std::to_string(instId());
     } else if (protocol == PROTOCOL_IPSEC) {
-        return "ipsec" + std::to_string(getInstanceID());
+        return "ipsec" + std::to_string(instId());
     }
 
     return vpnName;

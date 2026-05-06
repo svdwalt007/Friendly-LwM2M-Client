@@ -6,13 +6,12 @@
  */
 
 #include "ZigbeeGroup.h"
-#include "Lwm2mObjectBase.h"
 #include "WppRegistry.h"
 #include "WppClient.h"
 #include "WppTypes.h"
 
 // Include zigbee coordinator integration
-#include "zigbee_coordinator.h"
+#include "../../src/zigbee/zigbee_coordinator.h"
 
 #include <iostream>
 #include <sstream>
@@ -97,52 +96,71 @@ static std::string execCommand(const std::string& cmd) {
 // Static Object Methods
 // ==============================================================================
 
-Object& ZigbeeGroup::object(WppClient& client) {
-    static ObjImpl<ZigbeeGroup> obj(client, ZIGBEE_GROUP_OBJECT_ID);
-    return obj;
+Object& ZigbeeGroup::object(WppClient& ctx) {
+    return ctx.registry().zigbeeGroup();
 }
 
-Instance* ZigbeeGroup::createInst(WppClient& client, INST_T instId) {
-    return static_cast<ObjImpl<ZigbeeGroup>&>(object(client)).createInst(instId);
+ZigbeeGroup* ZigbeeGroup::createInst(WppClient& ctx, ID_T instId) {
+    Instance *inst = ctx.registry().zigbeeGroup().createInstance(instId);
+    if (!inst) return NULL;
+    return static_cast<ZigbeeGroup*>(inst);
 }
 
-Instance* ZigbeeGroup::instance(WppClient& client, INST_T instId) {
-    return object(client).instance(instId);
+ZigbeeGroup* ZigbeeGroup::instance(WppClient& ctx, ID_T instId) {
+    Instance *inst = ctx.registry().zigbeeGroup().instance(instId);
+    if (!inst) return NULL;
+    return static_cast<ZigbeeGroup*>(inst);
 }
 
-bool ZigbeeGroup::remove(WppClient& client, INST_T instId) {
-    return object(client).remove(instId);
+bool ZigbeeGroup::removeInst(WppClient& ctx, ID_T instId) {
+    return ctx.registry().zigbeeGroup().remove(instId);
 }
 
 // ==============================================================================
 // Constructor / Destructor
 // ==============================================================================
 
-ZigbeeGroup::ZigbeeGroup(Object& object, INST_T instId)
-    : Instance(object, instId) {
-    std::cout << "[ZigbeeGroup] Instance created: " << instId << std::endl;
+ZigbeeGroup::ZigbeeGroup(lwm2m_context_t& context, const OBJ_LINK_T& id)
+    : Instance(context, id) {
+
+    resourcesCreate();
+    resourcesInit();
+
+    std::cout << "[ZigbeeGroup] Instance created" << std::endl;
 }
 
 ZigbeeGroup::~ZigbeeGroup() {
     std::cout << "[ZigbeeGroup] Instance destroyed" << std::endl;
 }
 
+void ZigbeeGroup::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
+    operationNotify(*this, resLink, type);
+}
+
+void ZigbeeGroup::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
+    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
+}
+
+void ZigbeeGroup::resourcesInit() {
+    /* Default values are set in resourcesCreate */
+}
+
 // ==============================================================================
 // Resource Initialization
 // ==============================================================================
 
-bool ZigbeeGroup::initResources(ItemOp *) {
+void ZigbeeGroup::resourcesCreate() {
     std::cout << "[ZigbeeGroup] Initializing resources" << std::endl;
 
     // Group ID (RW, Integer) - Zigbee group IDs range 0x0001-0xFFF7
-    item(GROUP_ID_0).set((INT_T)0x0001);
-    item(GROUP_ID_0).setDataVerifier([](const INT_T& val) {
+    resource(GROUP_ID_0)->set<INT_T>((INT_T)0x0001);
+    resource(GROUP_ID_0)->setDataVerifier((VERIFY_INT_T)[](const INT_T& val) {
         return val >= 0x0001 && val <= 0xFFF7;
     });
 
     // Group Name (RW, String)
-    item(GROUP_NAME_1).set("Default Group");
-    item(GROUP_NAME_1).setDataVerifier([](const STRING_T& val) {
+    resource(GROUP_NAME_1)->set<STRING_T>("Default Group");
+    resource(GROUP_NAME_1)->setDataVerifier([](const STRING_T& val) {
         return !val.empty() && val.length() <= 16;  // ZCL max group name length
     });
 
@@ -150,57 +168,27 @@ bool ZigbeeGroup::initResources(ItemOp *) {
     // Will be populated dynamically with IEEE addresses
 
     // Member Count (R, Integer)
-    item(MEMBER_COUNT_3).set((INT_T)0);
+    resource(MEMBER_COUNT_3)->set<INT_T>((INT_T)0);
 
     // Scene Count (R, Integer)
-    item(SCENE_COUNT_4).set((INT_T)0);
+    resource(SCENE_COUNT_4)->set<INT_T>((INT_T)0);
 
     // Current Scene (RW, Integer)
-    item(CURRENT_SCENE_5).set((INT_T)0);
-    item(CURRENT_SCENE_5).setDataVerifier([](const INT_T& val) {
+    resource(CURRENT_SCENE_5)->set<INT_T>((INT_T)0);
+    resource(CURRENT_SCENE_5)->setDataVerifier((VERIFY_INT_T)[](const INT_T& val) {
         return val >= 0 && val <= 255;  // Scene ID range
     });
 
     // Execute Resources
-    item(ADD_MEMBER_6).setExecute(&ZigbeeGroup::addMember);
-    item(REMOVE_MEMBER_7).setExecute(&ZigbeeGroup::removeMember);
-    item(SCENE_RECALL_8).setExecute(&ZigbeeGroup::sceneRecall);
-    item(SCENE_STORE_9).setExecute(&ZigbeeGroup::sceneStore);
-    item(ON_10).setExecute(&ZigbeeGroup::turnOn);
-    item(OFF_11).setExecute(&ZigbeeGroup::turnOff);
-    item(TOGGLE_12).setExecute(&ZigbeeGroup::toggle);
-    item(SET_LEVEL_13).setExecute(&ZigbeeGroup::setLevel);
-    item(SET_COLOR_14).setExecute(&ZigbeeGroup::setColor);
-
-    return true;
-}
-
-// ==============================================================================
-// Validation
-// ==============================================================================
-
-bool ZigbeeGroup::validate(ID_T resId, const void *data, size_t size) {
-    switch (resId) {
-        case GROUP_ID_0: {
-            INT_T groupId = *static_cast<const INT_T*>(data);
-            if (groupId < 0x0001 || groupId > 0xFFF7) {
-                std::cerr << "[ZigbeeGroup] Invalid group ID: " << groupId
-                          << " (valid range: 0x0001-0xFFF7)" << std::endl;
-                return false;
-            }
-            break;
-        }
-        case GROUP_NAME_1: {
-            const STRING_T* name = static_cast<const STRING_T*>(data);
-            if (name->empty() || name->length() > 16) {
-                std::cerr << "[ZigbeeGroup] Invalid group name length (1-16 chars)" << std::endl;
-                return false;
-            }
-            break;
-        }
-    }
-
-    return true;
+    resource(ADD_MEMBER_6)->set<EXECUTE_T>(&ZigbeeGroup::addMember);
+    resource(REMOVE_MEMBER_7)->set<EXECUTE_T>(&ZigbeeGroup::removeMember);
+    resource(SCENE_RECALL_8)->set<EXECUTE_T>(&ZigbeeGroup::sceneRecall);
+    resource(SCENE_STORE_9)->set<EXECUTE_T>(&ZigbeeGroup::sceneStore);
+    resource(ON_10)->set<EXECUTE_T>(&ZigbeeGroup::turnOn);
+    resource(OFF_11)->set<EXECUTE_T>(&ZigbeeGroup::turnOff);
+    resource(TOGGLE_12)->set<EXECUTE_T>(&ZigbeeGroup::toggle);
+    resource(SET_LEVEL_13)->set<EXECUTE_T>(&ZigbeeGroup::setLevel);
+    resource(SET_COLOR_14)->set<EXECUTE_T>(&ZigbeeGroup::setColor);
 }
 
 // ==============================================================================
@@ -225,11 +213,11 @@ bool ZigbeeGroup::addMember(Instance& inst, ID_T resId, const OPAQUE_T& data) {
 
     std::cout << "[ZigbeeGroup] Adding device 0x" << std::hex << std::setfill('0')
               << std::setw(16) << ieeeAddress << " to group " << std::dec
-              << self.item(GROUP_ID_0).toInt() << std::endl;
+              << self.resource(GROUP_ID_0)->get<INT_T>() << std::endl;
 
     // Get group ID
-    uint16_t groupId = static_cast<uint16_t>(self.item(GROUP_ID_0).toInt());
-    std::string groupName = self.item(GROUP_NAME_1).toString();
+    uint16_t groupId = static_cast<uint16_t>(self.resource(GROUP_ID_0)->get<INT_T>());
+    std::string groupName = self.resource(GROUP_NAME_1)->get<STRING_T>();
 
     // Build ZCL Add Group command payload
     // Format: [GroupId:2][GroupName:string]
@@ -274,7 +262,7 @@ bool ZigbeeGroup::removeMember(Instance& inst, ID_T resId, const OPAQUE_T& data)
               << std::setw(16) << ieeeAddress << " from group" << std::endl;
 
     // Get group ID
-    uint16_t groupId = static_cast<uint16_t>(self.item(GROUP_ID_0).toInt());
+    uint16_t groupId = static_cast<uint16_t>(self.resource(GROUP_ID_0)->get<INT_T>());
 
     // Build ZCL Remove Group command payload
     // Format: [GroupId:2]
@@ -306,7 +294,7 @@ bool ZigbeeGroup::sceneRecall(Instance& inst, ID_T resId, const OPAQUE_T& data) 
     std::cout << "[ZigbeeGroup] Recalling scene " << static_cast<int>(sceneId) << std::endl;
 
     // Get group ID
-    uint16_t groupId = static_cast<uint16_t>(self.item(GROUP_ID_0).toInt());
+    uint16_t groupId = static_cast<uint16_t>(self.resource(GROUP_ID_0)->get<INT_T>());
 
     // Build ZCL Recall Scene command payload
     // Format: [GroupId:2][SceneId:1]
@@ -318,7 +306,7 @@ bool ZigbeeGroup::sceneRecall(Instance& inst, ID_T resId, const OPAQUE_T& data) 
     bool success = self.sendGroupCommand(ZCL_CLUSTER_SCENES, ZCL_CMD_RECALL_SCENE, payload);
 
     if (success) {
-        self.item(CURRENT_SCENE_5).set((INT_T)sceneId);
+        self.resource(CURRENT_SCENE_5)->set<INT_T>((INT_T)sceneId);
         std::cout << "[ZigbeeGroup] Scene recalled successfully" << std::endl;
     }
 
@@ -336,7 +324,7 @@ bool ZigbeeGroup::sceneStore(Instance& inst, ID_T resId, const OPAQUE_T& data) {
     std::cout << "[ZigbeeGroup] Storing scene " << static_cast<int>(sceneId) << std::endl;
 
     // Get group ID
-    uint16_t groupId = static_cast<uint16_t>(self.item(GROUP_ID_0).toInt());
+    uint16_t groupId = static_cast<uint16_t>(self.resource(GROUP_ID_0)->get<INT_T>());
 
     // Build ZCL Store Scene command payload
     // Format: [GroupId:2][SceneId:1]
@@ -348,8 +336,8 @@ bool ZigbeeGroup::sceneStore(Instance& inst, ID_T resId, const OPAQUE_T& data) {
     bool success = self.sendGroupCommand(ZCL_CLUSTER_SCENES, ZCL_CMD_STORE_SCENE, payload);
 
     if (success) {
-        INT_T sceneCount = self.item(SCENE_COUNT_4).toInt();
-        self.item(SCENE_COUNT_4).set(sceneCount + 1);
+        INT_T sceneCount = self.resource(SCENE_COUNT_4)->get<INT_T>();
+        self.resource(SCENE_COUNT_4)->set(sceneCount + 1);
         std::cout << "[ZigbeeGroup] Scene stored successfully" << std::endl;
     }
 
@@ -486,7 +474,7 @@ void ZigbeeGroup::updateMemberList() {
     std::cout << "[ZigbeeGroup] Updating member list" << std::endl;
 
     // Update member count
-    item(MEMBER_COUNT_3).set((INT_T)memberDevices_.size());
+    resource(MEMBER_COUNT_3)->set<INT_T>((INT_T)memberDevices_.size());
 
     // Build member devices string for resource
     // Note: In a real implementation, this would populate the multiple-instance resource
@@ -505,14 +493,14 @@ void ZigbeeGroup::updateMemberList() {
 
 bool ZigbeeGroup::sendGroupCommand(uint16_t clusterId, uint8_t commandId,
                                     const std::vector<uint8_t>& payload) {
-    uint16_t groupId = static_cast<uint16_t>(item(GROUP_ID_0).toInt());
+    uint16_t groupId = static_cast<uint16_t>(resource(GROUP_ID_0)->get<INT_T>());
 
     std::cout << "[ZigbeeGroup] Sending group command - Group:0x" << std::hex << groupId
               << " Cluster:0x" << clusterId
               << " Cmd:0x" << static_cast<int>(commandId) << std::endl;
 
     // Try zigbee2mqtt MQTT interface first (most common deployment)
-    std::string groupName = item(GROUP_NAME_1).toString();
+    std::string groupName = resource(GROUP_NAME_1)->get<STRING_T>();
 
     // Build MQTT payload based on cluster and command
     std::string mqttPayload;

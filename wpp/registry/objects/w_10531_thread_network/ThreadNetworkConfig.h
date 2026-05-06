@@ -7,7 +7,7 @@
 #define WPP_W_10531_THREAD_NETWORK_CONFIG_H
 
 // Object ID for Thread Network
-#define THREAD_NETWORK_OBJECT_ID 34617
+#define THREAD_NETWORK_OBJECT_ID (wpp::OBJ_ID)10531
 
 // Thread network constraints
 #define THREAD_CHANNEL_MIN 11

@@ -8,6 +8,9 @@
 
 #ifdef OBJ_W_10536_ROUTING_TABLE
 
+// Object ID
+#define ROUTING_TABLE_OBJECT_ID (wpp::OBJ_ID)10536
+
 // Resource enable/disable flags
 // All resources are enabled by default
 

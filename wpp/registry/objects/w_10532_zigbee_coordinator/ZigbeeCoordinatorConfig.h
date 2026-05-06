@@ -8,6 +8,9 @@
 
 #ifdef OBJ_W_10532_ZIGBEE_COORDINATOR
 
+// Object ID
+#define ZIGBEE_COORDINATOR_OBJECT_ID (wpp::OBJ_ID)10532
+
 // Resource enable/disable flags
 // All resources are enabled by default
 

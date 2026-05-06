@@ -1,4 +1,4 @@
-wpp_check_definition("OBJ_W_34616_MATTER_DEVICE" is_defined)
+wpp_check_definition("OBJ_W_10530_MATTER_DEVICE" is_defined)
 if(is_defined)
     set(WPP_SOURCES ${WPP_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/MatterDevice.cpp)
     set(WPP_SOURCES ${WPP_SOURCES} PARENT_SCOPE)

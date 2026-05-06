@@ -24,28 +24,24 @@ using namespace wpp;
 
 /* Static object methods */
 Object& WifiChannelOptimization::object(WppClient& ctx) {
-    return ctx.registry().wifiChannelOptimization();
+    return client.registry().getObject(WIFI_CHANNEL_OPTIMIZATION_OBJECT_ID);
 }
 
-WifiChannelOptimization* WifiChannelOptimization::createInst(WppClient& ctx, ID_T instId) {
-    Instance *inst = ctx.registry().wifiChannelOptimization().createInstance(instId);
-    if (!inst) return NULL;
-    return static_cast<WifiChannelOptimization*>(inst);
+Instance* WifiChannelOptimization::createInst(WppClient& ctx, ID_T instId) {
+    return object(client).createInstance(instId);
 }
 
-WifiChannelOptimization* WifiChannelOptimization::instance(WppClient& ctx, ID_T instId) {
-    Instance *inst = ctx.registry().wifiChannelOptimization().instance(instId);
-    if (!inst) return NULL;
-    return static_cast<WifiChannelOptimization*>(inst);
+Instance* WifiChannelOptimization::instance(WppClient& ctx, ID_T instId) {
+    return object(client).instance(instId);
 }
 
 bool WifiChannelOptimization::removeInst(WppClient& ctx, ID_T instId) {
-    return ctx.registry().wifiChannelOptimization().remove(instId);
+    return object(client).remove(instId);
 }
 
 /* Instance lifecycle */
-WifiChannelOptimization::WifiChannelOptimization(lwm2m_context_t& context, const OBJ_LINK_T& id)
-    : Instance(context, id) {
+WifiChannelOptimization::WifiChannelOptimization(Object& object, ID_T instId)
+    : Instance(object, instId) {
     WPP_LOGD(TAG, "WifiChannelOptimization instance %d created", instId);
 }
 
@@ -53,47 +49,11 @@ WifiChannelOptimization::~WifiChannelOptimization() {
     WPP_LOGD(TAG, "WifiChannelOptimization instance %d destroyed", instId());
 }
 
-void WifiChannelOptimization::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
-    operationNotify(*this, resLink, type);
-}
-
-void WifiChannelOptimization::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
-    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
-}
-
 /* Initialize resources */
-void WifiChannelOptimization::resourcesCreate() {
-    std::vector<Resource> resources = {
-        {INTERFACE_0,          ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
-        {CURRENT_CHANNEL_1,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
-        {CURRENT_WIDTH_2,      ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
-        {AUTO_CHANNEL_3,       ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
-        {SCAN_INTERVAL_4,      ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {NEIGHBORING_APS_5,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {CHANNEL_UTILIZATION_6, ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {NOISE_FLOOR_7,        ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {INTERFERENCE_LEVEL_8, ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {DFS_ENABLED_9,        ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
-        {DFS_STATE_10,         ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
-        {RADAR_DETECTED_11,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
-        {BEST_2G_CHANNEL_12,   ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {BEST_5G_CHANNEL_13,   ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {BEST_6G_CHANNEL_14,   ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
-        {CHANNEL_SURVEY_15,    ItemOp(ItemOp::READ), IS_SINGLE::MULTIPLE, IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
-        {LAST_SCAN_TIME_16,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::TIME},
-        {LAST_OPTIMIZATION_17, ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::TIME},
-        {SCAN_NOW_18,          ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
-        {OPTIMIZE_CHANNEL_19,  ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
-        {SET_CHANNEL_20,       ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
-        {ENABLE_DFS_21,        ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
-    };
-    setupResources(std::move(resources));
-}
+bool WifiChannelOptimization::initResources(ItemOp *itemOp) {
+    WPP_LOGD(TAG, "Initializing WifiChannelOptimization resources for instance %d", instId());
 
-/* Initialize resource values */
-void WifiChannelOptimization::resourcesInit() {
-    WPP_LOGD(TAG, "Initializing WifiChannelOptimization resource values");
-
+    // Default values
     resource(INTERFACE_0)->set<STRING_T>("radio0");
     resource(CURRENT_CHANNEL_1)->set<INT_T>(0);
     resource(CURRENT_WIDTH_2)->set<INT_T>(20);
@@ -101,7 +61,7 @@ void WifiChannelOptimization::resourcesInit() {
     resource(SCAN_INTERVAL_4)->set<INT_T>(3600);  // 1 hour default
     resource(NEIGHBORING_APS_5)->set<INT_T>(0);
     resource(CHANNEL_UTILIZATION_6)->set<INT_T>(0);
-    resource(NOISE_FLOOR_7)->set<INT_T>( -95);
+    set<INT_T>(NOISE_FLOOR_7, -95);
     resource(INTERFERENCE_LEVEL_8)->set<INT_T>(0);
     resource(DFS_ENABLED_9)->set<BOOL_T>(false);
     resource(DFS_STATE_10)->set<STRING_T>("Available");
@@ -113,24 +73,41 @@ void WifiChannelOptimization::resourcesInit() {
     resource(LAST_OPTIMIZATION_17)->set<TIME_T>(0);
 
     // Set execute handlers
-    resource(SCAN_NOW_18)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return WifiChannelOptimization::scanNow(inst, resId, data);
-    });
-    resource(OPTIMIZE_CHANNEL_19)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return WifiChannelOptimization::optimizeChannel(inst, resId, data);
-    });
-    resource(SET_CHANNEL_20)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return WifiChannelOptimization::setChannel(inst, resId, data);
-    });
-    resource(ENABLE_DFS_21)->set<EXECUTE_T>([](Instance& inst, ID_T resId, const OPAQUE_T& data) {
-        return WifiChannelOptimization::enableDFS(inst, resId, data);
-    });
+    setExecute(SCAN_NOW_18, scanNow);
+    setExecute(OPTIMIZE_CHANNEL_19, optimizeChannel);
+    setExecute(SET_CHANNEL_20, setChannel);
+    setExecute(ENABLE_DFS_21, enableDFS);
 
+#ifdef OPENWRT_BUILD
+    // Load current wireless state
     loadCurrentState();
+#endif
+
+    return true;
 }
 
-
-
+/* Validation */
+bool WifiChannelOptimization::validate(ID_T resId, const void *data, size_t size) {
+    switch (resId) {
+        case INTERFACE_0: {
+            const STRING_T& iface = *(const STRING_T*)data;
+            if (iface.empty()) {
+                WPP_LOGE(TAG, "Interface name cannot be empty");
+                return false;
+            }
+            break;
+        }
+        case SCAN_INTERVAL_4: {
+            INT_T interval = *(const INT_T*)data;
+            if (interval < 60 || interval > 86400) {  // 1 minute to 24 hours
+                WPP_LOGE(TAG, "Invalid scan interval: %lld (must be 60-86400 seconds)", interval);
+                return false;
+            }
+            break;
+        }
+    }
+    return true;
+}
 
 /* Execute handler: Scan Now */
 bool WifiChannelOptimization::scanNow(Instance& inst, ID_T resId, const OPAQUE_T& data) {
@@ -149,7 +126,7 @@ bool WifiChannelOptimization::scanNow(Instance& inst, ID_T resId, const OPAQUE_T
         return false;
     }
 
-    wifi.resource(LAST_SCAN_TIME_16)->set<TIME_T>( time(nullptr));
+    wifi.set<TIME_T>(LAST_SCAN_TIME_16, time(nullptr));
     WPP_LOGI(TAG, "Channel scan completed successfully");
     return true;
 #else
@@ -208,11 +185,11 @@ bool WifiChannelOptimization::optimizeChannel(Instance& inst, ID_T resId, const 
     for (const auto& score : scores) {
         int band = wifi.getBandFromChannel(score.channel);
         if (band == 2 && wifi.resource(BEST_2G_CHANNEL_12)->get<INT_T>() == wifi.resource(CURRENT_CHANNEL_1)->get<INT_T>()) {
-            wifi.resource(BEST_2G_CHANNEL_12)->set<INT_T>( score.channel);
+            wifi.set<INT_T>(BEST_2G_CHANNEL_12, score.channel);
         } else if (band == 5 && wifi.resource(BEST_5G_CHANNEL_13)->get<INT_T>() == wifi.resource(CURRENT_CHANNEL_1)->get<INT_T>()) {
-            wifi.resource(BEST_5G_CHANNEL_13)->set<INT_T>( score.channel);
+            wifi.set<INT_T>(BEST_5G_CHANNEL_13, score.channel);
         } else if (band == 6 && wifi.resource(BEST_6G_CHANNEL_14)->get<INT_T>() == wifi.resource(CURRENT_CHANNEL_1)->get<INT_T>()) {
-            wifi.resource(BEST_6G_CHANNEL_14)->set<INT_T>( score.channel);
+            wifi.set<INT_T>(BEST_6G_CHANNEL_14, score.channel);
         }
     }
 
@@ -230,7 +207,7 @@ bool WifiChannelOptimization::optimizeChannel(Instance& inst, ID_T resId, const 
         wifi.updateChannelHistory(bestChannel.channel, bestChannel.score);
     }
 
-    wifi.resource(LAST_OPTIMIZATION_17)->set<TIME_T>( time(nullptr));
+    wifi.set<TIME_T>(LAST_OPTIMIZATION_17, time(nullptr));
     WPP_LOGI(TAG, "Channel optimization completed successfully");
     return true;
 #else
@@ -350,7 +327,7 @@ bool WifiChannelOptimization::performChannelScan() {
         }
     }
 
-    resource(NEIGHBORING_APS_5)->set<INT_T>( neighborCount);
+    set<INT_T>(NEIGHBORING_APS_5, neighborCount);
 
     // Detect channel-specific neighbors
     int currentChannel = resource(CURRENT_CHANNEL_1)->get<INT_T>();
@@ -442,9 +419,9 @@ bool WifiChannelOptimization::performChannelSurvey() {
     int noiseFloor = measureNoiseFloor();
     int interference = calculateInterferenceLevel();
 
-    resource(CHANNEL_UTILIZATION_6)->set<INT_T>( utilization);
-    resource(NOISE_FLOOR_7)->set<INT_T>( noiseFloor);
-    resource(INTERFERENCE_LEVEL_8)->set<INT_T>( interference);
+    set<INT_T>(CHANNEL_UTILIZATION_6, utilization);
+    set<INT_T>(NOISE_FLOOR_7, noiseFloor);
+    set<INT_T>(INTERFERENCE_LEVEL_8, interference);
 
     WPP_LOGD(TAG, "Channel survey completed: utilization=%d%%, noise=%ddBm, interference=%d",
              utilization, noiseFloor, interference);
@@ -469,7 +446,7 @@ bool WifiChannelOptimization::loadCurrentState() {
 
     if (!channelStr.empty() && channelStr != "auto") {
         int channel = std::stoi(channelStr);
-        resource(CURRENT_CHANNEL_1)->set<INT_T>( channel);
+        set<INT_T>(CURRENT_CHANNEL_1, channel);
     } else {
         resource(AUTO_CHANNEL_3)->set<BOOL_T>(true);
     }
@@ -487,13 +464,13 @@ bool WifiChannelOptimization::loadCurrentState() {
     } else if (htmode.find("VHT160") != std::string::npos || htmode.find("HE160") != std::string::npos) {
         width = 160;
     }
-    resource(CURRENT_WIDTH_2)->set<INT_T>( width);
+    set<INT_T>(CURRENT_WIDTH_2, width);
 
     // Check DFS status
     cmd.str("");
     cmd << "uci get wireless." << iface << ".dfs 2>/dev/null";
     std::string dfsStr = executeCommand(cmd.str());
-    resource(DFS_ENABLED_9)->set<BOOL_T>( dfsStr == "1");
+    set<BOOL_T>(DFS_ENABLED_9, dfsStr == "1");
 
     // Get interface info
     getInterfaceInfo();
@@ -522,8 +499,8 @@ bool WifiChannelOptimization::applyChannelChange(int channel, int width) {
         return false;
     }
 
-    resource(CURRENT_CHANNEL_1)->set<INT_T>( channel);
-    resource(CURRENT_WIDTH_2)->set<INT_T>( width);
+    set<INT_T>(CURRENT_CHANNEL_1, channel);
+    set<INT_T>(CURRENT_WIDTH_2, width);
 
     return true;
 #else
@@ -558,12 +535,7 @@ WifiChannelOptimization::ChannelScore WifiChannelOptimization::scoreChannel(int 
 
     // Get survey data for this channel
     std::vector<STRING_T> surveyData;
-    auto* res = resource(CHANNEL_SURVEY_15);
-    if (res && res->isMultiple()) {
-        for (ID_T instId : res->instIds()) {
-            surveyData.push_back(res->get<STRING_T>(instId));
-        }
-    }
+    getMultiple(CHANNEL_SURVEY_15, surveyData);
 
     score.utilization = 0;
     score.noiseFloor = -95;
@@ -830,7 +802,7 @@ bool WifiChannelOptimization::checkRadarDetection() {
     std::string logCheck = executeCommand("logread | grep -i \"radar detected\" | tail -1");
 
     bool radarDetected = !logCheck.empty();
-    resource(RADAR_DETECTED_11)->set<BOOL_T>( radarDetected);
+    set<BOOL_T>(RADAR_DETECTED_11, radarDetected);
 
     if (radarDetected) {
         WPP_LOGW(TAG, "Radar detected on current channel");
@@ -866,7 +838,7 @@ bool WifiChannelOptimization::getInterfaceInfo() {
     std::smatch match;
     if (std::regex_search(info, match, channelRegex)) {
         int channel = std::stoi(match[1].str());
-        resource(CURRENT_CHANNEL_1)->set<INT_T>( channel);
+        set<INT_T>(CURRENT_CHANNEL_1, channel);
     }
 
     return true;

@@ -7,7 +7,6 @@
 #include "WppClient.h"
 #include "WppRegistry.h"
 #include "WppLogs.h"
-#include "Lwm2mObjectBase.h"
 
 #ifdef OBJ_W_10536_ROUTING_TABLE
 
@@ -25,53 +24,173 @@
 using namespace wpp;
 
 /* Static object methods */
-Object& RoutingTable::object(WppClient& client) {
-    return client.registry().getObject(ROUTING_TABLE_OBJECT_ID);
+Object& RoutingTable::object(WppClient& ctx) {
+    return ctx.registry().routingTable();
 }
 
-Instance* RoutingTable::createInst(WppClient& client, INST_T instId) {
-    return object(client).createInstance(instId);
+RoutingTable* RoutingTable::createInst(WppClient& ctx, ID_T instId) {
+    Instance *inst = ctx.registry().routingTable().createInstance(instId);
+    if (!inst) return NULL;
+    return static_cast<RoutingTable*>(inst);
 }
 
-Instance* RoutingTable::instance(WppClient& client, INST_T instId) {
-    return object(client).instance(instId);
+RoutingTable* RoutingTable::instance(WppClient& ctx, ID_T instId) {
+    Instance *inst = ctx.registry().routingTable().instance(instId);
+    if (!inst) return NULL;
+    return static_cast<RoutingTable*>(inst);
 }
 
-bool RoutingTable::remove(WppClient& client, INST_T instId) {
-    return object(client).remove(instId);
+bool RoutingTable::removeInst(WppClient& ctx, ID_T instId) {
+    return ctx.registry().routingTable().remove(instId);
 }
 
 /* Instance lifecycle */
-RoutingTable::RoutingTable(Object& object, INST_T instId)
-    : Instance(object, instId) {
-    WPP_LOGD(TAG, "RoutingTable instance %d created", instId);
+RoutingTable::RoutingTable(lwm2m_context_t& context, const OBJ_LINK_T& id)
+    : Instance(context, id) {
+
+    resourcesCreate();
+    resourcesInit();
+
+    WPP_LOGD(TAG, "RoutingTable instance created");
 }
 
 RoutingTable::~RoutingTable() {
-    WPP_LOGD(TAG, "RoutingTable instance %d destroyed", instId());
+    WPP_LOGD(TAG, "RoutingTable instance destroyed");
 }
 
-/* Initialize resources */
-bool RoutingTable::initResources(ItemOp *itemOp) {
-    WPP_LOGD(TAG, "Initializing RoutingTable resources for instance %d", instId());
+void RoutingTable::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
+    operationNotify(*this, resLink, type);
+}
+
+void RoutingTable::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
+    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
+}
+
+/* Create resource metadata */
+void RoutingTable::resourcesCreate() {
+    // Set execute handlers
+    resource(ADD_ROUTE_10)->set<EXECUTE_T>(addRoute);
+    resource(DELETE_ROUTE_11)->set<EXECUTE_T>(deleteRoute);
+    resource(FLUSH_ROUTES_12)->set<EXECUTE_T>(flushRoutes);
+    resource(RELOAD_ROUTES_13)->set<EXECUTE_T>(reloadRoutes);
+
+    // Set data validators
+    resource(DESTINATION_0)->setDataVerifier((VERIFY_STRING_T)[](const STRING_T& dest) {
+        // Validate IP or CIDR notation
+        if (dest.find('/') != std::string::npos) {
+            // Validate CIDR
+            size_t pos = dest.find('/');
+            std::string ip = dest.substr(0, pos);
+            std::string prefixStr = dest.substr(pos + 1);
+
+            struct sockaddr_in sa4;
+            struct sockaddr_in6 sa6;
+            bool isValidIP = (inet_pton(AF_INET, ip.c_str(), &(sa4.sin_addr)) == 1) ||
+                            (inet_pton(AF_INET6, ip.c_str(), &(sa6.sin6_addr)) == 1);
+
+            if (!isValidIP) {
+                WPP_LOGE(TAG, "Invalid IP in CIDR notation: %s", dest.c_str());
+                return false;
+            }
+
+            try {
+                int prefix = std::stoi(prefixStr);
+                if (ip.find(':') != std::string::npos) {
+                    if (prefix < 0 || prefix > 128) {
+                        WPP_LOGE(TAG, "Invalid IPv6 prefix: %d", prefix);
+                        return false;
+                    }
+                } else {
+                    if (prefix < 0 || prefix > 32) {
+                        WPP_LOGE(TAG, "Invalid IPv4 prefix: %d", prefix);
+                        return false;
+                    }
+                }
+            } catch (...) {
+                WPP_LOGE(TAG, "Invalid CIDR notation: %s", dest.c_str());
+                return false;
+            }
+        } else {
+            struct sockaddr_in sa4;
+            struct sockaddr_in6 sa6;
+            if (inet_pton(AF_INET, dest.c_str(), &(sa4.sin_addr)) != 1 &&
+                inet_pton(AF_INET6, dest.c_str(), &(sa6.sin6_addr)) != 1) {
+                WPP_LOGE(TAG, "Invalid destination IP: %s", dest.c_str());
+                return false;
+            }
+        }
+        return true;
+    });
+
+    resource(NETMASK_1)->setDataVerifier((VERIFY_STRING_T)[](const STRING_T& mask) {
+        if (!mask.empty()) {
+            struct sockaddr_in sa;
+            if (inet_pton(AF_INET, mask.c_str(), &(sa.sin_addr)) != 1) {
+                WPP_LOGE(TAG, "Invalid netmask: %s", mask.c_str());
+                return false;
+            }
+        }
+        return true;
+    });
+
+    resource(GATEWAY_2)->setDataVerifier((VERIFY_STRING_T)[](const STRING_T& gw) {
+        if (!gw.empty()) {
+            struct sockaddr_in sa4;
+            struct sockaddr_in6 sa6;
+            if (inet_pton(AF_INET, gw.c_str(), &(sa4.sin_addr)) != 1 &&
+                inet_pton(AF_INET6, gw.c_str(), &(sa6.sin6_addr)) != 1) {
+                WPP_LOGE(TAG, "Invalid gateway IP: %s", gw.c_str());
+                return false;
+            }
+        }
+        return true;
+    });
+
+    resource(INTERFACE_3)->setDataVerifier((VERIFY_STRING_T)[](const STRING_T& iface) {
+        if (iface.empty() || iface.length() > 16) {
+            WPP_LOGE(TAG, "Invalid interface: %s", iface.c_str());
+            return false;
+        }
+        std::regex ifaceRegex("^[a-zA-Z0-9._-]+$");
+        if (!std::regex_match(iface, ifaceRegex)) {
+            WPP_LOGE(TAG, "Invalid interface name: %s", iface.c_str());
+            return false;
+        }
+        return true;
+    });
+
+    resource(METRIC_4)->setDataVerifier((VERIFY_INT_T)[](const INT_T& metric) {
+        if (metric < 0 || metric > 65535) {
+            WPP_LOGE(TAG, "Invalid metric: %lld (must be 0-65535)", metric);
+            return false;
+        }
+        return true;
+    });
+
+    resource(MTU_9)->setDataVerifier((VERIFY_INT_T)[](const INT_T& mtu) {
+        if (mtu < 68 || mtu > 65535) {
+            WPP_LOGE(TAG, "Invalid MTU: %lld (must be 68-65535)", mtu);
+            return false;
+        }
+        return true;
+    });
+}
+
+/* Initialize resource values */
+void RoutingTable::resourcesInit() {
+    WPP_LOGD(TAG, "Initializing RoutingTable resource values");
 
     // Default routing values
-    set<STRING_T>(DESTINATION_0, "0.0.0.0/0");  // Default route
-    set<STRING_T>(NETMASK_1, "0.0.0.0");
-    set<STRING_T>(GATEWAY_2, "192.168.1.1");
-    set<STRING_T>(INTERFACE_3, "eth0");
-    set<INT_T>(METRIC_4, 100);
-    set<INT_T>(PROTOCOL_5, PROTO_STATIC);
-    set<INT_T>(STATE_6, STATE_DOWN);
-    set<INT_T>(TABLE_7, TABLE_MAIN);
-    set<INT_T>(SCOPE_8, SCOPE_GLOBAL);
-    set<INT_T>(MTU_9, 1500);
-
-    // Set execute handlers
-    setExecute(ADD_ROUTE_10, addRoute);
-    setExecute(DELETE_ROUTE_11, deleteRoute);
-    setExecute(FLUSH_ROUTES_12, flushRoutes);
-    setExecute(RELOAD_ROUTES_13, reloadRoutes);
+    resource(DESTINATION_0)->set<STRING_T>("0.0.0.0/0");  // Default route
+    resource(NETMASK_1)->set<STRING_T>("0.0.0.0");
+    resource(GATEWAY_2)->set<STRING_T>("192.168.1.1");
+    resource(INTERFACE_3)->set<STRING_T>("eth0");
+    resource(METRIC_4)->set<INT_T>(100);
+    resource(PROTOCOL_5)->set<INT_T>(PROTO_STATIC);
+    resource(STATE_6)->set<INT_T>(STATE_DOWN);
+    resource(TABLE_7)->set<INT_T>(TABLE_MAIN);
+    resource(SCOPE_8)->set<INT_T>(SCOPE_GLOBAL);
+    resource(MTU_9)->set<INT_T>(1500);
 
 #ifdef OPENWRT_BUILD
     // Load existing routes from kernel
@@ -79,78 +198,13 @@ bool RoutingTable::initResources(ItemOp *itemOp) {
     // Load persistent routes from UCI
     loadFromUCI();
 #endif
-
-    return true;
-}
-
-/* Validation */
-bool RoutingTable::validate(ID_T resId, const void *data, size_t size) {
-    switch (resId) {
-        case DESTINATION_0: {
-            const STRING_T& dest = *(const STRING_T*)data;
-            // Validate IP or CIDR notation
-            if (dest.find('/') != std::string::npos) {
-                if (!isValidCIDR(dest)) {
-                    WPP_LOGE(TAG, "Invalid CIDR notation: %s", dest.c_str());
-                    return false;
-                }
-            } else {
-                if (!isValidIPv4(dest) && !isValidIPv6(dest)) {
-                    WPP_LOGE(TAG, "Invalid destination IP: %s", dest.c_str());
-                    return false;
-                }
-            }
-            break;
-        }
-        case NETMASK_1: {
-            const STRING_T& mask = *(const STRING_T*)data;
-            if (!mask.empty() && !isValidIPv4(mask)) {
-                WPP_LOGE(TAG, "Invalid netmask: %s", mask.c_str());
-                return false;
-            }
-            break;
-        }
-        case GATEWAY_2: {
-            const STRING_T& gw = *(const STRING_T*)data;
-            if (!gw.empty() && !isValidIPv4(gw) && !isValidIPv6(gw)) {
-                WPP_LOGE(TAG, "Invalid gateway IP: %s", gw.c_str());
-                return false;
-            }
-            break;
-        }
-        case INTERFACE_3: {
-            const STRING_T& iface = *(const STRING_T*)data;
-            if (!isValidInterface(iface)) {
-                WPP_LOGE(TAG, "Invalid interface: %s", iface.c_str());
-                return false;
-            }
-            break;
-        }
-        case METRIC_4: {
-            INT_T metric = *(const INT_T*)data;
-            if (metric < 0 || metric > 65535) {
-                WPP_LOGE(TAG, "Invalid metric: %lld (must be 0-65535)", metric);
-                return false;
-            }
-            break;
-        }
-        case MTU_9: {
-            INT_T mtu = *(const INT_T*)data;
-            if (mtu < 68 || mtu > 65535) {
-                WPP_LOGE(TAG, "Invalid MTU: %lld (must be 68-65535)", mtu);
-                return false;
-            }
-            break;
-        }
-    }
-    return true;
 }
 
 /* Execute handler: Add Route */
 bool RoutingTable::addRoute(Instance& inst, ID_T resId, const OPAQUE_T& data) {
     RoutingTable& rt = static_cast<RoutingTable&>(inst);
 
-    WPP_LOGI(TAG, "Adding route for instance %d", rt.instId());
+    WPP_LOGI(TAG, "Adding route for instance %d", rt.getInstanceID());
 
 #ifdef OPENWRT_BUILD
     if (!rt.applyRoute()) {
@@ -163,7 +217,7 @@ bool RoutingTable::addRoute(Instance& inst, ID_T resId, const OPAQUE_T& data) {
         WPP_LOGW(TAG, "Route added but failed to save to UCI");
     }
 
-    rt.set<INT_T>(STATE_6, STATE_UP);
+    rt.resource(STATE_6)->set<INT_T>(STATE_UP);
     WPP_LOGI(TAG, "Route added successfully");
     return true;
 #else
@@ -176,7 +230,7 @@ bool RoutingTable::addRoute(Instance& inst, ID_T resId, const OPAQUE_T& data) {
 bool RoutingTable::deleteRoute(Instance& inst, ID_T resId, const OPAQUE_T& data) {
     RoutingTable& rt = static_cast<RoutingTable&>(inst);
 
-    WPP_LOGI(TAG, "Deleting route for instance %d", rt.instId());
+    WPP_LOGI(TAG, "Deleting route for instance %d", rt.getInstanceID());
 
 #ifdef OPENWRT_BUILD
     if (!rt.removeRoute()) {
@@ -184,7 +238,7 @@ bool RoutingTable::deleteRoute(Instance& inst, ID_T resId, const OPAQUE_T& data)
         return false;
     }
 
-    rt.set<INT_T>(STATE_6, STATE_DOWN);
+    rt.resource(STATE_6)->set<INT_T>(STATE_DOWN);
     WPP_LOGI(TAG, "Route deleted successfully");
     return true;
 #else
@@ -197,10 +251,10 @@ bool RoutingTable::deleteRoute(Instance& inst, ID_T resId, const OPAQUE_T& data)
 bool RoutingTable::flushRoutes(Instance& inst, ID_T resId, const OPAQUE_T& data) {
     RoutingTable& rt = static_cast<RoutingTable&>(inst);
 
-    WPP_LOGI(TAG, "Flushing routes for instance %d", rt.instId());
+    WPP_LOGI(TAG, "Flushing routes for instance %d", rt.getInstanceID());
 
 #ifdef OPENWRT_BUILD
-    INT_T tableId = rt.get<INT_T>(TABLE_7);
+    INT_T tableId = rt.resource(TABLE_7)->get<INT_T>();
 
     std::stringstream cmd;
     cmd << "ip route flush table " << tableId << " 2>&1";
@@ -225,7 +279,7 @@ bool RoutingTable::flushRoutes(Instance& inst, ID_T resId, const OPAQUE_T& data)
 bool RoutingTable::reloadRoutes(Instance& inst, ID_T resId, const OPAQUE_T& data) {
     RoutingTable& rt = static_cast<RoutingTable&>(inst);
 
-    WPP_LOGI(TAG, "Reloading routes for instance %d", rt.instId());
+    WPP_LOGI(TAG, "Reloading routes for instance %d", rt.getInstanceID());
 
 #ifdef OPENWRT_BUILD
     // Reload from kernel routing table
@@ -271,29 +325,29 @@ bool RoutingTable::loadFromKernel() {
             std::string metricStr = match[4].str();
 
             if (!dest.empty()) {
-                set<STRING_T>(DESTINATION_0, dest);
+                resource(DESTINATION_0)->set<STRING_T>(dest);
 
                 // Parse CIDR if present
                 if (dest.find('/') != std::string::npos) {
                     size_t pos = dest.find('/');
                     int prefix = std::stoi(dest.substr(pos + 1));
-                    set<STRING_T>(NETMASK_1, cidrToNetmask(prefix));
+                    resource(NETMASK_1)->set<STRING_T>(cidrToNetmask(prefix));
                 }
             }
 
             if (!gateway.empty()) {
-                set<STRING_T>(GATEWAY_2, gateway);
+                resource(GATEWAY_2)->set<STRING_T>(gateway);
             }
 
             if (!iface.empty()) {
-                set<STRING_T>(INTERFACE_3, iface);
+                resource(INTERFACE_3)->set<STRING_T>(iface);
             }
 
             if (!metricStr.empty()) {
-                set<INT_T>(METRIC_4, std::stoll(metricStr));
+                resource(METRIC_4)->set<INT_T>(std::stoll(metricStr));
             }
 
-            set<INT_T>(STATE_6, STATE_UP);
+            resource(STATE_6)->set<INT_T>(STATE_UP);
         }
     }
 
@@ -331,10 +385,10 @@ bool RoutingTable::saveToUCI() {
 #ifdef OPENWRT_BUILD
     WPP_LOGD(TAG, "Saving route to UCI");
 
-    std::string dest = get<STRING_T>(DESTINATION_0);
-    std::string gateway = get<STRING_T>(GATEWAY_2);
-    std::string iface = get<STRING_T>(INTERFACE_3);
-    INT_T metric = get<INT_T>(METRIC_4);
+    std::string dest = resource(DESTINATION_0)->get<STRING_T>();
+    std::string gateway = resource(GATEWAY_2)->get<STRING_T>();
+    std::string iface = resource(INTERFACE_3)->get<STRING_T>();
+    INT_T metric = resource(METRIC_4)->get<INT_T>();
 
     // Create a new UCI route section
     std::stringstream cmd;
@@ -362,12 +416,12 @@ bool RoutingTable::saveToUCI() {
 /* Apply route to kernel routing table */
 bool RoutingTable::applyRoute() {
 #ifdef OPENWRT_BUILD
-    std::string dest = get<STRING_T>(DESTINATION_0);
-    std::string gateway = get<STRING_T>(GATEWAY_2);
-    std::string iface = get<STRING_T>(INTERFACE_3);
-    INT_T metric = get<INT_T>(METRIC_4);
-    INT_T table = get<INT_T>(TABLE_7);
-    INT_T mtu = get<INT_T>(MTU_9);
+    std::string dest = resource(DESTINATION_0)->get<STRING_T>();
+    std::string gateway = resource(GATEWAY_2)->get<STRING_T>();
+    std::string iface = resource(INTERFACE_3)->get<STRING_T>();
+    INT_T metric = resource(METRIC_4)->get<INT_T>();
+    INT_T table = resource(TABLE_7)->get<INT_T>();
+    INT_T mtu = resource(MTU_9)->get<INT_T>();
 
     // Build ip route add command
     std::stringstream cmd;
@@ -418,8 +472,8 @@ bool RoutingTable::applyRoute() {
 /* Remove route from kernel routing table */
 bool RoutingTable::removeRoute() {
 #ifdef OPENWRT_BUILD
-    std::string dest = get<STRING_T>(DESTINATION_0);
-    INT_T table = get<INT_T>(TABLE_7);
+    std::string dest = resource(DESTINATION_0)->get<STRING_T>();
+    INT_T table = resource(TABLE_7)->get<INT_T>();
 
     // Build ip route del command
     std::stringstream cmd;
@@ -453,8 +507,8 @@ bool RoutingTable::removeRoute() {
 /* Check route state */
 RoutingTable::State RoutingTable::checkRouteState() {
 #ifdef OPENWRT_BUILD
-    std::string dest = get<STRING_T>(DESTINATION_0);
-    INT_T table = get<INT_T>(TABLE_7);
+    std::string dest = resource(DESTINATION_0)->get<STRING_T>();
+    INT_T table = resource(TABLE_7)->get<INT_T>();
 
     std::stringstream cmd;
     cmd << "ip route show " << dest << " table " << table << " 2>/dev/null";

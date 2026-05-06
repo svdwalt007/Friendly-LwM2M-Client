@@ -6,7 +6,7 @@
 #ifndef WPP_FIREWALL_CONFIG_INFO_H
 #define WPP_FIREWALL_CONFIG_INFO_H
 
-#include "Lwm2mObjectBase.h"
+#include "ObjectInfo.h"
 
 #ifdef OBJ_W_10521_FIREWALL_CONFIG
 

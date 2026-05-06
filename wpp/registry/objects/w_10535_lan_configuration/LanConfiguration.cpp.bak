@@ -23,137 +23,49 @@ using namespace wpp;
 
 /* Static object methods */
 Object& LanConfiguration::object(WppClient& ctx) {
-    return ctx.registry().lanConfiguration();
+    return client.registry().getObject(LAN_CONFIGURATION_OBJECT_ID);
 }
 
-LanConfiguration* LanConfiguration::createInst(WppClient& ctx, ID_T instId) {
-    Instance *inst = ctx.registry().lanConfiguration().createInstance(instId);
-    if (!inst) return NULL;
-    return static_cast<LanConfiguration*>(inst);
+Instance* LanConfiguration::createInst(WppClient& ctx, ID_T instId) {
+    return object(client).createInstance(instId);
 }
 
-LanConfiguration* LanConfiguration::instance(WppClient& ctx, ID_T instId) {
-    Instance *inst = ctx.registry().lanConfiguration().instance(instId);
-    if (!inst) return NULL;
-    return static_cast<LanConfiguration*>(inst);
+Instance* LanConfiguration::instance(WppClient& ctx, ID_T instId) {
+    return object(client).instance(instId);
 }
 
 bool LanConfiguration::removeInst(WppClient& ctx, ID_T instId) {
-    return ctx.registry().lanConfiguration().remove(instId);
+    return object(client).remove(instId);
 }
 
 /* Instance lifecycle */
-LanConfiguration::LanConfiguration(lwm2m_context_t& context, const OBJ_LINK_T& id)
-    : Instance(context, id) {
-
-    resourcesCreate();
-    resourcesInit();
-
-    WPP_LOGD(TAG, "LanConfiguration instance created");
+LanConfiguration::LanConfiguration(Object& object, ID_T instId)
+    : Instance(object, instId) {
+    WPP_LOGD(TAG, "LanConfiguration instance %d created", instId);
 }
 
 LanConfiguration::~LanConfiguration() {
-    WPP_LOGD(TAG, "LanConfiguration instance destroyed");
+    WPP_LOGD(TAG, "LanConfiguration instance %d destroyed", instId());
 }
 
-void LanConfiguration::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
-    operationNotify(*this, resLink, type);
-}
-
-void LanConfiguration::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
-    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
-}
-
-/* Create resource metadata */
-void LanConfiguration::resourcesCreate() {
-    // Set execute handler
-    resource(APPLY_CONFIGURATION_11)->set<EXECUTE_T>(applyConfiguration);
-
-    // Set data validators
-    auto ipValidator = (VERIFY_STRING_T)[](const STRING_T& ip) {
-        if (ip.empty()) return true;
-        struct in_addr addr;
-        if (inet_pton(AF_INET, ip.c_str(), &addr) != 1) {
-            WPP_LOGE(TAG, "Invalid IPv4 address: %s", ip.c_str());
-            return false;
-        }
-        return true;
-    };
-
-    resource(LAN_IP_ADDRESS_0)->setDataVerifier(ipValidator);
-    resource(DHCP_POOL_START_3)->setDataVerifier(ipValidator);
-    resource(DHCP_POOL_END_4)->setDataVerifier(ipValidator);
-    resource(DNS_SERVER_PRIMARY_6)->setDataVerifier(ipValidator);
-    resource(DNS_SERVER_SECONDARY_7)->setDataVerifier(ipValidator);
-
-    resource(SUBNET_MASK_1)->setDataVerifier((VERIFY_STRING_T)[](const STRING_T& mask) {
-        if (mask.empty()) return true;
-        struct in_addr addr;
-        if (inet_pton(AF_INET, mask.c_str(), &addr) != 1) {
-            WPP_LOGE(TAG, "Invalid subnet mask: %s", mask.c_str());
-            return false;
-        }
-        // Verify it's a valid subnet mask (contiguous 1s followed by contiguous 0s)
-        uint32_t maskVal = ntohl(addr.s_addr);
-        if ((maskVal & (~maskVal >> 1)) != 0) {
-            WPP_LOGE(TAG, "Invalid subnet mask format: %s", mask.c_str());
-            return false;
-        }
-        return true;
-    });
-
-    resource(STATIC_LEASES_9)->setDataVerifier((VERIFY_STRING_T)[](const STRING_T& lease) {
-        if (lease.empty()) return true;
-        // Format: MAC:IP
-        size_t colonPos = lease.find(':');
-        if (colonPos == std::string::npos) {
-            WPP_LOGE(TAG, "Invalid static lease format (expected MAC:IP): %s", lease.c_str());
-            return false;
-        }
-        std::string mac = lease.substr(0, colonPos);
-        std::string ip = lease.substr(colonPos + 1);
-
-        // Validate MAC
-        std::regex macRegex("^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$");
-        if (!std::regex_match(mac, macRegex)) {
-            WPP_LOGE(TAG, "Invalid MAC address: %s", mac.c_str());
-            return false;
-        }
-
-        // Validate IP
-        struct in_addr addr;
-        if (inet_pton(AF_INET, ip.c_str(), &addr) != 1) {
-            WPP_LOGE(TAG, "Invalid IP address: %s", ip.c_str());
-            return false;
-        }
-
-        return true;
-    });
-
-    resource(DHCP_LEASE_TIME_5)->setDataVerifier((VERIFY_INT_T)[](const INT_T& leaseTime) {
-        if (leaseTime < 60 || leaseTime > 604800) {  // 1 minute to 7 days
-            WPP_LOGE(TAG, "Invalid DHCP lease time: %lld (must be 60-604800 seconds)", leaseTime);
-            return false;
-        }
-        return true;
-    });
-}
-
-/* Initialize resource values */
-void LanConfiguration::resourcesInit() {
-    WPP_LOGD(TAG, "Initializing LanConfiguration resource values");
+/* Initialize resources */
+bool LanConfiguration::initResources(ItemOp *itemOp) {
+    WPP_LOGD(TAG, "Initializing LanConfiguration resources for instance %d", instId());
 
     // Default LAN configuration values
-    resource(LAN_IP_ADDRESS_0)->set<STRING_T>("192.168.1.1");
-    resource(SUBNET_MASK_1)->set<STRING_T>("255.255.255.0");
-    resource(DHCP_ENABLED_2)->set<BOOL_T>(true);
-    resource(DHCP_POOL_START_3)->set<STRING_T>("192.168.1.100");
-    resource(DHCP_POOL_END_4)->set<STRING_T>("192.168.1.250");
-    resource(DHCP_LEASE_TIME_5)->set<INT_T>(43200);  // 12 hours in seconds
-    resource(DNS_SERVER_PRIMARY_6)->set<STRING_T>("8.8.8.8");
-    resource(DNS_SERVER_SECONDARY_7)->set<STRING_T>("8.8.4.4");
-    resource(DOMAIN_NAME_8)->set<STRING_T>("lan");
-    resource(CONFIGURATION_STATUS_12)->set<INT_T>(STATUS_PENDING);
+    set<STRING_T>(LAN_IP_ADDRESS_0, "192.168.1.1");
+    set<STRING_T>(SUBNET_MASK_1, "255.255.255.0");
+    set<BOOL_T>(DHCP_ENABLED_2, true);
+    set<STRING_T>(DHCP_POOL_START_3, "192.168.1.100");
+    set<STRING_T>(DHCP_POOL_END_4, "192.168.1.250");
+    set<INT_T>(DHCP_LEASE_TIME_5, 43200);  // 12 hours in seconds
+    set<STRING_T>(DNS_SERVER_PRIMARY_6, "8.8.8.8");
+    set<STRING_T>(DNS_SERVER_SECONDARY_7, "8.8.4.4");
+    set<STRING_T>(DOMAIN_NAME_8, "lan");
+    set<INT_T>(CONFIGURATION_STATUS_12, STATUS_PENDING);
+
+    // Set execute handler
+    setExecute(APPLY_CONFIGURATION_11, applyConfiguration);
 
 #ifdef OPENWRT_BUILD
     // Load existing configuration from UCI if available
@@ -161,34 +73,97 @@ void LanConfiguration::resourcesInit() {
     // Load active DHCP leases
     loadActiveLeases();
 #endif
+
+    return true;
+}
+
+/* Validation */
+bool LanConfiguration::validate(ID_T resId, const void *data, size_t size) {
+    switch (resId) {
+        case LAN_IP_ADDRESS_0:
+        case DHCP_POOL_START_3:
+        case DHCP_POOL_END_4:
+        case DNS_SERVER_PRIMARY_6:
+        case DNS_SERVER_SECONDARY_7: {
+            const STRING_T& ip = *(const STRING_T*)data;
+            if (!isValidIPv4(ip)) {
+                WPP_LOGE(TAG, "Invalid IPv4 address: %s", ip.c_str());
+                return false;
+            }
+            break;
+        }
+        case SUBNET_MASK_1: {
+            const STRING_T& mask = *(const STRING_T*)data;
+            if (!isValidIPv4(mask)) {
+                WPP_LOGE(TAG, "Invalid subnet mask: %s", mask.c_str());
+                return false;
+            }
+            // Verify it's a valid subnet mask
+            struct in_addr addr;
+            if (inet_pton(AF_INET, mask.c_str(), &addr) == 1) {
+                uint32_t maskVal = ntohl(addr.s_addr);
+                // Check if it's a valid subnet mask (contiguous 1s followed by contiguous 0s)
+                if ((maskVal & (~maskVal >> 1)) != 0) {
+                    WPP_LOGE(TAG, "Invalid subnet mask format: %s", mask.c_str());
+                    return false;
+                }
+            }
+            break;
+        }
+        case STATIC_LEASES_9: {
+            const STRING_T& lease = *(const STRING_T*)data;
+            // Format: MAC:IP
+            size_t colonPos = lease.find(':');
+            if (colonPos == std::string::npos) {
+                WPP_LOGE(TAG, "Invalid static lease format (expected MAC:IP): %s", lease.c_str());
+                return false;
+            }
+            std::string mac = lease.substr(0, colonPos);
+            std::string ip = lease.substr(colonPos + 1);
+            if (!isValidMAC(mac) || !isValidIPv4(ip)) {
+                WPP_LOGE(TAG, "Invalid MAC or IP in static lease: %s", lease.c_str());
+                return false;
+            }
+            break;
+        }
+        case DHCP_LEASE_TIME_5: {
+            INT_T leaseTime = *(const INT_T*)data;
+            if (leaseTime < 60 || leaseTime > 604800) {  // 1 minute to 7 days
+                WPP_LOGE(TAG, "Invalid DHCP lease time: %lld (must be 60-604800 seconds)", leaseTime);
+                return false;
+            }
+            break;
+        }
+    }
+    return true;
 }
 
 /* Execute handler: Apply Configuration */
 bool LanConfiguration::applyConfiguration(Instance& inst, ID_T resId, const OPAQUE_T& data) {
     LanConfiguration& lan = static_cast<LanConfiguration&>(inst);
 
-    WPP_LOGI(TAG, "Applying LAN configuration for instance %d", lan.getInstanceID());
+    WPP_LOGI(TAG, "Applying LAN configuration for instance %d", lan.instId());
 
     // Set status to pending
-    lan.resource(CONFIGURATION_STATUS_12)->set<INT_T>(STATUS_PENDING);
+    lan.set<INT_T>(CONFIGURATION_STATUS_12, STATUS_PENDING);
 
 #ifdef OPENWRT_BUILD
     // Save to UCI configuration
     if (!lan.saveToUCI()) {
         WPP_LOGE(TAG, "Failed to save LAN configuration to UCI");
-        lan.resource(CONFIGURATION_STATUS_12)->set<INT_T>(STATUS_ERROR);
+        lan.set<INT_T>(CONFIGURATION_STATUS_12, STATUS_ERROR);
         return false;
     }
 
     // Apply DHCP configuration
     if (!lan.applyDhcpConfig()) {
         WPP_LOGE(TAG, "Failed to apply DHCP configuration");
-        lan.resource(CONFIGURATION_STATUS_12)->set<INT_T>(STATUS_ERROR);
+        lan.set<INT_T>(CONFIGURATION_STATUS_12, STATUS_ERROR);
         return false;
     }
 
     // Set status to applied
-    lan.resource(CONFIGURATION_STATUS_12)->set<INT_T>(STATUS_APPLIED);
+    lan.set<INT_T>(CONFIGURATION_STATUS_12, STATUS_APPLIED);
     WPP_LOGI(TAG, "LAN configuration applied successfully");
 
     // Reload active leases after applying configuration
@@ -197,7 +172,7 @@ bool LanConfiguration::applyConfiguration(Instance& inst, ID_T resId, const OPAQ
     return true;
 #else
     WPP_LOGW(TAG, "OpenWRT build not enabled, cannot apply LAN configuration");
-    lan.resource(CONFIGURATION_STATUS_12)->set<INT_T>(STATUS_ERROR);
+    lan.set<INT_T>(CONFIGURATION_STATUS_12, STATUS_ERROR);
     return false;
 #endif
 }
@@ -267,7 +242,7 @@ bool LanConfiguration::loadFromUCI() {
             buffer[strcspn(buffer, "\n")] = 0;
             int limit = atoi(buffer);
             // Calculate end IP from start + limit
-            std::string startIp = resource(DHCP_POOL_START_3)->get<STRING_T>();
+            std::string startIp = get<STRING_T>(DHCP_POOL_START_3);
             struct in_addr addr;
             inet_pton(AF_INET, startIp.c_str(), &addr);
             addr.s_addr = htonl(ntohl(addr.s_addr) + limit - 1);
@@ -348,7 +323,7 @@ bool LanConfiguration::loadFromUCI() {
             set<BOOL_T>(DHCP_ENABLED_2, (buffer[0] != '1'));
         } else {
             // If ignore is not set, DHCP is enabled by default
-            resource(DHCP_ENABLED_2)->set<BOOL_T>(true);
+            set<BOOL_T>(DHCP_ENABLED_2, true);
         }
         pclose(pipe);
     }
@@ -371,13 +346,13 @@ bool LanConfiguration::saveToUCI() {
     // Set IP address
     cmd.str("");
     cmd << "uci set network." << ifname << ".ipaddr='"
-        << resource(LAN_IP_ADDRESS_0)->get<STRING_T>() << "'";
+        << get<STRING_T>(LAN_IP_ADDRESS_0) << "'";
     system(cmd.str().c_str());
 
     // Set subnet mask
     cmd.str("");
     cmd << "uci set network." << ifname << ".netmask='"
-        << resource(SUBNET_MASK_1)->get<STRING_T>() << "'";
+        << get<STRING_T>(SUBNET_MASK_1) << "'";
     system(cmd.str().c_str());
 
     // Commit network changes
@@ -385,8 +360,8 @@ bool LanConfiguration::saveToUCI() {
 
     // Calculate DHCP start offset and limit
     std::string networkAddr = calculateNetworkAddress();
-    std::string startIp = resource(DHCP_POOL_START_3)->get<STRING_T>();
-    std::string endIp = resource(DHCP_POOL_END_4)->get<STRING_T>();
+    std::string startIp = get<STRING_T>(DHCP_POOL_START_3);
+    std::string endIp = get<STRING_T>(DHCP_POOL_END_4);
 
     struct in_addr netAddr, startAddr, endAddr;
     inet_pton(AF_INET, networkAddr.c_str(), &netAddr);
@@ -407,7 +382,7 @@ bool LanConfiguration::saveToUCI() {
     system(cmd.str().c_str());
 
     // Set DHCP lease time
-    INT_T leaseSeconds = resource(DHCP_LEASE_TIME_5)->get<INT_T>();
+    INT_T leaseSeconds = get<INT_T>(DHCP_LEASE_TIME_5);
     cmd.str("");
     if (leaseSeconds % 3600 == 0) {
         cmd << "uci set dhcp." << ifname << ".leasetime='" << (leaseSeconds / 3600) << "h'";
@@ -421,13 +396,13 @@ bool LanConfiguration::saveToUCI() {
     // Set domain name
     cmd.str("");
     cmd << "uci set dhcp." << ifname << ".domain='"
-        << resource(DOMAIN_NAME_8)->get<STRING_T>() << "'";
+        << get<STRING_T>(DOMAIN_NAME_8) << "'";
     system(cmd.str().c_str());
 
     // Set DHCP enabled/disabled
     cmd.str("");
     cmd << "uci set dhcp." << ifname << ".ignore='"
-        << (resource(DHCP_ENABLED_2)->get<BOOL_T>() ? "0" : "1") << "'";
+        << (get<BOOL_T>(DHCP_ENABLED_2) ? "0" : "1") << "'";
     system(cmd.str().c_str());
 
     // Handle static leases
@@ -553,8 +528,8 @@ bool LanConfiguration::isValidMAC(const std::string& mac) {
 
 /* Calculate network address from IP and subnet mask */
 std::string LanConfiguration::calculateNetworkAddress() {
-    std::string ip = resource(LAN_IP_ADDRESS_0)->get<STRING_T>();
-    std::string mask = resource(SUBNET_MASK_1)->get<STRING_T>();
+    std::string ip = get<STRING_T>(LAN_IP_ADDRESS_0);
+    std::string mask = get<STRING_T>(SUBNET_MASK_1);
 
     struct in_addr ipAddr, maskAddr, netAddr;
     inet_pton(AF_INET, ip.c_str(), &ipAddr);

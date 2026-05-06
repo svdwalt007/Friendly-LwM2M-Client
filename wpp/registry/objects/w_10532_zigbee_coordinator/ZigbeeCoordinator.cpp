@@ -4,7 +4,6 @@
  */
 
 #include "ZigbeeCoordinator.h"
-#include "Lwm2mObjectBase.h"
 #include "WppRegistry.h"
 #include "WppClient.h"
 #include "WppTypes.h"
@@ -22,33 +21,39 @@ namespace wpp {
 // Static Object Methods
 // ==============================================================================
 
-Object& ZigbeeCoordinator::object(WppClient& client) {
-    static ObjImpl<ZigbeeCoordinator> obj(client, ZIGBEE_COORDINATOR_OBJECT_ID);
-    return obj;
+Object& ZigbeeCoordinator::object(WppClient& ctx) {
+    return ctx.registry().zigbeeCoordinator();
 }
 
-Instance* ZigbeeCoordinator::createInst(WppClient& client, INST_T instId) {
-    return static_cast<ObjImpl<ZigbeeCoordinator>&>(object(client)).createInst(instId);
+ZigbeeCoordinator* ZigbeeCoordinator::createInst(WppClient& ctx, ID_T instId) {
+    Instance *inst = ctx.registry().zigbeeCoordinator().createInstance(instId);
+    if (!inst) return NULL;
+    return static_cast<ZigbeeCoordinator*>(inst);
 }
 
-Instance* ZigbeeCoordinator::instance(WppClient& client, INST_T instId) {
-    return object(client).instance(instId);
+ZigbeeCoordinator* ZigbeeCoordinator::instance(WppClient& ctx, ID_T instId) {
+    Instance *inst = ctx.registry().zigbeeCoordinator().instance(instId);
+    if (!inst) return NULL;
+    return static_cast<ZigbeeCoordinator*>(inst);
 }
 
-bool ZigbeeCoordinator::remove(WppClient& client, INST_T instId) {
-    return object(client).remove(instId);
+bool ZigbeeCoordinator::removeInst(WppClient& ctx, ID_T instId) {
+    return ctx.registry().zigbeeCoordinator().remove(instId);
 }
 
 // ==============================================================================
 // Constructor / Destructor
 // ==============================================================================
 
-ZigbeeCoordinator::ZigbeeCoordinator(Object& object, INST_T instId)
-    : Instance(object, instId),
+ZigbeeCoordinator::ZigbeeCoordinator(lwm2m_context_t& context, const OBJ_LINK_T& id)
+    : Instance(context, id),
       coordinator_(nullptr),
       refreshRunning_(false) {
 
-    std::cout << "[ZigbeeCoordinator] Instance created: " << instId << std::endl;
+    resourcesCreate();
+    resourcesInit();
+
+    std::cout << "[ZigbeeCoordinator] Instance created" << std::endl;
 }
 
 ZigbeeCoordinator::~ZigbeeCoordinator() {
@@ -61,63 +66,132 @@ ZigbeeCoordinator::~ZigbeeCoordinator() {
 // Resource Initialization
 // ==============================================================================
 
-bool ZigbeeCoordinator::initResources(ItemOp *) {
+void ZigbeeCoordinator::serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) {
+    operationNotify(*this, resLink, type);
+}
+
+void ZigbeeCoordinator::userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) {
+    if (type == ItemOp::WRITE || type == ItemOp::DELETE) notifyResChanged(resLink.resId, resLink.resInstId);
+}
+
+void ZigbeeCoordinator::resourcesCreate() {
+    std::vector<Resource> resources = {
+        {NETWORK_STATE_0,       ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
+        {PAN_ID_1,              ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
+        {EXTENDED_PAN_ID_2,     ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::STRING},
+        {CHANNEL_3,             ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
+        {NETWORK_KEY_4,         ItemOp(ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::OPAQUE},
+        {PERMIT_JOIN_5,         ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::BOOL},
+        {DEVICE_COUNT_6,        ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {COORDINATOR_IEEE_7,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
+        {COORDINATOR_TYPE_8,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::MANDATORY, TYPE_ID::INT},
+        {FIRMWARE_VERSION_9,    ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
+        {TX_POWER_10,           ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {SECURITY_LEVEL_11,     ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {SERIAL_PORT_12,        ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::STRING},
+        {BAUD_RATE_13,          ItemOp(ItemOp::READ | ItemOp::WRITE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {ROUTE_TABLE_SIZE_14,   ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {NEIGHBOR_TABLE_SIZE_15, ItemOp(ItemOp::READ), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::INT},
+        {FORM_NETWORK_16,       ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+        {LEAVE_NETWORK_17,      ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+        {PERMIT_JOIN_CMD_18,    ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+        {START_TOUCHLINK_19,    ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+        {BACKUP_NETWORK_20,     ItemOp(ItemOp::EXECUTE), IS_SINGLE::SINGLE,   IS_MANDATORY::OPTIONAL,  TYPE_ID::EXECUTE},
+    };
+    setupResources(std::move(resources));
+
+    // Set up data validation for resources
+    resource(CHANNEL_3)->setDataVerifier((VERIFY_INT_T)[](const INT_T& channel) {
+        if (channel < 11 || channel > 26) {
+            std::cerr << "[ZigbeeCoordinator] Invalid channel: " << channel << std::endl;
+            return false;
+        }
+        return true;
+    });
+
+    resource(TX_POWER_10)->setDataVerifier((VERIFY_INT_T)[](const INT_T& power) {
+        if (power < -20 || power > 20) {
+            std::cerr << "[ZigbeeCoordinator] Invalid TX power: " << power << std::endl;
+            return false;
+        }
+        return true;
+    });
+
+    resource(SECURITY_LEVEL_11)->setDataVerifier((VERIFY_INT_T)[](const INT_T& level) {
+        if (level < 0 || level > 7) {
+            std::cerr << "[ZigbeeCoordinator] Invalid security level: " << level << std::endl;
+            return false;
+        }
+        return true;
+    });
+
+    resource(BAUD_RATE_13)->setDataVerifier((VERIFY_INT_T)[](const INT_T& baud) {
+        if (baud != 9600 && baud != 19200 && baud != 38400 &&
+            baud != 57600 && baud != 115200) {
+            std::cerr << "[ZigbeeCoordinator] Invalid baud rate: " << baud << std::endl;
+            return false;
+        }
+        return true;
+    });
+
+    // Set up execute handlers
+    resource(FORM_NETWORK_16)->set<EXECUTE_T>(&ZigbeeCoordinator::formNetwork);
+    resource(LEAVE_NETWORK_17)->set<EXECUTE_T>(&ZigbeeCoordinator::leaveNetwork);
+    resource(PERMIT_JOIN_CMD_18)->set<EXECUTE_T>(&ZigbeeCoordinator::permitJoin);
+    resource(START_TOUCHLINK_19)->set<EXECUTE_T>(&ZigbeeCoordinator::startTouchlink);
+    resource(BACKUP_NETWORK_20)->set<EXECUTE_T>(&ZigbeeCoordinator::backupNetwork);
+}
+
+void ZigbeeCoordinator::resourcesInit() {
     std::cout << "[ZigbeeCoordinator] Initializing resources" << std::endl;
 
     // Network State (R, Integer)
-    item(NETWORK_STATE_0).set((INT_T)STATE_OFFLINE);
+    resource(NETWORK_STATE_0)->set<INT_T>((INT_T)STATE_OFFLINE);
 
     // PAN ID (RW, Integer)
-    item(PAN_ID_1).set((INT_T)0x1A62);
+    resource(PAN_ID_1)->set<INT_T>((INT_T)0x1A62);
 
     // Extended PAN ID (RW, String)
-    item(EXTENDED_PAN_ID_2).set("DD2211AA44556677");
+    resource(EXTENDED_PAN_ID_2)->set<STRING_T>("DD2211AA44556677");
 
     // Channel (RW, Integer)
-    item(CHANNEL_3).set((INT_T)15);
+    resource(CHANNEL_3)->set<INT_T>((INT_T)15);
 
     // Network Key (W, Opaque) - not readable for security
     // Key will be set when needed
 
     // Permit Join Status (R, Boolean)
-    item(PERMIT_JOIN_5).set(false);
+    resource(PERMIT_JOIN_5)->set<BOOL_T>(false);
 
     // Device Count (R, Integer)
-    item(DEVICE_COUNT_6).set((INT_T)0);
+    resource(DEVICE_COUNT_6)->set<INT_T>((INT_T)0);
 
     // Coordinator IEEE Address (R, String)
-    item(COORDINATOR_IEEE_7).set("0000000000000000");
+    resource(COORDINATOR_IEEE_7)->set<STRING_T>("0000000000000000");
 
     // Coordinator Type (R, Integer)
-    item(COORDINATOR_TYPE_8).set((INT_T)TYPE_EZSP);
+    resource(COORDINATOR_TYPE_8)->set<INT_T>((INT_T)TYPE_EZSP);
 
     // Firmware Version (R, String)
-    item(FIRMWARE_VERSION_9).set("Unknown");
+    resource(FIRMWARE_VERSION_9)->set<STRING_T>("Unknown");
 
     // TX Power (RW, Integer)
-    item(TX_POWER_10).set((INT_T)20);
+    resource(TX_POWER_10)->set<INT_T>((INT_T)20);
 
     // Security Level (RW, Integer)
-    item(SECURITY_LEVEL_11).set((INT_T)5);
+    resource(SECURITY_LEVEL_11)->set<INT_T>((INT_T)5);
 
     // Serial Port (RW, String)
-    item(SERIAL_PORT_12).set("/dev/ttyUSB0");
+    resource(SERIAL_PORT_12)->set<STRING_T>("/dev/ttyUSB0");
 
     // Baud Rate (RW, Integer)
-    item(BAUD_RATE_13).set((INT_T)115200);
+    resource(BAUD_RATE_13)->set<INT_T>((INT_T)115200);
 
     // Route Table Size (R, Integer)
-    item(ROUTE_TABLE_SIZE_14).set((INT_T)0);
+    resource(ROUTE_TABLE_SIZE_14)->set<INT_T>((INT_T)0);
 
     // Neighbor Table Size (R, Integer)
-    item(NEIGHBOR_TABLE_SIZE_15).set((INT_T)0);
-
-    // Execute Resources
-    item(FORM_NETWORK_16).setExecute(&ZigbeeCoordinator::formNetwork);
-    item(LEAVE_NETWORK_17).setExecute(&ZigbeeCoordinator::leaveNetwork);
-    item(PERMIT_JOIN_CMD_18).setExecute(&ZigbeeCoordinator::permitJoin);
-    item(START_TOUCHLINK_19).setExecute(&ZigbeeCoordinator::startTouchlink);
-    item(BACKUP_NETWORK_20).setExecute(&ZigbeeCoordinator::backupNetwork);
+    resource(NEIGHBOR_TABLE_SIZE_15)->set<INT_T>((INT_T)0);
 
     // Load saved configuration if exists
     loadNetworkConfig();
@@ -127,56 +201,8 @@ bool ZigbeeCoordinator::initResources(ItemOp *) {
 
     // Start periodic refresh
     startPeriodicRefresh();
-
-    return true;
 }
 
-// ==============================================================================
-// Validation
-// ==============================================================================
-
-bool ZigbeeCoordinator::validate(ID_T resId, const void *data, size_t size) {
-    switch (resId) {
-        case CHANNEL_3: {
-            INT_T channel = *static_cast<const INT_T*>(data);
-            if (channel < 11 || channel > 26) {
-                std::cerr << "[ZigbeeCoordinator] Invalid channel: " << channel << std::endl;
-                return false;
-            }
-            break;
-        }
-
-        case TX_POWER_10: {
-            INT_T power = *static_cast<const INT_T*>(data);
-            if (power < -20 || power > 20) {
-                std::cerr << "[ZigbeeCoordinator] Invalid TX power: " << power << std::endl;
-                return false;
-            }
-            break;
-        }
-
-        case SECURITY_LEVEL_11: {
-            INT_T level = *static_cast<const INT_T*>(data);
-            if (level < 0 || level > 7) {
-                std::cerr << "[ZigbeeCoordinator] Invalid security level: " << level << std::endl;
-                return false;
-            }
-            break;
-        }
-
-        case BAUD_RATE_13: {
-            INT_T baud = *static_cast<const INT_T*>(data);
-            if (baud != 9600 && baud != 19200 && baud != 38400 &&
-                baud != 57600 && baud != 115200) {
-                std::cerr << "[ZigbeeCoordinator] Invalid baud rate: " << baud << std::endl;
-                return false;
-            }
-            break;
-        }
-    }
-
-    return true;
-}
 
 // ==============================================================================
 // Execute Handlers
@@ -194,23 +220,23 @@ bool ZigbeeCoordinator::formNetwork(Instance& inst, ID_T resId, const OPAQUE_T& 
 
     // Get network parameters from resources
     zigbee::ZigbeeNetworkParams params;
-    params.panId = static_cast<uint16_t>(self.item(PAN_ID_1).toInt());
-    params.channel = static_cast<uint8_t>(self.item(CHANNEL_3).toInt());
-    params.txPower = static_cast<uint8_t>(self.item(TX_POWER_10).toInt());
-    params.securityLevel = static_cast<uint8_t>(self.item(SECURITY_LEVEL_11).toInt());
+    params.panId = static_cast<uint16_t>(self.resource(PAN_ID_1)->get<INT_T>());
+    params.channel = static_cast<uint8_t>(self.resource(CHANNEL_3)->get<INT_T>());
+    params.txPower = static_cast<uint8_t>(self.resource(TX_POWER_10)->get<INT_T>());
+    params.securityLevel = static_cast<uint8_t>(self.resource(SECURITY_LEVEL_11)->get<INT_T>());
 
     // Parse extended PAN ID
-    std::string extPanIdStr = self.item(EXTENDED_PAN_ID_2).toString();
+    std::string extPanIdStr = self.resource(EXTENDED_PAN_ID_2)->get<STRING_T>();
     params.extendedPanId = std::stoull(extPanIdStr, nullptr, 16);
 
     // Form network
     bool success = self.coordinator_->formNetwork(params);
 
     if (success) {
-        self.item(NETWORK_STATE_0).set((INT_T)STATE_READY);
+        self.resource(NETWORK_STATE_0)->set<INT_T>((INT_T)STATE_READY);
         self.saveNetworkConfig();
     } else {
-        self.item(NETWORK_STATE_0).set((INT_T)STATE_ERROR);
+        self.resource(NETWORK_STATE_0)->set<INT_T>((INT_T)STATE_ERROR);
     }
 
     return success;
@@ -229,8 +255,8 @@ bool ZigbeeCoordinator::leaveNetwork(Instance& inst, ID_T resId, const OPAQUE_T&
     bool success = self.coordinator_->leaveNetwork();
 
     if (success) {
-        self.item(NETWORK_STATE_0).set((INT_T)STATE_OFFLINE);
-        self.item(DEVICE_COUNT_6).set((INT_T)0);
+        self.resource(NETWORK_STATE_0)->set<INT_T>((INT_T)STATE_OFFLINE);
+        self.resource(DEVICE_COUNT_6)->set<INT_T>((INT_T)0);
     }
 
     return success;
@@ -255,7 +281,7 @@ bool ZigbeeCoordinator::permitJoin(Instance& inst, ID_T resId, const OPAQUE_T& d
     bool success = self.coordinator_->permitJoin(duration);
 
     if (success) {
-        self.item(PERMIT_JOIN_5).set(duration > 0);
+        self.resource(PERMIT_JOIN_5)->set(duration > 0);
     }
 
     return success;
@@ -287,9 +313,9 @@ bool ZigbeeCoordinator::backupNetwork(Instance& inst, ID_T resId, const OPAQUE_T
 // ==============================================================================
 
 bool ZigbeeCoordinator::initializeCoordinator() {
-    std::string serialPort = item(SERIAL_PORT_12).toString();
-    INT_T baudRate = item(BAUD_RATE_13).toInt();
-    INT_T coordType = item(COORDINATOR_TYPE_8).toInt();
+    std::string serialPort = resource(SERIAL_PORT_12)->get<STRING_T>();
+    INT_T baudRate = resource(BAUD_RATE_13)->get<INT_T>();
+    INT_T coordType = resource(COORDINATOR_TYPE_8)->get<INT_T>();
 
     zigbee::CoordinatorType type;
     switch (coordType) {
@@ -324,9 +350,9 @@ bool ZigbeeCoordinator::initializeCoordinator() {
         uint64_t ieeeAddr = coordinator_->getCoordinatorIeeeAddress();
         char ieeeStr[17];
         snprintf(ieeeStr, sizeof(ieeeStr), "%016llX", (unsigned long long)ieeeAddr);
-        item(COORDINATOR_IEEE_7).set(ieeeStr);
+        resource(COORDINATOR_IEEE_7)->set(ieeeStr);
 
-        item(FIRMWARE_VERSION_9).set(coordinator_->getFirmwareVersion());
+        resource(FIRMWARE_VERSION_9)->set(coordinator_->getFirmwareVersion());
 
         // Register callbacks
         coordinator_->onNetworkStateChanged([this](zigbee::NetworkState state) {
@@ -354,7 +380,7 @@ bool ZigbeeCoordinator::initializeCoordinator() {
                     lwm2mState = STATE_OFFLINE;
                     break;
             }
-            item(NETWORK_STATE_0).set(lwm2mState);
+            resource(NETWORK_STATE_0)->set(lwm2mState);
         });
 
         coordinator_->onDeviceJoined([this](const zigbee::ZigbeeDeviceInfo& device) {
@@ -415,7 +441,7 @@ void ZigbeeCoordinator::updateNetworkState() {
             break;
     }
 
-    item(NETWORK_STATE_0).set(lwm2mState);
+    resource(NETWORK_STATE_0)->set<INT_T>(lwm2mState);
 }
 
 void ZigbeeCoordinator::updateDeviceCount() {
@@ -424,7 +450,7 @@ void ZigbeeCoordinator::updateDeviceCount() {
     }
 
     size_t count = coordinator_->getDeviceCount();
-    item(DEVICE_COUNT_6).set((INT_T)count);
+    resource(DEVICE_COUNT_6)->set<INT_T>((INT_T)count);
 }
 
 void ZigbeeCoordinator::updateRoutingTables() {
@@ -433,10 +459,10 @@ void ZigbeeCoordinator::updateRoutingTables() {
     }
 
     auto routeTable = coordinator_->getRouteTable();
-    item(ROUTE_TABLE_SIZE_14).set((INT_T)routeTable.size());
+    resource(ROUTE_TABLE_SIZE_14)->set<INT_T>((INT_T)routeTable.size());
 
     auto neighborTable = coordinator_->getNeighborTable();
-    item(NEIGHBOR_TABLE_SIZE_15).set((INT_T)neighborTable.size());
+    resource(NEIGHBOR_TABLE_SIZE_15)->set<INT_T>((INT_T)neighborTable.size());
 }
 
 bool ZigbeeCoordinator::saveNetworkConfig() {
@@ -449,11 +475,11 @@ bool ZigbeeCoordinator::saveNetworkConfig() {
     }
 
     file << "{\n";
-    file << "  \"panId\": " << item(PAN_ID_1).toInt() << ",\n";
-    file << "  \"extendedPanId\": \"" << item(EXTENDED_PAN_ID_2).toString() << "\",\n";
-    file << "  \"channel\": " << item(CHANNEL_3).toInt() << ",\n";
-    file << "  \"txPower\": " << item(TX_POWER_10).toInt() << ",\n";
-    file << "  \"securityLevel\": " << item(SECURITY_LEVEL_11).toInt() << "\n";
+    file << "  \"panId\": " << resource(PAN_ID_1)->get<INT_T>() << ",\n";
+    file << "  \"extendedPanId\": \"" << resource(EXTENDED_PAN_ID_2)->get<STRING_T>() << "\",\n";
+    file << "  \"channel\": " << resource(CHANNEL_3)->get<INT_T>() << ",\n";
+    file << "  \"txPower\": " << resource(TX_POWER_10)->get<INT_T>() << ",\n";
+    file << "  \"securityLevel\": " << resource(SECURITY_LEVEL_11)->get<INT_T>() << "\n";
     file << "}\n";
 
     file.close();

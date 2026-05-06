@@ -6,7 +6,7 @@
 #ifndef WPP_USB_MANAGEMENT_INFO_H
 #define WPP_USB_MANAGEMENT_INFO_H
 
-#include "Lwm2mObjectBase.h"
+#include "ObjectInfo.h"
 
 #ifdef OBJ_W_10516_USB_MANAGEMENT
 

@@ -69,22 +69,28 @@ public:
     };
 
     /* Static object methods */
-    static Object& object(WppClient& client);
-    static Instance* createInst(WppClient& client, INST_T instId = ID_T_MAX_VAL);
-    static Instance* instance(WppClient& client, INST_T instId);
-    static bool remove(WppClient& client, INST_T instId);
+    static Object& object(WppClient& ctx);
+    static MultiWanHealthCheck* createInst(WppClient& ctx, ID_T instId = ID_T_MAX_VAL);
+    static MultiWanHealthCheck* instance(WppClient& ctx, ID_T instId = ID_T_MAX_VAL);
+    static bool removeInst(WppClient& ctx, ID_T instId);
 
     /* Instance lifecycle */
-    MultiWanHealthCheck(Object& object, INST_T instId);
-    ~MultiWanHealthCheck() override;
+    MultiWanHealthCheck(lwm2m_context_t& context, const OBJ_LINK_T& id);
+    ~MultiWanHealthCheck();
 
 protected:
+    /* Instance implementation part */
+    void serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) override;
+    void userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) override;
+
     /* ObjSubject override method */
-    bool validate(ID_T resId, const void *data, size_t size) override;
 
 private:
     /* Private methods */
-    bool initResources(ItemOp *) override;
+    void resourcesCreate();
+    void resourcesInit();
+
+    /* Private methods */
 
     /* Execute handlers */
     static bool startProbing(Instance& inst, ID_T resId, const OPAQUE_T& data);

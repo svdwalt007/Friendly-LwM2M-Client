@@ -1,4 +1,4 @@
-wpp_check_definition("OBJ_W_34621_LAN_CONFIGURATION" is_defined)
+wpp_check_definition("OBJ_W_10535_LAN_CONFIGURATION" is_defined)
 if(is_defined)
     set(WPP_SOURCES ${WPP_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/LanConfiguration.cpp)
     set(WPP_SOURCES ${WPP_SOURCES} PARENT_SCOPE)

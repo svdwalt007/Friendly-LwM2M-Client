@@ -8,6 +8,9 @@
 
 #ifdef OBJ_W_10527_WIFI_CLIENT_MANAGEMENT
 
+// Object ID
+#define WIFI_CLIENT_MANAGEMENT_OBJECT_ID (wpp::OBJ_ID)10527
+
 // Resource enable/disable flags
 // All resources are enabled by default
 

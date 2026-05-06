@@ -67,22 +67,24 @@ public:
     };
 
     /* Static object methods */
-    static Object& object(WppClient& client);
-    static Instance* createInst(WppClient& client, INST_T instId = ID_T_MAX_VAL);
-    static Instance* instance(WppClient& client, INST_T instId);
-    static bool remove(WppClient& client, INST_T instId);
+    static Object& object(WppClient& ctx);
+    static WifiChannelOptimization* createInst(WppClient& ctx, ID_T instId = ID_T_MAX_VAL);
+    static WifiChannelOptimization* instance(WppClient& ctx, ID_T instId);
+    static bool removeInst(WppClient& ctx, ID_T instId);
 
     /* Instance lifecycle */
-    WifiChannelOptimization(Object& object, INST_T instId);
-    ~WifiChannelOptimization() override;
+    WifiChannelOptimization(lwm2m_context_t& context, const OBJ_LINK_T& id);
+    ~WifiChannelOptimization();
+    /* Operation notification handlers */
+    void serverOperationNotifier(Instance *securityInst, ItemOp::TYPE type, const ResLink &resLink) override;
+    void userOperationNotifier(ItemOp::TYPE type, const ResLink &resLink) override;
 
 protected:
     /* ObjSubject override method */
-    bool validate(ID_T resId, const void *data, size_t size) override;
 
 private:
+/* Resource setup methods */    void resourcesCreate();    void resourcesInit();
     /* Private methods */
-    bool initResources(ItemOp *) override;
 
     /* Execute handlers */
     static bool scanNow(Instance& inst, ID_T resId, const OPAQUE_T& data);

@@ -8,6 +8,9 @@
 
 #ifdef OBJ_W_10525_WAN_FAILOVER_POLICY
 
+// Object ID
+#define WAN_FAILOVER_POLICY_OBJECT_ID (wpp::OBJ_ID)10525
+
 // Resource enable/disable flags
 // All resources are enabled by default
 
