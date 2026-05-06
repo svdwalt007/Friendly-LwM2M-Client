@@ -150,6 +150,74 @@ bool WppClient::send(const DataLink &link) {
 }
 #endif
 
+/* ------------- P1-8 Introspection APIs ------------- */
+
+size_t WppClient::getTransactionCount() const {
+	if (_lwm2m_context == nullptr) return 0;
+
+	size_t count = 0;
+	lwm2m_transaction_t* trans = _lwm2m_context->transactionList;
+	while (trans != nullptr) {
+		count++;
+		trans = trans->next;
+	}
+	return count;
+}
+
+size_t WppClient::getPendingTokenCount() const {
+	// For CoAP, pending tokens are tracked via transactions with active callbacks
+	// Each transaction with a non-null callback is waiting for a response with a token
+	if (_lwm2m_context == nullptr) return 0;
+
+	size_t count = 0;
+	lwm2m_transaction_t* trans = _lwm2m_context->transactionList;
+	while (trans != nullptr) {
+		// A transaction is pending if it hasn't received an ACK yet
+		if (trans->callback != nullptr && trans->ack_received == 0) {
+			count++;
+		}
+		trans = trans->next;
+	}
+	return count;
+}
+
+uint16_t WppClient::getNextMid() const {
+	if (_lwm2m_context == nullptr) return 0;
+	return _lwm2m_context->nextMID;
+}
+
+size_t WppClient::getObservedCount() const {
+	if (_lwm2m_context == nullptr) return 0;
+
+#ifdef LWM2M_CLIENT_MODE
+	size_t count = 0;
+	lwm2m_observed_t* observed = _lwm2m_context->observedList;
+	while (observed != nullptr) {
+		count++;
+		observed = observed->next;
+	}
+	return count;
+#else
+	return 0;
+#endif
+}
+
+size_t WppClient::getServerCount() const {
+	if (_lwm2m_context == nullptr) return 0;
+
+#ifdef LWM2M_CLIENT_MODE
+	size_t count = 0;
+	lwm2m_server_t* server = _lwm2m_context->serverList;
+	while (server != nullptr) {
+		count++;
+		server = server->next;
+	}
+	return count;
+#else
+	return 0;
+#endif
+}
+
 /* ------------- Wakaama client initialisation ------------- */
 bool WppClient::lwm2mContextOpen() {
 	_lwm2m_context = lwm2m_init(this);

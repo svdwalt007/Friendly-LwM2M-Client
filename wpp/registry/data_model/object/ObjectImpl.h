@@ -9,6 +9,7 @@
 #define WPP_OBJECT_IMPL_H_
 
 #include "Object.h"
+#include "liblwm2m.h"
 
 namespace wpp {
 

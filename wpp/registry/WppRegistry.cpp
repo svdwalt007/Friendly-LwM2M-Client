@@ -77,6 +77,45 @@ WppRegistry::WppRegistry(lwm2m_context_t &context): _context(context) {
 	#ifdef OBJ_W_10522_POE_MANAGEMENT
 	_objects.push_back(new ObjectImpl<PoeManagement>(_context, POE_MANAGEMENT_META_INFO));
 	#endif
+	#ifdef OBJ_W_10525_WAN_FAILOVER_POLICY
+	_objects.push_back(new ObjectImpl<WanFailoverPolicy>(_context, WAN_FAILOVER_POLICY_OBJ_INFO));
+	#endif
+	#ifdef OBJ_W_10526_MULTIWAN_HEALTH_CHECK
+	_objects.push_back(new ObjectImpl<MultiWanHealthCheck>(_context, MULTIWAN_HEALTH_CHECK_OBJ_INFO));
+	#endif
+	#ifdef OBJ_W_10527_WIFI_CLIENT_MANAGEMENT
+	_objects.push_back(new ObjectImpl<WifiClientManagement>(_context, WIFI_CLIENT_MANAGEMENT_OBJ_INFO));
+	#endif
+	#ifdef OBJ_W_10528_WIFI_CHANNEL_OPTIMIZATION
+	_objects.push_back(new ObjectImpl<WifiChannelOptimization>(_context, WIFI_CHANNEL_OPTIMIZATION_OBJ_INFO));
+	#endif
+	#ifdef OBJ_W_10529_MATTER_BRIDGE
+	_objects.push_back(new ObjectImpl<MatterBridge>(_context, MATTER_BRIDGE_OBJ_INFO));
+	#endif
+	#ifdef OBJ_W_10530_MATTER_DEVICE
+	_objects.push_back(new ObjectImpl<MatterDevice>(_context, MATTER_DEVICE_OBJ_INFO));
+	#endif
+	#ifdef OBJ_W_10531_THREAD_NETWORK
+	_objects.push_back(new ObjectImpl<ThreadNetwork>(_context, THREAD_NETWORK_OBJ_INFO));
+	#endif
+	#ifdef OBJ_W_10532_ZIGBEE_COORDINATOR
+	_objects.push_back(new ObjectImpl<ZigbeeCoordinator>(_context, ZIGBEE_COORDINATOR_OBJ_INFO));
+	#endif
+	#ifdef OBJ_W_10533_ZIGBEE_DEVICE
+	_objects.push_back(new ObjectImpl<ZigbeeDevice>(_context, ZIGBEE_DEVICE_OBJ_INFO));
+	#endif
+	#ifdef OBJ_W_10534_ZIGBEE_GROUP
+	_objects.push_back(new ObjectImpl<ZigbeeGroup>(_context, ZIGBEE_GROUP_OBJ_INFO));
+	#endif
+	#ifdef OBJ_W_10535_LAN_CONFIGURATION
+	_objects.push_back(new ObjectImpl<LanConfiguration>(_context, LAN_CONFIGURATION_OBJ_INFO));
+	#endif
+	#ifdef OBJ_W_10536_ROUTING_TABLE
+	_objects.push_back(new ObjectImpl<RoutingTable>(_context, ROUTING_TABLE_OBJ_INFO));
+	#endif
+	#ifdef OBJ_W_10537_VPN_CONFIGURATION
+	_objects.push_back(new ObjectImpl<VpnConfiguration>(_context, VPN_CONFIGURATION_OBJ_INFO));
+	#endif
 	/* ---------- Walt Technologies objects init block end ---------- */
 }
 
@@ -226,6 +265,71 @@ Object & WppRegistry::firewallConfig() {
 #ifdef OBJ_W_10522_POE_MANAGEMENT
 Object & WppRegistry::poeManagement() {
 	return *object(POE_MANAGEMENT_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10525_WAN_FAILOVER_POLICY
+Object & WppRegistry::wanFailoverPolicy() {
+	return *object(WAN_FAILOVER_POLICY_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10526_MULTIWAN_HEALTH_CHECK
+Object & WppRegistry::multiWanHealthCheck() {
+	return *object(MULTIWAN_HEALTH_CHECK_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10527_WIFI_CLIENT_MANAGEMENT
+Object & WppRegistry::wifiClientManagement() {
+	return *object(WIFI_CLIENT_MANAGEMENT_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10528_WIFI_CHANNEL_OPTIMIZATION
+Object & WppRegistry::wifiChannelOptimization() {
+	return *object(WIFI_CHANNEL_OPTIMIZATION_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10529_MATTER_BRIDGE
+Object & WppRegistry::matterBridge() {
+	return *object(MATTER_BRIDGE_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10530_MATTER_DEVICE
+Object & WppRegistry::matterDevice() {
+	return *object(MATTER_DEVICE_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10531_THREAD_NETWORK
+Object & WppRegistry::threadNetwork() {
+	return *object(THREAD_NETWORK_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10532_ZIGBEE_COORDINATOR
+Object & WppRegistry::zigbeeCoordinator() {
+	return *object(ZIGBEE_COORDINATOR_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10533_ZIGBEE_DEVICE
+Object & WppRegistry::zigbeeDevice() {
+	return *object(ZIGBEE_DEVICE_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10534_ZIGBEE_GROUP
+Object & WppRegistry::zigbeeGroup() {
+	return *object(ZIGBEE_GROUP_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10535_LAN_CONFIGURATION
+Object & WppRegistry::lanConfiguration() {
+	return *object(LAN_CONFIG_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10536_ROUTING_TABLE
+Object & WppRegistry::routingTable() {
+	return *object(ROUTING_TABLE_OBJECT_ID);
+}
+#endif
+#ifdef OBJ_W_10537_VPN_CONFIGURATION
+Object & WppRegistry::vpnConfiguration() {
+	return *object(VPN_CONFIG_OBJECT_ID);
 }
 #endif
 /* ---------- Walt Technologies objects method block end ---------- */

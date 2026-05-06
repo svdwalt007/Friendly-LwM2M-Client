@@ -81,6 +81,45 @@
 #ifdef OBJ_W_10522_POE_MANAGEMENT
 #include "w_10522_poe_management/PoeManagement.h"
 #endif
+#ifdef OBJ_W_10525_WAN_FAILOVER_POLICY
+#include "w_10525_wan_failover_policy/WanFailoverPolicy.h"
+#endif
+#ifdef OBJ_W_10526_MULTIWAN_HEALTH_CHECK
+#include "w_10526_multiwan_health_check/MultiWanHealthCheck.h"
+#endif
+#ifdef OBJ_W_10527_WIFI_CLIENT_MANAGEMENT
+#include "w_10527_wifi_client_management/WifiClientManagement.h"
+#endif
+#ifdef OBJ_W_10528_WIFI_CHANNEL_OPTIMIZATION
+#include "w_10528_wifi_channel_optimization/WifiChannelOptimization.h"
+#endif
+#ifdef OBJ_W_10529_MATTER_BRIDGE
+#include "w_10529_matter_bridge/MatterBridge.h"
+#endif
+#ifdef OBJ_W_10530_MATTER_DEVICE
+#include "w_10530_matter_device/MatterDevice.h"
+#endif
+#ifdef OBJ_W_10531_THREAD_NETWORK
+#include "w_10531_thread_network/ThreadNetwork.h"
+#endif
+#ifdef OBJ_W_10532_ZIGBEE_COORDINATOR
+#include "w_10532_zigbee_coordinator/ZigbeeCoordinator.h"
+#endif
+#ifdef OBJ_W_10533_ZIGBEE_DEVICE
+#include "w_10533_zigbee_device/ZigbeeDevice.h"
+#endif
+#ifdef OBJ_W_10534_ZIGBEE_GROUP
+#include "w_10534_zigbee_group/ZigbeeGroup.h"
+#endif
+#ifdef OBJ_W_10535_LAN_CONFIGURATION
+#include "w_10535_lan_configuration/LanConfiguration.h"
+#endif
+#ifdef OBJ_W_10536_ROUTING_TABLE
+#include "w_10536_routing_table/RoutingTable.h"
+#endif
+#ifdef OBJ_W_10537_VPN_CONFIGURATION
+#include "w_10537_vpn_configuration/VpnConfiguration.h"
+#endif
 /* ---------- Walt Technologies objects include block end ---------- */
 
 namespace wpp {
@@ -221,6 +260,45 @@ public:
 	#endif
 	#ifdef OBJ_W_10522_POE_MANAGEMENT
 	Object & poeManagement();
+	#endif
+	#ifdef OBJ_W_10525_WAN_FAILOVER_POLICY
+	Object & wanFailoverPolicy();
+	#endif
+	#ifdef OBJ_W_10526_MULTIWAN_HEALTH_CHECK
+	Object & multiWanHealthCheck();
+	#endif
+	#ifdef OBJ_W_10527_WIFI_CLIENT_MANAGEMENT
+	Object & wifiClientManagement();
+	#endif
+	#ifdef OBJ_W_10528_WIFI_CHANNEL_OPTIMIZATION
+	Object & wifiChannelOptimization();
+	#endif
+	#ifdef OBJ_W_10529_MATTER_BRIDGE
+	Object & matterBridge();
+	#endif
+	#ifdef OBJ_W_10530_MATTER_DEVICE
+	Object & matterDevice();
+	#endif
+	#ifdef OBJ_W_10531_THREAD_NETWORK
+	Object & threadNetwork();
+	#endif
+	#ifdef OBJ_W_10532_ZIGBEE_COORDINATOR
+	Object & zigbeeCoordinator();
+	#endif
+	#ifdef OBJ_W_10533_ZIGBEE_DEVICE
+	Object & zigbeeDevice();
+	#endif
+	#ifdef OBJ_W_10534_ZIGBEE_GROUP
+	Object & zigbeeGroup();
+	#endif
+	#ifdef OBJ_W_10535_LAN_CONFIGURATION
+	Object & lanConfiguration();
+	#endif
+	#ifdef OBJ_W_10536_ROUTING_TABLE
+	Object & routingTable();
+	#endif
+	#ifdef OBJ_W_10537_VPN_CONFIGURATION
+	Object & vpnConfiguration();
 	#endif
 	/* ---------- Walt Technologies objects prototype block end ---------- */
 

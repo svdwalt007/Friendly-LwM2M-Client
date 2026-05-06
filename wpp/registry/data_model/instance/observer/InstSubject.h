@@ -1,6 +1,8 @@
 #ifndef WPP_INST_SUBJECT_H_
 #define WPP_INST_SUBJECT_H_
 
+#include <algorithm>
+#include <vector>
 #include "ItemOp.h"
 #include "InstOpObserver.h"
 #include "InstEventObserver.h"

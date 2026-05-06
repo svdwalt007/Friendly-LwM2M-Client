@@ -141,11 +141,46 @@ public:
 	time_t loop();
 
 	/* ------------- WppClient server operations ------------- */
-	
+
 	/**
 	 * @brief Deregisters the client from the servers.
 	 */
 	void deregister();
+
+	/* ------------- P1-8 Introspection APIs ------------- */
+
+	/**
+	 * @brief Get the current count of active transactions.
+	 * Used for diagnosing transaction leaks during burst-load scenarios.
+	 * @return Number of transactions in the transaction list
+	 */
+	size_t getTransactionCount() const;
+
+	/**
+	 * @brief Get the count of pending CoAP tokens.
+	 * Tracks tokens awaiting responses from the server.
+	 * @return Number of pending tokens
+	 */
+	size_t getPendingTokenCount() const;
+
+	/**
+	 * @brief Get the next MID that will be allocated.
+	 * Used to track MID allocation patterns.
+	 * @return Next MID value
+	 */
+	uint16_t getNextMid() const;
+
+	/**
+	 * @brief Get the count of observed resources.
+	 * @return Number of observed resources
+	 */
+	size_t getObservedCount() const;
+
+	/**
+	 * @brief Get the count of active servers in the server list.
+	 * @return Number of servers
+	 */
+	size_t getServerCount() const;
 
 	#if defined(LWM2M_SUPPORT_SENML_JSON) && RES_1_23
 	/**

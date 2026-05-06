@@ -9,6 +9,8 @@
 #define WPP_PLATFORM_H_
 
 #include <string>
+#include <cstdarg>
+#include <ctime>
 
 namespace wpp {
 

@@ -1,6 +1,8 @@
 #ifndef WPP_OBJ_SUBJECT_H_
 #define WPP_OBJ_SUBJECT_H_
 
+#include <algorithm>
+#include <vector>
 #include "ItemOp.h"
 #include "ObjOpObserver.h"
 

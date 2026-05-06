@@ -28,25 +28,25 @@
 #if defined(WPP_ENABLE_LOGS) && WPP_LOGS_LEVEL <= WPP_LOGS_LEVEL_DEBUG
     #define WPP_LOGD(TAG, FMT, ...) wpp::WppPlatform::print("[wpp:%s] [%s():%d] [DEBUG] " FMT "\r\n", TAG, __func__ , __LINE__ , ##__VA_ARGS__)
 #else
-    #define WPP_LOGD(TAG, FMT, ...) 
+    #define WPP_LOGD(TAG, FMT, ...) do { (void)(TAG); (void)(FMT); } while(0)
 #endif
 
 #if defined(WPP_ENABLE_LOGS) && WPP_LOGS_LEVEL <= WPP_LOGS_LEVEL_INFO
     #define WPP_LOGI(TAG, FMT, ...) wpp::WppPlatform::print("[wpp:%s] [%s():%d] [INFO] " FMT "\r\n", TAG, __func__ , __LINE__ , ##__VA_ARGS__)
 #else
-    #define WPP_LOGI(TAG, FMT, ...) 
+    #define WPP_LOGI(TAG, FMT, ...) do { (void)(TAG); (void)(FMT); } while(0)
 #endif
 
 #if defined(WPP_ENABLE_LOGS) && WPP_LOGS_LEVEL <= WPP_LOGS_LEVEL_WARNING
     #define WPP_LOGW(TAG, FMT, ...) wpp::WppPlatform::print("[wpp:%s] [%s():%d] [WARNING] " FMT "\r\n", TAG, __func__ , __LINE__ , ##__VA_ARGS__)
 #else
-    #define WPP_LOGW(TAG, FMT, ...) 
+    #define WPP_LOGW(TAG, FMT, ...) do { (void)(TAG); (void)(FMT); } while(0)
 #endif
 
 #if defined(WPP_ENABLE_LOGS) && WPP_LOGS_LEVEL <= WPP_LOGS_LEVEL_ERROR
     #define WPP_LOGE(TAG, FMT, ...) wpp::WppPlatform::print("[wpp:%s] [%s():%d] [ERROR] " FMT "\r\n", TAG, __func__ , __LINE__ , ##__VA_ARGS__)
 #else
-    #define WPP_LOGE(TAG, FMT, ...) 
+    #define WPP_LOGE(TAG, FMT, ...) do { (void)(TAG); (void)(FMT); } while(0)
 #endif
 
 #endif //WPP_LOGS_H

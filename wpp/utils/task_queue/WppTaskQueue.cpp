@@ -85,7 +85,7 @@ size_t WppTaskQueue::getTaskCnt() {
 bool WppTaskQueue::isTaskExist(task_id_t id) {
 	_taskQueueGuard.lock();
 
-	auto task = std::find_if(_instance._tasks.begin(), _instance._tasks.end(), [id](TaskInfo *task) { return task->id == id; });
+	auto task = std::find_if(_instance._tasks.begin(), _instance._tasks.end(), [id](TaskInfo *t) { return t->id == id; });
 	bool isExist = task != _instance._tasks.end();
 
 	_taskQueueGuard.unlock();
@@ -95,7 +95,7 @@ bool WppTaskQueue::isTaskExist(task_id_t id) {
 bool WppTaskQueue::isTaskIdle(task_id_t id) {
 	_taskQueueGuard.lock();
 
-	auto task = std::find_if(_instance._tasks.begin(), _instance._tasks.end(), [id](TaskInfo *task) { return task->id == id; });
+	auto task = std::find_if(_instance._tasks.begin(), _instance._tasks.end(), [id](TaskInfo *t) { return t->id == id; });
 	if (task == _instance._tasks.end()) {
 		_taskQueueGuard.unlock();
 		return false;
@@ -109,7 +109,7 @@ bool WppTaskQueue::isTaskIdle(task_id_t id) {
 bool WppTaskQueue::isTaskExecuting(task_id_t id) {
 	_taskQueueGuard.lock();
 
-	auto task = std::find_if(_instance._tasks.begin(), _instance._tasks.end(), [id](TaskInfo *task) { return task->id == id; });
+	auto task = std::find_if(_instance._tasks.begin(), _instance._tasks.end(), [id](TaskInfo *t) { return t->id == id; });
 	if (task == _instance._tasks.end()) {
 		_taskQueueGuard.unlock();
 		return false;
@@ -123,7 +123,7 @@ bool WppTaskQueue::isTaskExecuting(task_id_t id) {
 bool WppTaskQueue::isTaskShouldBeDeleted(task_id_t id) {
 	_taskQueueGuard.lock();
 
-	auto task = std::find_if(_instance._tasks.begin(), _instance._tasks.end(), [id](TaskInfo *task) { return task->id == id; });
+	auto task = std::find_if(_instance._tasks.begin(), _instance._tasks.end(), [id](TaskInfo *t) { return t->id == id; });
 	if (task == _instance._tasks.end()) {
 		_taskQueueGuard.unlock();
 		return false;
@@ -137,7 +137,7 @@ bool WppTaskQueue::isTaskShouldBeDeleted(task_id_t id) {
 void WppTaskQueue::requestToRemoveTask(task_id_t id) {
 	_taskQueueGuard.lock();
 
-	auto task = std::find_if(_instance._tasks.begin(), _instance._tasks.end(), [id](TaskInfo *task) { return task->id == id; });
+	auto task = std::find_if(_instance._tasks.begin(), _instance._tasks.end(), [id](TaskInfo *t) { return t->id == id; });
 	if (task == _instance._tasks.end()) {
 		_taskQueueGuard.unlock();
 		return;
@@ -248,12 +248,12 @@ WppTaskQueue::task_id_t WppTaskQueue::getNextTaskId() {
 	do {
 		newId = _nextTaskId++;
 		if (newId == WPP_ERR_TASK_ID) continue;
-		auto task = std::find_if(_instance._tasks.begin(), _instance._tasks.end(), [newId](TaskInfo *task) { return task->id == newId; });
+		auto task = std::find_if(_instance._tasks.begin(), _instance._tasks.end(), [newId](TaskInfo *t) { return t->id == newId; });
 		isExist = task != _instance._tasks.end();
 	} while (isExist && baseId != _nextTaskId);
 
 	if (baseId == _nextTaskId) newId = WPP_ERR_TASK_ID;
-	
+
 	return newId;
 }
 

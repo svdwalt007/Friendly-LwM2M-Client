@@ -40,7 +40,7 @@ class WppClient;
 class Instance: public InstSubject, public ResourceContainer {
 public:
 	Instance(lwm2m_context_t &context, const OBJ_LINK_T &id): _context(context), _id(id) {}
-	virtual ~Instance() {}
+	virtual ~Instance();
 
 	Instance(const Instance&) = delete;
 	Instance(Instance&&) = delete;

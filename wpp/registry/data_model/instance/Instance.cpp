@@ -14,6 +14,8 @@
 
 namespace wpp {
 
+Instance::~Instance() {}
+
 void Instance::notifyResChanged(ID_T resId, ID_T resInstId) {
 	if (_context.state <= STATE_BOOTSTRAPPING) return;
 	WPP_LOGD(TAG_WPP_INST, "Notify value changed: objID=%d, instID=%d, resID=%d, resInstID=%d", getObjectID(), getInstanceID(), resId, resInstId);	
