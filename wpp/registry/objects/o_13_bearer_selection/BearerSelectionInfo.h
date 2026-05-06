@@ -7,7 +7,7 @@
 #ifndef WPP_BEARER_SELECTION_INFO_H
 #define WPP_BEARER_SELECTION_INFO_H
 
-#include "Lwm2mObjectBase.h"
+#include "ObjectInfo.h"
 
 #ifdef OBJ_O_13_BEARER_SELECTION
 

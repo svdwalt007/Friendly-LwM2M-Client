@@ -354,9 +354,9 @@ void FirmwareUpdate::internalDownloaderHandler() {
 	changeState(S_DOWNLOADING);
 
 	_internalDownloaderTaskId = WppTaskQueue::addTask(WPP_TASK_MIN_DELAY_S, [this](WppClient &client, void *ctx) -> bool {
-		const OPAQUE_T &pkg = resource(PACKAGE_0)->get<OPAQUE_T>();	
+		const OPAQUE_T &packageData = resource(PACKAGE_0)->get<OPAQUE_T>();
 
-		_internalDownloader->saveDownloadedBlock(pkg);
+		_internalDownloader->saveDownloadedBlock(packageData);
 		_internalDownloader->downloadIsCompleted();
 		if (_internalDownloader->downloadResult() != R_INITIAL) changeState(S_IDLE);
 		else changeState(S_DOWNLOADED);

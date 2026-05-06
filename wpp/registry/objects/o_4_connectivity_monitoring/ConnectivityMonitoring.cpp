@@ -260,9 +260,9 @@ bool ConnectivityMonitoring::checkLinkQuality(uint8_t linkQuality) {
 	INT_T networkBearer = resource(NETWORK_BEARER_0)->get<INT_T>();
     switch (networkBearer) {
         case GSM:
-			return LINK_QUALITY_GSM_MIN <= linkQuality && linkQuality <= LINK_QUALITY_GSM_MAX;
+			return linkQuality <= LINK_QUALITY_GSM_MAX;  // MIN is 0, uint8_t is always >= 0
         case IEEE_802_15_4:
-            return LINK_QUALITY_IEEE_802_15_4_MIN <= linkQuality && linkQuality <= LINK_QUALITY_IEEE_802_15_4_MAX;
+            return true;  // uint8_t range is 0-255, MAX is 255, always valid
 		case LTE_TDD:
 		case LTE_FDD:
 		case NB_IOT:
@@ -279,10 +279,10 @@ bool ConnectivityMonitoring::checkCellId(uint32_t cellId) {
 	INT_T networkBearer = resource(NETWORK_BEARER_0)->get<INT_T>();
     switch (networkBearer) {
         case GSM:
-            return CELL_ID_GSM_MIN <= cellId && cellId <= CELL_ID_GSM_MAX;
+            return cellId <= CELL_ID_GSM_MAX;  // MIN is 0, uint32_t is always >= 0
         case WCDMA:
 		case TD_SCDMA:
-			return CELL_ID_WCDMA_MIN <= cellId && cellId <= CELL_ID_WCDMA_MAX;
+			return cellId <= CELL_ID_WCDMA_MAX;  // MIN is 0, uint32_t is always >= 0
 		default:
 			// return true as for as resource not used in the another cases
 			return true;

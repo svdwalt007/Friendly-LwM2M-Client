@@ -17,8 +17,8 @@
 
 #include "WppTypes.h"
 #include "WppClient.h"
-#include "data_model/Instance.h"
-#include "data_model/ObjectImpl.h"
+#include "../../data_model/instance/Instance.h"
+#include "../../data_model/object/ObjectImpl.h"
 
 namespace wpp {
 

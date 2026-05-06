@@ -7,7 +7,7 @@
 #ifndef WPP_WLAN_CONNECTIVITY_INFO_H
 #define WPP_WLAN_CONNECTIVITY_INFO_H
 
-#include "Lwm2mObjectBase.h"
+#include "ObjectInfo.h"
 
 #ifdef OBJ_O_12_WLAN_CONNECTIVITY
 
