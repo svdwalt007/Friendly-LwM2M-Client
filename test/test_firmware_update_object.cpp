@@ -33,7 +33,7 @@ protected:
         config.downloadPath = (testDir_ / "download").string();
         config.backupPath = (testDir_ / "backup").string();
         config.defaultBlockSize = 1024;
-        config.rollbackEnabled = true;
+        config.rollbackEnabled = false;  // Disabled in tests - avoids platform hardware init
         config.autoReboot = false;
         
         firmwareObj_ = std::make_unique<AdvancedFirmwareUpdateObject>(0, config);

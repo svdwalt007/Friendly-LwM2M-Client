@@ -279,4 +279,280 @@ TEST_CASE("SafeQueue: clear", "[clear]") {
     REQUIRE(queue.size() == 0);
 }
 
-/// TODO: add tests for check thread safety
+// ============================================================================
+// Thread Safety Tests
+// ============================================================================
+
+TEST_CASE("SafeQueue: concurrent push from multiple threads", "[threading][push]") {
+    SafeQueue<int, 10000> queue;
+    constexpr int NUM_PRODUCERS = 10;
+    constexpr int ITEMS_PER_PRODUCER = 100;
+    std::vector<std::thread> producers;
+    std::atomic<int> pushCount{0};
+
+    for (int i = 0; i < NUM_PRODUCERS; ++i) {
+        producers.emplace_back([&queue, &pushCount, i]() {
+            for (int j = 0; j < ITEMS_PER_PRODUCER; ++j) {
+                int value = i * ITEMS_PER_PRODUCER + j;
+                if (queue.push(&value, 1)) {
+                    ++pushCount;
+                }
+            }
+        });
+    }
+
+    for (auto& t : producers) {
+        t.join();
+    }
+
+    REQUIRE(pushCount.load() == NUM_PRODUCERS * ITEMS_PER_PRODUCER);
+    REQUIRE(queue.size() == NUM_PRODUCERS * ITEMS_PER_PRODUCER);
+}
+
+TEST_CASE("SafeQueue: concurrent push/pop producer-consumer pattern", "[threading][push][pop]") {
+    SafeQueue<int, 5000> queue;
+    std::atomic<int> itemsProduced{0};
+    std::atomic<int> itemsConsumed{0};
+    std::atomic<bool> stopConsumers{false};
+    constexpr int TARGET_ITEMS = 1000;
+
+    // Producer thread
+    std::thread producer([&]() {
+        for (int i = 0; i < TARGET_ITEMS; ++i) {
+            while (!queue.push(&i, 1)) {
+                std::this_thread::sleep_for(std::chrono::microseconds(1));
+            }
+            ++itemsProduced;
+        }
+        stopConsumers = true;
+    });
+
+    // Consumer threads
+    std::vector<std::thread> consumers;
+    for (int i = 0; i < 3; ++i) {
+        consumers.emplace_back([&]() {
+            int value;
+            while (!stopConsumers || !queue.is_empty()) {
+                if (queue.pop(&value, 1)) {
+                    ++itemsConsumed;
+                } else {
+                    std::this_thread::sleep_for(std::chrono::microseconds(10));
+                }
+            }
+        });
+    }
+
+    producer.join();
+    for (auto& c : consumers) {
+        c.join();
+    }
+
+    REQUIRE(itemsProduced == TARGET_ITEMS);
+    REQUIRE(itemsConsumed == TARGET_ITEMS);
+    REQUIRE(queue.is_empty());
+}
+
+TEST_CASE("SafeQueue: stress test with many threads and operations", "[threading][stress]") {
+    SafeQueue<int, 20000> queue;
+    std::atomic<int> pushCount{0};
+    std::atomic<int> popCount{0};
+    constexpr int NUM_THREADS = 20;
+    constexpr int OPS_PER_THREAD = 200;
+    std::vector<std::thread> threads;
+
+    for (int i = 0; i < NUM_THREADS; ++i) {
+        threads.emplace_back([&, i]() {
+            for (int j = 0; j < OPS_PER_THREAD; ++j) {
+                if (i % 2 == 0) {
+                    // Even threads push
+                    int value = i * OPS_PER_THREAD + j;
+                    if (queue.push(&value, 1)) {
+                        ++pushCount;
+                    }
+                } else {
+                    // Odd threads pop
+                    int value;
+                    if (queue.pop(&value, 1)) {
+                        ++popCount;
+                    }
+                }
+                // Small delay to increase contention
+                std::this_thread::yield();
+            }
+        });
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    // Some items may remain in queue
+    REQUIRE(pushCount.load() >= popCount.load());
+    REQUIRE(queue.size() == (pushCount.load() - popCount.load()));
+}
+
+TEST_CASE("SafeQueue: concurrent clear operations", "[threading][clear]") {
+    SafeQueue<int, 10000> queue;
+
+    // Fill queue
+    for (int i = 0; i < 1000; ++i) {
+        queue.push(&i, 1);
+    }
+
+    REQUIRE(queue.size() == 1000);
+
+    // Multiple threads clearing simultaneously
+    std::vector<std::thread> threads;
+    for (int i = 0; i < 5; ++i) {
+        threads.emplace_back([&]() {
+            queue.clear();
+        });
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    REQUIRE(queue.is_empty());
+    REQUIRE(queue.size() == 0);
+}
+
+TEST_CASE("SafeQueue: thread safety with mixed operations", "[threading][mixed]") {
+    SafeQueue<int, 5000> queue;
+    std::atomic<bool> stop{false};
+    std::atomic<int> totalPushed{0};
+    std::atomic<int> totalPopped{0};
+
+    // Pusher threads
+    std::vector<std::thread> pushers;
+    for (int i = 0; i < 3; ++i) {
+        pushers.emplace_back([&, i]() {
+            int count = 0;
+            while (!stop && count < 500) {
+                int value = i * 1000 + count;
+                if (queue.push(&value, 1)) {
+                    ++totalPushed;
+                    ++count;
+                }
+                std::this_thread::yield();
+            }
+        });
+    }
+
+    // Popper threads
+    std::vector<std::thread> poppers;
+    for (int i = 0; i < 3; ++i) {
+        poppers.emplace_back([&]() {
+            while (!stop || !queue.is_empty()) {
+                int value;
+                if (queue.pop(&value, 1)) {
+                    ++totalPopped;
+                }
+                std::this_thread::yield();
+            }
+        });
+    }
+
+    // Let pushers finish
+    for (auto& t : pushers) {
+        t.join();
+    }
+
+    stop = true;
+
+    // Let poppers finish
+    for (auto& t : poppers) {
+        t.join();
+    }
+
+    REQUIRE(totalPushed.load() == 1500); // 3 threads * 500 items
+    REQUIRE(totalPopped.load() == totalPushed.load());
+    REQUIRE(queue.is_empty());
+}
+
+TEST_CASE("SafeQueue: concurrent size queries don't block operations", "[threading][size]") {
+    SafeQueue<int, 5000> queue;
+    std::atomic<bool> stop{false};
+    std::atomic<int> sizeQueries{0};
+
+    // Worker thread doing push/pop
+    std::thread worker([&]() {
+        for (int i = 0; i < 1000 && !stop; ++i) {
+            queue.push(&i, 1);
+            int value;
+            queue.pop(&value, 1);
+        }
+    });
+
+    // Query threads
+    std::vector<std::thread> queriers;
+    for (int i = 0; i < 5; ++i) {
+        queriers.emplace_back([&]() {
+            while (!stop) {
+                queue.size();
+                queue.is_empty();
+                queue.is_full();
+                ++sizeQueries;
+                std::this_thread::yield();
+            }
+        });
+    }
+
+    worker.join();
+    stop = true;
+
+    for (auto& t : queriers) {
+        t.join();
+    }
+
+    INFO("Performed " << sizeQueries.load() << " size queries concurrently");
+    REQUIRE(sizeQueries.load() > 0);
+}
+
+TEST_CASE("SafeQueue: no data races under thread sanitizer", "[threading][sanitizer]") {
+    // This test is designed to be run with ThreadSanitizer (-fsanitize=thread)
+    // to detect any data races in SafeQueue implementation
+
+    SafeQueue<int, 1000> queue;
+    constexpr int NUM_THREADS = 10;
+    constexpr int OPS_PER_THREAD = 100;
+    std::vector<std::thread> threads;
+
+    for (int i = 0; i < NUM_THREADS; ++i) {
+        threads.emplace_back([&, i]() {
+            // Mix of all operations
+            for (int j = 0; j < OPS_PER_THREAD; ++j) {
+                int value = i * OPS_PER_THREAD + j;
+
+                switch (j % 5) {
+                    case 0:
+                        queue.push(&value, 1);
+                        break;
+                    case 1: {
+                        int tmp;
+                        queue.pop(&tmp, 1);
+                        break;
+                    }
+                    case 2:
+                        queue.size();
+                        break;
+                    case 3:
+                        queue.is_empty();
+                        break;
+                    case 4:
+                        queue.is_full();
+                        break;
+                }
+
+                std::this_thread::yield();
+            }
+        });
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    // If we reach here without ThreadSanitizer warnings, thread safety is good
+    REQUIRE(true);
+}

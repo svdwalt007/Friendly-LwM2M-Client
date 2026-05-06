@@ -1,0 +1,67 @@
+# Zephyr CMakeLists.txt for RTOS Tests
+#
+# Build Instructions:
+#   west build -b qemu_cortex_m3 tests/platform/rtos
+#   west build -t run  # For QEMU
+#
+#   west build -b nrf52840dk_nrf52840 tests/platform/rtos
+#   west flash         # For hardware
+#
+# Supported Boards:
+#   - qemu_cortex_m3, qemu_x86, qemu_riscv32
+#   - nrf52840dk_nrf52840 (nRF52840 DK)
+#   - nrf9160dk_nrf9160 (nRF9160 DK)
+#   - thingy91_nrf9160 (Nordic Thingy:91)
+#   - nrf9151dk_nrf9151 (nRF9151 SMA Dev Kit)
+#   - stm32f4_disco, nucleo_f429zi
+
+cmake_minimum_required(VERSION 3.20.0)
+
+# Find Zephyr package
+find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+
+project(rtos_tests)
+
+# Add Catch2 test framework
+target_sources(app PRIVATE
+    ../../catch2/catch_amalgamated.cpp
+)
+
+# Add test files
+target_sources(app PRIVATE
+    test_zephyr.cpp
+)
+
+# Add RTOS abstraction headers
+target_include_directories(app PRIVATE
+    ../../../include
+    ../../
+)
+
+# Add Zephyr adapter implementation
+target_sources(app PRIVATE
+    ../../../src/platform/rtos/zephyr_adapter.cpp
+)
+
+# Define RTOS_ZEPHYR
+target_compile_definitions(app PRIVATE
+    RTOS_ZEPHYR=1
+)
+
+# Enable C++17
+target_compile_features(app PRIVATE cxx_std_17)
+
+# Compiler warnings
+target_compile_options(app PRIVATE
+    -Wall
+    -Wextra
+    -Wno-unused-parameter
+    -Wno-unused-function
+)
+
+# Link libraries
+target_link_libraries(app PRIVATE
+    kernel
+    gcc
+    c
+)
