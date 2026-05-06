@@ -150,7 +150,8 @@ bool AdvancedFirmwareUpdateObject::read(FirmwareResourceId resourceId,
             return true;
             
         case FirmwareResourceId::COMPONENT_LIST:
-            value = getComponentsJson();
+            // mutex_ is already held; use the unlocked helper to avoid deadlock.
+            value = getComponentsJsonLocked();
             return true;
             
         case FirmwareResourceId::SOURCE_VERSION:
@@ -1028,10 +1029,14 @@ std::vector<FirmwareComponent> AdvancedFirmwareUpdateObject::getComponents() con
 
 std::string AdvancedFirmwareUpdateObject::getComponentsJson() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+    return getComponentsJsonLocked();
+}
+
+std::string AdvancedFirmwareUpdateObject::getComponentsJsonLocked() const {
+    // Caller must already hold mutex_.
     std::stringstream ss;
     ss << "[";
-    
+
     for (size_t i = 0; i < components_.size(); i++) {
         const auto& comp = components_[i];
         ss << "{";
@@ -1042,7 +1047,7 @@ std::string AdvancedFirmwareUpdateObject::getComponentsJson() const {
         ss << "\"checksum\":\"" << bytesToHex(comp.checksum) << "\"";
         ss << "}" << (i < components_.size() - 1 ? "," : "");
     }
-    
+
     ss << "]";
     return ss.str();
 }

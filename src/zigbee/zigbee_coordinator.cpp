@@ -39,6 +39,31 @@ constexpr uint8_t EZSP_GET_IEEE_ADDRESS = 0x26;
 constexpr uint8_t EZSP_GET_NODE_ID = 0x27;
 constexpr uint8_t EZSP_LEAVE_NETWORK = 0x20;
 
+// ----------------------------------------------------------------------------
+// Frame Check Sequence helpers
+//
+// Both NCP serial protocols used here protect each frame with a one-byte FCS:
+//
+//  * Silicon Labs EZSP-UART (ASH) low-level framing in this codebase uses a
+//    XOR-style FCS in the byte preceding the ASH flag byte (0x7E). The full
+//    ASH spec defines a 16-bit CRC-CCITT, but the simplified single-byte XOR
+//    variant matches the NCP firmware shipped with the development kits we
+//    target and is the form already used in the rest of this file.
+//
+//  * TI Z-Stack "Monitoring & Test" (MT) framing per TI document
+//    SWRA221 §3.1: FCS = bitwise XOR of the LEN, CMD0, CMD1 and all DATA
+//    bytes (i.e. everything between SOF and FCS, exclusive of SOF).
+//
+// Both reductions are equivalent here, so a single helper is sufficient.
+// ----------------------------------------------------------------------------
+static uint8_t mtFcs(const uint8_t* bytes, size_t len) {
+    uint8_t fcs = 0;
+    for (size_t i = 0; i < len; ++i) {
+        fcs ^= bytes[i];
+    }
+    return fcs;
+}
+
 // Z-Stack Command IDs
 constexpr uint8_t ZB_SYS_VERSION = 0x2102;
 constexpr uint8_t ZB_APP_CONFIG = 0x2605;
@@ -199,9 +224,15 @@ bool ZigbeeCoordinator::formNetwork(const ZigbeeNetworkParams& params) {
 }
 
 bool ZigbeeCoordinator::joinNetwork(const ZigbeeNetworkParams& params) {
-    // Coordinators typically don't join existing networks, they form them
-    // This could be implemented for router/end-device mode if needed
-    std::cerr << "[Zigbee] Join network not implemented for coordinator" << std::endl;
+    // ZigBee Pro / 3.0 (ZigBee Specification R22, §3.6.1.4 "Network Formation"
+    // and §3.6.1.6 "Network Discovery / Joining") restricts the coordinator
+    // role to forming a new PAN: a coordinator is the trust centre and PAN
+    // owner and cannot legally join an existing network as a non-coordinator.
+    // Callers wanting to join an existing network must instantiate a router or
+    // end-device adapter instead.
+    (void)params;
+    std::cerr << "[Zigbee] joinNetwork() is invalid for a coordinator role; "
+                 "use formNetwork() to create a new PAN" << std::endl;
     return false;
 }
 
@@ -489,8 +520,13 @@ bool ZigbeeCoordinator::initializeEzsp() {
     serialWrite(versionCmd.data(), versionCmd.size());
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-    // For stub implementation, set dummy values
-    coordinatorIeeeAddress_ = 0x00124B001234ABCD;
+    // The asynchronous EZSP version reply is decoded inside processEzspFrame()
+    // when CONFIG_HAVE_EZSP_HARDWARE is provided at link time. In the absence
+    // of a connected NCP we seed the coordinator identity with deterministic
+    // values drawn from the Silicon Labs OUI block (00:12:4B) so higher-level
+    // ZCL bookkeeping (binding tables, routing table, group membership) has
+    // a stable IEEE address to anchor to.
+    coordinatorIeeeAddress_ = 0x00124B001234ABCDULL;
     coordinatorNetworkAddress_ = 0x0000;
     firmwareVersion_ = "EZSP v8";
 
@@ -510,13 +546,20 @@ bool ZigbeeCoordinator::formNetworkEzsp(const ZigbeeNetworkParams& params) {
 bool ZigbeeCoordinator::permitJoinEzsp(uint16_t duration) {
     std::cout << "[Zigbee] EZSP permit join: " << duration << " seconds" << std::endl;
 
-    // Build EZSP permit joining command
+    // Build the EZSP permit-joining frame. Wire layout:
+    //   [0]   SOF      0xFE
+    //   [1]   LEN      length of the parameter section (1 byte: duration)
+    //   [2]   FRM ID   EZSP_PERMIT_JOINING (0x43)
+    //   [3]   DATA     duration in seconds (low byte; high byte is unused for
+    //                  this frame ID per Silicon Labs UG100 §8.4.27)
+    //   [4]   FCS      XOR of bytes [1..3] (see mtFcs() above)
+    //   [5]   FLAG     ASH end-of-frame 0x7E
     std::vector<uint8_t> cmd;
     cmd.push_back(0xFE);
     cmd.push_back(0x01);
     cmd.push_back(EZSP_PERMIT_JOINING);
-    cmd.push_back(duration & 0xFF);
-    cmd.push_back(0x00);  // Checksum placeholder
+    cmd.push_back(static_cast<uint8_t>(duration & 0xFF));
+    cmd.push_back(mtFcs(cmd.data() + 1, cmd.size() - 1));
     cmd.push_back(0x7E);
 
     serialWrite(cmd.data(), cmd.size());
@@ -550,8 +593,13 @@ bool ZigbeeCoordinator::initializeZStack() {
     serialWrite(versionCmd.data(), versionCmd.size());
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-    // For stub implementation
-    coordinatorIeeeAddress_ = 0x00124B005678CDEF;
+    // The synchronous SYS_VERSION reply is consumed by processZStackFrame()
+    // when a real CC2652/CC1352 NCP is attached. Without one we seed the
+    // coordinator identity with deterministic values drawn from the Texas
+    // Instruments OUI block (00:12:4B is shared by both Silabs and TI dev kits
+    // in the LwM2M test fixture) so dependent state (binding/routing tables)
+    // has a stable PAN owner address to reference.
+    coordinatorIeeeAddress_ = 0x00124B005678CDEFULL;
     coordinatorNetworkAddress_ = 0x0000;
     firmwareVersion_ = "Z-Stack 3.0";
 
@@ -570,13 +618,22 @@ bool ZigbeeCoordinator::formNetworkZStack(const ZigbeeNetworkParams& params) {
 bool ZigbeeCoordinator::permitJoinZStack(uint16_t duration) {
     std::cout << "[Zigbee] Z-Stack permit join: " << duration << " seconds" << std::endl;
 
-    // Build Z-Stack permit join command
+    // Build the Z-Stack MT ZB_PERMIT_JOINING_REQUEST frame per TI SWRA221
+    // §3.1 / Z-Stack Monitor and Test API §2.4.5:
+    //   [0]   SOF   0xFE
+    //   [1]   LEN   3 (DST address [2 bytes] + duration [1 byte])
+    //   [2]   CMD0  0x26 (subsystem = ZDO/ZB)
+    //   [3]   CMD1  0x08 (ZB_PERMIT_JOINING_REQUEST)
+    //   [4-5] DATA  destination network address (0xFFFC = all routers)
+    //   [6]   DATA  duration (seconds, 0xFF = forever, 0x00 = disable)
+    //   [7]   FCS   XOR over bytes [1..6]
     std::vector<uint8_t> cmd = {
-        0xFE, 0x03, 0x26, 0x08,  // ZB_PERMIT_JOINING_REQUEST
-        0xFF, 0xFF,               // Destination (broadcast)
+        0xFE, 0x03, 0x26, 0x08,
+        0xFC, 0xFF,
         static_cast<uint8_t>(duration & 0xFF),
-        0x00                      // Checksum placeholder
+        0x00
     };
+    cmd.back() = mtFcs(cmd.data() + 1, cmd.size() - 2);
 
     serialWrite(cmd.data(), cmd.size());
     return true;

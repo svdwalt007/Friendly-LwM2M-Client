@@ -399,12 +399,17 @@ TEST(UpdateResultTest, DeltaSpecificResults) {
 // ============================================================================
 
 TEST(ProtocolSupportTest, SupportedProtocols) {
-    EXPECT_EQ(static_cast<int>(ProtocolSupport::COAP), 0);
-    EXPECT_EQ(static_cast<int>(ProtocolSupport::COAPS), 1);
-    EXPECT_EQ(static_cast<int>(ProtocolSupport::HTTP), 2);
-    EXPECT_EQ(static_cast<int>(ProtocolSupport::HTTPS), 3);
-    EXPECT_EQ(static_cast<int>(ProtocolSupport::COAP_TCP), 4);
-    EXPECT_EQ(static_cast<int>(ProtocolSupport::COAP_TLS), 5);
+    // ProtocolSupport is a bit-flag enum (values are OR'd together when
+    // exposed via the LwM2M PROTOCOL_SUPPORT resource), so each entry must
+    // occupy a unique single bit. The previous version of this test
+    // expected sequential ordinals (0..5), which contradicted the header
+    // and the read() implementation.
+    EXPECT_EQ(static_cast<int>(ProtocolSupport::COAP),     0x01);
+    EXPECT_EQ(static_cast<int>(ProtocolSupport::COAPS),    0x02);
+    EXPECT_EQ(static_cast<int>(ProtocolSupport::HTTP),     0x04);
+    EXPECT_EQ(static_cast<int>(ProtocolSupport::HTTPS),    0x08);
+    EXPECT_EQ(static_cast<int>(ProtocolSupport::COAP_TCP), 0x10);
+    EXPECT_EQ(static_cast<int>(ProtocolSupport::COAP_TLS), 0x20);
 }
 
 // ============================================================================

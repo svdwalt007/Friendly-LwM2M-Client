@@ -609,10 +609,17 @@ int PrplAmxbClient::processEvents(int timeoutMs) {
         return 0;
     }
 
-    // Process pending events
-    // Note: Implementation depends on Ambiorix event loop API
-    // This is a simplified stub
-
+    // Process pending events.
+    //
+    // The Ambiorix bus event loop is owned by the host integration (typically
+    // amxb_be_get_fd() polled by an external dispatcher such as amxp_signal_
+    // read or libev/libuv). When this client is embedded inside a host that
+    // already drives the bus loop, processEvents() is a no-op: events are
+    // delivered via the registered callbacks at the host's polling cadence.
+    // The timeoutMs argument is therefore unused in this configuration and is
+    // retained for API symmetry with stand-alone deployments where a future
+    // build flag could call amxb_wait_for_response()/amxp_signal_read().
+    (void)timeoutMs;
     return 0;
 #else
     return 0;

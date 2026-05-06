@@ -494,6 +494,11 @@ private:
     bool saveToFile(const std::string& path, const std::vector<uint8_t>& data);
     bool loadFromFile(const std::string& path, std::vector<uint8_t>& data);
 
+    // Internal helper used while mutex_ is already held by the caller.
+    // Public getComponentsJson() acquires mutex_ and delegates here so that
+    // read() (which already holds mutex_) does not deadlock.
+    std::string getComponentsJsonLocked() const;
+
     // Configuration
     Config config_;
     uint16_t instanceId_;

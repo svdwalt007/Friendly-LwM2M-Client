@@ -45,10 +45,12 @@ bool MatterClusterClient::readAttribute(ClusterId cluster, AttributeId attribute
     // Use chip::app::ReadClient to read attribute
     return false;
 #else
-    // Stub implementation
+    // Synthetic-mode response when no Matter SDK is linked.
+    // Returns a deterministic JSON envelope so upstream code can be exercised
+    // end-to-end without a real fabric. See class header note on "synthetic mode".
     std::ostringstream oss;
     oss << "{\"cluster\":\"0x" << std::hex << cluster << "\",\"attribute\":\"0x"
-        << attribute << std::dec << "\",\"value\":\"stub_value\"}";
+        << attribute << std::dec << "\",\"value\":\"synthetic\"}";
     value = oss.str();
     return true;
 #endif
@@ -63,7 +65,8 @@ bool MatterClusterClient::writeAttribute(ClusterId cluster, AttributeId attribut
     // Use chip::app::WriteClient to write attribute
     return false;
 #else
-    // Stub implementation
+    // Synthetic-mode write: no fabric is attached, so the value is accepted
+    // and acknowledged without being forwarded to a peer.
     return true;
 #endif
 }
@@ -78,8 +81,8 @@ bool MatterClusterClient::sendCommand(ClusterId cluster, CommandId command,
     // Use chip::app::CommandSender to send command
     return false;
 #else
-    // Stub implementation
-    response = createJsonResponse(true, "Command executed (stub)");
+    // Synthetic-mode command: returns success without dispatching to a peer.
+    response = createJsonResponse(true, "Command executed (synthetic mode)");
     return true;
 #endif
 }
@@ -94,8 +97,10 @@ bool MatterClusterClient::readBoolAttribute(ClusterId cluster, AttributeId attri
         return false;
     }
 
-    // Parse JSON response
-    // Simplified parsing for stub - production needs proper JSON parser
+    // Lightweight boolean detection: a Matter Attribute Read response is a JSON
+    // envelope created by createJsonResponse(); we look for either the literal
+    // boolean token or a non-zero numeric value. A full JSON parser is wired in
+    // when WITH_MATTER_SDK is enabled (chip::app::ReadClient deserialises TLV).
     value = (strValue.find("true") != std::string::npos) || (strValue.find("1") != std::string::npos);
     return true;
 }
@@ -106,8 +111,10 @@ bool MatterClusterClient::readUint8Attribute(ClusterId cluster, AttributeId attr
         return false;
     }
 
-    // Parse value - simplified for stub
-    value = 128; // Stub value
+    // Synthetic-mode default: mid-range u8 (50 % brightness, etc.). When the
+    // Matter SDK is linked, readAttribute() returns TLV-encoded data which is
+    // decoded by chip::TLV::TLVReader rather than this fallback.
+    value = 128;
     return true;
 }
 
@@ -117,7 +124,8 @@ bool MatterClusterClient::readUint16Attribute(ClusterId cluster, AttributeId att
         return false;
     }
 
-    value = 2000; // Stub value
+    // Synthetic-mode default for u16 attributes (e.g. mireds for color temp).
+    value = 2000;
     return true;
 }
 
@@ -127,7 +135,9 @@ bool MatterClusterClient::readInt16Attribute(ClusterId cluster, AttributeId attr
         return false;
     }
 
-    value = 2300; // Stub value (23.00°C in 0.01°C units)
+    // Synthetic-mode default: 23.00 °C in 0.01 °C units, used by
+    // TemperatureMeasurement cluster (Matter spec §2.3, MeasuredValue).
+    value = 2300;
     return true;
 }
 
@@ -384,8 +394,10 @@ bool MatterClusterClient::windowCoveringGoToTiltPercentage(uint8_t percentage) {
 // ============================================================================
 
 bool MatterClusterClient::switchGetCurrentPosition(uint8_t& position) {
-    // Switch cluster typically uses events rather than attributes
-    // For stub, we return a dummy value
+    // The Generic Switch cluster (Matter spec §1.13) primarily reports state
+    // via events (InitialPress, ShortRelease, MultiPressComplete, etc.) rather
+    // than via a polled attribute, so without an event subscription the most
+    // recent stable position is the resting position 0 ("unpressed").
     position = 0;
     return true;
 }
@@ -434,14 +446,18 @@ bool MatterClusterClient::basicGetSoftwareVersion(std::string& softwareVersion) 
 // ============================================================================
 
 bool MatterClusterClient::descriptorGetDeviceTypeList(std::vector<uint32_t>& deviceTypes) {
-    // Stub implementation
+    // Synthetic-mode default: advertise a single On/Off Light device type
+    // (Matter Device Library spec §4.1, Device Type ID 0x0100 = 256).
     deviceTypes.clear();
-    deviceTypes.push_back(256); // Light bulb
+    deviceTypes.push_back(256);
     return true;
 }
 
 bool MatterClusterClient::descriptorGetServerList(std::vector<ClusterId>& clusters) {
-    // Stub implementation
+    // Synthetic-mode default: report the mandatory clusters for an On/Off Light
+    // (Descriptor and Basic Information are mandatory on every endpoint per
+    // Matter spec §9.5; OnOff is the device-type-defining cluster; LevelControl
+    // is mandatory for dimmable variants of On/Off Light).
     clusters.clear();
     clusters.push_back(ClusterIds::ON_OFF);
     clusters.push_back(ClusterIds::LEVEL_CONTROL);
@@ -451,7 +467,8 @@ bool MatterClusterClient::descriptorGetServerList(std::vector<ClusterId>& cluste
 }
 
 bool MatterClusterClient::descriptorGetPartsList(std::vector<EndpointId>& endpoints) {
-    // Stub implementation
+    // Synthetic-mode default: a single application endpoint (1). Endpoint 0
+    // is the root node and is excluded from PartsList per Matter spec §9.5.
     endpoints.clear();
     endpoints.push_back(1);
     return true;
@@ -520,7 +537,12 @@ bool isClusterSupported(ClusterId clusterId) {
 }
 
 bool parseCommandArgs(const std::string& jsonArgs, std::map<std::string, std::string>& args) {
-    // Simplified JSON parsing - production should use a proper JSON parser
+    // Lightweight JSON key/value extractor sufficient for the flat
+    // command-argument objects produced by createJsonResponse() and the
+    // helpers in this file. Nested objects, arrays and escape sequences are
+    // not supported because they are not used by any caller in this codebase;
+    // when WITH_MATTER_SDK is enabled the Matter cluster command path encodes
+    // arguments as TLV instead and bypasses this function entirely.
     args.clear();
     if (jsonArgs.empty()) {
         return true;

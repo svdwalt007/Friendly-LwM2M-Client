@@ -12,6 +12,7 @@
 #include <cstring>
 #include <stdexcept>
 #include <map>
+#include <unordered_map>
 
 // Compression libraries
 #include <zlib.h>
@@ -44,44 +45,28 @@ namespace firmware {
 constexpr uint8_t BSDIFF_MAGIC[] = {'B', 'S', 'D', 'I', 'F', 'F', '4', '0'};
 
 struct BSDiffAlgorithm::Impl {
-    // Suffix array construction for binary search
-    static void suffixArray(const uint8_t* data, int64_t* sa, int64_t n) {
-        // Simple O(n²log n) suffix array construction
-        // Suitable for test data and moderate-sized firmware images
-        // For production with large firmware, consider libdivsufsort
-        std::vector<int64_t> suffixes(n);
+    // Minimum match length to consider a hash-table hit useful. Below this,
+    // greedily emitting matches inflates the control block more than the
+    // diff savings, so the matcher treats short hits as literal copies.
+    static constexpr int64_t MIN_MATCH = 8;
 
-        // Initialize with positions
-        for (int64_t i = 0; i < n; i++) {
-            suffixes[i] = i;
-        }
+    // Width of the rolling key used to seed the hash table.
+    static constexpr size_t HASH_WIDTH = 4;
 
-        // Sort suffixes lexicographically
-        std::sort(suffixes.begin(), suffixes.end(),
-            [data, n](int64_t posA, int64_t posB) {
-                int64_t i = posA;
-                int64_t j = posB;
+    // Cap on the number of candidate positions checked per hash bucket.
+    // Random data with HASH_WIDTH=4 gives ~256-deep buckets on average for
+    // 64KB sources, which is safe; larger caps can push createDelta past
+    // the test timeout without measurably improving compression.
+    static constexpr size_t MAX_BUCKET_CANDIDATES = 64;
 
-                // Compare suffixes starting at posA and posB
-                while (i < n && j < n) {
-                    if (data[i] != data[j]) {
-                        return data[i] < data[j];
-                    }
-                    i++;
-                    j++;
-                }
-
-                // Shorter suffix comes first
-                return i >= n && j < n;
-            });
-
-        // Copy to output
-        for (int64_t i = 0; i < n; i++) {
-            sa[i] = suffixes[i];
-        }
+    static uint32_t hash4(const uint8_t* p) {
+        return (uint32_t(p[0]) << 24) |
+               (uint32_t(p[1]) << 16) |
+               (uint32_t(p[2]) << 8)  |
+                uint32_t(p[3]);
     }
 
-    // Binary search for longest match
+    // Match length helper used by both the hash matcher and back-extension.
     static int64_t matchLength(const uint8_t* source, int64_t sourceLen,
                                const uint8_t* target, int64_t targetLen) {
         int64_t i = 0;
@@ -91,33 +76,56 @@ struct BSDiffAlgorithm::Impl {
         return i;
     }
 
-    // Search for best match in suffix array
-    static int64_t search(const int64_t* sa, const uint8_t* source, int64_t sourceLen,
-                          const uint8_t* target, int64_t targetLen,
-                          int64_t start, int64_t end, int64_t* pos) {
-        if (end - start < 2) {
-            int64_t len1 = matchLength(source + sa[start], sourceLen - sa[start], 
-                                       target, targetLen);
-            int64_t len2 = matchLength(source + sa[end], sourceLen - sa[end],
-                                       target, targetLen);
-            
-            if (len1 > len2) {
-                *pos = sa[start];
-                return len1;
-            } else {
-                *pos = sa[end];
-                return len2;
+    // Build a lookup table mapping HASH_WIDTH-byte keys to source positions.
+    // Each bucket is capped at MAX_BUCKET_CANDIDATES entries; this trades a
+    // small amount of compression ratio for bounded createDelta runtime.
+    static void buildHashTable(
+        const uint8_t* source, int64_t sourceLen,
+        std::unordered_map<uint32_t, std::vector<int64_t>>& table) {
+        if (sourceLen < (int64_t)HASH_WIDTH) {
+            return;
+        }
+        for (int64_t i = 0; i + (int64_t)HASH_WIDTH <= sourceLen; i++) {
+            uint32_t key = hash4(source + i);
+            auto& bucket = table[key];
+            if (bucket.size() < MAX_BUCKET_CANDIDATES) {
+                bucket.push_back(i);
             }
         }
-        
-        int64_t mid = start + (end - start) / 2;
-        
-        if (std::memcmp(source + sa[mid], target, 
-                        std::min(sourceLen - sa[mid], targetLen)) < 0) {
-            return search(sa, source, sourceLen, target, targetLen, mid, end, pos);
-        } else {
-            return search(sa, source, sourceLen, target, targetLen, start, mid, pos);
+    }
+
+    // Find the longest match for target[scan..] anywhere in source.
+    // Returns the match length (>=0) and writes the source position to *pos.
+    static int64_t findBestMatch(
+        const uint8_t* source, int64_t sourceLen,
+        const uint8_t* target, int64_t targetLen,
+        int64_t scan,
+        const std::unordered_map<uint32_t, std::vector<int64_t>>& table,
+        int64_t* pos) {
+        *pos = 0;
+        if (scan + (int64_t)HASH_WIDTH > targetLen) {
+            return 0;
         }
+        uint32_t key = hash4(target + scan);
+        auto it = table.find(key);
+        if (it == table.end()) {
+            return 0;
+        }
+
+        int64_t bestLen = 0;
+        int64_t bestPos = 0;
+        for (int64_t srcPos : it->second) {
+            int64_t len = matchLength(
+                source + srcPos, sourceLen - srcPos,
+                target + scan, targetLen - scan);
+            if (len > bestLen) {
+                bestLen = len;
+                bestPos = srcPos;
+            }
+        }
+
+        *pos = bestPos;
+        return bestLen;
     }
 
     // Write 64-bit value in BSDIFF format
@@ -155,106 +163,105 @@ DeltaResult BSDiffAlgorithm::createDelta(const std::vector<uint8_t>& source,
         return DeltaResult::ERROR_INVALID_INPUT;
     }
 
-    const int64_t sourceLen = source.size();
-    const int64_t targetLen = target.size();
+    const int64_t sourceLen = static_cast<int64_t>(source.size());
+    const int64_t targetLen = static_cast<int64_t>(target.size());
 
-    // Build suffix array
-    std::vector<int64_t> sa(sourceLen);
-    Impl::suffixArray(source.data(), sa.data(), sourceLen);
+    // Build a hash index over source. The previous suffix-array-based
+    // matcher was O(n^2 log n) on random data and exceeded the 30s test
+    // timeout for 64 KiB inputs; this hash index is O(n) to build and
+    // bounds per-position lookup work via MAX_BUCKET_CANDIDATES.
+    std::unordered_map<uint32_t, std::vector<int64_t>> hashTable;
+    Impl::buildHashTable(source.data(), sourceLen, hashTable);
 
     // Delta components
     std::vector<uint8_t> diffBlock;
     std::vector<uint8_t> extraBlock;
     std::vector<uint8_t> controlBlock;
 
-    int64_t scan = 0;
-    int64_t lastScan = 0;
-    int64_t lastPos = 0;
-    int64_t lastOffset = 0;
+    // BSDIFF wire format: each control record encodes (addLen, copyLen,
+    // seekLen). The decoder applies addLen bytes from diffBlock added to
+    // source[oldPos..], then copies copyLen bytes verbatim from extraBlock,
+    // then advances oldPos by seekLen.
+    //
+    // We emit records by walking the target with a greedy matcher: every
+    // time we find a strong match in source, the run of unmatched bytes
+    // since the previous match becomes the "extra" block of the previous
+    // record, and the new match becomes the "add" portion of the next.
+    int64_t targetPos = 0;            // next target byte to encode
+    int64_t pendingAddLen = 0;        // length of the current add segment
+    int64_t pendingAddSrcPos = 0;     // source offset for the add segment
+    int64_t pendingExtraStart = 0;    // first target byte that is "extra"
+    int64_t pendingExtraLen = 0;      // accumulated extra bytes after the
+                                      // current match
+    int64_t prevSrcEnd = 0;           // source position immediately after
+                                      // the last match (used for seekLen)
+    bool havePending = false;
 
-    while (scan < targetLen) {
-        int64_t pos = 0;
-        int64_t matchLen = 0;
-        int64_t oldscore = 0;
-        int64_t scsc = scan;
-
-        // Find longest match
-        while (scan < targetLen) {
-            int64_t len = Impl::search(sa.data(), source.data(), sourceLen,
-                                       target.data() + scan, targetLen - scan,
-                                       0, sourceLen - 1, &pos);
-
-            while (scsc < scan + len) {
-                if (scsc + lastOffset < sourceLen &&
-                    source[scsc + lastOffset] == target[scsc]) {
-                    oldscore++;
-                }
-                scsc++;
-            }
-
-            if ((len == oldscore && len != 0) || len > oldscore + 8) {
-                break;
-            }
-
-            if (scan + lastOffset < sourceLen &&
-                source[scan + lastOffset] == target[scan]) {
-                oldscore--;
-            }
-            scan++;
-        }
-
-        if (scan == targetLen) {
-            matchLen = 0;
-        } else {
-            matchLen = Impl::matchLength(source.data() + pos, sourceLen - pos,
-                                         target.data() + scan, targetLen - scan);
-        }
-
-        // Find overlap
-        int64_t overlap = 0;
-        int64_t ss = 0;
-        int64_t lens = 0;
-
-        for (int64_t i = 0; i < std::min(matchLen, scan - lastScan); i++) {
-            if (source[lastPos + (scan - lastScan) - i - 1] == 
-                target[scan - i - 1]) {
-                ss++;
-            }
-            if (source[pos - i - 1] == target[scan - i - 1]) {
-                ss--;
-            }
-            if (ss > lens) {
-                lens = ss;
-                overlap = i + 1;
-            }
-        }
-
-        // Write control data
-        int64_t diffLen = scan - overlap - lastScan;
-        int64_t extraLen = scan - (lastScan + diffLen);
-        int64_t seekLen = (pos - overlap) - (lastPos + diffLen);
-
-        Impl::writeOffset(controlBlock, diffLen);
-        Impl::writeOffset(controlBlock, extraLen);
+    auto flushPending = [&](int64_t nextSrcPos) {
+        // Emit a control tuple for the currently buffered add+extra pair.
+        int64_t seekLen = nextSrcPos - prevSrcEnd;
+        Impl::writeOffset(controlBlock, pendingAddLen);
+        Impl::writeOffset(controlBlock, pendingExtraLen);
         Impl::writeOffset(controlBlock, seekLen);
 
-        // Write diff block
-        for (int64_t i = 0; i < diffLen; i++) {
-            diffBlock.push_back(target[lastScan + i] - source[lastPos + i]);
+        for (int64_t i = 0; i < pendingAddLen; i++) {
+            uint8_t s = source[pendingAddSrcPos + i];
+            uint8_t t = target[(targetPos - pendingAddLen - pendingExtraLen) + i];
+            // Wire format stores t - s as an unsigned byte; underflow wraps
+            // mod 256, which is reversed by the apply path adding s back.
+            diffBlock.push_back(static_cast<uint8_t>(t - s));
         }
 
-        // Write extra block
-        for (int64_t i = 0; i < extraLen; i++) {
-            extraBlock.push_back(target[lastScan + diffLen + i]);
+        for (int64_t i = 0; i < pendingExtraLen; i++) {
+            extraBlock.push_back(target[pendingExtraStart + i]);
         }
 
-        lastScan = scan - overlap;
-        lastPos = pos - overlap;
-        lastOffset = pos - scan;
+        prevSrcEnd = pendingAddSrcPos + pendingAddLen;
+    };
 
-        if (progress) {
-            progress(scan, targetLen);
+    while (targetPos < targetLen) {
+        int64_t bestPos = 0;
+        int64_t bestLen = Impl::findBestMatch(
+            source.data(), sourceLen,
+            target.data(), targetLen,
+            targetPos, hashTable, &bestPos);
+
+        if (bestLen >= Impl::MIN_MATCH) {
+            if (havePending) {
+                flushPending(bestPos);
+            }
+            // Start a new pending record anchored on this match.
+            pendingAddSrcPos = bestPos;
+            pendingAddLen = bestLen;
+            pendingExtraStart = targetPos + bestLen;
+            pendingExtraLen = 0;
+            havePending = true;
+            targetPos += bestLen;
+        } else {
+            // No strong match here: byte becomes part of the extra block
+            // for the most recent record. If we have not produced any
+            // record yet, start a synthetic record with addLen=0 anchored
+            // at source offset 0.
+            if (!havePending) {
+                pendingAddSrcPos = 0;
+                pendingAddLen = 0;
+                pendingExtraStart = targetPos;
+                pendingExtraLen = 0;
+                havePending = true;
+            }
+            pendingExtraLen++;
+            targetPos++;
         }
+
+        if (progress && (targetPos & 0xFFF) == 0) {
+            progress(targetPos, targetLen);
+        }
+    }
+
+    if (havePending) {
+        // Final flush; seekLen for the last record points back to the end
+        // of its own match (no further advance needed).
+        flushPending(pendingAddSrcPos + pendingAddLen);
     }
 
     // Compress blocks
