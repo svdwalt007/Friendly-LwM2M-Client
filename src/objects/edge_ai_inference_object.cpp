@@ -750,11 +750,15 @@ bool EdgeAIInferenceObject::loadModel(const std::vector<uint8_t>& data, ModelFor
     }
 #endif
 
-    // Fallback: store model data for stub implementation
+    // Fallback when no ML runtime backend (TFLite / ONNX Runtime) is linked:
+    // store the raw model bytes and synthesize tensor metadata so the rest of
+    // the LwM2M Edge AI object (state machine, statistics, resource reads)
+    // remains exercisable. The synthesized shapes match a typical 224×224×
+    // RGB image classifier with 1000 output classes.
     modelName_ = "model_" + std::to_string(instanceId_);
     modelVersion_ = "1.0.0";
 
-    // Create dummy tensor info for testing
+    // Synthetic tensor info matching a 224x224x3 image classifier
     TensorInfo input;
     input.name = "input";
     input.shape = {1, 224, 224, 3};
@@ -812,24 +816,143 @@ InferenceResult EdgeAIInferenceObject::runInference(const std::vector<uint8_t>& 
 
 #ifdef WITH_TFLITE
         if (modelFormat_ == ModelFormat::TFLITE) {
-            // TFLite inference would go here
+            // ============================================================================
+            // TensorFlow Lite Inference Integration Point
+            // ============================================================================
+            //
+            // To enable TFLite inference for experimentation:
+            // 1. Add TensorFlow Lite dependency to CMakeLists.txt:
+            //    find_package(tensorflow-lite REQUIRED)
+            //    target_link_libraries(friendly_lwm2m PRIVATE tensorflow-lite)
+            //
+            // 2. Include TFLite headers:
+            //    #include <tensorflow/lite/interpreter.h>
+            //    #include <tensorflow/lite/kernels/register.h>
+            //    #include <tensorflow/lite/model.h>
+            //
+            // 3. Initialize interpreter (in loadModel()):
+            //    auto model = tflite::FlatBufferModel::BuildFromBuffer(
+            //        reinterpret_cast<const char*>(modelData_.data()), modelData_.size());
+            //    tflite::ops::builtin::BuiltinOpResolver resolver;
+            //    tflite::InterpreterBuilder builder(*model, resolver);
+            //    builder(&interpreter_);
+            //    interpreter_->AllocateTensors();
+            //
+            // 4. Run inference here:
+            //    // Copy input data to input tensor
+            //    auto input = interpreter_->typed_input_tensor<float>(0);
+            //    std::memcpy(input, processedInput.data(), processedInput.size());
+            //
+            //    // Run inference
+            //    if (interpreter_->Invoke() != kTfLiteOk) {
+            //        throw std::runtime_error("TFLite inference failed");
+            //    }
+            //
+            //    // Extract output
+            //    auto output = interpreter_->typed_output_tensor<float>(0);
+            //    size_t outputSize = interpreter_->output_tensor(0)->bytes;
+            //    result.outputData.resize(outputSize);
+            //    std::memcpy(result.outputData.data(), output, outputSize);
+            //    result.success = true;
+            //
+            // Current behaviour when WITH_TFLITE is enabled at compile time but
+            // the integration block above has not yet been wired up: refuse the
+            // inference call rather than silently returning fabricated tensors.
+            // ============================================================================
+
+            result.errorMessage = "TFLite backend selected but TFLite Interpreter is not wired in this build";
+            result.success = false;
+            setModelState(ModelState::READY);
+            return result;
         }
 #endif
 
 #ifdef WITH_ONNX
         if (modelFormat_ == ModelFormat::ONNX) {
-            // ONNX inference would go here
+            // ============================================================================
+            // ONNX Runtime Inference Integration Point
+            // ============================================================================
+            //
+            // To enable ONNX Runtime inference for experimentation:
+            // 1. Add ONNX Runtime dependency to CMakeLists.txt:
+            //    find_package(onnxruntime REQUIRED)
+            //    target_link_libraries(friendly_lwm2m PRIVATE onnxruntime)
+            //
+            // 2. Include ONNX Runtime headers:
+            //    #include <onnxruntime_cxx_api.h>
+            //
+            // 3. Initialize session (in loadModel()):
+            //    Ort::Env env(ORT_LOGGING_LEVEL_WARNING, "EdgeAIInference");
+            //    Ort::SessionOptions sessionOptions;
+            //    sessionOptions.SetIntraOpNumThreads(1);
+            //    sessionOptions.SetGraphOptimizationLevel(
+            //        GraphOptimizationLevel::ORT_ENABLE_EXTENDED);
+            //
+            //    session_ = std::make_unique<Ort::Session>(
+            //        env, modelData_.data(), modelData_.size(), sessionOptions);
+            //
+            // 4. Run inference here:
+            //    // Prepare input tensor
+            //    std::vector<int64_t> inputShape = {1, inputTensors_[0].shape[0],
+            //        inputTensors_[0].shape[1], inputTensors_[0].shape[2]};
+            //    size_t inputTensorSize = processedInput.size() / sizeof(float);
+            //    std::vector<float> inputTensorValues(
+            //        reinterpret_cast<const float*>(processedInput.data()),
+            //        reinterpret_cast<const float*>(processedInput.data()) + inputTensorSize);
+            //
+            //    auto memoryInfo = Ort::MemoryInfo::CreateCpu(
+            //        OrtArenaAllocator, OrtMemTypeDefault);
+            //    Ort::Value inputTensor = Ort::Value::CreateTensor<float>(
+            //        memoryInfo, inputTensorValues.data(), inputTensorSize,
+            //        inputShape.data(), inputShape.size());
+            //
+            //    // Run inference
+            //    const char* inputNames[] = {"input"};
+            //    const char* outputNames[] = {"output"};
+            //    auto outputTensors = session_->Run(
+            //        Ort::RunOptions{nullptr}, inputNames, &inputTensor, 1,
+            //        outputNames, 1);
+            //
+            //    // Extract output
+            //    float* outputData = outputTensors[0].GetTensorMutableData<float>();
+            //    size_t outputSize = outputTensors[0].GetTensorTypeAndShapeInfo()
+            //        .GetElementCount() * sizeof(float);
+            //    result.outputData.resize(outputSize);
+            //    std::memcpy(result.outputData.data(), outputData, outputSize);
+            //    result.success = true;
+            //
+            // Current behaviour when WITH_ONNX is enabled at compile time but
+            // the integration block above has not yet been wired up: refuse the
+            // inference call rather than silently returning fabricated tensors.
+            // ============================================================================
+
+            result.errorMessage = "ONNX backend selected but ONNX Runtime session is not wired in this build";
+            result.success = false;
+            setModelState(ModelState::READY);
+            return result;
         }
 #endif
 
-        // Stub implementation: generate dummy output
+        // ============================================================================
+        // Synthetic Inference (No ML runtime linked)
+        // ============================================================================
+        // Executed when neither WITH_TFLITE nor WITH_ONNX is defined, or when
+        // the loaded model format is not handled by any compiled backend.
+        //
+        // Behaviour: emit a zero-filled tensor matching the declared output
+        // shape so downstream postprocessing, statistics tracking and LwM2M
+        // resource reads can be exercised end-to-end. The 5 ms sleep models a
+        // plausible inference latency so per-instance latency statistics are
+        // populated with realistic values during integration testing.
+        // ============================================================================
+
         result.outputData.resize(outputTensors_.empty() ? 4000 : outputTensors_[0].sizeBytes);
         std::fill(result.outputData.begin(), result.outputData.end(), 0);
 
-        // Simulate some computation time
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
         result.success = true;
+        result.errorMessage = "synthetic inference (no ML runtime linked)";
 
     } catch (const std::exception& e) {
         result.errorMessage = e.what();
@@ -1218,7 +1341,9 @@ std::vector<ModelFormat> EdgeAIInferenceObjectFactory::getSupportedFormats() {
 #ifdef WITH_ONNX
     formats.push_back(ModelFormat::ONNX);
 #endif
-    // Always support stub mode
+    // When no ML runtime is linked, advertise both TFLITE and ONNX as
+    // "supported" formats so the LwM2M Edge AI object can still accept model
+    // pushes and exercise its state machine via the synthetic inference path.
     if (formats.empty()) {
         formats.push_back(ModelFormat::TFLITE);
         formats.push_back(ModelFormat::ONNX);

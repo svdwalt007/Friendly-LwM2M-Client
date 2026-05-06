@@ -46,42 +46,38 @@ constexpr uint8_t BSDIFF_MAGIC[] = {'B', 'S', 'D', 'I', 'F', 'F', '4', '0'};
 struct BSDiffAlgorithm::Impl {
     // Suffix array construction for binary search
     static void suffixArray(const uint8_t* data, int64_t* sa, int64_t n) {
-        std::vector<int64_t> buckets(256, 0);
-        std::vector<int64_t> temp(n);
-        
-        // Count occurrences
+        // Simple O(n²log n) suffix array construction
+        // Suitable for test data and moderate-sized firmware images
+        // For production with large firmware, consider libdivsufsort
+        std::vector<int64_t> suffixes(n);
+
+        // Initialize with positions
         for (int64_t i = 0; i < n; i++) {
-            buckets[data[i]]++;
+            suffixes[i] = i;
         }
-        
-        // Cumulative sum
-        for (int i = 1; i < 256; i++) {
-            buckets[i] += buckets[i - 1];
-        }
-        
-        // Initial sort by first character
-        for (int64_t i = n - 1; i >= 0; i--) {
-            sa[--buckets[data[i]]] = i;
-        }
-        
-        // Refine with longer prefixes
-        for (int64_t h = 1; h < n; h *= 2) {
-            int64_t j = 0;
-            
-            // Positions beyond end
-            for (int64_t i = n - h; i < n; i++) {
-                temp[j++] = i;
-            }
-            
-            // Positions with valid h-distance
-            for (int64_t i = 0; i < n; i++) {
-                if (sa[i] >= h) {
-                    temp[j++] = sa[i] - h;
+
+        // Sort suffixes lexicographically
+        std::sort(suffixes.begin(), suffixes.end(),
+            [data, n](int64_t posA, int64_t posB) {
+                int64_t i = posA;
+                int64_t j = posB;
+
+                // Compare suffixes starting at posA and posB
+                while (i < n && j < n) {
+                    if (data[i] != data[j]) {
+                        return data[i] < data[j];
+                    }
+                    i++;
+                    j++;
                 }
-            }
-            
-            // Copy back
-            std::copy(temp.begin(), temp.end(), sa);
+
+                // Shorter suffix comes first
+                return i >= n && j < n;
+            });
+
+        // Copy to output
+        for (int64_t i = 0; i < n; i++) {
+            sa[i] = suffixes[i];
         }
     }
 
