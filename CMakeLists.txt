@@ -555,6 +555,7 @@ target_link_libraries(friendly_lwm2m
     PUBLIC
         Threads::Threads
         ZLIB::ZLIB
+    PRIVATE
         CURL::libcurl
 )
 
@@ -745,26 +746,64 @@ if(BUILD_TESTS)
     )
     add_test(NAME RollbackManager COMMAND test_rollback_manager)
 
+    add_executable(test_lwm2m_cose_object
+        test/test_lwm2m_cose_object.cpp
+        src/objects/lwm2m_cose_object.cpp
+    )
+    target_include_directories(test_lwm2m_cose_object PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+    )
+    target_link_libraries(test_lwm2m_cose_object
+        GTest::gtest
+        GTest::gtest_main
+    )
+    add_test(NAME Lwm2mCoseObject COMMAND test_lwm2m_cose_object)
+
+    add_executable(test_mqtt_server_object
+        test/test_mqtt_server_object.cpp
+        src/objects/mqtt_server_object.cpp
+    )
+    target_include_directories(test_mqtt_server_object PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+    )
+    target_link_libraries(test_mqtt_server_object
+        GTest::gtest
+        GTest::gtest_main
+    )
+    add_test(NAME MqttServerObject COMMAND test_mqtt_server_object)
+
+    add_executable(test_log_ring
+        test/test_log_ring.cpp
+        src/platform/linux/log_ring.cpp
+    )
+    target_include_directories(test_log_ring PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/linux
+    )
+    target_link_libraries(test_log_ring
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+    add_test(NAME LogRing COMMAND test_log_ring)
+
     add_executable(test_firmware_update_object
         test/test_firmware_update_object.cpp
     )
-    # Link all required libraries in proper order for static linking
-    # Build the list of libraries to link
+    # Static link order matters: each archive must appear before the archives that
+    # provide its dependencies. friendly_lwm2m uses libcurl; libcurl uses nghttp2/zstd/etc.
     set(TEST_FW_UPDATE_LIBS
         friendly_lwm2m
         GTest::gtest
         GTest::gtest_main
+        CURL::libcurl
     )
-    # Add minimal CURL dependencies (for custom libcurl from /usr/local/lib)
-    # HTTP/2 support
+    # libcurl dependencies must follow libcurl in the link order
     if(NGHTTP2_LIB)
         list(APPEND TEST_FW_UPDATE_LIBS ${NGHTTP2_LIB})
     endif()
-    # Zstd compression
     if(ZSTD_LIB_CURL)
         list(APPEND TEST_FW_UPDATE_LIBS ${ZSTD_LIB_CURL})
     endif()
-    # Brotli compression (must be in this order: enc, dec, common)
     if(BROTLI_ENC_LIB_CURL)
         list(APPEND TEST_FW_UPDATE_LIBS ${BROTLI_ENC_LIB_CURL})
     endif()
@@ -774,24 +813,10 @@ if(BUILD_TESTS)
     if(BROTLI_COMMON_LIB)
         list(APPEND TEST_FW_UPDATE_LIBS ${BROTLI_COMMON_LIB})
     endif()
-    # GSSAPI/Kerberos (if libcurl has GSSAPI support)
     if(GSSAPI_FOUND)
         list(APPEND TEST_FW_UPDATE_LIBS ${GSSAPI_LIBRARIES})
     endif()
-    # Zlib compression (required by libcurl)
-    list(APPEND TEST_FW_UPDATE_LIBS ZLIB::ZLIB)
-
-    # ============================================================================
-    # REMOVED: Unnecessary dependencies (not in minimal libcurl)
-    # ============================================================================
-    # The following libraries are NO LONGER linked:
-    # - SSH_LIB, PSL_LIB, RTMP_LIB, IDN2_LIB (protocols removed from libcurl)
-    # - LDAP_LIB, LBER_LIB (LDAP protocol removed)
-    # - GNUTLS_LIB, SASL2_LIB (LDAP dependencies removed)
-    # - NETTLE_LIB, HOGWEED_LIB, GMP_LIB, TASN1_LIB (GnuTLS crypto removed)
-    # - UNISTRING_LIB (IDN2 dependency removed)
-    # OpenSSL must come last for proper symbol resolution
-    list(APPEND TEST_FW_UPDATE_LIBS OpenSSL::SSL OpenSSL::Crypto)
+    list(APPEND TEST_FW_UPDATE_LIBS ZLIB::ZLIB OpenSSL::SSL OpenSSL::Crypto)
 
     target_link_libraries(test_firmware_update_object ${TEST_FW_UPDATE_LIBS})
     add_test(NAME FirmwareUpdateObject COMMAND test_firmware_update_object)
@@ -1007,11 +1032,9 @@ if(BUILD_TESTS)
             test_blockwise_transfer
             test_rollback_manager
             test_firmware_update_object
-            test_cid_extensions
-            test_cid_record_format
-            test_cid_aad
-            test_cid_integration
-            test_nat_rebinding
+            test_lwm2m_cose_object
+            test_mqtt_server_object
+            test_log_ring
             test_dtls_providers
             test_dtls_integration
     )
