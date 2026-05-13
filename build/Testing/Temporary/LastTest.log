@@ -1,0 +1,621 @@
+Start testing: May 13 11:06 AWST
+----------------------------------------------------------
+2/9 Testing: BlockwiseTransfer
+2/9 Test: BlockwiseTransfer
+Command: "/home/sean/work/Friendly-LwM2M-Client/build/test_blockwise_transfer"
+Directory: /home/sean/work/Friendly-LwM2M-Client/build
+"BlockwiseTransfer" start time: May 13 11:06 AWST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 11 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 11 tests from BlockwiseTransferTest
+[ RUN      ] BlockwiseTransferTest.DefaultConfiguration
+[       OK ] BlockwiseTransferTest.DefaultConfiguration (0 ms)
+[ RUN      ] BlockwiseTransferTest.SetBlockSize
+[       OK ] BlockwiseTransferTest.SetBlockSize (0 ms)
+[ RUN      ] BlockwiseTransferTest.EnableBERT
+[       OK ] BlockwiseTransferTest.EnableBERT (0 ms)
+[ RUN      ] BlockwiseTransferTest.SetTransferTimeout
+[       OK ] BlockwiseTransferTest.SetTransferTimeout (0 ms)
+[ RUN      ] BlockwiseTransferTest.SetMaxRetransmits
+[       OK ] BlockwiseTransferTest.SetMaxRetransmits (0 ms)
+[ RUN      ] BlockwiseTransferTest.BlockSizeValues
+[       OK ] BlockwiseTransferTest.BlockSizeValues (0 ms)
+[ RUN      ] BlockwiseTransferTest.SZXValues
+[       OK ] BlockwiseTransferTest.SZXValues (0 ms)
+[ RUN      ] BlockwiseTransferTest.StartTransfer
+[       OK ] BlockwiseTransferTest.StartTransfer (2 ms)
+[ RUN      ] BlockwiseTransferTest.BERTBlockSize
+[       OK ] BlockwiseTransferTest.BERTBlockSize (0 ms)
+[ RUN      ] BlockwiseTransferTest.CancelNonExistentTransfer
+[       OK ] BlockwiseTransferTest.CancelNonExistentTransfer (0 ms)
+[ RUN      ] BlockwiseTransferTest.ProgressCallback
+[       OK ] BlockwiseTransferTest.ProgressCallback (0 ms)
+[----------] 11 tests from BlockwiseTransferTest (5 ms total)
+
+[----------] Global test environment tear-down
+[==========] 11 tests from 1 test suite ran. (5 ms total)
+[  PASSED  ] 11 tests.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"BlockwiseTransfer" end time: May 13 11:06 AWST
+"BlockwiseTransfer" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/9 Testing: RollbackManager
+3/9 Test: RollbackManager
+Command: "/home/sean/work/Friendly-LwM2M-Client/build/test_rollback_manager"
+Directory: /home/sean/work/Friendly-LwM2M-Client/build
+"RollbackManager" start time: May 13 11:06 AWST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 19 tests from 8 test suites.
+[----------] Global test environment set-up.
+[----------] 2 tests from RollbackManagerTest
+[ RUN      ] RollbackManagerTest.InitialState
+[       OK ] RollbackManagerTest.InitialState (0 ms)
+[ RUN      ] RollbackManagerTest.SnapshotStoragePathCreated
+[       OK ] RollbackManagerTest.SnapshotStoragePathCreated (0 ms)
+[----------] 2 tests from RollbackManagerTest (0 ms total)
+
+[----------] 8 tests from MockPartitionTest
+[ RUN      ] MockPartitionTest.InitialActiveSlot
+[       OK ] MockPartitionTest.InitialActiveSlot (0 ms)
+[ RUN      ] MockPartitionTest.GetInactiveSlot
+[       OK ] MockPartitionTest.GetInactiveSlot (0 ms)
+[ RUN      ] MockPartitionTest.SlotBootability
+[       OK ] MockPartitionTest.SlotBootability (0 ms)
+[ RUN      ] MockPartitionTest.SwitchToBootableSlot
+[       OK ] MockPartitionTest.SwitchToBootableSlot (0 ms)
+[ RUN      ] MockPartitionTest.SwitchToNonBootableSlotFails
+[       OK ] MockPartitionTest.SwitchToNonBootableSlotFails (0 ms)
+[ RUN      ] MockPartitionTest.GetPartitions
+[       OK ] MockPartitionTest.GetPartitions (0 ms)
+[ RUN      ] MockPartitionTest.GetSpecificPartition
+[       OK ] MockPartitionTest.GetSpecificPartition (0 ms)
+[ RUN      ] MockPartitionTest.CalculateChecksum
+[       OK ] MockPartitionTest.CalculateChecksum (0 ms)
+[----------] 8 tests from MockPartitionTest (0 ms total)
+
+[----------] 1 test from SnapshotSerializationTest
+[ RUN      ] SnapshotSerializationTest.CreateSnapshotFile
+[       OK ] SnapshotSerializationTest.CreateSnapshotFile (0 ms)
+[----------] 1 test from SnapshotSerializationTest (0 ms total)
+
+[----------] 1 test from ComponentInfoTest
+[ RUN      ] ComponentInfoTest.CreateComponent
+[       OK ] ComponentInfoTest.CreateComponent (0 ms)
+[----------] 1 test from ComponentInfoTest (0 ms total)
+
+[----------] 1 test from RollbackResultTest
+[ RUN      ] RollbackResultTest.ResultCodes
+[       OK ] RollbackResultTest.ResultCodes (0 ms)
+[----------] 1 test from RollbackResultTest (0 ms total)
+
+[----------] 1 test from RollbackEventTest
+[ RUN      ] RollbackEventTest.EventTypes
+[       OK ] RollbackEventTest.EventTypes (0 ms)
+[----------] 1 test from RollbackEventTest (0 ms total)
+
+[----------] 2 tests from RollbackConfigTest
+[ RUN      ] RollbackConfigTest.DefaultConfig
+[       OK ] RollbackConfigTest.DefaultConfig (0 ms)
+[ RUN      ] RollbackConfigTest.CustomConfig
+[       OK ] RollbackConfigTest.CustomConfig (0 ms)
+[----------] 2 tests from RollbackConfigTest (0 ms total)
+
+[----------] 3 tests from ABPartitionScenarioTest
+[ RUN      ] ABPartitionScenarioTest.NormalUpdateFlow
+[       OK ] ABPartitionScenarioTest.NormalUpdateFlow (0 ms)
+[ RUN      ] ABPartitionScenarioTest.RollbackFlow
+[       OK ] ABPartitionScenarioTest.RollbackFlow (0 ms)
+[ RUN      ] ABPartitionScenarioTest.FailedSlotBootCheck
+[       OK ] ABPartitionScenarioTest.FailedSlotBootCheck (0 ms)
+[----------] 3 tests from ABPartitionScenarioTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 19 tests from 8 test suites ran. (0 ms total)
+[  PASSED  ] 19 tests.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"RollbackManager" end time: May 13 11:06 AWST
+"RollbackManager" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/9 Testing: Lwm2mCoseObject
+4/9 Test: Lwm2mCoseObject
+Command: "/home/sean/work/Friendly-LwM2M-Client/build/test_lwm2m_cose_object"
+Directory: /home/sean/work/Friendly-LwM2M-Client/build
+"Lwm2mCoseObject" start time: May 13 11:06 AWST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 40 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 37 tests from CoseObjectTest
+[ RUN      ] CoseObjectTest.ObjectIdIsTwentyThree
+[       OK ] CoseObjectTest.ObjectIdIsTwentyThree (0 ms)
+[ RUN      ] CoseObjectTest.InstanceIdMatchesConstructor
+[       OK ] CoseObjectTest.InstanceIdMatchesConstructor (0 ms)
+[ RUN      ] CoseObjectTest.DefaultConstructorUsesZero
+[       OK ] CoseObjectTest.DefaultConstructorUsesZero (0 ms)
+[ RUN      ] CoseObjectTest.InitialiseSetsDefaults
+[       OK ] CoseObjectTest.InitialiseSetsDefaults (0 ms)
+[ RUN      ] CoseObjectTest.SecretKeyIsNotReadable
+[       OK ] CoseObjectTest.SecretKeyIsNotReadable (0 ms)
+[ RUN      ] CoseObjectTest.OtherResourcesAreReadable
+[       OK ] CoseObjectTest.OtherResourcesAreReadable (0 ms)
+[ RUN      ] CoseObjectTest.ShortServerIdIsNotWritable
+[       OK ] CoseObjectTest.ShortServerIdIsNotWritable (0 ms)
+[ RUN      ] CoseObjectTest.OtherResourcesAreWritable
+[       OK ] CoseObjectTest.OtherResourcesAreWritable (0 ms)
+[ RUN      ] CoseObjectTest.MandatoryResources
+[       OK ] CoseObjectTest.MandatoryResources (0 ms)
+[ RUN      ] CoseObjectTest.ReadShortServerId
+[       OK ] CoseObjectTest.ReadShortServerId (0 ms)
+[ RUN      ] CoseObjectTest.ReadSecurityModeDefaultsToNone
+[       OK ] CoseObjectTest.ReadSecurityModeDefaultsToNone (0 ms)
+[ RUN      ] CoseObjectTest.ReadIntegerOnNonIntegerResourceFails
+[       OK ] CoseObjectTest.ReadIntegerOnNonIntegerResourceFails (0 ms)
+[ RUN      ] CoseObjectTest.ReadStringDefaultsAreEmpty
+[       OK ] CoseObjectTest.ReadStringDefaultsAreEmpty (0 ms)
+[ RUN      ] CoseObjectTest.ReadStringOnNonStringResourceFails
+[       OK ] CoseObjectTest.ReadStringOnNonStringResourceFails (0 ms)
+[ RUN      ] CoseObjectTest.ReadVerifyPeerDefault
+[       OK ] CoseObjectTest.ReadVerifyPeerDefault (0 ms)
+[ RUN      ] CoseObjectTest.ReadBooleanOnNonBooleanFails
+[       OK ] CoseObjectTest.ReadBooleanOnNonBooleanFails (0 ms)
+[ RUN      ] CoseObjectTest.ReadOpaqueDefaultsAreEmpty
+[       OK ] CoseObjectTest.ReadOpaqueDefaultsAreEmpty (0 ms)
+[ RUN      ] CoseObjectTest.ReadOpaqueOnNonOpaqueFails
+[       OK ] CoseObjectTest.ReadOpaqueOnNonOpaqueFails (0 ms)
+[ RUN      ] CoseObjectTest.WriteSecurityModeAcceptsValidRange
+[       OK ] CoseObjectTest.WriteSecurityModeAcceptsValidRange (0 ms)
+[ RUN      ] CoseObjectTest.WriteSecurityModeRejectsOutOfRange
+[       OK ] CoseObjectTest.WriteSecurityModeRejectsOutOfRange (0 ms)
+[ RUN      ] CoseObjectTest.WriteShortServerIdIsRejected
+[       OK ] CoseObjectTest.WriteShortServerIdIsRejected (0 ms)
+[ RUN      ] CoseObjectTest.WriteIntegerOnNonIntegerResourceFails
+[       OK ] CoseObjectTest.WriteIntegerOnNonIntegerResourceFails (0 ms)
+[ RUN      ] CoseObjectTest.WriteAndReadStringResources
+[       OK ] CoseObjectTest.WriteAndReadStringResources (0 ms)
+[ RUN      ] CoseObjectTest.WriteStringOnNonStringResourceFails
+[       OK ] CoseObjectTest.WriteStringOnNonStringResourceFails (0 ms)
+[ RUN      ] CoseObjectTest.WriteVerifyPeer
+[       OK ] CoseObjectTest.WriteVerifyPeer (0 ms)
+[ RUN      ] CoseObjectTest.WriteBooleanOnNonBooleanFails
+[       OK ] CoseObjectTest.WriteBooleanOnNonBooleanFails (0 ms)
+[ RUN      ] CoseObjectTest.WriteAndReadOpaqueResources
+[       OK ] CoseObjectTest.WriteAndReadOpaqueResources (0 ms)
+[ RUN      ] CoseObjectTest.WriteOpaqueOnNonOpaqueFails
+[       OK ] CoseObjectTest.WriteOpaqueOnNonOpaqueFails (0 ms)
+[ RUN      ] CoseObjectTest.GetConfigReturnsCurrentState
+[       OK ] CoseObjectTest.GetConfigReturnsCurrentState (0 ms)
+[ RUN      ] CoseObjectTest.SetConfigReplacesAllFields
+[       OK ] CoseObjectTest.SetConfigReplacesAllFields (0 ms)
+[ RUN      ] CoseObjectTest.SetPskCredentialsTriggersCallback
+[       OK ] CoseObjectTest.SetPskCredentialsTriggersCallback (0 ms)
+[ RUN      ] CoseObjectTest.SetCertificateCredentials
+[       OK ] CoseObjectTest.SetCertificateCredentials (0 ms)
+[ RUN      ] CoseObjectTest.SetTokenCredentialsWithEndpoint
+[       OK ] CoseObjectTest.SetTokenCredentialsWithEndpoint (0 ms)
+[ RUN      ] CoseObjectTest.SetTokenCredentialsWithoutEndpoint
+[       OK ] CoseObjectTest.SetTokenCredentialsWithoutEndpoint (0 ms)
+[ RUN      ] CoseObjectTest.ClearCredentialsResetsSecurityMode
+[       OK ] CoseObjectTest.ClearCredentialsResetsSecurityMode (0 ms)
+[ RUN      ] CoseObjectTest.CallbackFiresOnEachWrite
+[       OK ] CoseObjectTest.CallbackFiresOnEachWrite (0 ms)
+[ RUN      ] CoseObjectTest.FailedWriteDoesNotFireCallback
+[       OK ] CoseObjectTest.FailedWriteDoesNotFireCallback (0 ms)
+[----------] 37 tests from CoseObjectTest (0 ms total)
+
+[----------] 3 tests from CoseObjectFactoryTest
+[ RUN      ] CoseObjectFactoryTest.CreateDefault
+[       OK ] CoseObjectFactoryTest.CreateDefault (0 ms)
+[ RUN      ] CoseObjectFactoryTest.CreateFromConfig
+[       OK ] CoseObjectFactoryTest.CreateFromConfig (0 ms)
+[ RUN      ] CoseObjectFactoryTest.CreateWithPsk
+[       OK ] CoseObjectFactoryTest.CreateWithPsk (0 ms)
+[----------] 3 tests from CoseObjectFactoryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 40 tests from 2 test suites ran. (0 ms total)
+[  PASSED  ] 40 tests.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Lwm2mCoseObject" end time: May 13 11:06 AWST
+"Lwm2mCoseObject" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/9 Testing: MqttServerObject
+5/9 Test: MqttServerObject
+Command: "/home/sean/work/Friendly-LwM2M-Client/build/test_mqtt_server_object"
+Directory: /home/sean/work/Friendly-LwM2M-Client/build
+"MqttServerObject" start time: May 13 11:06 AWST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 36 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 34 tests from MqttServerObjectTest
+[ RUN      ] MqttServerObjectTest.ObjectIdIsTwentyFour
+[       OK ] MqttServerObjectTest.ObjectIdIsTwentyFour (0 ms)
+[ RUN      ] MqttServerObjectTest.InstanceIdMatchesConstructor
+[       OK ] MqttServerObjectTest.InstanceIdMatchesConstructor (0 ms)
+[ RUN      ] MqttServerObjectTest.DefaultsAfterInitialize
+[       OK ] MqttServerObjectTest.DefaultsAfterInitialize (0 ms)
+[ RUN      ] MqttServerObjectTest.PasswordIsNotReadable
+[       OK ] MqttServerObjectTest.PasswordIsNotReadable (0 ms)
+[ RUN      ] MqttServerObjectTest.AllOtherResourcesAreReadable
+[       OK ] MqttServerObjectTest.AllOtherResourcesAreReadable (0 ms)
+[ RUN      ] MqttServerObjectTest.ShortServerIdIsNotWritable
+[       OK ] MqttServerObjectTest.ShortServerIdIsNotWritable (0 ms)
+[ RUN      ] MqttServerObjectTest.OtherResourcesAreWritable
+[       OK ] MqttServerObjectTest.OtherResourcesAreWritable (0 ms)
+[ RUN      ] MqttServerObjectTest.MandatoryResources
+[       OK ] MqttServerObjectTest.MandatoryResources (0 ms)
+[ RUN      ] MqttServerObjectTest.ReadIntegers
+[       OK ] MqttServerObjectTest.ReadIntegers (0 ms)
+[ RUN      ] MqttServerObjectTest.ReadIntegerOnNonIntegerFails
+[       OK ] MqttServerObjectTest.ReadIntegerOnNonIntegerFails (0 ms)
+[ RUN      ] MqttServerObjectTest.ReadStrings
+[       OK ] MqttServerObjectTest.ReadStrings (0 ms)
+[ RUN      ] MqttServerObjectTest.ReadStringOnNonStringFails
+[       OK ] MqttServerObjectTest.ReadStringOnNonStringFails (0 ms)
+[ RUN      ] MqttServerObjectTest.ReadBooleans
+[       OK ] MqttServerObjectTest.ReadBooleans (0 ms)
+[ RUN      ] MqttServerObjectTest.ReadBooleanOnNonBooleanFails
+[       OK ] MqttServerObjectTest.ReadBooleanOnNonBooleanFails (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteStrings
+[       OK ] MqttServerObjectTest.WriteStrings (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteStringOnNonStringFails
+[       OK ] MqttServerObjectTest.WriteStringOnNonStringFails (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteBrokerPortValid
+[       OK ] MqttServerObjectTest.WriteBrokerPortValid (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteBrokerPortRejectsOutOfRange
+[       OK ] MqttServerObjectTest.WriteBrokerPortRejectsOutOfRange (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteKeepAliveValid
+[       OK ] MqttServerObjectTest.WriteKeepAliveValid (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteKeepAliveRejectsOutOfRange
+[       OK ] MqttServerObjectTest.WriteKeepAliveRejectsOutOfRange (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteQosValid
+[       OK ] MqttServerObjectTest.WriteQosValid (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteQosRejectsOutOfRange
+[       OK ] MqttServerObjectTest.WriteQosRejectsOutOfRange (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteProtocolVersionAcceptsFourAndFive
+[       OK ] MqttServerObjectTest.WriteProtocolVersionAcceptsFourAndFive (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteProtocolVersionRejectsOthers
+[       OK ] MqttServerObjectTest.WriteProtocolVersionRejectsOthers (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteSessionExpiryRejectsNegative
+[       OK ] MqttServerObjectTest.WriteSessionExpiryRejectsNegative (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteMaxPacketSizeRejectsNegative
+[       OK ] MqttServerObjectTest.WriteMaxPacketSizeRejectsNegative (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteReceiveMaximumRange
+[       OK ] MqttServerObjectTest.WriteReceiveMaximumRange (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteShortServerIdIsRejected
+[       OK ] MqttServerObjectTest.WriteShortServerIdIsRejected (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteIntegerOnNonIntegerFails
+[       OK ] MqttServerObjectTest.WriteIntegerOnNonIntegerFails (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteCleanSessionAndRetain
+[       OK ] MqttServerObjectTest.WriteCleanSessionAndRetain (0 ms)
+[ RUN      ] MqttServerObjectTest.WriteBooleanOnNonBooleanFails
+[       OK ] MqttServerObjectTest.WriteBooleanOnNonBooleanFails (0 ms)
+[ RUN      ] MqttServerObjectTest.GetAndSetConfig
+[       OK ] MqttServerObjectTest.GetAndSetConfig (0 ms)
+[ RUN      ] MqttServerObjectTest.CallbackFiresOnSuccessfulWrite
+[       OK ] MqttServerObjectTest.CallbackFiresOnSuccessfulWrite (0 ms)
+[ RUN      ] MqttServerObjectTest.CallbackDoesNotFireOnFailedWrite
+[       OK ] MqttServerObjectTest.CallbackDoesNotFireOnFailedWrite (0 ms)
+[----------] 34 tests from MqttServerObjectTest (0 ms total)
+
+[----------] 2 tests from MqttServerObjectFactoryTest
+[ RUN      ] MqttServerObjectFactoryTest.CreateDefault
+[       OK ] MqttServerObjectFactoryTest.CreateDefault (0 ms)
+[ RUN      ] MqttServerObjectFactoryTest.CreateFromConfig
+[       OK ] MqttServerObjectFactoryTest.CreateFromConfig (0 ms)
+[----------] 2 tests from MqttServerObjectFactoryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 36 tests from 2 test suites ran. (0 ms total)
+[  PASSED  ] 36 tests.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"MqttServerObject" end time: May 13 11:06 AWST
+"MqttServerObject" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/9 Testing: LogRing
+6/9 Test: LogRing
+Command: "/home/sean/work/Friendly-LwM2M-Client/build/test_log_ring"
+Directory: /home/sean/work/Friendly-LwM2M-Client/build
+"LogRing" start time: May 13 11:06 AWST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 26 tests from 3 test suites.
+[----------] Global test environment set-up.
+[----------] 22 tests from LogRingTest
+[ RUN      ] LogRingTest.NewRingIsEmpty
+[       OK ] LogRingTest.NewRingIsEmpty (0 ms)
+[ RUN      ] LogRingTest.MonotonicTimeIsNonZero
+[       OK ] LogRingTest.MonotonicTimeIsNonZero (0 ms)
+[ RUN      ] LogRingTest.GetOnEmptyReturnsEmptyEntry
+[       OK ] LogRingTest.GetOnEmptyReturnsEmptyEntry (0 ms)
+[ RUN      ] LogRingTest.LogTransitionIncrementsCount
+[       OK ] LogRingTest.LogTransitionIncrementsCount (0 ms)
+[ RUN      ] LogRingTest.LogTransitionStoresFields
+[       OK ] LogRingTest.LogTransitionStoresFields (0 ms)
+[ RUN      ] LogRingTest.RawTriggerOverloadIsAccepted
+[       OK ] LogRingTest.RawTriggerOverloadIsAccepted (0 ms)
+[ RUN      ] LogRingTest.SequenceNumbersAreOrdered
+[       OK ] LogRingTest.SequenceNumbersAreOrdered (0 ms)
+[ RUN      ] LogRingTest.OutOfRangeIndexReturnsEmpty
+[       OK ] LogRingTest.OutOfRangeIndexReturnsEmpty (0 ms)
+[ RUN      ] LogRingTest.RingBufferWrapsAtSize
+[       OK ] LogRingTest.RingBufferWrapsAtSize (0 ms)
+[ RUN      ] LogRingTest.CountersAreCapturedInEntry
+[       OK ] LogRingTest.CountersAreCapturedInEntry (0 ms)
+[ RUN      ] LogRingTest.IntrospectionCountersResetClearsAll
+[       OK ] LogRingTest.IntrospectionCountersResetClearsAll (0 ms)
+[ RUN      ] LogRingTest.UpdateTimestampsRecordAndCap
+[       OK ] LogRingTest.UpdateTimestampsRecordAndCap (0 ms)
+[ RUN      ] LogRingTest.MidTrackerWraps
+[       OK ] LogRingTest.MidTrackerWraps (0 ms)
+[ RUN      ] LogRingTest.DtlsOutcomesRecordAndReset
+[       OK ] LogRingTest.DtlsOutcomesRecordAndReset (0 ms)
+[ RUN      ] LogRingTest.SetGetCurrentState
+[       OK ] LogRingTest.SetGetCurrentState (0 ms)
+[ RUN      ] LogRingTest.SetGetLifetime
+[       OK ] LogRingTest.SetGetLifetime (0 ms)
+[ RUN      ] LogRingTest.ResetClearsAllState
+[       OK ] LogRingTest.ResetClearsAllState (0 ms)
+[ RUN      ] LogRingTest.GenerateSnapshotProducesValidJsonShape
+[       OK ] LogRingTest.GenerateSnapshotProducesValidJsonShape (0 ms)
+[ RUN      ] LogRingTest.GenerateSnapshotWithFullBufferShows10Recent
+[       OK ] LogRingTest.GenerateSnapshotWithFullBufferShows10Recent (0 ms)
+[ RUN      ] LogRingTest.SnapshotToFileWritesFile
+[       OK ] LogRingTest.SnapshotToFileWritesFile (0 ms)
+[ RUN      ] LogRingTest.SnapshotToInvalidPathReturnsFalse
+[       OK ] LogRingTest.SnapshotToInvalidPathReturnsFalse (0 ms)
+[ RUN      ] LogRingTest.MultiProducerWritesAreCounted
+[       OK ] LogRingTest.MultiProducerWritesAreCounted (6 ms)
+[----------] 22 tests from LogRingTest (6 ms total)
+
+[----------] 3 tests from LogRingHelpersTest
+[ RUN      ] LogRingHelpersTest.TriggerEventToStringKnownEvents
+[       OK ] LogRingHelpersTest.TriggerEventToStringKnownEvents (0 ms)
+[ RUN      ] LogRingHelpersTest.TriggerEventToStringUnknown
+[       OK ] LogRingHelpersTest.TriggerEventToStringUnknown (0 ms)
+[ RUN      ] LogRingHelpersTest.ClientStateToStringAllKnown
+[       OK ] LogRingHelpersTest.ClientStateToStringAllKnown (0 ms)
+[----------] 3 tests from LogRingHelpersTest (0 ms total)
+
+[----------] 1 test from LogRingSingletonTest
+[ RUN      ] LogRingSingletonTest.GlobalInstanceIsSame
+[       OK ] LogRingSingletonTest.GlobalInstanceIsSame (0 ms)
+[----------] 1 test from LogRingSingletonTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 26 tests from 3 test suites ran. (6 ms total)
+[  PASSED  ] 26 tests.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"LogRing" end time: May 13 11:06 AWST
+"LogRing" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/9 Testing: FirmwareUpdateObject
+7/9 Test: FirmwareUpdateObject
+Command: "/home/sean/work/Friendly-LwM2M-Client/build/test_firmware_update_object"
+Directory: /home/sean/work/Friendly-LwM2M-Client/build
+"FirmwareUpdateObject" start time: May 13 11:06 AWST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 35 tests from 4 test suites.
+[----------] Global test environment set-up.
+[----------] 30 tests from FirmwareUpdateObjectTest
+[ RUN      ] FirmwareUpdateObjectTest.ObjectId
+[       OK ] FirmwareUpdateObjectTest.ObjectId (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.InitialState
+[       OK ] FirmwareUpdateObjectTest.InitialState (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.StateTransitions
+[       OK ] FirmwareUpdateObjectTest.StateTransitions (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.ReadStateResource
+[       OK ] FirmwareUpdateObjectTest.ReadStateResource (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.ReadUpdateResultResource
+[       OK ] FirmwareUpdateObjectTest.ReadUpdateResultResource (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.ReadProtocolSupport
+[       OK ] FirmwareUpdateObjectTest.ReadProtocolSupport (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.ReadDeliveryMethod
+[       OK ] FirmwareUpdateObjectTest.ReadDeliveryMethod (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.ReadDeltaAlgorithm
+[       OK ] FirmwareUpdateObjectTest.ReadDeltaAlgorithm (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.ReadBlockSize
+[       OK ] FirmwareUpdateObjectTest.ReadBlockSize (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.ReadProgress
+[       OK ] FirmwareUpdateObjectTest.ReadProgress (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.ReadPackageName
+[       OK ] FirmwareUpdateObjectTest.ReadPackageName (4 ms)
+[ RUN      ] FirmwareUpdateObjectTest.ReadPackageVersion
+[       OK ] FirmwareUpdateObjectTest.ReadPackageVersion (3 ms)
+[ RUN      ] FirmwareUpdateObjectTest.WriteBlockSize
+[       OK ] FirmwareUpdateObjectTest.WriteBlockSize (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.WriteDeltaAlgorithm
+[       OK ] FirmwareUpdateObjectTest.WriteDeltaAlgorithm (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.WriteDifferentialDownload
+[       OK ] FirmwareUpdateObjectTest.WriteDifferentialDownload (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.WriteRollbackSupport
+[       OK ] FirmwareUpdateObjectTest.WriteRollbackSupport (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.WritePackageURIWhenNotIdle
+[       OK ] FirmwareUpdateObjectTest.WritePackageURIWhenNotIdle (2 ms)
+[ RUN      ] FirmwareUpdateObjectTest.SetDeltaAlgorithmBSDiff
+[       OK ] FirmwareUpdateObjectTest.SetDeltaAlgorithmBSDiff (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.SetDeltaAlgorithmVCDiff
+[       OK ] FirmwareUpdateObjectTest.SetDeltaAlgorithmVCDiff (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.SetDeltaAlgorithmCourgette
+[       OK ] FirmwareUpdateObjectTest.SetDeltaAlgorithmCourgette (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.SetBlockSize
+[       OK ] FirmwareUpdateObjectTest.SetBlockSize (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.RegisterComponent
+[       OK ] FirmwareUpdateObjectTest.RegisterComponent (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.RegisterMultipleComponents
+[       OK ] FirmwareUpdateObjectTest.RegisterMultipleComponents (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.UpdateExistingComponent
+[       OK ] FirmwareUpdateObjectTest.UpdateExistingComponent (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.GetComponentsJson
+[       OK ] FirmwareUpdateObjectTest.GetComponentsJson (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.StateChangeCallback
+[       OK ] FirmwareUpdateObjectTest.StateChangeCallback (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.ProgressCallback
+[       OK ] FirmwareUpdateObjectTest.ProgressCallback (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.HandleBlock
+[       OK ] FirmwareUpdateObjectTest.HandleBlock (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.HandleLastBlock
+[       OK ] FirmwareUpdateObjectTest.HandleLastBlock (0 ms)
+[ RUN      ] FirmwareUpdateObjectTest.HandleOutOfOrderBlock
+[       OK ] FirmwareUpdateObjectTest.HandleOutOfOrderBlock (0 ms)
+[----------] 30 tests from FirmwareUpdateObjectTest (18 ms total)
+
+[----------] 2 tests from UpdateResultTest
+[ RUN      ] UpdateResultTest.ResultCodes
+[       OK ] UpdateResultTest.ResultCodes (0 ms)
+[ RUN      ] UpdateResultTest.DeltaSpecificResults
+[       OK ] UpdateResultTest.DeltaSpecificResults (0 ms)
+[----------] 2 tests from UpdateResultTest (0 ms total)
+
+[----------] 1 test from ProtocolSupportTest
+[ RUN      ] ProtocolSupportTest.SupportedProtocols
+[       OK ] ProtocolSupportTest.SupportedProtocols (0 ms)
+[----------] 1 test from ProtocolSupportTest (0 ms total)
+
+[----------] 2 tests from FirmwareConfigTest
+[ RUN      ] FirmwareConfigTest.DefaultConfig
+[       OK ] FirmwareConfigTest.DefaultConfig (0 ms)
+[ RUN      ] FirmwareConfigTest.CustomConfig
+[       OK ] FirmwareConfigTest.CustomConfig (0 ms)
+[----------] 2 tests from FirmwareConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 35 tests from 4 test suites ran. (19 ms total)
+[  PASSED  ] 35 tests.
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"FirmwareUpdateObject" end time: May 13 11:06 AWST
+"FirmwareUpdateObject" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/9 Testing: DTLSProviders
+8/9 Test: DTLSProviders
+Command: "/home/sean/work/Friendly-LwM2M-Client/build/test_dtls_providers"
+Directory: /home/sean/work/Friendly-LwM2M-Client/build
+"DTLSProviders" start time: May 13 11:06 AWST
+Output:
+----------------------------------------------------------
+[==========] Running 20 tests from 3 test suites.
+[----------] Global test environment set-up.
+[----------] 6 tests from DtlsProviderFactoryTest
+[ RUN      ] DtlsProviderFactoryTest.FactoryCreateAutoReturnsValidProvider
+[       OK ] DtlsProviderFactoryTest.FactoryCreateAutoReturnsValidProvider (0 ms)
+[ RUN      ] DtlsProviderFactoryTest.FactoryCreateDefaultReturnsValidProvider
+[       OK ] DtlsProviderFactoryTest.FactoryCreateDefaultReturnsValidProvider (0 ms)
+[ RUN      ] DtlsProviderFactoryTest.FactoryGetAvailableProvidersReturnsNonEmpty
+[       OK ] DtlsProviderFactoryTest.FactoryGetAvailableProvidersReturnsNonEmpty (0 ms)
+[ RUN      ] DtlsProviderFactoryTest.FactoryNameToTypeConversion
+[       OK ] DtlsProviderFactoryTest.FactoryNameToTypeConversion (0 ms)
+[ RUN      ] DtlsProviderFactoryTest.FactoryTypeToNameConversion
+[       OK ] DtlsProviderFactoryTest.FactoryTypeToNameConversion (0 ms)
+[ RUN      ] DtlsProviderFactoryTest.FactoryGetProviderInfo
+[       OK ] DtlsProviderFactoryTest.FactoryGetProviderInfo (0 ms)
+[----------] 6 tests from DtlsProviderFactoryTest (0 ms total)
+
+[----------] 6 tests from MbedTlsProviderTest
+[ RUN      ] MbedTlsProviderTest.ProviderInfo
+[       OK ] MbedTlsProviderTest.ProviderInfo (0 ms)
+[ RUN      ] MbedTlsProviderTest.SupportedFeatures
+[       OK ] MbedTlsProviderTest.SupportedFeatures (0 ms)
+[ RUN      ] MbedTlsProviderTest.Initialization
+[       OK ] MbedTlsProviderTest.Initialization (0 ms)
+[ RUN      ] MbedTlsProviderTest.ContextLifecycle
+[       OK ] MbedTlsProviderTest.ContextLifecycle (0 ms)
+[ RUN      ] MbedTlsProviderTest.PSKConfiguration
+[       OK ] MbedTlsProviderTest.PSKConfiguration (0 ms)
+[ RUN      ] MbedTlsProviderTest.CIDSupport
+/home/sean/work/Friendly-LwM2M-Client/test/test_dtls_providers.cpp:284: Skipped
+mbedTLS built without MBEDTLS_SSL_DTLS_CONNECTION_ID
+
+[  SKIPPED ] MbedTlsProviderTest.CIDSupport (0 ms)
+[----------] 6 tests from MbedTlsProviderTest (0 ms total)
+
+[----------] 8 tests from DTLSProviders/AllProvidersTest
+[ RUN      ] DTLSProviders/AllProvidersTest.ProviderBasicLifecycle/0
+/home/sean/work/Friendly-LwM2M-Client/test/test_dtls_providers.cpp:411: Skipped
+Provider tinydtls not available
+
+[  SKIPPED ] DTLSProviders/AllProvidersTest.ProviderBasicLifecycle/0 (0 ms)
+[ RUN      ] DTLSProviders/AllProvidersTest.ProviderBasicLifecycle/1
+[       OK ] DTLSProviders/AllProvidersTest.ProviderBasicLifecycle/1 (0 ms)
+[ RUN      ] DTLSProviders/AllProvidersTest.ProviderBasicLifecycle/2
+/home/sean/work/Friendly-LwM2M-Client/test/test_dtls_providers.cpp:411: Skipped
+Provider openssl not available
+
+[  SKIPPED ] DTLSProviders/AllProvidersTest.ProviderBasicLifecycle/2 (0 ms)
+[ RUN      ] DTLSProviders/AllProvidersTest.ProviderBasicLifecycle/3
+/home/sean/work/Friendly-LwM2M-Client/test/test_dtls_providers.cpp:411: Skipped
+Provider wolfssl not available
+
+[  SKIPPED ] DTLSProviders/AllProvidersTest.ProviderBasicLifecycle/3 (0 ms)
+[ RUN      ] DTLSProviders/AllProvidersTest.ProviderPSKConfiguration/0
+/home/sean/work/Friendly-LwM2M-Client/test/test_dtls_providers.cpp:437: Skipped
+Provider tinydtls not available
+
+[  SKIPPED ] DTLSProviders/AllProvidersTest.ProviderPSKConfiguration/0 (0 ms)
+[ RUN      ] DTLSProviders/AllProvidersTest.ProviderPSKConfiguration/1
+[       OK ] DTLSProviders/AllProvidersTest.ProviderPSKConfiguration/1 (0 ms)
+[ RUN      ] DTLSProviders/AllProvidersTest.ProviderPSKConfiguration/2
+/home/sean/work/Friendly-LwM2M-Client/test/test_dtls_providers.cpp:437: Skipped
+Provider openssl not available
+
+[  SKIPPED ] DTLSProviders/AllProvidersTest.ProviderPSKConfiguration/2 (0 ms)
+[ RUN      ] DTLSProviders/AllProvidersTest.ProviderPSKConfiguration/3
+/home/sean/work/Friendly-LwM2M-Client/test/test_dtls_providers.cpp:437: Skipped
+Provider wolfssl not available
+
+[  SKIPPED ] DTLSProviders/AllProvidersTest.ProviderPSKConfiguration/3 (0 ms)
+[----------] 8 tests from DTLSProviders/AllProvidersTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 20 tests from 3 test suites ran. (0 ms total)
+[  PASSED  ] 13 tests.
+[  SKIPPED ] 7 tests, listed below:
+[  SKIPPED ] MbedTlsProviderTest.CIDSupport
+[  SKIPPED ] DTLSProviders/AllProvidersTest.ProviderBasicLifecycle/0
+[  SKIPPED ] DTLSProviders/AllProvidersTest.ProviderBasicLifecycle/2
+[  SKIPPED ] DTLSProviders/AllProvidersTest.ProviderBasicLifecycle/3
+[  SKIPPED ] DTLSProviders/AllProvidersTest.ProviderPSKConfiguration/0
+[  SKIPPED ] DTLSProviders/AllProvidersTest.ProviderPSKConfiguration/2
+[  SKIPPED ] DTLSProviders/AllProvidersTest.ProviderPSKConfiguration/3
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DTLSProviders" end time: May 13 11:06 AWST
+"DTLSProviders" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: May 13 11:06 AWST

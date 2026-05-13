@@ -53,10 +53,10 @@ RM = /home/sean/.local/lib/python3.12/site-packages/cmake/data/bin/cmake -E rm -
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/d/Dev/Friendly-LwM2M-Client
+CMAKE_SOURCE_DIR = /home/sean/work/Friendly-LwM2M-Client
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/d/Dev/Friendly-LwM2M-Client/build
+CMAKE_BINARY_DIR = /home/sean/work/Friendly-LwM2M-Client/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/test_delta_algorithms.dir/depend.make
@@ -73,18 +73,18 @@ CMakeFiles/test_delta_algorithms.dir/codegen:
 .PHONY : CMakeFiles/test_delta_algorithms.dir/codegen
 
 CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o: CMakeFiles/test_delta_algorithms.dir/flags.make
-CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/test/test_delta_algorithms.cpp
+CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o: /home/sean/work/Friendly-LwM2M-Client/test/test_delta_algorithms.cpp
 CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o: CMakeFiles/test_delta_algorithms.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o -MF CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o.d -o CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/test/test_delta_algorithms.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o -MF CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o.d -o CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/test/test_delta_algorithms.cpp
 
 CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/test/test_delta_algorithms.cpp > CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/test/test_delta_algorithms.cpp > CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.i
 
 CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/test/test_delta_algorithms.cpp -o CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/test/test_delta_algorithms.cpp -o CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.s
 
 # Object files for target test_delta_algorithms
 test_delta_algorithms_OBJECTS = \
@@ -99,16 +99,32 @@ test_delta_algorithms: CMakeFiles/test_delta_algorithms.dir/compiler_depend.ts
 test_delta_algorithms: libfriendly_lwm2m.a
 test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libgtest.a
 test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libgtest_main.a
-test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libssl.so
-test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libcrypto.so
-test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libz.so
-test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libcurl.so
-test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libcurl.so
-test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libbz2.so
-test_delta_algorithms: /usr/lib/x86_64-linux-gnu/liblzma.so
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libz.a
+test_delta_algorithms: /usr/local/lib/libcurl.a
+test_delta_algorithms: /usr/local/lib/libcurl.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libssl.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libcrypto.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libz.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libnghttp2.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libbrotlienc.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libbrotlicommon.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libmbedtls.so
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libmbedx509.so
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libmbedcrypto.so
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libbrotlienc.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libbrotlicommon.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libmbedtls.so
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libmbedx509.so
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libmbedcrypto.so
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libzstd.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libbrotlidec.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libssl.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libcrypto.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libbz2.a
+test_delta_algorithms: /usr/lib/x86_64-linux-gnu/liblzma.a
 test_delta_algorithms: /usr/lib/x86_64-linux-gnu/libgtest.a
 test_delta_algorithms: CMakeFiles/test_delta_algorithms.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test_delta_algorithms"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test_delta_algorithms"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_delta_algorithms.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -120,6 +136,6 @@ CMakeFiles/test_delta_algorithms.dir/clean:
 .PHONY : CMakeFiles/test_delta_algorithms.dir/clean
 
 CMakeFiles/test_delta_algorithms.dir/depend:
-	cd /mnt/d/Dev/Friendly-LwM2M-Client/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/d/Dev/Friendly-LwM2M-Client /mnt/d/Dev/Friendly-LwM2M-Client /mnt/d/Dev/Friendly-LwM2M-Client/build /mnt/d/Dev/Friendly-LwM2M-Client/build /mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/test_delta_algorithms.dir/DependInfo.cmake "--color=$(COLOR)" test_delta_algorithms
+	cd /home/sean/work/Friendly-LwM2M-Client/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sean/work/Friendly-LwM2M-Client /home/sean/work/Friendly-LwM2M-Client /home/sean/work/Friendly-LwM2M-Client/build /home/sean/work/Friendly-LwM2M-Client/build /home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles/test_delta_algorithms.dir/DependInfo.cmake "--color=$(COLOR)" test_delta_algorithms
 .PHONY : CMakeFiles/test_delta_algorithms.dir/depend
 

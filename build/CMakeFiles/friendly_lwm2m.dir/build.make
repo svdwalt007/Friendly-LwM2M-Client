@@ -53,10 +53,10 @@ RM = /home/sean/.local/lib/python3.12/site-packages/cmake/data/bin/cmake -E rm -
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/d/Dev/Friendly-LwM2M-Client
+CMAKE_SOURCE_DIR = /home/sean/work/Friendly-LwM2M-Client
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/d/Dev/Friendly-LwM2M-Client/build
+CMAKE_BINARY_DIR = /home/sean/work/Friendly-LwM2M-Client/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/friendly_lwm2m.dir/depend.make
@@ -73,275 +73,444 @@ CMakeFiles/friendly_lwm2m.dir/codegen:
 .PHONY : CMakeFiles/friendly_lwm2m.dir/codegen
 
 CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp
+CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp
 CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp
 
 CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp > CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp > CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp -o CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/platform/openwrt_platform.cpp -o CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp
+CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/platform/linux_platform.cpp
 CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/platform/linux_platform.cpp
 
 CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp > CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/platform/linux_platform.cpp > CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp -o CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/platform/linux_platform.cpp -o CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.s
+
+CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
+CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/platform/linux/log_ring.cpp
+CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/platform/linux/log_ring.cpp
+
+CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/platform/linux/log_ring.cpp > CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.i
+
+CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/platform/linux/log_ring.cpp -o CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp
+CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp
 CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp
 
 CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp > CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp > CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp -o CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp -o CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp
+CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp
 CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp
 
 CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp > CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp > CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp -o CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/firmware/rollback_manager.cpp -o CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/src/transport/blockwise_transfer.cpp
+CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/transport/blockwise_transfer.cpp
 CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/src/transport/blockwise_transfer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/transport/blockwise_transfer.cpp
 
 CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/src/transport/blockwise_transfer.cpp > CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/transport/blockwise_transfer.cpp > CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/src/transport/blockwise_transfer.cpp -o CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/transport/blockwise_transfer.cpp -o CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/src/transport/mqtt_transport.cpp
+CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/transport/mqtt_transport.cpp
 CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/src/transport/mqtt_transport.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/transport/mqtt_transport.cpp
 
 CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/src/transport/mqtt_transport.cpp > CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/transport/mqtt_transport.cpp > CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/src/transport/mqtt_transport.cpp -o CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/transport/mqtt_transport.cpp -o CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp
+CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp
 CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp
 
 CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp > CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp > CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp -o CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp -o CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/mqtt_server_object.cpp
+CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/objects/mqtt_server_object.cpp
 CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/mqtt_server_object.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/objects/mqtt_server_object.cpp
 
 CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/mqtt_server_object.cpp > CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/objects/mqtt_server_object.cpp > CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/mqtt_server_object.cpp -o CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/objects/mqtt_server_object.cpp -o CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/lwm2m_cose_object.cpp
+CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/objects/lwm2m_cose_object.cpp
 CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/lwm2m_cose_object.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/objects/lwm2m_cose_object.cpp
 
 CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/lwm2m_cose_object.cpp > CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/objects/lwm2m_cose_object.cpp > CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/lwm2m_cose_object.cpp -o CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/objects/lwm2m_cose_object.cpp -o CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/edge_ai_inference_object.cpp
+CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/objects/edge_ai_inference_object.cpp
 CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/edge_ai_inference_object.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/objects/edge_ai_inference_object.cpp
 
 CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/edge_ai_inference_object.cpp > CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/objects/edge_ai_inference_object.cpp > CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/edge_ai_inference_object.cpp -o CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/objects/edge_ai_inference_object.cpp -o CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_grpc_client.cpp
+CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/starlink/starlink_grpc_client.cpp
 CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_grpc_client.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/starlink/starlink_grpc_client.cpp
 
 CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_grpc_client.cpp > CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/starlink/starlink_grpc_client.cpp > CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_grpc_client.cpp -o CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/starlink/starlink_grpc_client.cpp -o CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_data_collector.cpp
+CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/starlink/starlink_data_collector.cpp
 CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_data_collector.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/starlink/starlink_data_collector.cpp
 
 CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_data_collector.cpp > CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/starlink/starlink_data_collector.cpp > CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_data_collector.cpp -o CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/starlink/starlink_data_collector.cpp -o CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.s
+
+CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
+CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/matter/matter_sdk_integration.cpp
+CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/matter/matter_sdk_integration.cpp
+
+CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/matter/matter_sdk_integration.cpp > CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.i
+
+CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/matter/matter_sdk_integration.cpp -o CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.s
+
+CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
+CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/matter/matter_cluster_client.cpp
+CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/matter/matter_cluster_client.cpp
+
+CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/matter/matter_cluster_client.cpp > CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.i
+
+CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/matter/matter_cluster_client.cpp -o CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.s
+
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/zigbee/zigbee_coordinator.cpp
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/zigbee/zigbee_coordinator.cpp
+
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/zigbee/zigbee_coordinator.cpp > CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.i
+
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/zigbee/zigbee_coordinator.cpp -o CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.s
+
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/zigbee/zigbee_zcl_handlers.cpp
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/zigbee/zigbee_zcl_handlers.cpp
+
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/zigbee/zigbee_zcl_handlers.cpp > CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.i
+
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/zigbee/zigbee_zcl_handlers.cpp -o CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.s
+
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.o: /home/sean/work/Friendly-LwM2M-Client/src/zigbee/zigbee_ota_proxy.cpp
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/src/zigbee/zigbee_ota_proxy.cpp
+
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/src/zigbee/zigbee_ota_proxy.cpp > CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.i
+
+CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/src/zigbee/zigbee_ota_proxy.cpp -o CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.s
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.i
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.s
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.i
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.s
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.i
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.s
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.i
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.s
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.i
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.s
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.i
+
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.s
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o: CMakeFiles/friendly_lwm2m.dir/flags.make
-CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp
+CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o: /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o: CMakeFiles/friendly_lwm2m.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o -MF CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o.d -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp > CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.i
 
 CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp -o CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.s
 
 # Object files for target friendly_lwm2m
 friendly_lwm2m_OBJECTS = \
 "CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o" \
+"CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o" \
@@ -352,10 +521,21 @@ friendly_lwm2m_OBJECTS = \
 "CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o" \
+"CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.o" \
+"CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.o" \
+"CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.o" \
+"CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.o" \
+"CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o" \
+"CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o" \
+"CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o" \
+"CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o" \
+"CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o" \
+"CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o" \
+"CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o" \
 "CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o"
@@ -365,6 +545,7 @@ friendly_lwm2m_EXTERNAL_OBJECTS =
 
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/platform/openwrt_platform.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o
+libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o
@@ -375,16 +556,27 @@ libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/objects/edge_ai_inference_object.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_grpc_client.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o
+libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.o
+libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.o
+libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.o
+libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.o
+libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10525_wan_failover_policy/WanFailoverPolicy.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10526_multiwan_health_check/MultiWanHealthCheck.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10527_wifi_client_management/WifiClientManagement.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.o
+libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o
+libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o
+libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o
+libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o
+libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o
+libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10536_routing_table/RoutingTable.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10537_vpn_configuration/VpnConfiguration.cpp.o
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/build.make
 libfriendly_lwm2m.a: CMakeFiles/friendly_lwm2m.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX static library libfriendly_lwm2m.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Linking CXX static library libfriendly_lwm2m.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/friendly_lwm2m.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/friendly_lwm2m.dir/link.txt --verbose=$(VERBOSE)
 
@@ -397,6 +589,6 @@ CMakeFiles/friendly_lwm2m.dir/clean:
 .PHONY : CMakeFiles/friendly_lwm2m.dir/clean
 
 CMakeFiles/friendly_lwm2m.dir/depend:
-	cd /mnt/d/Dev/Friendly-LwM2M-Client/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/d/Dev/Friendly-LwM2M-Client /mnt/d/Dev/Friendly-LwM2M-Client /mnt/d/Dev/Friendly-LwM2M-Client/build /mnt/d/Dev/Friendly-LwM2M-Client/build /mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/friendly_lwm2m.dir/DependInfo.cmake "--color=$(COLOR)" friendly_lwm2m
+	cd /home/sean/work/Friendly-LwM2M-Client/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sean/work/Friendly-LwM2M-Client /home/sean/work/Friendly-LwM2M-Client /home/sean/work/Friendly-LwM2M-Client/build /home/sean/work/Friendly-LwM2M-Client/build /home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles/friendly_lwm2m.dir/DependInfo.cmake "--color=$(COLOR)" friendly_lwm2m
 .PHONY : CMakeFiles/friendly_lwm2m.dir/depend
 

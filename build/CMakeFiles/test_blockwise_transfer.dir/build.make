@@ -53,10 +53,10 @@ RM = /home/sean/.local/lib/python3.12/site-packages/cmake/data/bin/cmake -E rm -
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/d/Dev/Friendly-LwM2M-Client
+CMAKE_SOURCE_DIR = /home/sean/work/Friendly-LwM2M-Client
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/d/Dev/Friendly-LwM2M-Client/build
+CMAKE_BINARY_DIR = /home/sean/work/Friendly-LwM2M-Client/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/test_blockwise_transfer.dir/depend.make
@@ -73,18 +73,18 @@ CMakeFiles/test_blockwise_transfer.dir/codegen:
 .PHONY : CMakeFiles/test_blockwise_transfer.dir/codegen
 
 CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o: CMakeFiles/test_blockwise_transfer.dir/flags.make
-CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o: /mnt/d/Dev/Friendly-LwM2M-Client/test/test_blockwise_transfer.cpp
+CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o: /home/sean/work/Friendly-LwM2M-Client/test/test_blockwise_transfer.cpp
 CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o: CMakeFiles/test_blockwise_transfer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o -MF CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o.d -o CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o -c /mnt/d/Dev/Friendly-LwM2M-Client/test/test_blockwise_transfer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o -MF CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o.d -o CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.o -c /home/sean/work/Friendly-LwM2M-Client/test/test_blockwise_transfer.cpp
 
 CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Dev/Friendly-LwM2M-Client/test/test_blockwise_transfer.cpp > CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sean/work/Friendly-LwM2M-Client/test/test_blockwise_transfer.cpp > CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.i
 
 CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Dev/Friendly-LwM2M-Client/test/test_blockwise_transfer.cpp -o CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sean/work/Friendly-LwM2M-Client/test/test_blockwise_transfer.cpp -o CMakeFiles/test_blockwise_transfer.dir/test/test_blockwise_transfer.cpp.s
 
 # Object files for target test_blockwise_transfer
 test_blockwise_transfer_OBJECTS = \
@@ -99,16 +99,32 @@ test_blockwise_transfer: CMakeFiles/test_blockwise_transfer.dir/compiler_depend.
 test_blockwise_transfer: libfriendly_lwm2m.a
 test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libgtest.a
 test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libgtest_main.a
-test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libssl.so
-test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libcrypto.so
-test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libz.so
-test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libcurl.so
-test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libcurl.so
-test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libbz2.so
-test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/liblzma.so
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libz.a
+test_blockwise_transfer: /usr/local/lib/libcurl.a
+test_blockwise_transfer: /usr/local/lib/libcurl.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libssl.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libcrypto.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libz.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libnghttp2.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libbrotlienc.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libbrotlicommon.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libmbedtls.so
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libmbedx509.so
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libmbedcrypto.so
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libbrotlienc.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libbrotlicommon.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libmbedtls.so
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libmbedx509.so
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libmbedcrypto.so
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libzstd.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libbrotlidec.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libssl.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libcrypto.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libbz2.a
+test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/liblzma.a
 test_blockwise_transfer: /usr/lib/x86_64-linux-gnu/libgtest.a
 test_blockwise_transfer: CMakeFiles/test_blockwise_transfer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test_blockwise_transfer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test_blockwise_transfer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_blockwise_transfer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -120,6 +136,6 @@ CMakeFiles/test_blockwise_transfer.dir/clean:
 .PHONY : CMakeFiles/test_blockwise_transfer.dir/clean
 
 CMakeFiles/test_blockwise_transfer.dir/depend:
-	cd /mnt/d/Dev/Friendly-LwM2M-Client/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/d/Dev/Friendly-LwM2M-Client /mnt/d/Dev/Friendly-LwM2M-Client /mnt/d/Dev/Friendly-LwM2M-Client/build /mnt/d/Dev/Friendly-LwM2M-Client/build /mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/test_blockwise_transfer.dir/DependInfo.cmake "--color=$(COLOR)" test_blockwise_transfer
+	cd /home/sean/work/Friendly-LwM2M-Client/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sean/work/Friendly-LwM2M-Client /home/sean/work/Friendly-LwM2M-Client /home/sean/work/Friendly-LwM2M-Client/build /home/sean/work/Friendly-LwM2M-Client/build /home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles/test_blockwise_transfer.dir/DependInfo.cmake "--color=$(COLOR)" test_blockwise_transfer
 .PHONY : CMakeFiles/test_blockwise_transfer.dir/depend
 

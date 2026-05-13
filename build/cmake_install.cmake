@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/d/Dev/Friendly-LwM2M-Client
+# Install script for directory: /home/sean/work/Friendly-LwM2M-Client
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "Release")
+    set(CMAKE_INSTALL_CONFIG_NAME "RelWithDebInfo")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -42,19 +42,24 @@ if(NOT DEFINED CMAKE_OBJDUMP)
   set(CMAKE_OBJDUMP "/usr/bin/objdump")
 endif()
 
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/mnt/d/Dev/Friendly-LwM2M-Client/build/libfriendly_lwm2m.a")
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/sean/work/Friendly-LwM2M-Client/build/examples/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "/mnt/d/Dev/Friendly-LwM2M-Client/include/")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/home/sean/work/Friendly-LwM2M-Client/build/libfriendly_lwm2m.a")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "/home/sean/work/Friendly-LwM2M-Client/include/")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/FriendlyLwM2M/FriendlyLwM2MTargets.cmake")
     file(DIFFERENT _cmake_export_file_changed FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/FriendlyLwM2M/FriendlyLwM2MTargets.cmake"
-         "/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/Export/7d1147455370548cb10b80dd6b58d771/FriendlyLwM2MTargets.cmake")
+         "/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles/Export/7d1147455370548cb10b80dd6b58d771/FriendlyLwM2MTargets.cmake")
     if(_cmake_export_file_changed)
       file(GLOB _cmake_old_config_files "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/FriendlyLwM2M/FriendlyLwM2MTargets-*.cmake")
       if(_cmake_old_config_files)
@@ -67,23 +72,23 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     endif()
     unset(_cmake_export_file_changed)
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/FriendlyLwM2M" TYPE FILE FILES "/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/Export/7d1147455370548cb10b80dd6b58d771/FriendlyLwM2MTargets.cmake")
-  if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/FriendlyLwM2M" TYPE FILE FILES "/mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/Export/7d1147455370548cb10b80dd6b58d771/FriendlyLwM2MTargets-release.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/FriendlyLwM2M" TYPE FILE FILES "/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles/Export/7d1147455370548cb10b80dd6b58d771/FriendlyLwM2MTargets.cmake")
+  if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ww][Ii][Tt][Hh][Dd][Ee][Bb][Ii][Nn][Ff][Oo])$")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/FriendlyLwM2M" TYPE FILE FILES "/home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles/Export/7d1147455370548cb10b80dd6b58d771/FriendlyLwM2MTargets-relwithdebinfo.cmake")
   endif()
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/FriendlyLwM2M" TYPE FILE FILES
-    "/mnt/d/Dev/Friendly-LwM2M-Client/build/FriendlyLwM2MConfig.cmake"
-    "/mnt/d/Dev/Friendly-LwM2M-Client/build/FriendlyLwM2MConfigVersion.cmake"
+    "/home/sean/work/Friendly-LwM2M-Client/build/FriendlyLwM2MConfig.cmake"
+    "/home/sean/work/Friendly-LwM2M-Client/build/FriendlyLwM2MConfigVersion.cmake"
     )
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/mnt/d/Dev/Friendly-LwM2M-Client/build/install_local_manifest.txt"
+  file(WRITE "/home/sean/work/Friendly-LwM2M-Client/build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -99,6 +104,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/mnt/d/Dev/Friendly-LwM2M-Client/build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/home/sean/work/Friendly-LwM2M-Client/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

@@ -1,7 +1,7 @@
 CMakeFiles/friendly_lwm2m.dir/src/transport/blockwise_transfer.cpp.o: \
- /mnt/d/Dev/Friendly-LwM2M-Client/src/transport/blockwise_transfer.cpp \
+ /home/sean/work/Friendly-LwM2M-Client/src/transport/blockwise_transfer.cpp \
  /usr/include/stdc-predef.h \
- /mnt/d/Dev/Friendly-LwM2M-Client/include/transport/blockwise_transfer.h \
+ /home/sean/work/Friendly-LwM2M-Client/include/transport/blockwise_transfer.h \
  /usr/include/c++/13/cstdint \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \

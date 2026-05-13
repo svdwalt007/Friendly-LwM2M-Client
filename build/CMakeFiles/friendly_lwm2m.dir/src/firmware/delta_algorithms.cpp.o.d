@@ -1,7 +1,7 @@
 CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o: \
- /mnt/d/Dev/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp \
+ /home/sean/work/Friendly-LwM2M-Client/src/firmware/delta_algorithms.cpp \
  /usr/include/stdc-predef.h \
- /mnt/d/Dev/Friendly-LwM2M-Client/include/firmware/delta_algorithms.h \
+ /home/sean/work/Friendly-LwM2M-Client/include/firmware/delta_algorithms.h \
  /usr/include/c++/13/cstdint \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
@@ -208,4 +208,6 @@ CMakeFiles/friendly_lwm2m.dir/src/firmware/delta_algorithms.cpp.o: \
  /usr/include/lzma/container.h /usr/include/lzma/stream_flags.h \
  /usr/include/lzma/block.h /usr/include/lzma/index.h \
  /usr/include/lzma/index_hash.h /usr/include/lzma/hardware.h \
- /usr/include/bzlib.h
+ /usr/include/brotli/encode.h /usr/include/brotli/port.h \
+ /usr/include/brotli/shared_dictionary.h /usr/include/brotli/types.h \
+ /usr/include/brotli/decode.h /usr/include/zstd.h /usr/include/bzlib.h

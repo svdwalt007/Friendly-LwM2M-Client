@@ -1,8 +1,8 @@
 CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o: \
- /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp \
+ /home/sean/work/Friendly-LwM2M-Client/src/objects/advanced_firmware_update_object.cpp \
  /usr/include/stdc-predef.h \
- /mnt/d/Dev/Friendly-LwM2M-Client/include/objects/advanced_firmware_update_object.h \
- /mnt/d/Dev/Friendly-LwM2M-Client/include/firmware/delta_algorithms.h \
+ /home/sean/work/Friendly-LwM2M-Client/include/objects/advanced_firmware_update_object.h \
+ /home/sean/work/Friendly-LwM2M-Client/include/firmware/delta_algorithms.h \
  /usr/include/c++/13/cstdint \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
@@ -177,8 +177,8 @@ CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o:
  /usr/include/c++/13/bits/algorithmfwd.h \
  /usr/include/c++/13/bits/stl_heap.h \
  /usr/include/c++/13/bits/uniform_int_dist.h \
- /mnt/d/Dev/Friendly-LwM2M-Client/include/firmware/rollback_manager.h \
- /mnt/d/Dev/Friendly-LwM2M-Client/include/platform/platform_abstraction.h \
+ /home/sean/work/Friendly-LwM2M-Client/include/firmware/rollback_manager.h \
+ /home/sean/work/Friendly-LwM2M-Client/include/platform/platform_abstraction.h \
  /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
  /usr/include/c++/13/bits/stl_map.h \
  /usr/include/c++/13/bits/stl_multimap.h /usr/include/c++/13/optional \
@@ -208,7 +208,7 @@ CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o:
  /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
  /usr/include/c++/13/bits/fstream.tcc \
- /mnt/d/Dev/Friendly-LwM2M-Client/include/transport/blockwise_transfer.h \
+ /home/sean/work/Friendly-LwM2M-Client/include/transport/blockwise_transfer.h \
  /usr/include/c++/13/set /usr/include/c++/13/bits/stl_set.h \
  /usr/include/c++/13/bits/stl_multiset.h /usr/include/c++/13/atomic \
  /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
@@ -243,9 +243,8 @@ CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o:
  /usr/include/string.h /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
- /usr/include/x86_64-linux-gnu/curl/curl.h \
- /usr/include/x86_64-linux-gnu/curl/curlver.h \
- /usr/include/x86_64-linux-gnu/curl/system.h \
+ /usr/local/include/curl/curl.h /usr/local/include/curl/curlver.h \
+ /usr/local/include/curl/system.h \
  /usr/include/x86_64-linux-gnu/sys/socket.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
  /usr/include/x86_64-linux-gnu/bits/socket.h \
@@ -271,15 +270,11 @@ CMakeFiles/friendly_lwm2m.dir/src/objects/advanced_firmware_update_object.cpp.o:
  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
- /usr/include/x86_64-linux-gnu/sys/time.h \
- /usr/include/x86_64-linux-gnu/curl/easy.h \
- /usr/include/x86_64-linux-gnu/curl/multi.h \
- /usr/include/x86_64-linux-gnu/curl/curl.h \
- /usr/include/x86_64-linux-gnu/curl/urlapi.h \
- /usr/include/x86_64-linux-gnu/curl/options.h \
- /usr/include/x86_64-linux-gnu/curl/header.h \
- /usr/include/x86_64-linux-gnu/curl/websockets.h \
- /usr/include/x86_64-linux-gnu/curl/mprintf.h /usr/include/openssl/sha.h \
+ /usr/include/x86_64-linux-gnu/sys/time.h /usr/local/include/curl/easy.h \
+ /usr/local/include/curl/multi.h /usr/local/include/curl/curl.h \
+ /usr/local/include/curl/urlapi.h /usr/local/include/curl/options.h \
+ /usr/local/include/curl/header.h /usr/local/include/curl/websockets.h \
+ /usr/local/include/curl/mprintf.h /usr/include/openssl/sha.h \
  /usr/include/openssl/macros.h \
  /usr/include/x86_64-linux-gnu/openssl/opensslconf.h \
  /usr/include/x86_64-linux-gnu/openssl/configuration.h \

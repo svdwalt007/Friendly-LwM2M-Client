@@ -57,10 +57,10 @@ RM = /home/sean/.local/lib/python3.12/site-packages/cmake/data/bin/cmake -E rm -
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/d/Dev/Friendly-LwM2M-Client
+CMAKE_SOURCE_DIR = /home/sean/work/Friendly-LwM2M-Client
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/d/Dev/Friendly-LwM2M-Client/build
+CMAKE_BINARY_DIR = /home/sean/work/Friendly-LwM2M-Client/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -162,9 +162,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles /mnt/d/Dev/Friendly-LwM2M-Client/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles /home/sean/work/Friendly-LwM2M-Client/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -244,6 +244,45 @@ test_rollback_manager/fast:
 .PHONY : test_rollback_manager/fast
 
 #=============================================================================
+# Target rules for targets named test_lwm2m_cose_object
+
+# Build rule for target.
+test_lwm2m_cose_object: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_lwm2m_cose_object
+.PHONY : test_lwm2m_cose_object
+
+# fast build rule for target.
+test_lwm2m_cose_object/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lwm2m_cose_object.dir/build.make CMakeFiles/test_lwm2m_cose_object.dir/build
+.PHONY : test_lwm2m_cose_object/fast
+
+#=============================================================================
+# Target rules for targets named test_mqtt_server_object
+
+# Build rule for target.
+test_mqtt_server_object: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_mqtt_server_object
+.PHONY : test_mqtt_server_object
+
+# fast build rule for target.
+test_mqtt_server_object/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mqtt_server_object.dir/build.make CMakeFiles/test_mqtt_server_object.dir/build
+.PHONY : test_mqtt_server_object/fast
+
+#=============================================================================
+# Target rules for targets named test_log_ring
+
+# Build rule for target.
+test_log_ring: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_log_ring
+.PHONY : test_log_ring
+
+# fast build rule for target.
+test_log_ring/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_log_ring.dir/build.make CMakeFiles/test_log_ring.dir/build
+.PHONY : test_log_ring/fast
+
+#=============================================================================
 # Target rules for targets named test_firmware_update_object
 
 # Build rule for target.
@@ -255,6 +294,32 @@ test_firmware_update_object: cmake_check_build_system
 test_firmware_update_object/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_firmware_update_object.dir/build.make CMakeFiles/test_firmware_update_object.dir/build
 .PHONY : test_firmware_update_object/fast
+
+#=============================================================================
+# Target rules for targets named test_dtls_providers
+
+# Build rule for target.
+test_dtls_providers: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_dtls_providers
+.PHONY : test_dtls_providers
+
+# fast build rule for target.
+test_dtls_providers/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_providers.dir/build.make CMakeFiles/test_dtls_providers.dir/build
+.PHONY : test_dtls_providers/fast
+
+#=============================================================================
+# Target rules for targets named test_dtls_integration
+
+# Build rule for target.
+test_dtls_integration: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_dtls_integration
+.PHONY : test_dtls_integration
+
+# fast build rule for target.
+test_dtls_integration/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_integration.dir/build.make CMakeFiles/test_dtls_integration.dir/build
+.PHONY : test_dtls_integration/fast
 
 #=============================================================================
 # Target rules for targets named run_tests
@@ -270,17 +335,71 @@ run_tests/fast:
 .PHONY : run_tests/fast
 
 #=============================================================================
-# Target rules for targets named coverage
+# Target rules for targets named friendly_example_client
 
 # Build rule for target.
-coverage: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 coverage
-.PHONY : coverage
+friendly_example_client: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 friendly_example_client
+.PHONY : friendly_example_client
 
 # fast build rule for target.
-coverage/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/coverage.dir/build.make CMakeFiles/coverage.dir/build
-.PHONY : coverage/fast
+friendly_example_client/fast:
+	$(MAKE) $(MAKESILENT) -f examples/CMakeFiles/friendly_example_client.dir/build.make examples/CMakeFiles/friendly_example_client.dir/build
+.PHONY : friendly_example_client/fast
+
+examples/platform/connection_dtls/DtlsProviderFactory.o: examples/platform/connection_dtls/DtlsProviderFactory.cpp.o
+.PHONY : examples/platform/connection_dtls/DtlsProviderFactory.o
+
+# target to build an object file
+examples/platform/connection_dtls/DtlsProviderFactory.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_providers.dir/build.make CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/DtlsProviderFactory.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_integration.dir/build.make CMakeFiles/test_dtls_integration.dir/examples/platform/connection_dtls/DtlsProviderFactory.cpp.o
+.PHONY : examples/platform/connection_dtls/DtlsProviderFactory.cpp.o
+
+examples/platform/connection_dtls/DtlsProviderFactory.i: examples/platform/connection_dtls/DtlsProviderFactory.cpp.i
+.PHONY : examples/platform/connection_dtls/DtlsProviderFactory.i
+
+# target to preprocess a source file
+examples/platform/connection_dtls/DtlsProviderFactory.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_providers.dir/build.make CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/DtlsProviderFactory.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_integration.dir/build.make CMakeFiles/test_dtls_integration.dir/examples/platform/connection_dtls/DtlsProviderFactory.cpp.i
+.PHONY : examples/platform/connection_dtls/DtlsProviderFactory.cpp.i
+
+examples/platform/connection_dtls/DtlsProviderFactory.s: examples/platform/connection_dtls/DtlsProviderFactory.cpp.s
+.PHONY : examples/platform/connection_dtls/DtlsProviderFactory.s
+
+# target to generate assembly for a file
+examples/platform/connection_dtls/DtlsProviderFactory.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_providers.dir/build.make CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/DtlsProviderFactory.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_integration.dir/build.make CMakeFiles/test_dtls_integration.dir/examples/platform/connection_dtls/DtlsProviderFactory.cpp.s
+.PHONY : examples/platform/connection_dtls/DtlsProviderFactory.cpp.s
+
+examples/platform/connection_dtls/MbedTlsProvider.o: examples/platform/connection_dtls/MbedTlsProvider.cpp.o
+.PHONY : examples/platform/connection_dtls/MbedTlsProvider.o
+
+# target to build an object file
+examples/platform/connection_dtls/MbedTlsProvider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_providers.dir/build.make CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_integration.dir/build.make CMakeFiles/test_dtls_integration.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.o
+.PHONY : examples/platform/connection_dtls/MbedTlsProvider.cpp.o
+
+examples/platform/connection_dtls/MbedTlsProvider.i: examples/platform/connection_dtls/MbedTlsProvider.cpp.i
+.PHONY : examples/platform/connection_dtls/MbedTlsProvider.i
+
+# target to preprocess a source file
+examples/platform/connection_dtls/MbedTlsProvider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_providers.dir/build.make CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_integration.dir/build.make CMakeFiles/test_dtls_integration.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.i
+.PHONY : examples/platform/connection_dtls/MbedTlsProvider.cpp.i
+
+examples/platform/connection_dtls/MbedTlsProvider.s: examples/platform/connection_dtls/MbedTlsProvider.cpp.s
+.PHONY : examples/platform/connection_dtls/MbedTlsProvider.s
+
+# target to generate assembly for a file
+examples/platform/connection_dtls/MbedTlsProvider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_providers.dir/build.make CMakeFiles/test_dtls_providers.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_integration.dir/build.make CMakeFiles/test_dtls_integration.dir/examples/platform/connection_dtls/MbedTlsProvider.cpp.s
+.PHONY : examples/platform/connection_dtls/MbedTlsProvider.cpp.s
 
 src/firmware/delta_algorithms.o: src/firmware/delta_algorithms.cpp.o
 .PHONY : src/firmware/delta_algorithms.o
@@ -329,6 +448,54 @@ src/firmware/rollback_manager.s: src/firmware/rollback_manager.cpp.s
 src/firmware/rollback_manager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/firmware/rollback_manager.cpp.s
 .PHONY : src/firmware/rollback_manager.cpp.s
+
+src/matter/matter_cluster_client.o: src/matter/matter_cluster_client.cpp.o
+.PHONY : src/matter/matter_cluster_client.o
+
+# target to build an object file
+src/matter/matter_cluster_client.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.o
+.PHONY : src/matter/matter_cluster_client.cpp.o
+
+src/matter/matter_cluster_client.i: src/matter/matter_cluster_client.cpp.i
+.PHONY : src/matter/matter_cluster_client.i
+
+# target to preprocess a source file
+src/matter/matter_cluster_client.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.i
+.PHONY : src/matter/matter_cluster_client.cpp.i
+
+src/matter/matter_cluster_client.s: src/matter/matter_cluster_client.cpp.s
+.PHONY : src/matter/matter_cluster_client.s
+
+# target to generate assembly for a file
+src/matter/matter_cluster_client.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/matter/matter_cluster_client.cpp.s
+.PHONY : src/matter/matter_cluster_client.cpp.s
+
+src/matter/matter_sdk_integration.o: src/matter/matter_sdk_integration.cpp.o
+.PHONY : src/matter/matter_sdk_integration.o
+
+# target to build an object file
+src/matter/matter_sdk_integration.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.o
+.PHONY : src/matter/matter_sdk_integration.cpp.o
+
+src/matter/matter_sdk_integration.i: src/matter/matter_sdk_integration.cpp.i
+.PHONY : src/matter/matter_sdk_integration.i
+
+# target to preprocess a source file
+src/matter/matter_sdk_integration.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.i
+.PHONY : src/matter/matter_sdk_integration.cpp.i
+
+src/matter/matter_sdk_integration.s: src/matter/matter_sdk_integration.cpp.s
+.PHONY : src/matter/matter_sdk_integration.s
+
+# target to generate assembly for a file
+src/matter/matter_sdk_integration.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/matter/matter_sdk_integration.cpp.s
+.PHONY : src/matter/matter_sdk_integration.cpp.s
 
 src/objects/advanced_firmware_update_object.o: src/objects/advanced_firmware_update_object.cpp.o
 .PHONY : src/objects/advanced_firmware_update_object.o
@@ -384,6 +551,7 @@ src/objects/lwm2m_cose_object.o: src/objects/lwm2m_cose_object.cpp.o
 # target to build an object file
 src/objects/lwm2m_cose_object.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lwm2m_cose_object.dir/build.make CMakeFiles/test_lwm2m_cose_object.dir/src/objects/lwm2m_cose_object.cpp.o
 .PHONY : src/objects/lwm2m_cose_object.cpp.o
 
 src/objects/lwm2m_cose_object.i: src/objects/lwm2m_cose_object.cpp.i
@@ -392,6 +560,7 @@ src/objects/lwm2m_cose_object.i: src/objects/lwm2m_cose_object.cpp.i
 # target to preprocess a source file
 src/objects/lwm2m_cose_object.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lwm2m_cose_object.dir/build.make CMakeFiles/test_lwm2m_cose_object.dir/src/objects/lwm2m_cose_object.cpp.i
 .PHONY : src/objects/lwm2m_cose_object.cpp.i
 
 src/objects/lwm2m_cose_object.s: src/objects/lwm2m_cose_object.cpp.s
@@ -400,6 +569,7 @@ src/objects/lwm2m_cose_object.s: src/objects/lwm2m_cose_object.cpp.s
 # target to generate assembly for a file
 src/objects/lwm2m_cose_object.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/objects/lwm2m_cose_object.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lwm2m_cose_object.dir/build.make CMakeFiles/test_lwm2m_cose_object.dir/src/objects/lwm2m_cose_object.cpp.s
 .PHONY : src/objects/lwm2m_cose_object.cpp.s
 
 src/objects/mqtt_server_object.o: src/objects/mqtt_server_object.cpp.o
@@ -408,6 +578,7 @@ src/objects/mqtt_server_object.o: src/objects/mqtt_server_object.cpp.o
 # target to build an object file
 src/objects/mqtt_server_object.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mqtt_server_object.dir/build.make CMakeFiles/test_mqtt_server_object.dir/src/objects/mqtt_server_object.cpp.o
 .PHONY : src/objects/mqtt_server_object.cpp.o
 
 src/objects/mqtt_server_object.i: src/objects/mqtt_server_object.cpp.i
@@ -416,6 +587,7 @@ src/objects/mqtt_server_object.i: src/objects/mqtt_server_object.cpp.i
 # target to preprocess a source file
 src/objects/mqtt_server_object.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mqtt_server_object.dir/build.make CMakeFiles/test_mqtt_server_object.dir/src/objects/mqtt_server_object.cpp.i
 .PHONY : src/objects/mqtt_server_object.cpp.i
 
 src/objects/mqtt_server_object.s: src/objects/mqtt_server_object.cpp.s
@@ -424,7 +596,35 @@ src/objects/mqtt_server_object.s: src/objects/mqtt_server_object.cpp.s
 # target to generate assembly for a file
 src/objects/mqtt_server_object.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mqtt_server_object.dir/build.make CMakeFiles/test_mqtt_server_object.dir/src/objects/mqtt_server_object.cpp.s
 .PHONY : src/objects/mqtt_server_object.cpp.s
+
+src/platform/linux/log_ring.o: src/platform/linux/log_ring.cpp.o
+.PHONY : src/platform/linux/log_ring.o
+
+# target to build an object file
+src/platform/linux/log_ring.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_log_ring.dir/build.make CMakeFiles/test_log_ring.dir/src/platform/linux/log_ring.cpp.o
+.PHONY : src/platform/linux/log_ring.cpp.o
+
+src/platform/linux/log_ring.i: src/platform/linux/log_ring.cpp.i
+.PHONY : src/platform/linux/log_ring.i
+
+# target to preprocess a source file
+src/platform/linux/log_ring.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_log_ring.dir/build.make CMakeFiles/test_log_ring.dir/src/platform/linux/log_ring.cpp.i
+.PHONY : src/platform/linux/log_ring.cpp.i
+
+src/platform/linux/log_ring.s: src/platform/linux/log_ring.cpp.s
+.PHONY : src/platform/linux/log_ring.s
+
+# target to generate assembly for a file
+src/platform/linux/log_ring.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/platform/linux/log_ring.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_log_ring.dir/build.make CMakeFiles/test_log_ring.dir/src/platform/linux/log_ring.cpp.s
+.PHONY : src/platform/linux/log_ring.cpp.s
 
 src/platform/linux_platform.o: src/platform/linux_platform.cpp.o
 .PHONY : src/platform/linux_platform.o
@@ -570,6 +770,78 @@ src/transport/mqtt_transport.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/transport/mqtt_transport.cpp.s
 .PHONY : src/transport/mqtt_transport.cpp.s
 
+src/zigbee/zigbee_coordinator.o: src/zigbee/zigbee_coordinator.cpp.o
+.PHONY : src/zigbee/zigbee_coordinator.o
+
+# target to build an object file
+src/zigbee/zigbee_coordinator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.o
+.PHONY : src/zigbee/zigbee_coordinator.cpp.o
+
+src/zigbee/zigbee_coordinator.i: src/zigbee/zigbee_coordinator.cpp.i
+.PHONY : src/zigbee/zigbee_coordinator.i
+
+# target to preprocess a source file
+src/zigbee/zigbee_coordinator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.i
+.PHONY : src/zigbee/zigbee_coordinator.cpp.i
+
+src/zigbee/zigbee_coordinator.s: src/zigbee/zigbee_coordinator.cpp.s
+.PHONY : src/zigbee/zigbee_coordinator.s
+
+# target to generate assembly for a file
+src/zigbee/zigbee_coordinator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_coordinator.cpp.s
+.PHONY : src/zigbee/zigbee_coordinator.cpp.s
+
+src/zigbee/zigbee_ota_proxy.o: src/zigbee/zigbee_ota_proxy.cpp.o
+.PHONY : src/zigbee/zigbee_ota_proxy.o
+
+# target to build an object file
+src/zigbee/zigbee_ota_proxy.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.o
+.PHONY : src/zigbee/zigbee_ota_proxy.cpp.o
+
+src/zigbee/zigbee_ota_proxy.i: src/zigbee/zigbee_ota_proxy.cpp.i
+.PHONY : src/zigbee/zigbee_ota_proxy.i
+
+# target to preprocess a source file
+src/zigbee/zigbee_ota_proxy.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.i
+.PHONY : src/zigbee/zigbee_ota_proxy.cpp.i
+
+src/zigbee/zigbee_ota_proxy.s: src/zigbee/zigbee_ota_proxy.cpp.s
+.PHONY : src/zigbee/zigbee_ota_proxy.s
+
+# target to generate assembly for a file
+src/zigbee/zigbee_ota_proxy.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_ota_proxy.cpp.s
+.PHONY : src/zigbee/zigbee_ota_proxy.cpp.s
+
+src/zigbee/zigbee_zcl_handlers.o: src/zigbee/zigbee_zcl_handlers.cpp.o
+.PHONY : src/zigbee/zigbee_zcl_handlers.o
+
+# target to build an object file
+src/zigbee/zigbee_zcl_handlers.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.o
+.PHONY : src/zigbee/zigbee_zcl_handlers.cpp.o
+
+src/zigbee/zigbee_zcl_handlers.i: src/zigbee/zigbee_zcl_handlers.cpp.i
+.PHONY : src/zigbee/zigbee_zcl_handlers.i
+
+# target to preprocess a source file
+src/zigbee/zigbee_zcl_handlers.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.i
+.PHONY : src/zigbee/zigbee_zcl_handlers.cpp.i
+
+src/zigbee/zigbee_zcl_handlers.s: src/zigbee/zigbee_zcl_handlers.cpp.s
+.PHONY : src/zigbee/zigbee_zcl_handlers.s
+
+# target to generate assembly for a file
+src/zigbee/zigbee_zcl_handlers.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/src/zigbee/zigbee_zcl_handlers.cpp.s
+.PHONY : src/zigbee/zigbee_zcl_handlers.cpp.s
+
 test/test_blockwise_transfer.o: test/test_blockwise_transfer.cpp.o
 .PHONY : test/test_blockwise_transfer.o
 
@@ -618,6 +890,54 @@ test/test_delta_algorithms.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_delta_algorithms.dir/build.make CMakeFiles/test_delta_algorithms.dir/test/test_delta_algorithms.cpp.s
 .PHONY : test/test_delta_algorithms.cpp.s
 
+test/test_dtls_integration.o: test/test_dtls_integration.cpp.o
+.PHONY : test/test_dtls_integration.o
+
+# target to build an object file
+test/test_dtls_integration.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_integration.dir/build.make CMakeFiles/test_dtls_integration.dir/test/test_dtls_integration.cpp.o
+.PHONY : test/test_dtls_integration.cpp.o
+
+test/test_dtls_integration.i: test/test_dtls_integration.cpp.i
+.PHONY : test/test_dtls_integration.i
+
+# target to preprocess a source file
+test/test_dtls_integration.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_integration.dir/build.make CMakeFiles/test_dtls_integration.dir/test/test_dtls_integration.cpp.i
+.PHONY : test/test_dtls_integration.cpp.i
+
+test/test_dtls_integration.s: test/test_dtls_integration.cpp.s
+.PHONY : test/test_dtls_integration.s
+
+# target to generate assembly for a file
+test/test_dtls_integration.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_integration.dir/build.make CMakeFiles/test_dtls_integration.dir/test/test_dtls_integration.cpp.s
+.PHONY : test/test_dtls_integration.cpp.s
+
+test/test_dtls_providers.o: test/test_dtls_providers.cpp.o
+.PHONY : test/test_dtls_providers.o
+
+# target to build an object file
+test/test_dtls_providers.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_providers.dir/build.make CMakeFiles/test_dtls_providers.dir/test/test_dtls_providers.cpp.o
+.PHONY : test/test_dtls_providers.cpp.o
+
+test/test_dtls_providers.i: test/test_dtls_providers.cpp.i
+.PHONY : test/test_dtls_providers.i
+
+# target to preprocess a source file
+test/test_dtls_providers.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_providers.dir/build.make CMakeFiles/test_dtls_providers.dir/test/test_dtls_providers.cpp.i
+.PHONY : test/test_dtls_providers.cpp.i
+
+test/test_dtls_providers.s: test/test_dtls_providers.cpp.s
+.PHONY : test/test_dtls_providers.s
+
+# target to generate assembly for a file
+test/test_dtls_providers.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_dtls_providers.dir/build.make CMakeFiles/test_dtls_providers.dir/test/test_dtls_providers.cpp.s
+.PHONY : test/test_dtls_providers.cpp.s
+
 test/test_firmware_update_object.o: test/test_firmware_update_object.cpp.o
 .PHONY : test/test_firmware_update_object.o
 
@@ -641,6 +961,78 @@ test/test_firmware_update_object.s: test/test_firmware_update_object.cpp.s
 test/test_firmware_update_object.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_firmware_update_object.dir/build.make CMakeFiles/test_firmware_update_object.dir/test/test_firmware_update_object.cpp.s
 .PHONY : test/test_firmware_update_object.cpp.s
+
+test/test_log_ring.o: test/test_log_ring.cpp.o
+.PHONY : test/test_log_ring.o
+
+# target to build an object file
+test/test_log_ring.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_log_ring.dir/build.make CMakeFiles/test_log_ring.dir/test/test_log_ring.cpp.o
+.PHONY : test/test_log_ring.cpp.o
+
+test/test_log_ring.i: test/test_log_ring.cpp.i
+.PHONY : test/test_log_ring.i
+
+# target to preprocess a source file
+test/test_log_ring.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_log_ring.dir/build.make CMakeFiles/test_log_ring.dir/test/test_log_ring.cpp.i
+.PHONY : test/test_log_ring.cpp.i
+
+test/test_log_ring.s: test/test_log_ring.cpp.s
+.PHONY : test/test_log_ring.s
+
+# target to generate assembly for a file
+test/test_log_ring.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_log_ring.dir/build.make CMakeFiles/test_log_ring.dir/test/test_log_ring.cpp.s
+.PHONY : test/test_log_ring.cpp.s
+
+test/test_lwm2m_cose_object.o: test/test_lwm2m_cose_object.cpp.o
+.PHONY : test/test_lwm2m_cose_object.o
+
+# target to build an object file
+test/test_lwm2m_cose_object.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lwm2m_cose_object.dir/build.make CMakeFiles/test_lwm2m_cose_object.dir/test/test_lwm2m_cose_object.cpp.o
+.PHONY : test/test_lwm2m_cose_object.cpp.o
+
+test/test_lwm2m_cose_object.i: test/test_lwm2m_cose_object.cpp.i
+.PHONY : test/test_lwm2m_cose_object.i
+
+# target to preprocess a source file
+test/test_lwm2m_cose_object.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lwm2m_cose_object.dir/build.make CMakeFiles/test_lwm2m_cose_object.dir/test/test_lwm2m_cose_object.cpp.i
+.PHONY : test/test_lwm2m_cose_object.cpp.i
+
+test/test_lwm2m_cose_object.s: test/test_lwm2m_cose_object.cpp.s
+.PHONY : test/test_lwm2m_cose_object.s
+
+# target to generate assembly for a file
+test/test_lwm2m_cose_object.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_lwm2m_cose_object.dir/build.make CMakeFiles/test_lwm2m_cose_object.dir/test/test_lwm2m_cose_object.cpp.s
+.PHONY : test/test_lwm2m_cose_object.cpp.s
+
+test/test_mqtt_server_object.o: test/test_mqtt_server_object.cpp.o
+.PHONY : test/test_mqtt_server_object.o
+
+# target to build an object file
+test/test_mqtt_server_object.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mqtt_server_object.dir/build.make CMakeFiles/test_mqtt_server_object.dir/test/test_mqtt_server_object.cpp.o
+.PHONY : test/test_mqtt_server_object.cpp.o
+
+test/test_mqtt_server_object.i: test/test_mqtt_server_object.cpp.i
+.PHONY : test/test_mqtt_server_object.i
+
+# target to preprocess a source file
+test/test_mqtt_server_object.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mqtt_server_object.dir/build.make CMakeFiles/test_mqtt_server_object.dir/test/test_mqtt_server_object.cpp.i
+.PHONY : test/test_mqtt_server_object.cpp.i
+
+test/test_mqtt_server_object.s: test/test_mqtt_server_object.cpp.s
+.PHONY : test/test_mqtt_server_object.s
+
+# target to generate assembly for a file
+test/test_mqtt_server_object.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_mqtt_server_object.dir/build.make CMakeFiles/test_mqtt_server_object.dir/test/test_mqtt_server_object.cpp.s
+.PHONY : test/test_mqtt_server_object.cpp.s
 
 test/test_rollback_manager.o: test/test_rollback_manager.cpp.o
 .PHONY : test/test_rollback_manager.o
@@ -762,6 +1154,150 @@ wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.c
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.s
 .PHONY : wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.cpp.s
 
+wpp/registry/objects/w_10529_matter_bridge/MatterBridge.o: wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o
+.PHONY : wpp/registry/objects/w_10529_matter_bridge/MatterBridge.o
+
+# target to build an object file
+wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o
+.PHONY : wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.o
+
+wpp/registry/objects/w_10529_matter_bridge/MatterBridge.i: wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.i
+.PHONY : wpp/registry/objects/w_10529_matter_bridge/MatterBridge.i
+
+# target to preprocess a source file
+wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.i
+.PHONY : wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.i
+
+wpp/registry/objects/w_10529_matter_bridge/MatterBridge.s: wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.s
+.PHONY : wpp/registry/objects/w_10529_matter_bridge/MatterBridge.s
+
+# target to generate assembly for a file
+wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.s
+.PHONY : wpp/registry/objects/w_10529_matter_bridge/MatterBridge.cpp.s
+
+wpp/registry/objects/w_10530_matter_device/MatterDevice.o: wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o
+.PHONY : wpp/registry/objects/w_10530_matter_device/MatterDevice.o
+
+# target to build an object file
+wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o
+.PHONY : wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.o
+
+wpp/registry/objects/w_10530_matter_device/MatterDevice.i: wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.i
+.PHONY : wpp/registry/objects/w_10530_matter_device/MatterDevice.i
+
+# target to preprocess a source file
+wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.i
+.PHONY : wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.i
+
+wpp/registry/objects/w_10530_matter_device/MatterDevice.s: wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.s
+.PHONY : wpp/registry/objects/w_10530_matter_device/MatterDevice.s
+
+# target to generate assembly for a file
+wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.s
+.PHONY : wpp/registry/objects/w_10530_matter_device/MatterDevice.cpp.s
+
+wpp/registry/objects/w_10531_thread_network/ThreadNetwork.o: wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o
+.PHONY : wpp/registry/objects/w_10531_thread_network/ThreadNetwork.o
+
+# target to build an object file
+wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o
+.PHONY : wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.o
+
+wpp/registry/objects/w_10531_thread_network/ThreadNetwork.i: wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.i
+.PHONY : wpp/registry/objects/w_10531_thread_network/ThreadNetwork.i
+
+# target to preprocess a source file
+wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.i
+.PHONY : wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.i
+
+wpp/registry/objects/w_10531_thread_network/ThreadNetwork.s: wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.s
+.PHONY : wpp/registry/objects/w_10531_thread_network/ThreadNetwork.s
+
+# target to generate assembly for a file
+wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.s
+.PHONY : wpp/registry/objects/w_10531_thread_network/ThreadNetwork.cpp.s
+
+wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.o: wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o
+.PHONY : wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.o
+
+# target to build an object file
+wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o
+.PHONY : wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.o
+
+wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.i: wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.i
+.PHONY : wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.i
+
+# target to preprocess a source file
+wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.i
+.PHONY : wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.i
+
+wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.s: wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.s
+.PHONY : wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.s
+
+# target to generate assembly for a file
+wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.s
+.PHONY : wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.cpp.s
+
+wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.o: wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o
+.PHONY : wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.o
+
+# target to build an object file
+wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o
+.PHONY : wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.o
+
+wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.i: wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.i
+.PHONY : wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.i
+
+# target to preprocess a source file
+wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.i
+.PHONY : wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.i
+
+wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.s: wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.s
+.PHONY : wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.s
+
+# target to generate assembly for a file
+wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.s
+.PHONY : wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.cpp.s
+
+wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.o: wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o
+.PHONY : wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.o
+
+# target to build an object file
+wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o
+.PHONY : wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.o
+
+wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.i: wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.i
+.PHONY : wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.i
+
+# target to preprocess a source file
+wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.i
+.PHONY : wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.i
+
+wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.s: wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.s
+.PHONY : wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.s
+
+# target to generate assembly for a file
+wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/friendly_lwm2m.dir/build.make CMakeFiles/friendly_lwm2m.dir/wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.s
+.PHONY : wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.cpp.s
+
 wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.o: wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.cpp.o
 .PHONY : wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.o
 
@@ -849,19 +1385,36 @@ help:
 	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... coverage"
 	@echo "... run_tests"
+	@echo "... friendly_example_client"
 	@echo "... friendly_lwm2m"
 	@echo "... test_blockwise_transfer"
 	@echo "... test_delta_algorithms"
+	@echo "... test_dtls_integration"
+	@echo "... test_dtls_providers"
 	@echo "... test_firmware_update_object"
+	@echo "... test_log_ring"
+	@echo "... test_lwm2m_cose_object"
+	@echo "... test_mqtt_server_object"
 	@echo "... test_rollback_manager"
+	@echo "... examples/platform/connection_dtls/DtlsProviderFactory.o"
+	@echo "... examples/platform/connection_dtls/DtlsProviderFactory.i"
+	@echo "... examples/platform/connection_dtls/DtlsProviderFactory.s"
+	@echo "... examples/platform/connection_dtls/MbedTlsProvider.o"
+	@echo "... examples/platform/connection_dtls/MbedTlsProvider.i"
+	@echo "... examples/platform/connection_dtls/MbedTlsProvider.s"
 	@echo "... src/firmware/delta_algorithms.o"
 	@echo "... src/firmware/delta_algorithms.i"
 	@echo "... src/firmware/delta_algorithms.s"
 	@echo "... src/firmware/rollback_manager.o"
 	@echo "... src/firmware/rollback_manager.i"
 	@echo "... src/firmware/rollback_manager.s"
+	@echo "... src/matter/matter_cluster_client.o"
+	@echo "... src/matter/matter_cluster_client.i"
+	@echo "... src/matter/matter_cluster_client.s"
+	@echo "... src/matter/matter_sdk_integration.o"
+	@echo "... src/matter/matter_sdk_integration.i"
+	@echo "... src/matter/matter_sdk_integration.s"
 	@echo "... src/objects/advanced_firmware_update_object.o"
 	@echo "... src/objects/advanced_firmware_update_object.i"
 	@echo "... src/objects/advanced_firmware_update_object.s"
@@ -874,6 +1427,9 @@ help:
 	@echo "... src/objects/mqtt_server_object.o"
 	@echo "... src/objects/mqtt_server_object.i"
 	@echo "... src/objects/mqtt_server_object.s"
+	@echo "... src/platform/linux/log_ring.o"
+	@echo "... src/platform/linux/log_ring.i"
+	@echo "... src/platform/linux/log_ring.s"
 	@echo "... src/platform/linux_platform.o"
 	@echo "... src/platform/linux_platform.i"
 	@echo "... src/platform/linux_platform.s"
@@ -892,15 +1448,39 @@ help:
 	@echo "... src/transport/mqtt_transport.o"
 	@echo "... src/transport/mqtt_transport.i"
 	@echo "... src/transport/mqtt_transport.s"
+	@echo "... src/zigbee/zigbee_coordinator.o"
+	@echo "... src/zigbee/zigbee_coordinator.i"
+	@echo "... src/zigbee/zigbee_coordinator.s"
+	@echo "... src/zigbee/zigbee_ota_proxy.o"
+	@echo "... src/zigbee/zigbee_ota_proxy.i"
+	@echo "... src/zigbee/zigbee_ota_proxy.s"
+	@echo "... src/zigbee/zigbee_zcl_handlers.o"
+	@echo "... src/zigbee/zigbee_zcl_handlers.i"
+	@echo "... src/zigbee/zigbee_zcl_handlers.s"
 	@echo "... test/test_blockwise_transfer.o"
 	@echo "... test/test_blockwise_transfer.i"
 	@echo "... test/test_blockwise_transfer.s"
 	@echo "... test/test_delta_algorithms.o"
 	@echo "... test/test_delta_algorithms.i"
 	@echo "... test/test_delta_algorithms.s"
+	@echo "... test/test_dtls_integration.o"
+	@echo "... test/test_dtls_integration.i"
+	@echo "... test/test_dtls_integration.s"
+	@echo "... test/test_dtls_providers.o"
+	@echo "... test/test_dtls_providers.i"
+	@echo "... test/test_dtls_providers.s"
 	@echo "... test/test_firmware_update_object.o"
 	@echo "... test/test_firmware_update_object.i"
 	@echo "... test/test_firmware_update_object.s"
+	@echo "... test/test_log_ring.o"
+	@echo "... test/test_log_ring.i"
+	@echo "... test/test_log_ring.s"
+	@echo "... test/test_lwm2m_cose_object.o"
+	@echo "... test/test_lwm2m_cose_object.i"
+	@echo "... test/test_lwm2m_cose_object.s"
+	@echo "... test/test_mqtt_server_object.o"
+	@echo "... test/test_mqtt_server_object.i"
+	@echo "... test/test_mqtt_server_object.s"
 	@echo "... test/test_rollback_manager.o"
 	@echo "... test/test_rollback_manager.i"
 	@echo "... test/test_rollback_manager.s"
@@ -916,6 +1496,24 @@ help:
 	@echo "... wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.o"
 	@echo "... wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.i"
 	@echo "... wpp/registry/objects/w_10528_wifi_channel_optimization/WifiChannelOptimization.s"
+	@echo "... wpp/registry/objects/w_10529_matter_bridge/MatterBridge.o"
+	@echo "... wpp/registry/objects/w_10529_matter_bridge/MatterBridge.i"
+	@echo "... wpp/registry/objects/w_10529_matter_bridge/MatterBridge.s"
+	@echo "... wpp/registry/objects/w_10530_matter_device/MatterDevice.o"
+	@echo "... wpp/registry/objects/w_10530_matter_device/MatterDevice.i"
+	@echo "... wpp/registry/objects/w_10530_matter_device/MatterDevice.s"
+	@echo "... wpp/registry/objects/w_10531_thread_network/ThreadNetwork.o"
+	@echo "... wpp/registry/objects/w_10531_thread_network/ThreadNetwork.i"
+	@echo "... wpp/registry/objects/w_10531_thread_network/ThreadNetwork.s"
+	@echo "... wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.o"
+	@echo "... wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.i"
+	@echo "... wpp/registry/objects/w_10532_zigbee_coordinator/ZigbeeCoordinator.s"
+	@echo "... wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.o"
+	@echo "... wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.i"
+	@echo "... wpp/registry/objects/w_10533_zigbee_device/ZigbeeDevice.s"
+	@echo "... wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.o"
+	@echo "... wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.i"
+	@echo "... wpp/registry/objects/w_10534_zigbee_group/ZigbeeGroup.s"
 	@echo "... wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.o"
 	@echo "... wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.i"
 	@echo "... wpp/registry/objects/w_10535_lan_configuration/LanConfiguration.s"

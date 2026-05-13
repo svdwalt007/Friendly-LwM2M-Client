@@ -1,7 +1,7 @@
 CMakeFiles/friendly_lwm2m.dir/src/platform/linux_platform.cpp.o: \
- /mnt/d/Dev/Friendly-LwM2M-Client/src/platform/linux_platform.cpp \
+ /home/sean/work/Friendly-LwM2M-Client/src/platform/linux_platform.cpp \
  /usr/include/stdc-predef.h \
- /mnt/d/Dev/Friendly-LwM2M-Client/include/platform/platform_abstraction.h \
+ /home/sean/work/Friendly-LwM2M-Client/include/platform/platform_abstraction.h \
  /usr/include/c++/13/cstdint \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \

@@ -53,10 +53,10 @@ RM = /home/sean/.local/lib/python3.12/site-packages/cmake/data/bin/cmake -E rm -
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/d/Dev/Friendly-LwM2M-Client
+CMAKE_SOURCE_DIR = /home/sean/work/Friendly-LwM2M-Client
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/d/Dev/Friendly-LwM2M-Client/build
+CMAKE_BINARY_DIR = /home/sean/work/Friendly-LwM2M-Client/build
 
 # Utility rule file for run_tests.
 
@@ -70,6 +70,11 @@ CMakeFiles/run_tests: test_delta_algorithms
 CMakeFiles/run_tests: test_blockwise_transfer
 CMakeFiles/run_tests: test_rollback_manager
 CMakeFiles/run_tests: test_firmware_update_object
+CMakeFiles/run_tests: test_lwm2m_cose_object
+CMakeFiles/run_tests: test_mqtt_server_object
+CMakeFiles/run_tests: test_log_ring
+CMakeFiles/run_tests: test_dtls_providers
+CMakeFiles/run_tests: test_dtls_integration
 	/home/sean/.local/lib/python3.12/site-packages/cmake/data/bin/ctest --output-on-failure
 
 CMakeFiles/run_tests.dir/codegen:
@@ -88,6 +93,6 @@ CMakeFiles/run_tests.dir/clean:
 .PHONY : CMakeFiles/run_tests.dir/clean
 
 CMakeFiles/run_tests.dir/depend:
-	cd /mnt/d/Dev/Friendly-LwM2M-Client/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/d/Dev/Friendly-LwM2M-Client /mnt/d/Dev/Friendly-LwM2M-Client /mnt/d/Dev/Friendly-LwM2M-Client/build /mnt/d/Dev/Friendly-LwM2M-Client/build /mnt/d/Dev/Friendly-LwM2M-Client/build/CMakeFiles/run_tests.dir/DependInfo.cmake "--color=$(COLOR)" run_tests
+	cd /home/sean/work/Friendly-LwM2M-Client/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sean/work/Friendly-LwM2M-Client /home/sean/work/Friendly-LwM2M-Client /home/sean/work/Friendly-LwM2M-Client/build /home/sean/work/Friendly-LwM2M-Client/build /home/sean/work/Friendly-LwM2M-Client/build/CMakeFiles/run_tests.dir/DependInfo.cmake "--color=$(COLOR)" run_tests
 .PHONY : CMakeFiles/run_tests.dir/depend
 

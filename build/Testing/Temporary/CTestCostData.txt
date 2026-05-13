@@ -1,0 +1,10 @@
+DeltaAlgorithms 0 0
+BlockwiseTransfer 2 0.00671467
+RollbackManager 2 0.00152881
+Lwm2mCoseObject 2 0.000629759
+MqttServerObject 2 0.000701085
+LogRing 2 0.00746685
+FirmwareUpdateObject 2 0.0172702
+DTLSProviders 2 0.00253207
+DTLSIntegration 0 0
+---

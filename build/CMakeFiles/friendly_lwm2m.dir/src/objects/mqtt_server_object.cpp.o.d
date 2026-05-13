@@ -1,7 +1,7 @@
 CMakeFiles/friendly_lwm2m.dir/src/objects/mqtt_server_object.cpp.o: \
- /mnt/d/Dev/Friendly-LwM2M-Client/src/objects/mqtt_server_object.cpp \
+ /home/sean/work/Friendly-LwM2M-Client/src/objects/mqtt_server_object.cpp \
  /usr/include/stdc-predef.h \
- /mnt/d/Dev/Friendly-LwM2M-Client/include/objects/mqtt_server_object.h \
+ /home/sean/work/Friendly-LwM2M-Client/include/objects/mqtt_server_object.h \
  /usr/include/c++/13/cstdint \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \

@@ -59,9 +59,9 @@ endif()
 add_library(FriendlyLwM2M::friendly_lwm2m STATIC IMPORTED)
 
 set_target_properties(FriendlyLwM2M::friendly_lwm2m PROPERTIES
-  INTERFACE_COMPILE_DEFINITIONS "HAS_BZIP2=1;HAS_LZMA=1;WITH_MQTT=1;MQTT_STUB=1;WITH_EDGE_AI=1;\$<\$<BOOL:ON>:WITH_DELTA_FOTA=1>;\$<\$<BOOL:ON>:WITH_BSDIFF=1>;\$<\$<BOOL:ON>:WITH_VCDIFF=1>;\$<\$<BOOL:ON>:WITH_COURGETTE=1>;\$<\$<BOOL:ON>:WITH_ROLLBACK=1>"
-  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include;${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "Threads::Threads;OpenSSL::SSL;OpenSSL::Crypto;ZLIB::ZLIB;CURL::libcurl;BZip2::BZip2;LibLZMA::LibLZMA"
+  INTERFACE_COMPILE_DEFINITIONS "LWM2M_CLIENT_MODE;WITH_MQTT=1;MQTT_STUB=1;WITH_EDGE_AI=1;\$<\$<BOOL:ON>:WITH_DELTA_FOTA=1>;\$<\$<BOOL:ON>:WITH_BSDIFF=1>;\$<\$<BOOL:ON>:WITH_VCDIFF=1>;\$<\$<BOOL:ON>:WITH_COURGETTE=1>;\$<\$<BOOL:ON>:WITH_ROLLBACK=1>"
+  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include;${_IMPORT_PREFIX}/include;${_IMPORT_PREFIX}/include"
+  INTERFACE_LINK_LIBRARIES "Threads::Threads;ZLIB::ZLIB;\$<LINK_ONLY:CURL::libcurl>;/usr/lib/x86_64-linux-gnu/libnghttp2.a;/usr/lib/x86_64-linux-gnu/libzstd.a;/usr/lib/x86_64-linux-gnu/libbrotlienc.a;/usr/lib/x86_64-linux-gnu/libbrotlidec.a;/usr/lib/x86_64-linux-gnu/libbrotlicommon.a;\$<LINK_ONLY:gssapi_krb5>;/usr/lib/x86_64-linux-gnu/libmbedtls.so;/usr/lib/x86_64-linux-gnu/libmbedx509.so;/usr/lib/x86_64-linux-gnu/libmbedcrypto.so;OpenSSL::SSL;OpenSSL::Crypto;\$<LINK_ONLY:BZip2::BZip2>;\$<LINK_ONLY:LibLZMA::LibLZMA>;/usr/lib/x86_64-linux-gnu/libzstd.a;/usr/lib/x86_64-linux-gnu/libbrotlienc.a;/usr/lib/x86_64-linux-gnu/libbrotlidec.a;/usr/lib/x86_64-linux-gnu/libbrotlicommon.a"
 )
 
 # Load information for each installed configuration.

@@ -1,9 +1,9 @@
 CMakeFiles/friendly_lwm2m.dir/src/starlink/starlink_data_collector.cpp.o: \
- /mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_data_collector.cpp \
+ /home/sean/work/Friendly-LwM2M-Client/src/starlink/starlink_data_collector.cpp \
  /usr/include/stdc-predef.h \
- /mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_data_collector.h \
- /mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_grpc_client.h \
- /mnt/d/Dev/Friendly-LwM2M-Client/src/starlink/starlink_proto_types.h \
+ /home/sean/work/Friendly-LwM2M-Client/src/starlink/starlink_data_collector.h \
+ /home/sean/work/Friendly-LwM2M-Client/src/starlink/starlink_grpc_client.h \
+ /home/sean/work/Friendly-LwM2M-Client/src/starlink/starlink_proto_types.h \
  /usr/include/c++/13/string /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
